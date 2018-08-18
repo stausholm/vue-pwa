@@ -12,7 +12,19 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    fetch('http://localhost:3000/auth/bean')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(myJson) {
+        console.log(myJson);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 </script>
 
