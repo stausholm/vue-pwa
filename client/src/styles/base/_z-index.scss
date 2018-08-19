@@ -1,0 +1,21 @@
+$z-index: (
+  bottomnav     : 1000,
+  toolbar       : 2000,
+  contextmenu   : 3000,
+  slideout      : 4000,
+  modal         : 5000,
+  a2hs          : 6000
+);
+
+@function z-index($key) {
+  @return map-get($z-index, $key);
+}
+
+@mixin z-index($key) {
+  z-index: z-index($key);
+}
+
+//@include z-index(slideout);
+
+//https://jonsuh.com/blog/organizing-z-index-with-sass/
+//https://www.sitepoint.com/better-solution-managing-z-index-sass/

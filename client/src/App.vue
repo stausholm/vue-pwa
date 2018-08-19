@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <app-navigation />
+    <bottom-nav />
     <header>
       <span>Vue.js PWA</span>
       <span><router-link to="/">Home</router-link></span>
@@ -13,12 +15,21 @@
     <main>
       <router-view></router-view>
     </main>
+    <a2hs-overlay />
   </div>
 </template>
 
 <script>
+import Navigation from './components/navigation/navigation';
+import BottomNav from './components/navigation/bottomnav';
+import A2HSOverlay from './components/A2HS/A2HSoverlay';
 export default {
   name: 'app',
+  components: {
+    'app-navigation': Navigation,
+    BottomNav,
+    'a2hs-overlay': A2HSOverlay
+  },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
@@ -59,42 +70,42 @@ export default {
 </script>
 
 <style lang="scss">
-body {
-  margin: 0;
-}
+// body {
+//   margin: 0;
+// }
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+// #app {
+//   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   color: #2c3e50;
+// }
 
-main {
-  text-align: center;
-  margin-top: 40px;
-}
+// main {
+//   text-align: center;
+//   margin-top: 40px;
+// }
 
-header {
-  margin: 0;
-  min-height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
-}
+// header {
+//   margin: 0;
+//   min-height: 56px;
+//   padding: 0 16px 0 24px;
+//   background-color: #35495E;
+//   color: #ffffff;
+// }
 
-header span {
-  display: inline-block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
-  a {
-    color: inherit;
-    margin: 0 10px;
-  }
-}
+// header span {
+//   display: inline-block;
+//   position: relative;
+//   font-size: 20px;
+//   line-height: 1;
+//   letter-spacing: .02em;
+//   font-weight: 400;
+//   box-sizing: border-box;
+//   padding-top: 16px;
+//   a {
+//     color: inherit;
+//     margin: 0 10px;
+//   }
+// }
 </style>

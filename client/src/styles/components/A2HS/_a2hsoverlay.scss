@@ -1,0 +1,46 @@
+.A2HS-overlay {
+  @include z-index(a2hs);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  //width: 100vw;
+  //height: 100vh;
+  background-color: rgba($primary-color, .9);
+  padding: $default-spacing * 3;
+  color: $white;
+  cursor: default;
+
+  &-arrow {
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: rotate(90deg)
+  }
+  svg {
+    margin-right: 0 !important;
+    margin-bottom: -2px;
+  }
+
+  b {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  p {
+    white-space: initial !important;
+    text-overflow: initial !important;
+    margin: $default-spacing 0;
+  }
+  button {
+    border: 0;
+    background: $white;
+    color: $primary-color;
+    padding: $default-spacing / 2 $default-spacing;
+    box-shadow: $box-shadow;
+    border-radius: $default-border-radius;
+    letter-spacing: .015rem;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}

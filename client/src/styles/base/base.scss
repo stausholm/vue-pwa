@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+html {
+  font-size: $base-font-size;
+}
+body {
+  font-family: $system-font;
+  color: $text-primary-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  //padding: $default-spacing;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
