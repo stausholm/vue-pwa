@@ -26,7 +26,6 @@
 
 
           <!-- If on mobile -->
-          <!-- <router-link to="/account">ACCOUNT</router-link> -->
           <router-link class="account-icon btn-icon btn-icon--large account-icon-mobile" to="/account" tag="button">
             <icon-base iconName="account" iconColor="#fff" width="24" height="24">
               <icon-beach-access v-if="isLoggedIn"/>
@@ -44,20 +43,7 @@
             <div class="dropdown" v-if="showAccountDropdown">
               <div v-if="isLoggedIn">
                 <!-- stats and icon + email could be their own component -->
-                <div>
-                  <icon-base iconName="account" iconColor="#fff" width="48" height="48">
-                    <!-- Account icon -->
-                    <icon-beach-access /> 
-                  </icon-base>
-                  <p>ACCOUNT EMAIL</p>
-                </div>
-                <div class="dropdown-stats">
-                  <ul>
-                    <li><b>Saved recipes: </b>25</li>
-                    <li><b>Drinks: </b>7</li>
-                    <li><b>Food: </b>18</li>
-                  </ul>
-                </div>
+                <account-card />
                 <router-link to="/account">Settings</router-link>
                 <a @click.prevent="logout">Logout</a>
               </div>
@@ -81,11 +67,12 @@ import IconMenu from '../icons/IconMenu';
 import IconAccount from '../icons/IconAccount';
 import IconBeachAccess from '../icons/IconBeachAccess';
 import SearchBar from '../search/SearchBar';
+import AccountCard from '../account/AccountCard';
 
 export default {
   name: 'Navigation',
   components: {
-    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar
+    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar, AccountCard
   },
   data() {
     return {
