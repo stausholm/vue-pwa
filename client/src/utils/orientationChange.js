@@ -9,10 +9,14 @@ function handleOrientationChange(scope) {
     // viewport is portrait orientation
     //console.log('viewport is in portrait');
     storedScope.$store.dispatch('changeOrientation', 'portrait');
+    document.body.classList.add('orientation-portrait');
+    document.body.classList.remove('orientation-landscape');
   } else {
     // viewport is landscape orientation
     //console.log('viewport is in landscape');
     storedScope.$store.dispatch('changeOrientation', 'landscape');
+    document.body.classList.add('orientation-landscape');
+    document.body.classList.remove('orientation-portrait');
   }
 };
 
