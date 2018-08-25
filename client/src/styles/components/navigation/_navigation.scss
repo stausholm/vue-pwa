@@ -7,7 +7,8 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 0 $default-spacing;
+    //padding: 0 $default-spacing;
+    padding-left: $default-spacing;
   }
   .logo {
     max-width: 120px;
@@ -27,12 +28,14 @@
     align-items: center;
     //margin-right: 0 -$default-spacing;
 
-    a {
-      padding: $default-padding;
-      color: inherit;
-      background: red;
-      display: inline-block;
-      margin-right: $default-spacing;
+    nav {
+      a {
+        padding: $default-padding;
+        color: inherit;
+        background: red;
+        display: inline-block;
+        margin-right: $default-spacing;
+      }
     }
   }
   .header-buttons {
@@ -45,7 +48,8 @@
 
     .dropdown {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 6px);
+      border: 1px solid $light-grey;
       right: 0;
       min-width: 260px;
       border-radius: $default-border-radius;
@@ -53,6 +57,32 @@
       box-shadow: $box-shadow;
       color: $text-primary-color;
       line-height: initial;
+
+      &::before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-top: 1px solid $light-grey;
+        border-left: 1px solid $light-grey;
+        background: inherit;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(-$default-spacing) translateY(-50%) rotate(45deg);
+        box-sizing: border-box;
+      }
+
+      a {
+        display: block;
+        padding: $default-padding;
+        border-top: 1px solid $light-grey;
+        cursor: pointer;
+
+        &:hover {
+          background: $light-grey;
+        }
+      }
     }
   }
   .hamburger {
