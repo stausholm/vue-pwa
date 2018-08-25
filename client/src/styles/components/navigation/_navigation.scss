@@ -57,6 +57,7 @@
       box-shadow: $box-shadow;
       color: $text-primary-color;
       line-height: initial;
+      @include z-index(dropdown);
 
       &::before {
         content: '';

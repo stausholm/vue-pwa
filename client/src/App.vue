@@ -2,17 +2,6 @@
   <div id="app">
     <app-navigation />
     <bottom-nav />
-    <header>
-      <span>Vue.js PWA</span>
-      <span><router-link to="/">Home</router-link></span>
-      <span><router-link to="/example">Example</router-link></span>
-      <span><router-link to="/exampleWithAuth">Example auth</router-link></span>
-      <span><router-link to="/exampleWithAuthRole">Example auth role</router-link></span>
-      <span v-if="!isLoggedIn"><router-link to="/login">Login</router-link></span>
-      <span v-if="!isLoggedIn"><router-link to="/register">Register</router-link></span>
-      <span v-if="isLoggedIn"><a @click.prevent="logout">Logout</a></span>
-    </header>
-    <a2hs-button v-if="showPWAButton"/>
     <main>
       <router-view></router-view>
     </main>
@@ -24,7 +13,6 @@
 import Navigation from './components/navigation/navigation';
 import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
-import A2HSButton from './components/A2HS/A2HSbutton';
 
 import handleOrientationChange from './utils/orientationChange';
 
@@ -33,27 +21,12 @@ export default {
   components: {
     'app-navigation': Navigation,
     BottomNav,
-    'a2hs-overlay': A2HSOverlay,
-    'a2hs-button': A2HSButton
+    'a2hs-overlay': A2HSOverlay
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn
-    },
     showPWAOverlay() {
       return this.$store.getters.showPWAOverlay
     },
-    showPWAButton() {
-      return this.$store.getters.showPWAButton
-    }
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/login');
-        })
-    }
   },
   created() {
     // handle expired token
