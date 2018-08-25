@@ -9,6 +9,7 @@ import Example from '@/pages/Example'
 import ExampleWithAuth from '@/pages/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/ExampleWithAuthRole'
 import Account from '@/pages/Account'
+import ErrorPage from '@/pages/ErrorPage'
 
 Vue.use(Router)
 
@@ -62,6 +63,12 @@ let router = new Router({
       path: '/account',
       name: 'Account',
       component: Account
+    },
+    {
+      // catch all route
+      path: '*',
+      name: 'ErrorPage',
+      component: ErrorPage
     }
   ]
 });
