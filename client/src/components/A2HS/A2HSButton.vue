@@ -53,9 +53,9 @@ export default {
       return false;
     });
 
-    window.addEventListener('appinstalled') {
+    window.addEventListener('appinstalled', (event) => {
       this.$store.dispatch('hidePWAButton');
-    }
+    })
   }
 }
 </script>
