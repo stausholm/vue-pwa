@@ -52,6 +52,10 @@ export default {
       this.deferredPrompt = event;
       return false;
     });
+
+    window.addEventListener('appinstalled') {
+      this.$store.dispatch('hidePWAButton');
+    }
   }
 }
 </script>
