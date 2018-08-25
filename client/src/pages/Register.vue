@@ -1,47 +1,81 @@
 <template>
   <div>
-    <h1>this is register</h1>
-    <div>
-      <h4>Register</h4>
-      <form @submit.prevent="register">
-        <label for="name">Name</label>
-        <div>
-            <input id="name" type="text" v-model="name" required autofocus>
-        </div>
+    <div style="background: skyblue; height: 400px; display: flex; justify-content: center; align-items: center;">
+      Some full width hero content here
+    </div>
+    <div class="container--content">
+      <h1>Register</h1>
+      <div>
+        <p class="text-secondary">Continue with</p>
+        <button class="btn-auth btn-auth--google">
+          <icon-base iconName="Google" iconColor="#fff" width="48" height="48">
+            <icon-logo-google />
+          </icon-base>
+          Google
+        </button>
+        <button class="btn-auth btn-auth--facebook">
+          <icon-base iconName="Facebook" iconColor="#fff" width="48" height="48">
+            <icon-logo-facebook />
+          </icon-base>
+          Facebook
+        </button>
+        <span class="divider-with-text"><span>or</span></span>
+        <button class="btn-auth" @click="showEmailForm = !showEmailForm">Email</button>
 
-        <label for="email" >E-Mail Address</label>
-        <div>
-            <input id="email" type="email" v-model="email" required>
-        </div>
+        <form @submit.prevent="register" v-if="showEmailForm">
+          <label for="name">Name</label>
+          <div>
+              <input id="name" type="text" v-model="name" required autofocus>
+          </div>
 
-        <label for="password">Password</label>
-        <div>
-            <input id="password" type="password" v-model="password" required>
-        </div>
+          <label for="email" >E-Mail Address</label>
+          <div>
+              <input id="email" type="email" v-model="email" required>
+          </div>
 
-        <label for="password-confirm">Confirm Password</label>
-        <div>
-            <input id="password-confirm" type="password" v-model="password_confirmation" required>
-        </div>
+          <label for="password">Password</label>
+          <div>
+              <input id="password" type="password" v-model="password" required>
+          </div>
 
-        <div>
-            <button type="submit">Register</button>
-        </div>
-      </form>
+          <label for="password-confirm">Confirm Password</label>
+          <div>
+              <input id="password-confirm" type="password" v-model="password_confirmation" required>
+          </div>
+
+          <div>
+              <button type="submit">Register</button>
+          </div>
+        </form>
+      </div>
+      <router-link to="/login" class="link-other-form">Login to existing account</router-link>
+
+      <p class="footnote">Your privacy is important to us. We handle all data with great care, and use the information you provide, to enhance and personalize your experience.
+        <br>
+        <router-link to="/privacy-policy">Read more about how we manage the data you share with us</router-link>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
+import IconBase from '../components/icons/IconBase';
+import IconLogoGoogle from '../components/icons/IconLogoGoogle';
+import IconLogoFacebook from '../components/icons/IconLogoFacebook';
+
 export default {
   name: 'Register',
+  components: {
+    IconBase, IconLogoGoogle, IconLogoFacebook
+  },
   data() {
     return {
       name : "",
       email : "",
       password : "",
       password_confirmation : "",
-      is_admin : null
+      is_admin : null,
+      showEmailForm: false
     }
   },
   methods: {

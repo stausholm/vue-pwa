@@ -16,7 +16,9 @@
         </div>
         <nav>
           <router-link to="/">Home</router-link>
-          <router-link to="/">Bean</router-link>
+          <router-link to="/example">Example</router-link>
+          <router-link to="/exampleWithAuth">Example auth</router-link>
+          <router-link to="/exampleWithAuthRole">Example auth role</router-link>
         </nav>
 
         <div class="header-buttons">
@@ -42,14 +44,13 @@
             </button>
             <div class="dropdown" v-if="showAccountDropdown">
               <div v-if="isLoggedIn">
-                <!-- stats and icon + email could be their own component -->
                 <account-card />
                 <router-link to="/account">Settings</router-link>
                 <a @click.prevent="logout">Logout</a>
               </div>
               <div v-else>
-                <!-- Make own component -->
-                sign in with Google, Facebook | Email
+                <sign-in-sign-up />
+                <router-link to="/account">Settings</router-link>
               </div>
             </div>
           </div> <!-- .dropdown-wrapper -->
@@ -68,11 +69,12 @@ import IconAccount from '../icons/IconAccount';
 import IconBeachAccess from '../icons/IconBeachAccess';
 import SearchBar from '../search/SearchBar';
 import AccountCard from '../account/AccountCard';
+import SignInSignUp from '../account/SignInSignUp';
 
 export default {
   name: 'Navigation',
   components: {
-    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar, AccountCard
+    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar, AccountCard, SignInSignUp
   },
   data() {
     return {
