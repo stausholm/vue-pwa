@@ -12,10 +12,11 @@
       <span v-if="!isLoggedIn"><router-link to="/register">Register</router-link></span>
       <span v-if="isLoggedIn"><a @click.prevent="logout">Logout</a></span>
     </header>
+    <a2hs-button v-if="showPWAButton"/>
     <main>
       <router-view></router-view>
     </main>
-    <a2hs-overlay />
+    <a2hs-overlay v-if="showPWAOverlay"/>
   </div>
 </template>
 
@@ -23,16 +24,24 @@
 import Navigation from './components/navigation/navigation';
 import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
+import A2HSButton from './components/A2HS/A2HSbutton';
 export default {
   name: 'app',
   components: {
     'app-navigation': Navigation,
     BottomNav,
-    'a2hs-overlay': A2HSOverlay
+    'a2hs-overlay': A2HSOverlay,
+    'a2hs-button': A2HSButton
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
+    },
+    showPWAOverlay() {
+      return this.$store.getters.showPWAOverlay
+    },
+    showPWAButton() {
+      return this.$store.getters.showPWAButton
     }
   },
   methods: {
@@ -65,47 +74,12 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+
+    // hide pwa button if launched as pwa
+    if(window.location.search.includes('source=pwa')) {
+      console.log('app was launched as a pwa')
+      this.$store.dispatch('hidePWAButton')
+    }
   }
 }
 </script>
-
-<style lang="scss">
-// body {
-//   margin: 0;
-// }
-
-// #app {
-//   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   color: #2c3e50;
-// }
-
-// main {
-//   text-align: center;
-//   margin-top: 40px;
-// }
-
-// header {
-//   margin: 0;
-//   min-height: 56px;
-//   padding: 0 16px 0 24px;
-//   background-color: #35495E;
-//   color: #ffffff;
-// }
-
-// header span {
-//   display: inline-block;
-//   position: relative;
-//   font-size: 20px;
-//   line-height: 1;
-//   letter-spacing: .02em;
-//   font-weight: 400;
-//   box-sizing: border-box;
-//   padding-top: 16px;
-//   a {
-//     color: inherit;
-//     margin: 0 10px;
-//   }
-// }
-</style>

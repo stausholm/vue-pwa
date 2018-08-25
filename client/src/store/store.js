@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './modules/auth';
+import A2HS from './modules/A2HS';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,6 @@ export default new Vuex.Store({
     
   },
   modules: {
-    auth
+    auth, A2HS
   }
 });
