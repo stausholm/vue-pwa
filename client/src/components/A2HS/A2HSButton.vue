@@ -1,5 +1,5 @@
 <template>
-  <a @click="showPrompt">
+  <a @click="showPrompt" class="A2HS-button">
     <icon-base iconName="add to home screen" iconColor="#6a6a6a" width="24" height="24">
       <icon-a2-h-s />
     </icon-base>
