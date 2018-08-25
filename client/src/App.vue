@@ -25,6 +25,9 @@ import Navigation from './components/navigation/navigation';
 import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import A2HSButton from './components/A2HS/A2HSbutton';
+
+import handleOrientationChange from './utils/orientationChange';
+
 export default {
   name: 'app',
   components: {
@@ -80,6 +83,9 @@ export default {
       console.log('app was launched as a pwa')
       this.$store.dispatch('hidePWAButton')
     }
+
+    // viewport orientation change listener
+    handleOrientationChange(this);
   }
 }
 </script>
