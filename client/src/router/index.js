@@ -8,6 +8,7 @@ import Register from '@/pages/Register'
 import Example from '@/pages/Example'
 import ExampleWithAuth from '@/pages/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/ExampleWithAuthRole'
+import Account from '@/pages/Account'
 
 Vue.use(Router)
 
@@ -56,6 +57,11 @@ let router = new Router({
         is_role: true,
         allowedRoles: ['admin', 'premium', 'basic']
       }
+    },
+    {
+      path: '/account',
+      name: 'Account',
+      component: Account
     }
   ]
 });

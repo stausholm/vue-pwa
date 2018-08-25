@@ -1,0 +1,90 @@
+.page-header {
+  background: $primary-color;
+  color: $white;
+  height: 56px;
+  
+  .container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 $default-spacing;
+  }
+  .logo {
+    max-width: 120px;
+    margin-right: $default-spacing;
+    font-size: 2.5rem;
+    font-weight: 700;
+    //padding: 0 $default-spacing;
+
+    a {
+      color: inherit;
+    }
+  }
+  .header-navigation {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    //margin-right: 0 -$default-spacing;
+
+    a {
+      padding: $default-padding;
+      color: inherit;
+      background: red;
+      display: inline-block;
+      margin-right: $default-spacing;
+    }
+  }
+  .header-buttons {
+    display: flex;
+    align-items: center;
+  }
+  .dropdown-wrapper {
+    position: relative;
+    line-height: 0;
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: 260px;
+      border-radius: $default-border-radius;
+      background: $white;
+      box-shadow: $box-shadow;
+      color: $text-primary-color;
+      line-height: initial;
+    }
+  }
+  .hamburger {
+    display: none;
+  }
+  .account-icon-mobile {
+    display: none;
+  }
+}
+
+// tablet landscape
+@media screen and (max-width: 1024px) {
+  .page-header {
+    .container {
+      padding: 0;
+    }
+    .logo {
+      display: none;
+    }
+    .header-navigation {
+      nav {
+        display: none;
+      }
+    }
+    .hamburger {
+      display: initial;
+    }
+    .account-icon {
+      display: none;
+    }
+    .account-icon-mobile {
+      display: initial;
+    }
+  }
+}

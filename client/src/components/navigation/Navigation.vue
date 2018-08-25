@@ -1,73 +1,91 @@
 <template>
-  <div class="navigation">
+  <div class="page-header">
     <div class="container">
       <div class="logo">
         <router-link to="/">LOGO</router-link>
       </div>
 
       <!-- Only show nav on desktop -->
-      <nav>
-        <router-link to="/">Home</router-link>
-        <router-link to="/">Bean</router-link>
-      </nav>
-
-      <div class="header-links">
-        <!-- Make search component -->
-        <div class="search">O\</div>
-        <!-- Only show search component on desktop, and open search page on mobile? -->
-
-
-        <!-- If on mobile -->
-        <router-link to="/account">ACCOUNT</router-link>
-        <!-- If on desktop -->
-        <div>
-          <button class="account-icon" @click="showAccountDropdown = !showAccountDropdown">
-            <icon-base iconName="account dropdown" iconColor="#fff" width="24" height="24">
-              <icon-beach-access v-if="isLoggedIn"/>
-              <icon-casino v-else/>
+      <div class="header-navigation">
+        <div class="hamburger">
+          <button class="btn-icon btn-icon--large">
+            <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24">
+                <icon-menu />
             </icon-base>
           </button>
-          <div class="dropdown" v-if="showAccountDropdown">
-            <div v-if="isLoggedIn">
-              <!-- stats and icon + email could be their own component -->
-              <div>
-                <icon-base iconName="account" iconColor="#fff" width="48" height="48">
-                  <!-- Account icon -->
-                  <icon-beach-access /> 
-                </icon-base>
-                <p>ACCOUNT EMAIL</p>
-              </div>
-              <div class="dropdown-stats">
-                <ul>
-                  <li><b>Saved recipes: </b>25</li>
-                  <li><b>Drinks: </b>7</li>
-                  <li><b>Food: </b>18</li>
-                </ul>
-              </div>
-              <router-link to="/account">Settings</router-link>
-              <a @click.prevent="logout">Logout</a>
-            </div>
-            <div v-else>
-              <!-- Make own component -->
-              sign in with Google, Facebook | Email
-            </div>
-          </div>
         </div>
+        <nav>
+          <router-link to="/">Home</router-link>
+          <router-link to="/">Bean</router-link>
+        </nav>
 
-      </div>
-    </div>
+        <div class="header-buttons">
+          <!-- Make search component -->
+          <search-bar />
+          <!-- Only show search component on desktop, and open search page on mobile? -->
+
+
+          <!-- If on mobile -->
+          <!-- <router-link to="/account">ACCOUNT</router-link> -->
+          <router-link class="account-icon btn-icon btn-icon--large account-icon-mobile" to="/account" tag="button">
+            <icon-base iconName="account" iconColor="#fff" width="24" height="24">
+              <icon-beach-access v-if="isLoggedIn"/>
+              <icon-account v-else/>
+            </icon-base>
+          </router-link>
+          <!-- If on desktop -->
+          <div class="dropdown-wrapper">
+            <button class="account-icon btn-icon btn-icon--large" @click="showAccountDropdown = !showAccountDropdown">
+              <icon-base iconName="account dropdown" iconColor="#fff" width="24" height="24">
+                <icon-beach-access v-if="isLoggedIn"/>
+                <icon-account v-else/>
+              </icon-base>
+            </button>
+            <div class="dropdown" v-if="showAccountDropdown">
+              <div v-if="isLoggedIn">
+                <!-- stats and icon + email could be their own component -->
+                <div>
+                  <icon-base iconName="account" iconColor="#fff" width="48" height="48">
+                    <!-- Account icon -->
+                    <icon-beach-access /> 
+                  </icon-base>
+                  <p>ACCOUNT EMAIL</p>
+                </div>
+                <div class="dropdown-stats">
+                  <ul>
+                    <li><b>Saved recipes: </b>25</li>
+                    <li><b>Drinks: </b>7</li>
+                    <li><b>Food: </b>18</li>
+                  </ul>
+                </div>
+                <router-link to="/account">Settings</router-link>
+                <a @click.prevent="logout">Logout</a>
+              </div>
+              <div v-else>
+                <!-- Make own component -->
+                sign in with Google, Facebook | Email
+              </div>
+            </div>
+          </div> <!-- .dropdown-wrapper -->
+
+        </div> <!-- .header-buttons -->
+
+      </div> <!-- .header-navigation -->
+    </div> <!-- .container -->
   </div>
 </template>
 
 <script>
 import IconBase from '../icons/IconBase';
-import IconCasino from '../icons/IconCasino';
+import IconMenu from '../icons/IconMenu';
+import IconAccount from '../icons/IconAccount';
 import IconBeachAccess from '../icons/IconBeachAccess';
+import SearchBar from '../search/SearchBar';
 
 export default {
   name: 'Navigation',
   components: {
-    IconBase, IconCasino, IconBeachAccess
+    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar
   },
   data() {
     return {
@@ -90,8 +108,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.navigation {
-  background: red;
-}
-</style>
