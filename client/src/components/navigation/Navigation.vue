@@ -7,26 +7,28 @@
 
       <!-- Only show nav on desktop -->
       <div class="header-navigation">
-        <div class="hamburger" v-if="!navSearchIsOpen && !showBack">
-          <button class="btn-icon btn-icon--large">
-            <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24" key="menu">
-              <icon-menu />
-            </icon-base>
-          </button>
-        </div>
-        <div class="hamburger" v-if="!navSearchIsOpen && showBack" key="back">
-          <button class="btn-icon btn-icon--large" @click="$router.go(-1)">
-            <icon-base iconName="go back menu" iconColor="#fff" width="24" height="24">
-              <icon-arrow-back />
-            </icon-base>
-          </button>
-        </div>
-        <div class="hamburger" v-if="navSearchIsOpen" key="searchcancel">
-          <button class="btn-icon btn-icon--large" @click="closeSearch">
-            <icon-base iconName="cancel search" iconColor="#fff" width="24" height="24">
-              <icon-arrow-back />
-            </icon-base>
-          </button>
+        <div class="hamburger"> <!-- animated icon wrapper -->
+          <transition name="buttonswitch">
+            <button class="btn-icon btn-icon--large" v-show="!navSearchIsOpen && !showBack" key="menu">
+              <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24">
+                <icon-menu />
+              </icon-base>
+            </button>
+          </transition>
+          <transition name="buttonswitch">
+            <button class="btn-icon btn-icon--large" @click="$router.go(-1)" v-show="!navSearchIsOpen && showBack" key="back">
+              <icon-base iconName="go back menu" iconColor="#fff" width="24" height="24">
+                <icon-arrow-back />
+              </icon-base>
+            </button>
+          </transition>
+          <transition name="buttonswitch">
+            <button class="btn-icon btn-icon--large" @click="closeSearch" v-show="navSearchIsOpen" key="searchcancel">
+              <icon-base iconName="cancel search" iconColor="#fff" width="24" height="24">
+                <icon-arrow-back />
+              </icon-base>
+            </button>
+          </transition>
         </div>
 
         <b class="route-title" v-if="routeTitle != ''">{{routeTitle}}</b>
@@ -176,3 +178,31 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.buttonswitch-enter {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+.buttonswitch-enter-active {
+  transition: opacity .2s ease-out, transform .2s ease-out;
+}
+.buttonswitch-leave-active {
+  // transition-delay: .6s;
+  transition: opacity .2s ease-out, transform .4s ease-out;
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+.hamburger {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+}
+</style>

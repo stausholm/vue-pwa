@@ -6,7 +6,7 @@
     width: 100%;
     border: 1px solid $white;
     border-radius: 10px;
-    background: $white;
+    background: rgba($white, 1);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,6 +21,9 @@
       outline: 0;
       border: 0;
       font-family: inherit;
+    }
+    svg g {
+      fill: $text-secondary-color;
     }
   }
 

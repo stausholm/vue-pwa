@@ -8,7 +8,7 @@
 
     <div class="search-container" v-else>
 
-
+      <transition name="search-input">
       <div class="search-input">
         <input type="text"
           placeholder="Find stuff..."
@@ -32,6 +32,7 @@
             </icon-base>
           </button>
       </div>
+      </transition>
 
       <div class="search-suggestions" v-if="showDropdown">
         <ul v-if="searchVal">
@@ -41,7 +42,7 @@
             @mousedown.prevent
             @click="suggestionSelected(suggestion)">
             <div class="list-icon">
-              <icon-base iconName="item" iconColor="#000" width="18" height="18">
+              <icon-base iconName="search item" iconColor="#000" width="18" height="18">
                 <icon-search />
               </icon-base>
             </div>
@@ -54,8 +55,8 @@
             @mousedown.prevent
             @click="searchForString(query)">
             <div class="list-icon">
-              <icon-base iconName="item" iconColor="#000" width="18" height="18">
-                <icon-search />
+              <icon-base iconName="restore search" iconColor="#000" width="18" height="18">
+                <icon-restore />
               </icon-base>
             </div>
             <span>{{query}}</span>
@@ -79,11 +80,12 @@
 import IconBase from '../icons/IconBase';
 import IconSearch from '../icons/IconSearch';
 import IconClose from '../icons/IconClose';
+import IconRestore from '../icons/IconRestore';
 
 export default {
   name: 'SearchBar',
   components: {
-    IconBase, IconSearch, IconClose
+    IconBase, IconSearch, IconClose, IconRestore
   },
   data() {
     return {
@@ -290,3 +292,16 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.search-input-enter {
+  opacity: 0;
+}
+.search-input-enter-active {
+  transition: opacity .2s ease-out;
+}
+.search-input-leave-active {
+  transition: opacity .2s ease-out;
+  opacity: 0;
+}
+</style>
