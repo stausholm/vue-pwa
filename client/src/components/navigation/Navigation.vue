@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header">
+  <div class="page-header" :class="{'fixed-header': fixed, 'header-scroll-hide': hide}">
     <div class="container">
       <div class="logo">
         <router-link to="/">LOGO</router-link>
@@ -98,8 +98,21 @@ export default {
   components: {
     IconBase, IconMenu, IconAccount, IconBeachAccess, IconSearch, IconArrowBack, SearchBar, AccountCard, SignInSignUp
   },
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false
+    },
+    hideOnScroll: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
+      hide: false,
+      prevScrollPos: null,
+      currentScrollPos: null,
       showAccountDropdown: false,
       searchOpen: false
     }
@@ -114,8 +127,12 @@ export default {
     routeTitle() {
       return this.$route.meta.title || '';
     },
-    showBack() {
+    showBack() { // show back button instead of hamburger
       return this.$route.meta.enableBack;
+    },
+    overwriteHide() { // page has defined that header should not hide on scroll
+      this.hide = false;
+      return this.$route.meta.overwriteHide;
     }
   },
   methods: {
@@ -130,8 +147,32 @@ export default {
     },
     closeSearch() {
       this.$store.dispatch('changeNavSearchOpenState', false);
+    },
+    scrollHide() {
+      this.prevScrollPos = window.scrollY;
+      window.onscroll = () => {
+        if (this.overwriteHide) {
+          return this.hide = false;
+        }
+        this.currentScrollPos = window.scrollY;
+        if(this.prevScrollPos > this.currentScrollPos) {
+          this.hide = false;
+        } else {
+          this.hide = true;
+        }
+        this.prevScrollPos = this.currentScrollPos;
+      }
     }
   },
+  created() {
+    if(this.fixed) {
+      document.documentElement.classList.add('has-fixed-header')
+    }
+
+    if(this.hideOnScroll) {
+      this.scrollHide();
+    }
+  }
 }
 </script>
 

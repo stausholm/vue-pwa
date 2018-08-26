@@ -68,7 +68,8 @@ let router = new Router({
       component: Account,
       meta: {
         title: 'My user',
-        enableBack: true //enables backbutton instead of hamburger
+        enableBack: true, //enables backbutton instead of hamburger
+        overwriteHide: true //overwrites toolbar to prevent it from hiding on scroll
       }
     },
     {

@@ -69,6 +69,13 @@ a {
   color: $text-secondary-color;
 }
 
+.has-fixed-header main {
+  padding-top: $toolbar-height;
+}
+.has-bottomnav main {
+  padding-bottom: $default-spacing * 2 + 24px + $base-font-size;
+}
+
 
 // tablet landscape
 @media screen and (max-width: 1024px) {

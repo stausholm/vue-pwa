@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-navigation />
+    <app-navigation :fixed="true" :hideOnScroll="true"/>
     <bottom-nav />
     <main>
       <router-view></router-view>
