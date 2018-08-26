@@ -1,0 +1,132 @@
+.search-container {
+  min-width: 260px;
+  position: relative;
+
+  .search-input {
+    width: 100%;
+    border: 1px solid $white;
+    border-radius: 10px;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 $default-spacing / 2;
+
+    input {
+      width: 100%;
+      height: 24px;
+      height: 100%;
+      font-size: .85rem;
+      background: none;
+      outline: 0;
+      border: 0;
+      font-family: inherit;
+    }
+  }
+
+  .search-suggestions {
+    width: 100%;
+    //background: $white;
+    color: $text-primary-color;
+    max-height: 500px;
+    overflow: auto;
+    position: absolute;
+    top: calc(100% + 6px);
+    box-shadow: $box-shadow;
+    border-radius: 10px;
+    //border: 1px solid $light-grey;
+
+    ul {
+      list-style-type: none;
+
+      li {
+        padding: $default-spacing $default-spacing / 2;
+        border-bottom: 1px solid $light-grey;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        background: $white;
+
+        &:hover {
+          background-color: $light-grey;
+        }
+
+        .list-icon {
+          width: 24px;
+          height: 24px;
+          margin-right: $default-spacing / 2;
+          opacity: .27;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          //background: $light-grey;
+        }
+
+        &.search-highlighted-item {
+          background-color: $light-grey;
+        }
+      }
+    }
+  }
+}
+
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($color: #000000, $alpha: .5);
+  z-index: -1;
+}
+
+
+// tablet landscape
+@media screen and (max-width: 1024px) {
+  .search-container {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    right: $default-spacing;
+    //height: 48px;
+    bottom: 0;
+    //background: green;
+    display: flex;
+    align-items: center;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    .search-input {
+      //height: 100%;
+
+      input {
+        font-size: 1rem;
+      }
+    }
+
+    .search-suggestions {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 56px;
+      border-radius: 0;
+      bottom: 0;
+      box-shadow: none;
+
+      ul {
+        li {
+          padding: $default-spacing 0;
+
+          .list-icon {
+            width: 48px;
+            height: 48px;
+            //background: $light-grey;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+}

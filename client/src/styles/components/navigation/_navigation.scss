@@ -2,6 +2,15 @@
   background: $primary-color;
   color: $white;
   height: 56px;
+  @include z-index(toolbar);
+  position: relative;
+
+  &.fixed-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
   
   .container {
     display: flex;
@@ -30,11 +39,16 @@
 
     nav {
       a {
-        padding: $default-padding;
+        padding: $default-spacing / 2;
         color: inherit;
-        background: red;
+        // background: red;
         display: inline-block;
-        margin-right: $default-spacing;
+        //margin-right: $default-spacing / 2;
+        user-select: none;
+
+        &:hover {
+          background: $primary-color-light;
+        }
       }
     }
   }
@@ -92,6 +106,9 @@
   .account-icon-mobile {
     display: none;
   }
+  .route-title {
+    display: none;
+  }
 }
 
 // tablet landscape
@@ -104,6 +121,7 @@
       display: none;
     }
     .header-navigation {
+      position: relative;
       nav {
         display: none;
       }
@@ -116,6 +134,13 @@
     }
     .account-icon-mobile {
       display: initial;
+    }
+    .route-title {
+      display: initial;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      top: 50%;
     }
   }
 }

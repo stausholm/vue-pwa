@@ -10,6 +10,7 @@ import ExampleWithAuth from '@/pages/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/ExampleWithAuthRole'
 import Account from '@/pages/Account'
 import ErrorPage from '@/pages/ErrorPage'
+import Search from '@/pages/Search'
 
 Vue.use(Router)
 
@@ -25,7 +26,8 @@ let router = new Router({
       name: 'Login',
       component: Login,
       meta: { 
-        guest: true
+        guest: true,
+        enableBack: true
       }
     },
     {
@@ -33,7 +35,8 @@ let router = new Router({
       name: 'Register',
       component: Register,
       meta: { 
-        guest: true
+        guest: true,
+        enableBack: true
       }
     },
     {
@@ -62,7 +65,16 @@ let router = new Router({
     {
       path: '/account',
       name: 'Account',
-      component: Account
+      component: Account,
+      meta: {
+        title: 'My user',
+        enableBack: true //enables backbutton instead of hamburger
+      }
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
     },
     {
       // catch all route

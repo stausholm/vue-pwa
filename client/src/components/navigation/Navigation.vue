@@ -7,28 +7,48 @@
 
       <!-- Only show nav on desktop -->
       <div class="header-navigation">
-        <div class="hamburger">
+        <div class="hamburger" v-if="!navSearchIsOpen && !showBack">
           <button class="btn-icon btn-icon--large">
-            <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24">
-                <icon-menu />
+            <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24" key="menu">
+              <icon-menu />
             </icon-base>
           </button>
         </div>
+        <div class="hamburger" v-if="!navSearchIsOpen && showBack" key="back">
+          <button class="btn-icon btn-icon--large" @click="$router.go(-1)">
+            <icon-base iconName="go back menu" iconColor="#fff" width="24" height="24">
+              <icon-arrow-back />
+            </icon-base>
+          </button>
+        </div>
+        <div class="hamburger" v-if="navSearchIsOpen" key="searchcancel">
+          <button class="btn-icon btn-icon--large" @click="closeSearch">
+            <icon-base iconName="cancel search" iconColor="#fff" width="24" height="24">
+              <icon-arrow-back />
+            </icon-base>
+          </button>
+        </div>
+
+        <b class="route-title" v-if="routeTitle != ''">{{routeTitle}}</b>
+
         <nav>
           <router-link to="/">Home</router-link>
           <router-link to="/example">Example</router-link>
           <router-link to="/exampleWithAuth">Example auth</router-link>
           <router-link to="/exampleWithAuthRole">Example auth role</router-link>
+          <router-link to="/search">Search</router-link>
         </nav>
 
         <div class="header-buttons">
           <!-- Make search component -->
+          
+
           <search-bar />
           <!-- Only show search component on desktop, and open search page on mobile? -->
 
 
           <!-- If on mobile -->
-          <router-link class="account-icon btn-icon btn-icon--large account-icon-mobile" to="/account" tag="button">
+          <router-link class="account-icon btn-icon btn-icon--large account-icon-mobile" to="/account" tag="button" v-if="!navSearchIsOpen">
             <icon-base iconName="account" iconColor="#fff" width="24" height="24">
               <icon-beach-access v-if="isLoggedIn"/>
               <icon-account v-else/>
@@ -67,6 +87,8 @@ import IconBase from '../icons/IconBase';
 import IconMenu from '../icons/IconMenu';
 import IconAccount from '../icons/IconAccount';
 import IconBeachAccess from '../icons/IconBeachAccess';
+import IconSearch from '../icons/IconSearch';
+import IconArrowBack from '../icons/IconArrowBack';
 import SearchBar from '../search/SearchBar';
 import AccountCard from '../account/AccountCard';
 import SignInSignUp from '../account/SignInSignUp';
@@ -74,16 +96,26 @@ import SignInSignUp from '../account/SignInSignUp';
 export default {
   name: 'Navigation',
   components: {
-    IconBase, IconMenu, IconAccount, IconBeachAccess, SearchBar, AccountCard, SignInSignUp
+    IconBase, IconMenu, IconAccount, IconBeachAccess, IconSearch, IconArrowBack, SearchBar, AccountCard, SignInSignUp
   },
   data() {
     return {
-      showAccountDropdown: false
+      showAccountDropdown: false,
+      searchOpen: false
     }
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
+    },
+    navSearchIsOpen() {
+      return this.$store.getters.navSearchIsOpen
+    },
+    routeTitle() {
+      return this.$route.meta.title || '';
+    },
+    showBack() {
+      return this.$route.meta.enableBack;
     }
   },
   methods: {
@@ -92,6 +124,12 @@ export default {
         .then(() => {
           this.$router.push('/login');
         })
+    },
+    openSearch() {
+      this.searchOpen = true;
+    },
+    closeSearch() {
+      this.$store.dispatch('changeNavSearchOpenState', false);
     }
   },
 }

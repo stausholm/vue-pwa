@@ -17,6 +17,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 .container {
   // max-width: 1040px;
@@ -66,4 +67,12 @@ a {
 
 .text-secondary {
   color: $text-secondary-color;
+}
+
+
+// tablet landscape
+@media screen and (max-width: 1024px) {
+  body.overlay-active {
+    overflow-y: hidden;
+  }
 }
