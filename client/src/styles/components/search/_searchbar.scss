@@ -85,7 +85,7 @@
 
 
 // tablet landscape
-@media screen and (max-width: 1024px) {
+@include breakpoint-max(ipad-landscape) {
   .search-container {
     position: absolute;
     top: 0;

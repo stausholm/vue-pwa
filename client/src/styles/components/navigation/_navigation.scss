@@ -117,7 +117,7 @@
 }
 
 // tablet landscape
-@media screen and (max-width: 1024px) {
+@include breakpoint-max(ipad-landscape) {
   .page-header {
     .container {
       padding: 0;
