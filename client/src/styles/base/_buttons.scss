@@ -120,13 +120,26 @@
   width: 100%;
   box-shadow: $box-shadow;
   margin: $default-spacing 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  svg {
+    margin-right: $default-spacing;
+  }
 
   &--google {
     color: #535a60;
     background-color: #FFF;
+    
   }
   &--facebook {
     color: #FFF;
     background-color: #385499;
+    box-shadow: 0 2px 8px 0 rgba(59, 89, 152,0.35);
+
+    &:hover {
+      box-shadow: 0 4px 16px 0 rgba(59, 89, 152,.45);
+    }
   }
 }

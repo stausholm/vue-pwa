@@ -5,19 +5,24 @@
       <div>
         <p class="text-secondary">Continue with</p>
         <button class="btn-auth btn-auth--google">
-          <icon-base iconName="Google" iconColor="#fff" width="48" height="48">
+          <icon-base iconName="Google" iconColor="#fff" width="24" height="24">
             <icon-logo-google />
           </icon-base>
           Google
         </button>
         <button class="btn-auth btn-auth--facebook">
-          <icon-base iconName="Facebook" iconColor="#fff" width="48" height="48">
+          <icon-base iconName="Facebook" iconColor="#fff" width="24" height="24">
             <icon-logo-facebook />
           </icon-base>
           Facebook
         </button>
         <span class="divider-with-text"><span>or</span></span>
-        <button class="btn-auth" @click="showEmailForm = !showEmailForm">Email</button>
+        <button class="btn-auth" @click="showEmailForm = !showEmailForm">
+          <icon-base iconName="Email" iconColor="#fff" width="24" height="24">
+            <icon-mail />
+          </icon-base>
+          Email
+        </button>
 
         <form class="login" @submit.prevent="login" v-if="showEmailForm">
           <label>Email</label>
@@ -41,11 +46,12 @@
 import IconBase from '@/components/icons/IconBase';
 import IconLogoGoogle from '@/components/icons/IconLogoGoogle';
 import IconLogoFacebook from '@/components/icons/IconLogoFacebook';
+import IconMail from '@/components/icons/IconMail';
 
 export default {
   name: 'Login',
   components: {
-    IconBase, IconLogoGoogle, IconLogoFacebook
+    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail
   },
   data() {
     return {
