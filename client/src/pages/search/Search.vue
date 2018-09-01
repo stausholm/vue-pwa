@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Loader from '../components/loader/Loader.vue';
+import Loader from '@/components/loader/Loader.vue';
 export default {
   name: 'Search',
   components: {

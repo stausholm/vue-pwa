@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import AccountCard from '../components/account/AccountCard';
-import SignInSignUp from '../components/account/SignInSignUp';
+import AccountCard from '@/components/account/AccountCard';
+import SignInSignUp from '@/components/account/SignInSignUp';
 
 export default {
   name: 'Account',

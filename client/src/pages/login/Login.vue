@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import IconBase from '../components/icons/IconBase';
-import IconLogoGoogle from '../components/icons/IconLogoGoogle';
-import IconLogoFacebook from '../components/icons/IconLogoFacebook';
+import IconBase from '@/components/icons/IconBase';
+import IconLogoGoogle from '@/components/icons/IconLogoGoogle';
+import IconLogoFacebook from '@/components/icons/IconLogoFacebook';
 
 export default {
   name: 'Login',

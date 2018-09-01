@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import A2HSButton from '../components/A2HS/A2HSbutton';
+import A2HSButton from '@/components/A2HS/A2HSbutton';
 
 export default {
   name: 'Home',

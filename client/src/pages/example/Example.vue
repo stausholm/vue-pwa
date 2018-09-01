@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import CTAButtonWithIcon from '../components/buttons/CTAButtonWithIcon';
-import IconBase from '../components/icons/IconBase';
-import IconBeachAccess from '../components/icons/IconBeachAccess';
+import CTAButtonWithIcon from '@/components/buttons/CTAButtonWithIcon';
+import IconBase from '@/components/icons/IconBase';
+import IconBeachAccess from '@/components/icons/IconBeachAccess';
 
 export default {
   name: 'Example',
