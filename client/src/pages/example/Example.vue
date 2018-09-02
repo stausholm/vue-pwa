@@ -33,10 +33,10 @@ export default {
       this.$store.dispatch('changeNotification', {content: 'some content', duration: 2000})
     },
     testNotification2() {
-      this.$store.dispatch('changeNotification', {content: 'some warning content', duration: 2000, alert: 'warning'})
+      this.$store.dispatch('changeNotification', {content: 'some warning content that is very long, what will happen now huh', duration: 2000, alert: 'warning'})
     },
     test() {
-      console.log('test')
+      console.log('test .native')
     }
   }
 }
