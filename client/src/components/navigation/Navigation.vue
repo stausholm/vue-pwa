@@ -1,208 +1,82 @@
 <template>
-  <div class="page-header" :class="{'fixed-header': fixed, 'header-scroll-hide': hide}">
+  <div class="page-header">
     <div class="container">
       <div class="logo">
         <router-link to="/">LOGO</router-link>
       </div>
-
-      <!-- Only show nav on desktop -->
       <div class="header-navigation">
-        <div class="hamburger"> <!-- animated icon wrapper -->
-          <transition name="buttonswitch">
-            <button class="btn-icon btn-icon--large" v-show="!navSearchIsOpen && !showBack" key="menu">
-              <icon-base iconName="Hamburger menu" iconColor="#fff" width="24" height="24">
-                <icon-menu />
-              </icon-base>
-            </button>
-          </transition>
-          <transition name="buttonswitch">
-            <button class="btn-icon btn-icon--large" @click="$router.go(-1)" v-show="!navSearchIsOpen && showBack" key="back">
-              <icon-base iconName="go back menu" iconColor="#fff" width="24" height="24">
-                <icon-arrow-back />
-              </icon-base>
-            </button>
-          </transition>
-          <transition name="buttonswitch">
-            <button class="btn-icon btn-icon--large" @click="closeSearch" v-show="navSearchIsOpen" key="searchcancel">
-              <icon-base iconName="cancel search" iconColor="#fff" width="24" height="24">
-                <icon-arrow-back />
-              </icon-base>
-            </button>
-          </transition>
-        </div>
-
-        <b class="route-title" v-if="routeTitle != ''">{{routeTitle}}</b>
-
         <nav>
-          <router-link to="/">Home</router-link>
-          <router-link to="/example">Example</router-link>
-          <router-link to="/exampleWithAuth">Example auth</router-link>
-          <router-link to="/exampleWithAuthRole">Example auth role</router-link>
-          <router-link to="/search">Search</router-link>
+          <router-link v-for="link in navigationLinks" :key="link.name" :to="link.path">{{link.name}}</router-link>
         </nav>
-
-        <div class="header-buttons">
-          <!-- Make search component -->
-          
-
-          <search-bar />
-          <!-- Only show search component on desktop, and open search page on mobile? -->
-
-
-          <!-- If on mobile -->
-          <router-link class="account-icon btn-icon btn-icon--large account-icon-mobile" to="/account" tag="button" v-if="!navSearchIsOpen">
-            <icon-base iconName="account" iconColor="#fff" width="24" height="24">
-              <icon-beach-access v-if="isLoggedIn"/>
-              <icon-account v-else/>
-            </icon-base>
-          </router-link>
-          <!-- If on desktop -->
-          <div class="dropdown-wrapper">
-            <button class="account-icon btn-icon btn-icon--large" @click="showAccountDropdown = !showAccountDropdown">
-              <icon-base iconName="account dropdown" iconColor="#fff" width="24" height="24">
-                <icon-beach-access v-if="isLoggedIn"/>
-                <icon-account v-else/>
-              </icon-base>
-            </button>
-            <div class="dropdown" v-if="showAccountDropdown">
-              <div v-if="isLoggedIn">
-                <account-card />
-                <router-link to="/account">Settings</router-link>
-                <a @click.prevent="logout">Logout</a>
-              </div>
-              <div v-else>
-                <sign-in-sign-up />
-                <router-link to="/account">Settings</router-link>
-              </div>
-            </div>
-          </div> <!-- .dropdown-wrapper -->
-
-        </div> <!-- .header-buttons -->
-
-      </div> <!-- .header-navigation -->
-    </div> <!-- .container -->
+        <button class="btn-icon btn-icon--large btn-icon--animate" key="menu" @click="handleHamburger" v-if="layoutSmall">
+          <icon-base :iconName="!showBack ? 'Hamburger menu' : 'Go back'" iconColor="#fff" width="24" height="24">
+            <transition name="icon-rotate">
+              <icon-menu v-if="!showBack"/>
+              <icon-arrow-back v-else/>
+            </transition>
+          </icon-base>
+        </button>
+        <component :is="navigationLayout"></component>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Default from './layouts/Default';
+import Stripped from './layouts/Stripped';
+
 import IconBase from '../icons/IconBase';
 import IconMenu from '../icons/IconMenu';
-import IconAccount from '../icons/IconAccount';
-import IconBeachAccess from '../icons/IconBeachAccess';
-import IconSearch from '../icons/IconSearch';
 import IconArrowBack from '../icons/IconArrowBack';
-import SearchBar from '../search/SearchBar';
-import AccountCard from '../account/AccountCard';
-import SignInSignUp from '../account/SignInSignUp';
 
 export default {
   name: 'Navigation',
   components: {
-    IconBase, IconMenu, IconAccount, IconBeachAccess, IconSearch, IconArrowBack, SearchBar, AccountCard, SignInSignUp
-  },
-  props: {
-    fixed: {
-      type: Boolean,
-      default: false
-    },
-    hideOnScroll: {
-      type: Boolean,
-      default: false
-    }
+    'navigation-default': Default,
+    'navigation-stripped': Stripped,
+    IconBase,
+    IconMenu,
+    IconArrowBack
   },
   data() {
     return {
-      hide: false,
-      prevScrollPos: null,
-      currentScrollPos: null,
-      showAccountDropdown: false,
-      searchOpen: false
+      //isMobile: window.matchMedia('(max-width: 1024px)').matches // this check is only performed on created
     }
   },
+  props: {
+
+  },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn
+    navigationLinks() {
+      return this.$router.options.routes.filter((route) => {
+        if (route.meta.allowedRoles) {
+          return route.meta.showInNav != false && route.meta.allowedRoles.includes(this.$store.getters.userRole);
+        } else {
+          return route.meta.showInNav != false;
+        }
+      });
     },
-    navSearchIsOpen() {
-      return this.$store.getters.navSearchIsOpen
-    },
-    routeTitle() {
-      return this.$route.meta.title || '';
+    navigationLayout() {
+      const defaultLayout = 'navigation-default'
+      let layout = this.$route.meta.navigationLayout;
+      return layout ? 'navigation-' + layout : defaultLayout;
     },
     showBack() { // show back button instead of hamburger
       return this.$route.meta.enableBack;
     },
-    overwriteHide() { // page has defined that header should not hide on scroll
-      this.hide = false;
-      return this.$route.meta.overwriteHide;
+    layoutSmall() {
+      return this.$store.getters.deviceLayoutIsSmall;
     }
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/login');
-        })
-    },
-    openSearch() {
-      this.searchOpen = true;
-    },
-    closeSearch() {
-      this.$store.dispatch('changeNavSearchOpenState', false);
-    },
-    scrollHide() {
-      this.prevScrollPos = window.scrollY;
-      window.onscroll = () => {
-        if (this.overwriteHide) {
-          return this.hide = false;
-        }
-        this.currentScrollPos = window.scrollY;
-        if(this.prevScrollPos > this.currentScrollPos) {
-          this.hide = false;
-        } else {
-          this.hide = true;
-        }
-        this.prevScrollPos = this.currentScrollPos;
+    handleHamburger() {
+      if(this.showBack) {
+        this.$router.go(-1);
+      } else {
+        console.log('open slideout')
       }
-    }
-  },
-  created() {
-    if(this.fixed) {
-      document.documentElement.classList.add('has-fixed-header')
-    }
-
-    if(this.hideOnScroll) {
-      this.scrollHide();
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.buttonswitch-enter {
-  opacity: 0;
-  transform: rotate(180deg);
-}
-.buttonswitch-enter-active {
-  transition: opacity .2s ease-out, transform .2s ease-out;
-}
-.buttonswitch-leave-active {
-  // transition-delay: .6s;
-  transition: opacity .2s ease-out, transform .4s ease-out;
-  opacity: 0;
-  transform: rotate(-180deg);
-}
-.hamburger {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  
-  button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-  }
-}
-</style>

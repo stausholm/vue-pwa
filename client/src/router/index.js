@@ -14,12 +14,31 @@ import Search from '@/pages/search/Search'
 
 Vue.use(Router)
 
+/**
+ * Route meta parameters
+ * @param guest - This route should only be available to users not logged in
+ * @param enableBack - Turn hamburger icon into a back button
+ * @param requiresAuth - Requires the user to be logged in, to view this route
+ * @param is_role - Could be used as is_admin or is_premium. Should be removed in favor of allowedRoles[]. Prevents anyone who is not this role, to view this route
+ * @param allowedRoles - Represent which user roles are allowed to view this route
+ * @param title - Value to be shown in browser tab. The title of the route, shown in the frontend
+ * @param overwriteHide - Overwrites toolbar to prevent it from hiding on scroll, if hideOnScroll is enabled. This needs refactoring
+ * @param navigationLayout - Define a routebased navigation component to replace the default one
+ * @param metaTags - Array of meta tags for the <head> of the document
+ * @param showInNav - Define if this route should be rendered in the main navigation. Current implementation should probably rename it to hideFromNav
+ * 
+ */
+
+
 let router = new Router({
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+
+      }
     },
     {
       path: '/login',
@@ -27,7 +46,9 @@ let router = new Router({
       component: Login,
       meta: { 
         guest: true,
-        enableBack: true
+        enableBack: true,
+        navigationLayout: 'stripped',
+        showInNav: false
       }
     },
     {
@@ -36,13 +57,19 @@ let router = new Router({
       component: Register,
       meta: { 
         guest: true,
-        enableBack: true
+        enableBack: true,
+        navigationLayout: 'stripped',
+        showInNav: false,
+        title: 'Sign up'
       }
     },
     {
       path: '/example',
       name: 'Example',
-      component: Example
+      component: Example,
+      meta: {
+
+      }
     },
     {
       path: '/examplewithauth',
