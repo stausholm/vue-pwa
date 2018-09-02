@@ -86,6 +86,12 @@
     width: 48px;
     height: 48px;
   }
+  &--animate {
+    svg > g > g {
+      position: absolute;
+      transform-origin: center center;
+    }
+  }
 }
 
 .btn-account {
