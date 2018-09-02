@@ -8,11 +8,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     deviceOrientation: 'portrait',
-    navSearchOpen: false
+    navSearchOpen: false,
+    notification: {
+      content: 'REPLACE ME',
+      duration: 1000, // ms
+      alert: 'info' // color settings
+    }
   },
   getters: {
     navSearchIsOpen(state) {
       return state.navSearchOpen;
+    },
+    notificationSettings(state) {
+      return state.notification;
     }
   },
   mutations: {
@@ -26,6 +34,13 @@ export default new Vuex.Store({
       } else {
         document.body.classList.remove('overlay-active');
       }
+    },
+    notificationChanged(state, changes) {
+      state.notification = {
+        content: changes.content || 'REPLACE ME',
+        duration: changes.duration || 1000,
+        alert: changes.alert || 'info'
+      }
     }
   },
   actions: {
@@ -34,6 +49,9 @@ export default new Vuex.Store({
     },
     changeNavSearchOpenState({commit}, value) {
       commit('navSearchOpenChanged', value);
+    },
+    changeNotification({commit}, changes) {
+      commit('notificationChanged', changes);
     }
   },
   modules: {

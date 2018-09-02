@@ -1,0 +1,52 @@
+.notification-small {
+  position: fixed;
+  @include z-index(notification);
+  left: 0;
+  right: 0;
+  bottom: 20%;
+  max-width: 260px;
+  margin: 0 auto;
+  text-align: center;
+  padding: $default-spacing;
+  pointer-events: none;
+  border-radius: $default-border-radius;
+  box-shadow: $box-shadow;
+  border-width: 1px;
+  border-style: solid;
+
+  &-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+  }
+  &-primary {
+    background: $primary-color;
+    color: $primary-color-dark;
+    border-color: $primary-color-dark;
+  }
+  &-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+  &-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
+  &-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+  &-light {
+    color: #818182;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+  }
+  &-dark {
+    color: #1b1e21;
+    background-color: #d6d8d9;
+    border-color: #c6c8ca;
+  }
+}

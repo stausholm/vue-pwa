@@ -6,6 +6,7 @@
       <router-view></router-view>
     </main>
     <a2hs-overlay v-if="showPWAOverlay"/>
+    <notification-small />
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import Navigation from './components/navigation/navigation';
 import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
+import NotificationSmall from './components/notifications/NotificationSmall';
 
 import handleOrientationChange from './utils/orientationChange';
 
@@ -21,12 +23,13 @@ export default {
   components: {
     'app-navigation': Navigation,
     BottomNav,
-    'a2hs-overlay': A2HSOverlay
+    'a2hs-overlay': A2HSOverlay,
+    NotificationSmall
   },
   computed: {
     showPWAOverlay() {
       return this.$store.getters.showPWAOverlay
-    },
+    }
   },
   created() {
     // handle expired token
