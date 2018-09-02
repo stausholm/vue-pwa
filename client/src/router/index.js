@@ -95,25 +95,77 @@ let router = new Router({
       component: Account,
       meta: {
         title: 'My user',
-        enableBack: true, //enables backbutton instead of hamburger
-        overwriteHide: true //overwrites toolbar to prevent it from hiding on scroll
+        enableBack: true, 
+        overwriteHide: true,
+        metaTags: [
+          {
+            name: 'description',
+            content: 'The account page of the app'
+          },
+          {
+            property: 'og:description',
+            content: 'the account page of the app yo'
+          }
+        ]
       }
     },
     {
       path: '/search',
       name: 'Search',
-      component: Search
+      component: Search,
+      meta: {
+        //navigationLayout: 'stripped',
+        title: 'Search',
+        enableBack: true
+      }
     },
     {
       // catch all route
       path: '*',
       name: 'ErrorPage',
-      component: ErrorPage
+      component: ErrorPage,
+      meta: {
+        showInNav: false
+      }
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
+  // title
+  // This goes through the matched routes from last to first, finding the closest route with a title.
+  // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
+  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
+  // If a route with a title was found, set the document (page) title to that value.
+  //if(nearestWithTitle) document.title = nearestWithTitle.meta.title;
+  document.title = nearestWithTitle ? nearestWithTitle.meta.title : 'no nearest with title';
+
+  //meta tags
+  // Find the nearest route element with meta tags.
+  const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
+  const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
+
+  // Remove any stale meta tags from the document using the key attribute we set below.
+  Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
+
+  // there are meta tags
+  if(nearestWithMeta) {
+    // Turn the meta tag definitions into actual elements in the head.
+    nearestWithMeta.meta.metaTags.map(tagDef => {
+      const tag = document.createElement('meta');
+
+      Object.keys(tagDef).forEach(key => {
+        tag.setAttribute(key, tagDef[key]);
+      });
+
+      // We use this to track which meta tags we create, so we don't interfere with other ones.
+    tag.setAttribute('data-vue-router-controlled', '');
+
+    return tag;
+    }).forEach(tag => document.head.appendChild(tag));
+  }
+
+
   // if (to.matched.some(record => record.meta.is_role)) { // is only for certain role
   //   if (store.getters.userRole)
   // }
