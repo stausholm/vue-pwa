@@ -58,7 +58,7 @@ let router = new Router({
       meta: { 
         guest: true,
         enableBack: true,
-        navigationLayout: 'stripped',
+        navigationLayout: 'transparent-simple', // requires fixed header and overwriteHide for best effect
         showInNav: false,
         title: 'Sign up'
       }

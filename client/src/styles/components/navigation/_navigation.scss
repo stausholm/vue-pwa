@@ -149,3 +149,11 @@
     }
   }
 }
+
+.page-header[data-navigation-layout="navigation-transparent-simple"] {
+  background: none;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
