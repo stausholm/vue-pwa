@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container--content">
-      <h1>this is example</h1>
+      <h1>this is example yo</h1>
       <cta-button-icon @click.native="test">
         <template slot="text">amazing cta text</template>
         <template slot="icon">
@@ -13,9 +13,9 @@
       <button @click="testNotification">test notification</button>
       <button @click="testNotification2">test notification warning</button>
       <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
       <search-bar />
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
     </div>

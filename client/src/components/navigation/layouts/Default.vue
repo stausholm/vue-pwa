@@ -72,8 +72,6 @@ export default {
   methods: {
     toggleSearch() {
       this.searchOpen = !this.searchOpen;
-      this.$route.meta.searchOpen = true;
-      console.log(this.$route)
       if (this.searchOpen) {
         this.$nextTick(() => {
           this.$refs.searchref.querySelector('input').focus();
