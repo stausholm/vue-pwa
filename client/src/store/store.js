@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     deviceOrientation: 'portrait',
+    deviceLayoutSmall: true,
     navSearchOpen: false,
     notification: {
       content: 'REPLACE ME',
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     notificationSettings(state) {
       return state.notification;
+    },
+    deviceLayoutIsSmall(state) {
+      return state.deviceLayoutSmall;
     }
   },
   mutations: {
@@ -41,6 +45,9 @@ export default new Vuex.Store({
         duration: changes.duration || 1000,
         alert: changes.alert || 'info'
       }
+    },
+    layoutSizeChanged(state, bool) {
+      state.deviceLayoutSmall = bool;
     }
   },
   actions: {
@@ -52,6 +59,9 @@ export default new Vuex.Store({
     },
     changeNotification({commit}, changes) {
       commit('notificationChanged', changes);
+    },
+    changeDeviceLayout({commit}, bool) {
+      commit('layoutSizeChanged', bool);
     }
   },
   modules: {

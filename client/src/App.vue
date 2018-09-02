@@ -17,6 +17,7 @@ import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import NotificationSmall from './components/notifications/NotificationSmall';
 
 import handleOrientationChange from './utils/orientationChange';
+import handleLayoutBreakpoint from './utils/layoutBreakpoint';
 
 export default {
   name: 'app',
@@ -62,6 +63,8 @@ export default {
 
     // viewport orientation change listener
     handleOrientationChange(this);
+    // viewport media query layout breakpoint listener
+    handleLayoutBreakpoint(this);
   }
 }
 </script>
