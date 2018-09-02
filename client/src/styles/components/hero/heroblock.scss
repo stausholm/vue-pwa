@@ -1,0 +1,11 @@
+.hero {
+  background-color: $primary-color-light;
+  background-image: url('https://picsum.photos/200/300?image=1062');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

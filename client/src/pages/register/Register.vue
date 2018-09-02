@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div style="background: skyblue; height: 400px; display: flex; justify-content: center; align-items: center;">
+    <hero-block class="route-title-container">
       Some full width hero content here
-    </div>
+    </hero-block>
     <div class="container--content">
       <h1>Register</h1>
       <div>
@@ -60,6 +60,11 @@
         <router-link to="/privacy-policy">Read more about how we manage the data you share with us</router-link>
       </p>
     </div>
+    <p style="margin-top:200px">more height!</p>
+    <p style="margin-top:200px">more height!</p>
+    <p style="margin-top:200px">more height!</p>
+    <p style="margin-top:200px">more height!</p>
+    <p style="margin-top:200px">more height!</p>
   </div>
 </template>
 
@@ -69,10 +74,12 @@ import IconLogoGoogle from '@/components/icons/IconLogoGoogle';
 import IconLogoFacebook from '@/components/icons/IconLogoFacebook';
 import IconMail from '@/components/icons/IconMail';
 
+import HeroBlock from '@/components/hero/HeroBlock';
+
 export default {
   name: 'Register',
   components: {
-    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail
+    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail, HeroBlock
   },
   data() {
     return {
