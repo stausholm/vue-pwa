@@ -12,6 +12,12 @@
       </cta-button-icon>
       <button @click="testNotification">test notification</button>
       <button @click="testNotification2">test notification warning</button>
+      <p style="margin-top:200px">more height!</p>
+      <search-bar />
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
     </div>
   </div>
 </template>
@@ -20,13 +26,15 @@
 import CTAButtonWithIcon from '@/components/buttons/CTAButtonWithIcon';
 import IconBase from '@/components/icons/IconBase';
 import IconBeachAccess from '@/components/icons/IconBeachAccess';
+import SearchBar from '@/components/search/SearchBar';
 
 export default {
   name: 'Example',
   components: {
     'cta-button-icon': CTAButtonWithIcon,
     IconBase,
-    IconBeachAccess
+    IconBeachAccess,
+    SearchBar
   },
   methods: {
     testNotification() {

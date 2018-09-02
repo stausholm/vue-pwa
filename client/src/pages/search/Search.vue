@@ -97,10 +97,13 @@ export default {
   },
   created() {
     // if search doesn't come directly from querystring, then search results should be passed over, to avoid an aditional call to db
-
-    this.results = this.dummyData.filter((item) => {
-      return item.title.toUpperCase().match(this.query.toUpperCase().replace(/\s+/g, '.+'));
-    })
+    if(this.query) {
+      this.results = this.dummyData.filter((item) => {
+        return item.title.toUpperCase().match(this.query.toUpperCase().replace(/\s+/g, '.+'));
+      })
+    } else {
+      //this.results = this.dummyData;
+    }
 
     setTimeout(() => {
       this.loading = false;

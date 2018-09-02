@@ -1,77 +1,66 @@
 <template>
-  <div>
-    <button class="btn-icon btn-icon--large" @click="openSearch" v-if="!navSearchIsOpen">
-      <icon-base iconName="search" iconColor="#fff" width="24" height="24">
-        <icon-search />
-      </icon-base>
-    </button>
+  <div class="search-container">
+    <div class="search-input">
+      <input type="text"
+        placeholder="Find stuff..."
+        autocomplete="off"
+        ref="searchinput"
+        v-model="searchVal"
+        @input="inputSearch"
+        @keydown.enter="suggestionSelected(searchMatchesSliced[searchHighlightIndex])"
+        @keydown.up="up"
+        @keydown.down="down"
+        @keydown.esc="cancelSearch"
+        @blur="blurSearch"
+        @focus="focusSearch">
+        <!-- <button @click="searchForString(searchVal)">
+          SEARCH
+        </button> -->
+        <button class="btn-icon">
+          <icon-base iconName="search" iconColor="#000" width="24" height="24">
+            <icon-search v-if="showSearch && searchVal == ''"/>
+            <icon-close v-else-if="showSearch && searchVal != ''"/>
+          </icon-base>
+        </button>
+    </div>
 
-    <div class="search-container" v-else>
-
-      <transition name="search-input">
-      <div class="search-input">
-        <input type="text"
-          placeholder="Find stuff..."
-          autocomplete="off"
-          ref="searchinput"
-          v-model="searchVal"
-          @input="inputSearch"
-          @keydown.enter="suggestionSelected(searchMatchesSliced[searchHighlightIndex])"
-          @keydown.up="up"
-          @keydown.down="down"
-          @keydown.esc="cancelSearch"
-          @blur="blurSearch"
-          @focus="focusSearch">
-          <!-- <button @click="searchForString(searchVal)">
-            SEARCH
-          </button> -->
-          <button class="btn-icon">
-            <icon-base iconName="search" iconColor="#000" width="18" height="18">
-              <icon-search v-if="showSearch && searchVal == ''"/>
-              <icon-close v-else-if="showSearch && searchVal != ''"/>
+    <div class="search-suggestions" v-if="showDropdown">
+      <ul v-if="searchVal">
+        <li v-for="(suggestion, index) in searchMatchesSliced" 
+          :key="suggestion.title"
+          :class="{'search-highlighted-item': index === searchHighlightIndex}"
+          @mousedown.prevent
+          @click="suggestionSelected(suggestion)">
+          <div class="list-icon">
+            <icon-base iconName="search item" iconColor="#000" width="24" height="24">
+              <icon-search />
             </icon-base>
-          </button>
+          </div>
+          <span :inner-html.prop="suggestion.title | highlightmatch(oldVal)"></span>
+        </li>
+      </ul>
+      <ul v-else-if="recentSearches.length > 0 && showRecents">
+        <li v-for="query in recentSearches" 
+          :key="query"
+          @mousedown.prevent
+          @click="searchForString(query)">
+          <div class="list-icon">
+            <icon-base iconName="restore search" iconColor="#000" width="24" height="24">
+              <icon-restore />
+            </icon-base>
+          </div>
+          <span>{{query}}</span>
+        </li>
+        <li @mousedown.prevent @click="clearRecents">Clear recent searches</li>
+      </ul>
+      <div class="search-show-all" v-if="searchMatches.length > maxResults && searchVal">
+        <!-- <button class="button button--dark">Show all results ({{searchMatches.length}})</button> -->
+        <p @mousedown.prevent @click="searchForString(oldVal)">And {{searchMatches.length - searchMatchesSliced.length}} more results matching <b>{{oldVal}}</b>... </p>
       </div>
-      </transition>
+    </div>
 
-      <div class="search-suggestions" v-if="showDropdown">
-        <ul v-if="searchVal">
-          <li v-for="(suggestion, index) in searchMatchesSliced" 
-            :key="suggestion.title"
-            :class="{'search-highlighted-item': index === searchHighlightIndex}"
-            @mousedown.prevent
-            @click="suggestionSelected(suggestion)">
-            <div class="list-icon">
-              <icon-base iconName="search item" iconColor="#000" width="18" height="18">
-                <icon-search />
-              </icon-base>
-            </div>
-            <span :inner-html.prop="suggestion.title | highlightmatch(oldVal)"></span>
-          </li>
-        </ul>
-        <ul v-else-if="recentSearches.length > 0 && showRecents">
-          <li v-for="query in recentSearches" 
-            :key="query"
-            @mousedown.prevent
-            @click="searchForString(query)">
-            <div class="list-icon">
-              <icon-base iconName="restore search" iconColor="#000" width="18" height="18">
-                <icon-restore />
-              </icon-base>
-            </div>
-            <span>{{query}}</span>
-          </li>
-          <li @mousedown.prevent @click="clearRecents">Clear recent searches</li>
-        </ul>
-        <div class="search-show-all" v-if="searchMatches.length > maxResults && searchVal">
-          <!-- <button class="button button--dark">Show all results ({{searchMatches.length}})</button> -->
-          <p @mousedown.prevent @click="searchForString(oldVal)">And {{searchMatches.length - searchMatchesSliced.length}} more results matching <b>{{oldVal}}</b>... </p>
-        </div>
-      </div>
+    <div class="search-overlay" v-if="showDropdown">
 
-      <div class="search-overlay" v-if="showDropdown">
-
-      </div>
     </div>
   </div>
 </template>
@@ -205,6 +194,7 @@ export default {
       // this.showSearch = false;
       this.showDropdown = false;
       this.$store.dispatch('changeNavSearchOpenState', false);
+      this.$emit('blurSearch')
     },
     focusSearch() {
       this.showDropdown = true;
