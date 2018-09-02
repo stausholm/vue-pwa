@@ -177,7 +177,10 @@ router.beforeEach((to, from, next) => {
       next(false);
       return
     }
-    next('/login')
+    next({
+      path:'/login',
+      query: {redirect: to.fullPath}
+    })
     return
   }
   if (to.matched.some(record => record.meta.requiresAuth)) { // auth is required for page
@@ -185,7 +188,10 @@ router.beforeEach((to, from, next) => {
       next()
       return
     }
-    next('/login') 
+    next({
+      path:'/login',
+      query: {redirect: to.fullPath}
+    }) 
   } else if (to.matched.some(record => record.meta.guest)) { // page should only be shown to guests, such as /register or /login
     if (store.getters.isLoggedIn) {
       next('/')
