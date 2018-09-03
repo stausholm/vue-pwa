@@ -1,6 +1,9 @@
 <template>
   <div class="hero">
-    <slot>REPLACE ME</slot>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <slot>REPLACE ME</slot>
+    </div>
   </div>
 </template>
 
