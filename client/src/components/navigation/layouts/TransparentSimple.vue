@@ -59,6 +59,15 @@ export default {
     }
     //window.addEventListener('scroll', this.throttle(this.scrollHandler, 10))
     window.addEventListener('scroll', this.scrollHandler)
+    // window.addEventListener('scroll', () => {
+    //   console.log('event still here')
+    // })
+  },
+  beforeDestroy() {
+    console.log('BEFORE DESTROY')
+    let header = document.querySelector('[data-navigation-layout]');
+    header.style.backgroundColor = '';
+    window.removeEventListener('scroll', this.scrollHandler)
   }
 }
 </script>
