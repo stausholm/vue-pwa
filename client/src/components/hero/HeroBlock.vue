@@ -1,7 +1,7 @@
 <template>
   <div class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-content">
+    <div class="hero-content container">
       <slot>REPLACE ME</slot>
     </div>
   </div>
