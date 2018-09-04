@@ -59,6 +59,7 @@ let router = new Router({
         guest: true,
         enableBack: true,
         navigationLayout: 'transparent-simple', // requires fixed header and overwriteHide for best effect
+        overwriteHide: true,
         showInNav: false,
         title: 'Sign up'
       }

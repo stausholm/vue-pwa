@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header" ref="pageheader">
+  <div class="page-header" ref="pageheader" :class="{'fixed-header': fixed, 'header-scroll-hide': hide}">
     <div class="container">
       <div class="logo">
         <router-link to="/">LOGO</router-link>
@@ -46,10 +46,20 @@ export default {
   data() {
     return {
       //isMobile: window.matchMedia('(max-width: 1024px)').matches // this check is only performed on created
+      hide: false,
+      prevScrollPos: null,
+      currentScrollPos: null
     }
   },
   props: {
-
+    fixed: {
+      type: Boolean,
+      default: false
+    },
+    hideOnScroll: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     navigationLinks() {
@@ -73,6 +83,10 @@ export default {
     showBack() { // show back button instead of hamburger
       return this.$route.meta.enableBack;
     },
+    overwriteHide() { // page has defined that header should not hide on scroll
+      this.hide = false;
+      return this.$route.meta.overwriteHide;
+    },
     layoutSmall() {
       return this.$store.getters.deviceLayoutIsSmall;
     }
@@ -84,7 +98,31 @@ export default {
       } else {
         console.log('open slideout')
       }
+    },
+    scrollHide() {
+      this.prevScrollPos = window.scrollY;
+      window.onscroll = () => {
+        if (this.overwriteHide) {
+          return this.hide = false;
+        }
+        this.currentScrollPos = window.scrollY;
+        if(this.prevScrollPos > this.currentScrollPos) {
+          this.hide = false;
+        } else {
+          this.hide = true;
+        }
+        this.prevScrollPos = this.currentScrollPos;
+      }
     }
+  },
+  created() {
+    // if(this.fixed) {
+    //   document.documentElement.classList.add('has-fixed-header')
+    // }
+
+    // if(this.hideOnScroll) {
+    //   this.scrollHide();
+    // }
   }
 }
 </script>

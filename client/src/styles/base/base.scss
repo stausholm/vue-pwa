@@ -75,7 +75,10 @@ a {
 .has-bottomnav main {
   padding-bottom: $default-spacing * 2 + 24px + $base-font-size;
 }
-
+.has-transparent-header main {
+  transition: padding-top .2s;
+  padding-top: 0;
+}
 
 // tablet landscape
 @media screen and (max-width: 1024px) {
