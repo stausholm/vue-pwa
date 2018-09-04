@@ -29,12 +29,27 @@
         </div>
       </div>
 
-      <button class="btn-icon btn-icon--large">
-        <icon-base iconName="account" iconColor="#fff" width="24" height="24">
-          <icon-beach-access v-if="isLoggedIn"/>
-          <icon-account v-else/>
-        </icon-base>
-      </button>
+      <div class="dropdown-wrapper" v-if="!searchOpen">
+        <button class="btn-icon btn-icon--large" @click="handleAccount">
+          <icon-base iconName="account" iconColor="#fff" width="24" height="24">
+            <icon-beach-access v-if="isLoggedIn"/>
+            <icon-account v-else/>
+          </icon-base>
+        </button>
+
+        <div class="dropdown" v-if="showAccountDropdown">
+          <div v-if="isLoggedIn">
+            <account-card />
+            <router-link to="/account">Settings</router-link>
+            <a @click.prevent="logout">Logout</a>
+          </div>
+          <div v-else>
+            <sign-in-sign-up />
+            <router-link to="/account">Settings</router-link>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </div>
@@ -49,13 +64,17 @@ import IconArrowBack from '@/components/icons/IconArrowBack';
 
 import SearchBar from '@/components/search/SearchBar';
 
+import AccountCard from '@/components/account/AccountCard';
+import SignInSignUp from '@/components/account/SignInSignUp';
+
 export default {
   components: {
-    IconBase, IconSearch, IconAccount, IconBeachAccess, IconArrowBack, SearchBar
+    IconBase, IconSearch, IconAccount, IconBeachAccess, IconArrowBack, SearchBar, AccountCard, SignInSignUp
   },
   data() {
     return {
-      searchOpen: false
+      searchOpen: false,
+      showAccountDropdown: false
     }
   },
   computed: {
@@ -77,6 +96,19 @@ export default {
           this.$refs.searchref.querySelector('input').focus();
         })
       }
+    },
+    handleAccount() {
+      if(this.layoutSmall) {
+        this.$router.push('/account');
+      } else {
+        this.showAccountDropdown = !this.showAccountDropdown;
+      }
+    },
+    logout() {
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login');
+        })
     }
   }
 }
