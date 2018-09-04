@@ -8,6 +8,13 @@
 
 <script>
 export default {
+  data() {
+    return {
+      titleEl: null,
+      headerEl: null,
+      backgroundRGB: '33,150,243'
+    }
+  },
   computed: {
     routeTitle() {
       return this.$route.meta.title || '';
@@ -15,58 +22,34 @@ export default {
   },
   methods: {
     scrollHandler() {
-      let title = document.querySelector('main .route-title-container');
-      let header = document.querySelector('[data-navigation-layout]');
-      let titleBottom = title.offsetTop + title.offsetHeight;
-      let bottom = titleBottom - header.offsetHeight;
+      const titleBottom = this.titleEl.offsetTop + this.titleEl.offsetHeight;
+      const bottom = titleBottom - this.headerEl.offsetHeight; // point where bottom of header hits bottom of title container
 
       if (window.pageYOffset <= bottom) {
-        console.log('we smaller', 100 - (window.pageYOffset / bottom * 100))
-        header.style.backgroundColor = `rgba(0,0,0,${window.pageYOffset / bottom})`;
+        this.headerEl.style.backgroundColor = `rgba(${this.backgroundRGB},${window.pageYOffset / bottom})`; // start at 0, go up to 1
 
-        this.$refs.title.style.opacity = `${window.pageYOffset / bottom}`;
-        this.$refs.title.style.transform = `translateY(${200 - (window.pageYOffset / bottom * 200)}%)`;
-        this.$refs.title.style.display = "block";
+        this.$refs.title.style.opacity = `${window.pageYOffset / bottom}`; // start at 0, go up to 1
+        this.$refs.title.style.transform = `translateY(${200 - (window.pageYOffset / bottom * 200)}%)`; // start at 200, go down to 0
       } else {
-        header.style.backgroundColor = 'rgba(0,0,0,1)';
+        this.headerEl.style.backgroundColor = `rgba(${this.backgroundRGB},1)`;
         this.$refs.title.style.opacity = '1';
-        this.$refs.title.style.display = "block";
         this.$refs.title.style.transform = "translateY(0)";
-      }
-    },
-    throttle(fn, wait) {
-      var time = Date.now();
-      return function() {
-        if ((time + wait - Date.now()) < 0) {
-          fn();
-          time = Date.now();
-        }
       }
     }
   },
   mounted() {
-    function throttle (callback, limit) {
-        var wait = false;                 // Initially, we're not waiting
-        return function () {              // We return a throttled function
-            if (!wait) {                  // If we're not waiting
-                callback.call();          // Execute users function
-                wait = true;              // Prevent future invocations
-                setTimeout(function () {  // After a period of time
-                    wait = false;         // And allow future invocations
-                }, limit);
-            }
-        }
-    }
-    //window.addEventListener('scroll', this.throttle(this.scrollHandler, 10))
-    window.addEventListener('scroll', this.scrollHandler)
-    // window.addEventListener('scroll', () => {
-    //   console.log('event still here')
-    // })
+    document.documentElement.classList.add('has-transparent-header');
+
+    this.$nextTick(() => {
+      this.titleEl = document.querySelector('main .route-title-container');
+      this.headerEl = document.querySelector('[data-navigation-layout]');
+      window.addEventListener('scroll', this.scrollHandler);
+    })
   },
   beforeDestroy() {
-    console.log('BEFORE DESTROY')
-    let header = document.querySelector('[data-navigation-layout]');
-    header.style.backgroundColor = '';
+    document.documentElement.classList.remove('has-transparent-header');
+
+    this.headerEl.style.backgroundColor = '';
     window.removeEventListener('scroll', this.scrollHandler)
   }
 }
