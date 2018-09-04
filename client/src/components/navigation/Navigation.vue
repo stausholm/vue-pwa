@@ -16,7 +16,9 @@
             </transition>
           </icon-base>
         </button>
-        <component :is="navigationLayout"></component>
+        <transition name="slide-up" mode="out-in">
+          <component :is="navigationLayout" :key="navigationLayout"></component>
+        </transition>
       </div>
     </div>
   </div>
