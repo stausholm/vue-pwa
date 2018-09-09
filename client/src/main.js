@@ -6,6 +6,8 @@ import router from './router'
 
 import './styles/index.scss'
 
+import { clickOutside } from './directives/click-outside'
+
 import store from './store/store'
 import Axios from 'axios'
 
@@ -16,6 +18,8 @@ if (token) {
 }
 
 Vue.config.productionTip = false
+
+Vue.directive('click-outside', clickOutside);
 
 /* eslint-disable no-new */
 new Vue({

@@ -9,9 +9,9 @@
         @click="toggleSearch" 
         v-if="layoutSmall">
         <icon-base iconName="search" iconColor="#fff" width="24" height="24">
+          <icon-search v-if="!searchOpen"/>
           <transition name="icon-scale">
-            <icon-search v-if="!searchOpen"/>
-            <icon-arrow-back v-else/>
+            <icon-arrow-back v-if="searchOpen"/>
           </transition>
         </icon-base>
       </button>
@@ -37,17 +37,19 @@
           </icon-base>
         </button>
 
-        <div class="dropdown" v-if="showAccountDropdown">
-          <div v-if="isLoggedIn">
-            <account-card />
-            <router-link to="/account">Settings</router-link>
-            <a @click.prevent="logout">Logout</a>
+        <transition name="slide-up">
+          <div class="dropdown" v-if="showAccountDropdown && !layoutSmall" v-click-outside="hideDropdown">
+            <div v-if="isLoggedIn">
+              <account-card />
+              <router-link to="/account" @click.native="hideDropdown">Settings</router-link>
+              <a @click.prevent="logout">Logout</a>
+            </div>
+            <div v-else>
+              <sign-in-sign-up @click.native="hideDropdown"/>
+              <router-link to="/account" @click.native="hideDropdown">Settings</router-link>
+            </div>
           </div>
-          <div v-else>
-            <sign-in-sign-up />
-            <router-link to="/account">Settings</router-link>
-          </div>
-        </div>
+        </transition>
 
       </div>
     </div>
@@ -109,6 +111,10 @@ export default {
         .then(() => {
           this.$router.push('/login');
         })
+    },
+    hideDropdown() {
+      console.log('hiding dropdown')
+      this.showAccountDropdown = false;
     }
   }
 }
