@@ -16,9 +16,9 @@
             </transition>
           </icon-base>
         </button>
-        <transition name="slide-up" mode="out-in">
           <component :is="navigationLayout" :key="navigationLayout"></component>
-        </transition>
+        <!-- <transition name="slide-up" mode="out-in">
+        </transition> -->
       </div>
     </div>
   </div>
@@ -32,6 +32,8 @@ import TransparentSimple from './layouts/TransparentSimple';
 import IconBase from '../icons/IconBase';
 import IconMenu from '../icons/IconMenu';
 import IconArrowBack from '../icons/IconArrowBack';
+
+import throttle from '@/utils/throttle';
 
 export default {
   name: 'Navigation',
@@ -48,7 +50,8 @@ export default {
       //isMobile: window.matchMedia('(max-width: 1024px)').matches // this check is only performed on created
       hide: false,
       prevScrollPos: null,
-      currentScrollPos: null
+      currentScrollPos: null,
+      routeChanged: false
     }
   },
   props: {
@@ -101,8 +104,18 @@ export default {
     },
     scrollHide() {
       this.prevScrollPos = window.scrollY;
-      window.onscroll = () => {
+      window.onscroll = throttle(() => {
+        console.log('scrollhide')
         if (this.overwriteHide) {
+          return this.hide = false;
+        }
+        if (this.routeChanged) {
+          console.log('scrollhide routechanged is true')
+          this.routeChanged = false;
+          return this.hide = false;
+        }
+        if (window.scrollY < this.$refs.pageheader.offsetHeight) {
+          // we at the top of the page, so don't hide it 
           return this.hide = false;
         }
         this.currentScrollPos = window.scrollY;
@@ -112,7 +125,7 @@ export default {
           this.hide = true;
         }
         this.prevScrollPos = this.currentScrollPos;
-      }
+      }, 200)
     }
   },
   created() {
@@ -123,6 +136,43 @@ export default {
     // if(this.hideOnScroll) {
     //   this.scrollHide();
     // }
-  }
+
+
+    // this.$router.beforeEach((to, from, next) => {
+    //   this.routeChanged = true;
+    //   next();
+    // })
+    // this.$router.afterEach((to, from, next) => {
+    //   //this.routeChanged = false;
+    // })
+
+    // this.$router.beforeEach((to, from, next) => {
+    //   this.savedScrollPos = window.scrollY;
+    //   next();
+    // })
+    // this.$router.afterEach((to, from, next) => {
+    //   console.log('yo', this.$route.path, window.scrollY)
+
+    //     window.scrollTo(0, window.scrollY - 1)
+    //     this.$nextTick(() => {
+    //       console.log('nexttick', window.scrollY)
+    //     })
+    //   setTimeout(() => {
+    //     console.log('scrolled', window.scrollY)
+
+    //   }, 1)
+    // })
+  },
+  // watch: {
+  //   $route(to, from) {
+  //     if(this.hideOnScroll) {
+  //       this.$nextTick(() => {
+  //       console.log('bababababa')
+  //         this.currentScrollPos = 0;
+  //       })
+  //     }
+  //   }
+  // },
+
 }
 </script>

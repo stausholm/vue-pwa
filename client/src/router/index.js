@@ -31,6 +31,50 @@ Vue.use(Router)
 
 
 let router = new Router({
+  //mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    // https://github.com/quasarframework/quasar/issues/1466
+    // https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
+    // return new Promise((resolve) => {
+    //   const position = savedPosition || {};
+    //   console.log(position)
+    //   if (!savedPosition) {
+    //     if (to.hash) {
+    //       position.selector = to.hash;
+    //     }
+    //   }
+    //   router.app.$root.$once('triggerScroll', () => {
+    //     router.app.$nextTick(() => resolve(position));
+    //   });
+    // })
+
+    // if (savedPosition) {
+    //   return savedPosition;
+    // }
+    // if (to.hash) {
+    //   return {selector: to.hash};
+    // }
+    // return {x: 0, y: 0}
+
+    // https://github.com/vuejs/vue-router/pull/1758
+    // https://router.vuejs.org/guide/advanced/scroll-behavior.html
+    return new Promise((resolve, reject) => {
+      //setTimeout(() => {
+        if (savedPosition) {
+          setTimeout(() => {
+            console.log('savedPosition',savedPosition)
+            resolve(savedPosition);
+          }, 200)
+        } else if (to.hash) { // TODO: This works? 
+          console.log('hash', to.hash)
+          resolve({selector: to.hash});
+        } else {
+          console.log('none')
+          resolve({ x: 0, y: 0 })
+        }
+      //}, 200)
+    })
+  },
   routes: [
     {
       path: '/',
