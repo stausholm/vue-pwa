@@ -2,6 +2,7 @@
   <div>
     <div class="container--content">
       <h1>this is home</h1>
+      <offline />
       <header>
         <span v-if="!isLoggedIn"><router-link to="/login">Login</router-link></span>
         <span v-if="!isLoggedIn"><router-link to="/register">Register</router-link></span>
@@ -22,11 +23,12 @@
 
 <script>
 import A2HSButton from '@/components/A2HS/A2HSbutton';
+import offline from '@/components/offline/OfflineNotice';
 
 export default {
   name: 'Home',
   components: {
-    'a2hs-button': A2HSButton
+    'a2hs-button': A2HSButton, offline
   },
   computed: {
     isLoggedIn() {

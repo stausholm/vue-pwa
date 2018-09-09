@@ -44,16 +44,16 @@ export default {
     });
 
 
-    fetch('http://localhost:3000/auth/bean')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(myJson) {
-        console.log(myJson);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch('http://localhost:3000/auth/bean')
+    //   .then(function(response) {
+    //     return response.json();
+    //   })
+    //   .then(function(myJson) {
+    //     console.log(myJson);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
     // hide pwa button if launched as pwa
     if(window.location.search.includes('source=pwa')) {
