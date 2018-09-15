@@ -1,5 +1,6 @@
 <template>
   <div>
+    <hero-block-split :background="['image', 'fade']"/>
     <div class="container--content">
       <h1>this is home</h1>
       <offline />
@@ -24,11 +25,12 @@
 <script>
 import A2HSButton from '@/components/A2HS/A2HSbutton';
 import offline from '@/components/offline/OfflineNotice';
+import HeroBlockSplit from '@/components/hero/HeroBlockSplit';
 
 export default {
   name: 'Home',
   components: {
-    'a2hs-button': A2HSButton, offline
+    'a2hs-button': A2HSButton, offline, HeroBlockSplit
   },
   computed: {
     isLoggedIn() {

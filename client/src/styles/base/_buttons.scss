@@ -20,6 +20,17 @@
     background-color: $primary-color-light;
   }
 
+  &--large {
+    font-size: 1.2rem;
+    padding: $default-spacing $default-spacing * 2;
+  }
+
+  &--responsive {
+    @include breakpoint-max(sm) {
+      width: 100%;
+    }
+  }
+
   &--cta {
     overflow: hidden;
     display: inline-flex;
