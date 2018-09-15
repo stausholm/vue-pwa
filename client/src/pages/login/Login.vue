@@ -4,32 +4,50 @@
       <h1>Login</h1>
       <div>
         <p class="text-secondary">Continue with</p>
-        <button class="btn-auth btn-auth--google">
-          <icon-base iconName="Google" iconColor="#fff" width="24" height="24">
-            <icon-logo-google />
-          </icon-base>
-          Google
-        </button>
-        <button class="btn-auth btn-auth--facebook">
-          <icon-base iconName="Facebook" iconColor="#fff" width="24" height="24">
-            <icon-logo-facebook />
-          </icon-base>
-          Facebook
-        </button>
+        <div class="input-group">
+          <button class="btn-auth btn-auth--google">
+            <icon-base iconName="Google" iconColor="#fff" width="24" height="24">
+              <icon-logo-google />
+            </icon-base>
+            Google
+          </button>
+        </div>
+        <div class="input-group">
+          <button class="btn-auth btn-auth--facebook">
+            <icon-base iconName="Facebook" iconColor="#fff" width="24" height="24">
+              <icon-logo-facebook />
+            </icon-base>
+            Facebook
+          </button>
+        </div>
         <span class="divider-with-text"><span>or</span></span>
-        <button class="btn-auth" @click="showEmailForm = !showEmailForm">
-          <icon-base iconName="Email" iconColor="#fff" width="24" height="24">
-            <icon-mail />
-          </icon-base>
-          Email
-        </button>
+        <div class="input-group">
+          <button class="btn-auth" @click="showEmailForm = !showEmailForm">
+            <icon-base iconName="Email" iconColor="#fff" width="24" height="24">
+              <icon-mail />
+            </icon-base>
+            Email
+          </button>
+        </div>
 
-        <form class="login" @submit.prevent="login" v-if="showEmailForm">
-          <label>Email</label>
-          <input required v-model="email" type="email" placeholder="Name"/>
-          <label>Password</label>
-          <input required v-model="password" type="password" placeholder="Password"/>
-          <button type="submit">Login</button>
+        <form @submit.prevent="login" v-if="showEmailForm">
+          <div class="input-group">
+            <label for="email" class="input-label">Email Address</label>
+            <div class="input-wrapper">
+              <input id="email" type="email" v-model="email" required autofocus class="input-item">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="password" class="input-label">Password</label>
+            <div class="input-wrapper">
+              <input id="password" type="password" v-model="password" required class="input-item">
+            </div>
+          </div>
+
+          <div class="input-group">
+              <button type="submit" class="btn btn--responsive">Login</button>
+          </div>
         </form>
       </div>
       <router-link to="/register" class="link-other-form">Register new account</router-link>
