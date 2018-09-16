@@ -30,7 +30,10 @@
           </button>
         </div>
 
-        <form @submit.prevent="login" v-if="showEmailForm">
+        <form-generator :schema="schema" v-model="formData" v-if="showEmailForm" @success="login">
+          slot content
+        </form-generator>
+        <!-- <form @submit.prevent="login" v-if="showEmailForm">
           <div class="input-group">
             <label for="email" class="input-label">Email Address</label>
             <div class="input-wrapper">
@@ -46,9 +49,9 @@
           </div>
 
           <div class="input-group">
-              <button type="submit" class="btn btn--responsive">Login</button>
+            <button type="submit" class="btn btn--responsive">Login</button>
           </div>
-        </form>
+        </form> -->
       </div>
       <router-link to="/register" class="link-other-form">Register new account</router-link>
       
@@ -66,23 +69,41 @@ import IconLogoGoogle from '@/components/icons/IconLogoGoogle';
 import IconLogoFacebook from '@/components/icons/IconLogoFacebook';
 import IconMail from '@/components/icons/IconMail';
 
+import FormGenerator from '@/components/inputs/FormGenerator';
+
 export default {
   name: 'Login',
   components: {
-    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail
+    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail, FormGenerator
   },
   data() {
     return {
-      email: "",
-      password: "",
+      formData: {
+        email: "",
+        password: ""
+      },
+      schema: [
+        {
+          fieldType: 'EmailInput',
+          name: 'email',
+          label: 'Email Address',
+          placeholder: 'johndoe@example.com',
+          helper: 'your email is your username',
+          autofocus: true
+        },
+        {
+          fieldType: 'PasswordInput',
+          name: 'password',
+          label: 'Password'
+        }
+      ],
       showEmailForm: false
     }
   },
   methods: {
     login() {
-      let email = this.email 
-      let password = this.password
-      this.$store.dispatch('login', { email, password })
+      console.log('trying to login')
+      this.$store.dispatch('login', this.formData)
       .then(() => this.$router.push('/'))
       .catch(err => console.log(err))
     }
