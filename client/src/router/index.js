@@ -33,6 +33,9 @@ Vue.use(Router)
 let router = new Router({
   //mode: 'history',
   scrollBehavior(to, from, savedPosition) {
+    console.log('inside scrollBehaviour')
+    console.log('is back or forwards button? ', to.meta.fromHistory = savedPosition !== null)
+
     // https://github.com/quasarframework/quasar/issues/1466
     // https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
     // return new Promise((resolve) => {
@@ -177,6 +180,8 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  
+  console.log('inside beforeEach', to)
   // title
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
