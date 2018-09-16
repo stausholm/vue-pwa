@@ -172,11 +172,24 @@
 //error styles
 .input-group.error {
   .input-label, .helper-text, .fieldset-label {
-    color: $error-color;
+    color: $color-danger;
   }
   .input-wrapper:after {
     transform: scaleX(1);
-    border-bottom-color: $error-color;
+    border-bottom-color: $color-danger;
+  }
+}
+
+
+
+//success styles
+.input-group.valid {
+  .input-label, .helper-text, .fieldset-label {
+    color: $color-success;
+  }
+  .input-wrapper:after {
+    transform: scaleX(1);
+    border-bottom-color: $color-success;
   }
 }
 

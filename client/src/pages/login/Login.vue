@@ -89,7 +89,14 @@ export default {
           label: 'Email Address',
           placeholder: 'johndoe@example.com',
           helper: 'your email is your username',
-          autofocus: true
+          autofocus: true,
+          validations: {
+            minLength: 20,
+            maxLength: {
+              value: 30,
+              message: 'my custom error message'
+            }
+          }
         },
         {
           fieldType: 'PasswordInput',
