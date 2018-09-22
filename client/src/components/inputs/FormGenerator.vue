@@ -8,7 +8,8 @@
                 @input="updateForm(field.name, $event)"
                 @error="updateErrors"
                 @valid="updateErrors"
-                v-bind="field">
+                v-bind="field"
+                :submitAttempted="submitAttempted">
       </component>
 
       <div class="input-group">
@@ -17,6 +18,7 @@
         </button>
       </div>
     </form>
+    <div v-if="invalidFields !== 0 && submitAttempted">Please fix above errors</div>
   </div>
 </template>
 
@@ -31,6 +33,10 @@ export default {
   props: {
     schema: {
       type: Array
+    },
+    loading: {
+      type: Boolean,
+      default: false
     },
     // action: {
     //   type: String
@@ -47,27 +53,37 @@ export default {
   data() {
     return {
       formData: this.value || {}, // populate form with data, if exists
-      loading: false
+      invalidFields: 0,
+      submitAttempted: false
     }
   },
   methods: {
     submitForm() {
-      console.log('submitForm called')
+      this.submitAttempted = true;
+      //console.log('submitForm called')
       if(this.loading) {
         // submit in progress, prevent additional API calls
-
-      } else {
+        console.log('still awaiting response from server')
+      } else if (this.invalidFields === 0){
         // if no errors, emit success event
         this.$emit('success')
-        this.loading = true;
+      } else {
+        console.log('fields are invalid')
       }
     },
     updateForm(fieldName, value) {
       this.$set(this.formData, fieldName, value);
       this.$emit("input", this.formData);
     },
-    updateErrors() {
+    updateErrors(value) {
       console.log('updating Errors')
+      if (value === "valid") {
+        console.log('is valid')
+        this.invalidFields++
+      } else if (value === "error") {
+        this.invalidFields--
+        console.log('is error')
+      }
     }
   }
 }

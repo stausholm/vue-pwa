@@ -30,8 +30,8 @@
           </button>
         </div>
 
-        <form-generator :schema="schema" v-model="formData" v-if="showEmailForm" @success="login">
-          slot content
+        <form-generator :loading="loading" :schema="schema" v-model="formData" v-if="showEmailForm" @success="login">
+          <span v-if="loading">LOADING</span> slot content
         </form-generator>
         <!-- <form @submit.prevent="login" v-if="showEmailForm">
           <div class="input-group">
@@ -53,6 +53,11 @@
           </div>
         </form> -->
       </div>
+
+      <p v-if="serverError">{{errorMsg}}</p>
+      <p v-if="formSuccess">Form was submitted succesfully</p>
+      <p v-if="loading">Loading...</p>
+
       <router-link to="/register" class="link-other-form">Register new account</router-link>
       
       <p class="footnote">Your privacy is important to us. We handle all data with great care, and use the information you provide, to enhance and personalize your experience.
@@ -90,7 +95,7 @@ export default {
           placeholder: 'johndoe@example.com',
           helper: 'your email is your username',
           //dumb: true,
-          autofocus: true,
+          //autofocus: true,
           validations: {
             minLength: 20,
             maxLength: {
@@ -105,15 +110,30 @@ export default {
           label: 'Password'
         }
       ],
-      showEmailForm: false
+      showEmailForm: false,
+      serverError: null,
+      errorMsg: null,
+      formSuccess: null,
+      loading: false
     }
   },
   methods: {
     login() {
       console.log('trying to login')
+      this.loading = true;
+
       this.$store.dispatch('login', this.formData)
-      .then(() => this.$router.push('/'))
-      .catch(err => console.log(err))
+      .then(() => {
+        this.loading = false;
+        this.formSuccess = true;
+        this.$router.push('/')
+      })
+      .catch(err => {
+        console.log(err)
+        this.loading = false;
+        this.serverError = true;
+        this.errorMsg = err.message;
+      })
     }
   }
 }

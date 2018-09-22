@@ -31,75 +31,26 @@ import IconBase from '@/components/icons/IconBase';
 import IconVisibilityOff from '@/components/icons/outline/IconVisibilityOff';
 import IconVisibility from '@/components/icons/outline/IconVisibility';
 
+import { formValidation } from '@/mixins/formValidation';
+
 export default {
   name: 'PasswordInput',
+  mixins: [formValidation],
   components: {
     IconBase, IconVisibilityOff, IconVisibility
   },
   props: {
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    label: {
-      type: String,
-      default: ''
-    },
-    name: {
-      type: String,
-      default: ''
-    },
-    value: {
-      type: String,
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: true
-    },
-    helper: {
-      type: String,
-      default: ''
-    },
-    autofocus: {
-      type: Boolean,
-      default: false
-    }
+    
   },
   data() {
     return {
-      classObject: {
-        focused: false,
-        error: false,
-        'has-content': false,
-        disabled: false
-      },
-      errorText: "",
       inputType: "password"
     }
   },
   computed: {
-    classes() {
-      return {
-        focused: this.classObject.focused,
-        error: this.classObject.error,
-        'has-content': this.value,
-        disabled: this.disabled
-      }
-    },
-    helperText() {
-      return this.errorText ? this.errorText : this.helper;
-    }
+    
   },
   methods: {
-    blur() {
-      this.classObject.focused = false;
-      
-    },
     toggleVisibility() {
       //this.classObject.focused = true;
       //this.$refs.inputField.focus(); // will this make onscreen keyboard be wonky?

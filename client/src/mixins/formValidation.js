@@ -11,6 +11,10 @@ export const formValidation = {
     }
   },
   props: {
+    submitAttempted: { // updated when a form is submitted via formgenerator component
+      type: Boolean,
+      default: false
+    },
     dumb: { // ignore all form validation and required 
       type: Boolean,
       default: false
@@ -127,7 +131,7 @@ export const formValidation = {
       }
       return {
         focused: this.classObject.focused,
-        error: !this.isValid && this.hasBlurredOnce,
+        error: !this.isValid && this.hasBlurredOnce || !this.isValid && this.submitAttempted,
         'has-content': this.value,
         disabled: this.disabled,
         valid: this.isValid
@@ -138,7 +142,13 @@ export const formValidation = {
         // show 'Optional' if input is not required. input can still be invalid even though it's not a required field
         return 'Optional'
       }
-      return this.errorText && this.hasBlurredOnce ? this.errorText : this.helper;
+
+      if (this.isValid) {
+        return 'Valid - ' + this.helper;
+      }
+
+      // this.errorText has to be something else than '', and the user has to have blurred the field once, or attempted to submit the form once
+      return this.errorText && this.hasBlurredOnce || this.errorText && this.submitAttempted ? this.errorText : this.helper;
     }
   },
   methods: {
@@ -150,5 +160,17 @@ export const formValidation = {
       console.log('inside someValidationFunction')
       return false;
     }
+  },
+  watch: { // let parent know if field is valid
+    isValid() {
+      let valid = this.isValid ? "valid" : "error";
+      console.log(valid)
+      this.$emit(valid, valid)
+    }
+  },
+  created() { // let parent know if field is valid oncreate.
+    let valid = this.isValid ? "valid" : "error";
+    console.log(valid)
+    this.$emit(valid, valid)
   }
 }
