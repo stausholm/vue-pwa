@@ -11,6 +11,10 @@ export const formValidation = {
     }
   },
   props: {
+    dumb: { // ignore all form validation and required 
+      type: Boolean,
+      default: false
+    },
     placeholder: {
       type: String,
       default: ''
@@ -54,6 +58,10 @@ export const formValidation = {
   },
   computed: {
     isValid() {
+      if (this.dumb) {
+        return true;
+      }
+
       if (this.required && !this.value) {
         this.errorText = 'Field required';
         return false;
@@ -108,6 +116,15 @@ export const formValidation = {
       return true;
     },
     classes() {
+      if (this.dumb) {
+        return {
+          focused: this.classObject.focused,
+          error: false,
+          'has-content': this.value,
+          disabled: false,
+          valid: false
+        }
+      }
       return {
         focused: this.classObject.focused,
         error: !this.isValid && this.hasBlurredOnce,

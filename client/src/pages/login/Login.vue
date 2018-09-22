@@ -89,6 +89,7 @@ export default {
           label: 'Email Address',
           placeholder: 'johndoe@example.com',
           helper: 'your email is your username',
+          //dumb: true,
           autofocus: true,
           validations: {
             minLength: 20,

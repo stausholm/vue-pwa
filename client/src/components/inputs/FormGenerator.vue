@@ -82,6 +82,7 @@ export default {
  * @param helper - String, Helper text to be displayed with the input field
  * @param autofocus - Boolean, autofocus this input when the form is loaded
  * @param validations - object with validations for the input field. Example below
+ * @param dumb - Boolean, Ignore all form validations and required value for the input field
  * 
  * validations: {
  *    minLength: 4, //min length of string
