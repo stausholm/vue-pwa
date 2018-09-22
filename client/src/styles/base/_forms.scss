@@ -123,6 +123,11 @@
 
         }
       }
+
+      textarea.input-item {
+        min-height: 100px;
+      }
+
       .password-visibility-button {
         background: none;
         border: 0;
@@ -143,7 +148,6 @@
   }  
 }
 
-
 //has-content styles
 .input-group.has-content {
   .input-label {
@@ -151,7 +155,6 @@
     transform-origin: top left;
   }
 }
-
 
 //focused styles
 .input-group.focused {
@@ -167,8 +170,6 @@
   }
 }
 
-
-
 //error styles
 .input-group.error {
   .input-label, .helper-text, .fieldset-label {
@@ -179,8 +180,6 @@
     border-bottom-color: $color-danger;
   }
 }
-
-
 
 //success styles
 .input-group.valid {
@@ -193,8 +192,6 @@
   }
 }
 
-
-
 //disabled styles
 .input-group.disabled {
   * {
@@ -206,11 +203,146 @@
   .input-wrapper:before {
     border-bottom: 1px dotted $text-disabled-color;
   }
+  .select-wrapper {
+    .input-item {
+      cursor: default;
+    }
+    svg {
+      color: $text-disabled-color;
+    }
+  }
 }
-
-
 
 // hover styles when no state is active
 .input-group:not(.focused):not(.error):not(.disabled) .input-wrapper:hover:before {
   border-bottom: 2px solid $text-primary-color;
+}
+
+
+
+
+
+
+
+
+// Radio button group
+fieldset.input-group {
+  .fieldset-label {
+    color: $text-secondary-color;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .fieldset-input-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    label {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      font-size: 0.875rem;
+      color: $text-primary-color;
+      cursor: pointer;
+
+      input {
+        margin-right: $default-spacing;
+      }
+    }
+  }
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  border: 2px solid $text-secondary-color;
+  box-shadow: inset 0 0 0 2px $white, inset 0 0 0 0px $primary-color;
+  transition: 0.2s box-shadow ease-out;
+  outline: none;
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: 0 0 0px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+input[type="radio"]:checked {
+  border-color: $text-secondary-color;
+  box-shadow: inset 0 0 0 2px $white, inset 0 0 0 10px $text-secondary-color;
+}
+
+//disabled styles
+fieldset.input-group.disabled {
+  legend {
+    color: $text-disabled-color;
+  }
+  label {
+    color: $text-disabled-color;
+    cursor: default;
+
+    input {
+      border-color: $text-disabled-color;
+      cursor: default;
+    }
+  }
+}
+
+//focused styles
+fieldset.input-group.focused {
+  .fieldset-label {
+    color: $primary-color;
+  }
+
+  input[type="radio"]:checked {
+    border-color: $primary-color;
+    box-shadow: inset 0 0 0 2px $white, inset 0 0 0 10px $primary-color;
+  }
+}
+
+
+
+
+
+
+
+// native select list
+.select-wrapper {
+  width: 100%;
+  position:relative;
+
+  .input-item {
+    width: 100%;
+    cursor: pointer;
+    min-width: 16px;
+    user-select: none;
+    padding-right: 32px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    &:focus {
+      border-radius: 0;
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  svg {
+    top: calc(50% - 12px);
+    right: 0;
+    color: rgba(0, 0, 0, 0.54);
+    position: absolute;
+    pointer-events: none;
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 24px;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    user-select: none;
+    flex-shrink: 0;
+  }
 }

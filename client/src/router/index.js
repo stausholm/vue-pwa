@@ -8,6 +8,7 @@ import Register from '@/pages/register/Register'
 import Example from '@/pages/example/Example'
 import ExampleWithAuth from '@/pages/example/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/example/ExampleWithAuthRole'
+import ExampleInputs from '@/pages/example/ExampleInputs'
 import Account from '@/pages/account/Account'
 import ErrorPage from '@/pages/error/ErrorPage'
 import Search from '@/pages/search/Search'
@@ -135,6 +136,14 @@ let router = new Router({
         requiresAuth: true,
         is_role: true,
         allowedRoles: ['admin', 'premium', 'basic']
+      }
+    },
+    {
+      path: '/exampleinputs',
+      name: 'ExampleInputs',
+      component: ExampleInputs,
+      meta: {
+
       }
     },
     {

@@ -26,10 +26,16 @@
 import TextInput from './TextInput';
 import EmailInput from './EmailInput';
 import PasswordInput from './PasswordInput';
+import TextArea from './TextArea';
+import RadioGroup from './RadioGroup';
+import SelectList from './SelectList';
+import Checkbox from './Checkbox';
+import CheckboxGroup from './CheckboxGroup';
+import PasswordWithConfirm from './PasswordWithConfirmInput';
 
 export default {
   name: 'FormGenerator',
-  components: {TextInput, EmailInput, PasswordInput},
+  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordWithConfirm},
   props: {
     schema: {
       type: Array
@@ -75,10 +81,13 @@ export default {
       this.$set(this.formData, fieldName, value);
       this.$emit("input", this.formData);
     },
-    updateErrors(value) {
+    updateErrors(value, isDisabled, isDumb, caller) {
+      // TODO: Redo this
       console.log('updating Errors')
-      if (value === "valid") {
+      if (value === "valid" && !isDisabled && !isDumb && caller === 'watch') {
         console.log('is valid')
+        // we only want to increment for each field that is valid while not being disabled or dumb. 
+        // if the value is valid on created(), we don't want to increment
         this.invalidFields++
       } else if (value === "error") {
         this.invalidFields--
@@ -90,7 +99,7 @@ export default {
 
 /**
  * @param fieldType - the specific name of the component to be rendered. Used by component :is="fieldType"
- * @param name - String, specify the name of the input. Useful for browser autocompletion
+ * @param name - String, specify the name of the input. Useful for browser autocompletion. Also used for modelbinding to object
  * @param label - String, frontend label text for the input
  * @param placeholder - String, placeholder text inside input
  * @param required - Boolean, input should be required. Defaults to true

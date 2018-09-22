@@ -32,7 +32,7 @@ export const formValidation = {
       default: ''
     },
     value: {
-      type: String,
+      type: [String, Array],
       default: ''
     },
     disabled: {
@@ -62,7 +62,7 @@ export const formValidation = {
   },
   computed: {
     isValid() {
-      if (this.dumb) {
+      if (this.dumb || this.disabled) {
         return true;
       }
 
@@ -134,7 +134,7 @@ export const formValidation = {
         error: !this.isValid && this.hasBlurredOnce || !this.isValid && this.submitAttempted,
         'has-content': this.value,
         disabled: this.disabled,
-        valid: this.isValid
+        valid: this.isValid && !this.disabled // disabled inputs should only be able to use 'has-content' and 'disabled' classes
       }
     },
     helperText() {
@@ -143,7 +143,7 @@ export const formValidation = {
         return 'Optional'
       }
 
-      if (this.isValid) {
+      if (this.isValid && !this.dumb) {
         return 'Valid - ' + this.helper;
       }
 
@@ -165,12 +165,12 @@ export const formValidation = {
     isValid() {
       let valid = this.isValid ? "valid" : "error";
       console.log(valid)
-      this.$emit(valid, valid)
+      this.$emit(valid, valid, this.disabled, this.dumb, 'watch')
     }
   },
   created() { // let parent know if field is valid oncreate.
     let valid = this.isValid ? "valid" : "error";
-    console.log(valid)
-    this.$emit(valid, valid)
+    console.log(valid, this.name, this.disabled, this.dumb)
+    this.$emit(valid, valid, this.disabled, this.dumb, 'created')
   }
 }

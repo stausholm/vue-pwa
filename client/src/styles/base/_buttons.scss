@@ -16,7 +16,7 @@
   transition: background-color .15s ease;
   user-select: none;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: $primary-color-light;
   }
 

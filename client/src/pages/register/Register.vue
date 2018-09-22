@@ -35,7 +35,7 @@
         </div>
 
         <form @submit.prevent="register" v-if="showEmailForm">
-          <text-input v-model="name" name="name" label="Name" :autofocus="true"/>
+          <text-input v-model="name" name="name" label="Name" :dumb="true" :autofocus="true"/>
 
           <email-input v-model="email" name="email" label="Email Address" />
           
