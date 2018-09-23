@@ -11,7 +11,7 @@
 html {
   $header-color: $primary-color;
   $footer-color: $light-grey;
-  background-color: $black; // seen when overscrolling the page on IOS
+  background-color: $black; // seen when overscrolling the page on IOS. Apparently only works with solid colors?
   background: linear-gradient(to bottom, rgba($header-color,1) 0%,rgba($header-color,1) 50%,rgba($footer-color,1) 51%,rgba($footer-color,1) 100%);
   background-attachment: fixed;
 }

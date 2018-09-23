@@ -32,10 +32,11 @@ import SelectList from './SelectList';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
 import PasswordWithConfirm from './PasswordWithConfirmInput';
+import SliderInput from './SliderInput';
 
 export default {
   name: 'FormGenerator',
-  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordWithConfirm},
+  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordWithConfirm, SliderInput},
   props: {
     schema: {
       type: Array
@@ -118,6 +119,8 @@ export default {
  *    maxLength: 2, //max length of string
  *    minValue: 11, //min value of number
  *    maxValue: 12, //max value of number
+ *    minChecked: 4, //min ammount of checked checkboxes in checkboxgroup
+ *    maxChecked: 6, //max ammount of checked checkboxes in checkboxgroup
  *    custom: [
  *      {
  *        value: /asd|dsa/g, //regex to match
@@ -132,6 +135,9 @@ export default {
  * input specific
  * @param options - Array of string values to be used with radiogroups, checkboxgroups and select lists
  * @param checked - Boolean value, determines if checkbox/toggleswitch should be checked
+ * @param min - Number, for range slider min value - default 0
+ * @param max - Number, for range slider max value - default 100
+ * @param steps - Number, range slider step
  */
 
 </script>

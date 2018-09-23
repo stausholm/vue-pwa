@@ -346,3 +346,13 @@ fieldset.input-group.focused {
     flex-shrink: 0;
   }
 }
+
+
+input[type="checkbox"]:disabled {
+  + span {
+    cursor: default;
+    color: $text-disabled-color;
+  }
+}
+
+@import '../inputs/rangeinput';

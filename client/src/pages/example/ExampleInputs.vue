@@ -30,7 +30,8 @@ export default {
         bio: "yo",
         favoriteFruit: "apple",
         newsletter: "true",
-        recentStores: ["KFC"]
+        recentStores: ["KFC"],
+        //rating: "2"
       },
       schema: [
         {
@@ -88,11 +89,28 @@ export default {
           name: 'recentStores',
           label: 'Recently visited stores',
           helper: 'Check the stores you\'ve visited in the past month',
-          options: ["Burger King", "KFC", "MC Donalds"]
+          options: ["Burger King", "KFC", "MC Donalds"],
+          //disabled: true,
+          validations: {
+            minChecked: 2,
+            maxChecked: {
+              value: 4,
+              message: 'custom maxChecked error message'
+            }
+          }
         },
         //{
           //fieldType: 'PasswordWithConfirm'
-        //}
+        //},
+        {
+          fieldType: 'SliderInput',
+          name: 'rating',
+          label: 'Slider rating',
+          helper: 'On a scale from 1 to 5, rate this slider',
+          min: 1,
+          max: 5,
+          step: 0.5
+        }
       ],
     }
   },
