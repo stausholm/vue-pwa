@@ -32,7 +32,7 @@ export const formValidation = {
       default: ''
     },
     value: {
-      type: [String, Array],
+      type: [String, Array, Boolean], // arrays for checkbox groups, boolean for single checkboxes
       default: ''
     },
     disabled: {

@@ -29,7 +29,7 @@ export default {
         gender: "Female",
         bio: "yo",
         favoriteFruit: "apple",
-        newsletter: "true",
+        //newsletter: true,
         recentStores: ["KFC"],
         //rating: "2"
       },
@@ -102,15 +102,15 @@ export default {
         //{
           //fieldType: 'PasswordWithConfirm'
         //},
-        {
-          fieldType: 'SliderInput',
-          name: 'rating',
-          label: 'Slider rating',
-          helper: 'On a scale from 1 to 5, rate this slider',
-          min: 1,
-          max: 5,
-          step: 0.5
-        }
+        // {
+        //   fieldType: 'SliderInput',
+        //   name: 'rating',
+        //   label: 'Slider rating',
+        //   helper: 'On a scale from 1 to 5, rate this slider',
+        //   min: 1,
+        //   max: 5,
+        //   step: 0.5
+        // }
       ],
     }
   },

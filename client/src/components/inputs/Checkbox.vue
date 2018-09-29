@@ -1,17 +1,17 @@
 <template>
-  <div :class="[isInGroup ? '' : 'input-group', classes]">
+  <div class="input-group" :class="classes">
     <label>
       <input type="checkbox"
         :name="name"
         :value="value"
         :disabled="disabled"
-        :checked="value === 'true'"
+        :checked="value === true"
         @input="updateChecked($event.target.checked)"
         @focus="classObject.focused = true"
-        @blur="blur"> <!-- @input="updateChecked($event.target.checked)" -->
+        @blur="blur">
       {{label}}
     </label>
-    <p class="helper-text" v-if="!isInGroup">{{helperText}}</p>
+    <p class="helper-text" >{{helperText}}</p>
   </div>
 </template>
 
@@ -22,37 +22,25 @@ export default {
   name: 'Checkbox',
   mixins: [formValidation],
   props: {
-    isInGroup: {
+    required: { // overwrite default required behaviour, as it is most common for checkboxes not to be required, unless it's a "i accept"
       type: Boolean,
       default: false
-    },
-    dumb: {
-      type: Boolean,
-      default: true
     }
   },
   methods: {
     updateChecked(checked) {
-      //const VAL = checked ? this.name : ''; // current prop validation only accepts string values
-      const VAL = checked ? 'true' : 'false';
-      this.$emit('input', VAL)
+      this.$emit('input', checked)
     }
   },
   computed: {
-    bean() {
-      return this.name;
-    },
     isValid() { // overwrite default validation checks
-      return true;
-    },
-    classes() {
-      return {
-        focused: this.classObject.focused,
-        disabled: this.disabled
+      if (this.required && !this.value) {
+        this.errorText = 'Field required';
+        return false;
       }
-    },
-    helperText() {
-      return this.helper;
+
+      this.errorText = '';
+      return true;
     }
   }
 }
