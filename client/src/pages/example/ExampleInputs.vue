@@ -89,10 +89,11 @@ export default {
           name: 'recentStores',
           label: 'Recently visited stores',
           helper: 'Check the stores you\'ve visited in the past month',
-          options: ["Burger King", "KFC", "MC Donalds"],
+          options: ["Burger King", "KFC", "MC Donalds", "Dunkin donuts", "Sunset Boulevard"],
           //disabled: true,
+          //required: false,
           validations: {
-            minChecked: 2,
+            //minChecked: 2,
             maxChecked: {
               value: 4,
               message: 'custom maxChecked error message'

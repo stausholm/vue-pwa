@@ -61,7 +61,7 @@ export default {
     return {
       formData: this.value || {}, // populate form with data, if exists
       invalidFields: 0,
-      submitAttempted: false
+      submitAttempted: false // tell children if they should show error styles
     }
   },
   methods: {
@@ -134,7 +134,6 @@ export default {
  * 
  * input specific
  * @param options - Array of string values to be used with radiogroups, checkboxgroups and select lists
- * @param checked - Boolean value, determines if checkbox/toggleswitch should be checked
  * @param min - Number, for range slider min value - default 0
  * @param max - Number, for range slider max value - default 100
  * @param steps - Number, range slider step

@@ -2,23 +2,11 @@
   <fieldset class="input-group" :class="classes">
     <legend class="fieldset-label">{{label}}</legend>
     <div class="fieldset-input-wrapper">
-      <!-- <checkbox v-for="(option, index) in options" :key="index" :isInGroup="true"/> -->
-      <!-- <label v-for="(option, index) in options" :key="index">
-        <input type="checkbox" 
-          :value="option"
-          :name="name"
-          :checked="values.includes(option)"
-          @bean="bean($event.target.value, $event.target.checked)"
-          @input="$emit('input',$event.target.value)"
-          >
-        {{option}}
-      </label> -->
-
       <label v-for="(option, index) in options" :key="index">
         <input type="checkbox"
           :name="name"
           :value="option"
-          :disabled="disabled || values.length >= maxChecked && !values.includes(option)" 
+          :disabled="maxChecked && !disabled ? values.length >= maxChecked && !values.includes(option) : disabled" 
           v-model="values"
           @change="updateValue"
           @focus="classObject.focused = true"
@@ -33,24 +21,13 @@
 </template>
 
 <script>
-// i think it would be a whole lot easier just to reimplement checkboxes here, instead of trying to use checkbox component
-import Checkbox from './Checkbox';
 import { formValidation } from '@/mixins/formValidation';
+
 export default {
   name: 'CheckboxGroup',
   mixins: [formValidation],
-  components: {
-    Checkbox
-  },
   props: {
-    // minChecked: {
-    //   type: Number,
-    //   default: 0
-    // },
-    // maxChecked: {
-    //   type: Number,
-    //   default: 0
-    // }
+
   },
   data() {
     return {
@@ -69,8 +46,9 @@ export default {
         return false;
       }
 
-      if (this.minChecked) {
-
+      if (this.values.length < this.minChecked) {
+        this.errorText = ''; // we just use checkedMessage to show a helping text allways
+        return false;
       }
 
       this.errorText = '';
@@ -78,45 +56,42 @@ export default {
     },
     minChecked() {
       if (this.validations.minChecked) {
-        return true
+        return this.validations.minChecked.value ? this.validations.minChecked.value : this.validations.minChecked;
       }
-      return false;
-      //return 0;
+      // if this.validations.minChecked is set to 0, it will also return false. 
+      // It will however return true if this.validations.minChecked is an object where value property is 0
+      return false; 
     },
     maxChecked() {
-      return 2;
       if (this.validations.maxChecked) {
-        return true;
+        return this.validations.maxChecked.value ? this.validations.maxChecked.value : this.validations.maxChecked;
       }
       return false;
-      //return this.options.length;
     },
     checkedMessage() {
       if (this.minChecked && !this.maxChecked) {
-        return "please select at least X"
+        if (this.validations.minChecked.message) { // we have a custom message
+          return this.validations.minChecked.message;
+        }
+        return `please select at least ${this.minChecked}`;
       }
       if (!this.minChecked && this.maxChecked) {
-        return "Select up to X"
+        if (this.validations.maxChecked.message) {
+          return this.validations.maxChecked.message;
+        }
+        return `select up to ${this.maxChecked}`;
       }
       if (this.minChecked && this.maxChecked) {
-        return "please select between X and X options"
+        return `please select between ${this.minChecked} and ${this.maxChecked}`;
       }
       return false;
     }
   },
   methods: {
-    bean(val, check) {
-      console.log(val, check)
-    },
     updateValue() {
-      console.log('updatevalue', this.values);
+      //console.log('updatevalue', this.values);
       this.$emit('input', this.values)
     }
-  },
-  watch: {
-    // values() {
-    //   this.$emit('input', this.values)
-    // }
   }
 }
 </script>
