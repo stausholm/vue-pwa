@@ -30,7 +30,7 @@ export default {
         bio: "yo",
         favoriteFruit: "apple",
         //newsletter: true,
-        recentStores: ["KFC"],
+        //recentStores: ["KFC"],
         //rating: "2"
       },
       schema: [
@@ -96,7 +96,7 @@ export default {
             //minChecked: 2,
             maxChecked: {
               value: 4,
-              message: 'custom maxChecked error message'
+              message: 'select up to 4 stores!'
             }
           }
         },

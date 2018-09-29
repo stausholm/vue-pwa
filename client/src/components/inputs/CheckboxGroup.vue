@@ -10,7 +10,7 @@
           v-model="values"
           @change="updateValue"
           @focus="classObject.focused = true"
-          @blur="blur">
+          @blur="blur"> <!-- disabled is applied to elements that are not checked, if max allowed checkboxes have been checked -->
           <span>{{option}}</span>
       </label>
 

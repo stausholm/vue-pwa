@@ -1,6 +1,6 @@
 <template>
   <div class="input-group" :class="classes">
-    <label>
+    <label class="checkbox-label">
       <input type="checkbox"
         :name="name"
         :value="value"
@@ -9,7 +9,7 @@
         @input="updateChecked($event.target.checked)"
         @focus="classObject.focused = true"
         @blur="blur">
-      {{label}}
+      <span>{{label}}</span>
     </label>
     <p class="helper-text" >{{helperText}}</p>
   </div>
