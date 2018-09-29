@@ -104,6 +104,7 @@ export default {
  * @param label - String, frontend label text for the input
  * @param placeholder - String, placeholder text inside input
  * @param required - Boolean, input should be required. Defaults to true
+ * @param requiredMessage - String, overwrite default required message
  * @param disabled - Boolean, input should be disabled. Defaults to false
  * @param helper - String, Helper text to be displayed with the input field
  * @param autofocus - Boolean, autofocus this input when the form is loaded

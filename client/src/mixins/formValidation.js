@@ -43,6 +43,10 @@ export const formValidation = {
       type: Boolean,
       default: true
     },
+    requiredMessage: {
+      type: String,
+      default: ''
+    },
     helper: {
       type: String,
       default: ''
@@ -67,7 +71,7 @@ export const formValidation = {
       }
 
       if (this.required && !this.value) {
-        this.errorText = 'Field required';
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : 'Field required';
         return false;
       }
 
