@@ -1,13 +1,16 @@
 <template>
-  <div class="input-group">
+  <div class="input-group" :class="classes">
+    <label for="" class="slider-label">{{label}}</label>
     <input type="range" 
       :name="name"
-      :value="value"
+      :value="value || min"
       :min="min"
       :max="max"
       :step="step"
+      :disabled="disabled"
       @input="$emit('input', $event.target.value)">
-      {{value}}
+      {{value || 'no value selected'}}
+      <p class="helper-text">{{helperText}}</p>
   </div>
 </template>
 

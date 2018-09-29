@@ -422,4 +422,11 @@ fieldset.input-group.focused {
 }
 
 
-@import '../inputs/rangeinput';
+.slider-label {
+  color: $text-secondary-color;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+//@import '../inputs/rangeinput';
+@import '../inputs/inputrange';
