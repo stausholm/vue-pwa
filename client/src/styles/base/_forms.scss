@@ -182,7 +182,7 @@
 }
 
 //success styles
-.input-group.valid {
+.input-group.valid:not(.focused) {
   .input-label, .helper-text, .fieldset-label {
     color: $color-success;
   }
