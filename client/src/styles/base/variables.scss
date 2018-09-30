@@ -12,6 +12,11 @@ $font-size-h5: 1rem;
 $font-size-h6: 1rem;
 $font-size-small: 0.85rem;
 
+// https://makandracards.com/makandra/42500-sass-how-to-convert-an-rgba-color-to-its-rgb-look-alike
+@function rgba-to-rgb($rgba, $background: #fff) { // default to white background
+    @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
+}
+
 // colors
 $white: #ffffff;
 $black: #000000;
@@ -57,6 +62,10 @@ $text-primary-color: map-get($map: $dark-theme, $key: primary);
 $text-secondary-color: map-get($map: $dark-theme, $key: secondary);
 $text-disabled-color: map-get($map: $dark-theme, $key: disabled);
 
+$text-primary-color-noAlpha: rgba-to-rgb($text-primary-color, $body-bg);
+$text-secondary-color-noAlpha: rgba-to-rgb($text-secondary-color, $body-bg);
+$text-disabled-color-noAlpha: rgba-to-rgb($text-disabled-color, $body-bg);
+
 
 // elevation
 // @include elevation(1);
@@ -81,3 +90,4 @@ $text-disabled-color: map-get($map: $dark-theme, $key: disabled);
       box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   }
 }
+
