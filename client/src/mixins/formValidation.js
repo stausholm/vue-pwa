@@ -82,53 +82,13 @@ export const formValidation = {
         return false;
       }
 
-
-      // if we make this into a loop, the user can also define order of error messages, by order 
-      // in which they were placed in schema
-
-      // how about making the validation into functions instead of recreating loop all the time?
-      // if (this.validations.minLength) {
-      //   console.log('inside if')
-      //   if (!this.someValidationFunction()) {
-      //     return false;
-      //   }
-      // }
-      //console.log('after if')
-
-      if (this.validations.minLength && this.value) { // also check for this.value incase the field is not required but should still validate if user inputs something
-        if (!minLength(this)) {
-          return false
-        }
-      }
-
-      if (this.validations.maxLength && this.value) {
-        if (!maxLength(this)) {
-          return false
-        }
-      }
-
-      if (this.validations.minValue && this.value) {
-        if (!minValue(this)) {
-          return false
-        }
-      }
-
-      if (this.validations.maxValue && this.value) {
-        if (!maxValue(this)) {
-          return false
-        }
-      }
-
-      if (this.validations.email && this.value) {
-        if (!validEmail(this)) {
-          return false
-        }
-      }
-
-      if (this.validations.url && this.value) {
-        if (!validUrl(this)) {
-          return false
-        }
+      if (this.value) { // check for this.value incase the field is not required but should still validate if user inputs something
+        if (this.validations.minLength && !minLength(this)) return false;
+        if (this.validations.maxLength && !maxLength(this)) return false;
+        if (this.validations.minValue && !minValue(this)) return false;
+        if (this.validations.maxValue && !maxValue(this)) return false;
+        if (this.validations.email && !validEmail(this)) return false;
+        if (this.validations.url && !validUrl(this)) return false;
       }
 
       if (this.validations.custom && this.value) {
@@ -186,10 +146,6 @@ export const formValidation = {
     blur() {
       this.classObject.focused = false;
       this.hasBlurredOnce = true; 
-    },
-    someValidationFunction() {
-      console.log('inside someValidationFunction')
-      return false;
     }
   },
   watch: { // let parent know if field is valid
