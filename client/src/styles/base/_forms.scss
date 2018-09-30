@@ -212,6 +212,9 @@
       color: $text-disabled-color;
     }
   }
+  .slider-result {
+    color: $text-disabled-color;
+  }
 }
 
 // hover styles when no state is active
@@ -428,5 +431,5 @@ fieldset.input-group.focused {
   font-size: 1rem;
   line-height: 1;
 }
-//@import '../inputs/rangeinput';
+
 @import '../inputs/inputrange';

@@ -52,6 +52,8 @@ $ie-bottom-track-color: darken($track-color, $contrast) !default;
 
 @mixin disabled {
   cursor: not-allowed;
+  background-color: $text-disabled-color-noAlpha;
+  border-color: $text-disabled-color-noAlpha;
 }
 
 [type='range'] {
@@ -110,10 +112,11 @@ $ie-bottom-track-color: darken($track-color, $contrast) !default;
 
   &::-ms-track {
     @include track;
-    background: transparent;
-    border-color: transparent;
-    border-width: ($thumb-height / 2) 0;
-    color: transparent;
+    // removing these fixes slider in edge
+    // background: transparent;
+    // border-color: transparent;
+    // border-width: ($thumb-height / 2) 0;
+    // color: transparent;
   }
 
   &::-ms-fill-lower {
@@ -150,6 +153,7 @@ $ie-bottom-track-color: darken($track-color, $contrast) !default;
 
     &::-webkit-slider-runnable-track {
       @include disabled;
+      height: 1px;
     }
 
     &::-ms-fill-lower {

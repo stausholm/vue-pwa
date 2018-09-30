@@ -9,7 +9,7 @@
       :step="step"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)">
-      {{value || 'no value selected'}}
+      <span class="slider-result">{{value || 'no value selected'}}</span>
       <p class="helper-text">{{helperText}}</p>
   </div>
 </template>
@@ -21,10 +21,6 @@ export default {
   name: 'SliderInput',
   mixins: [formValidation],
   props: {
-    // value: {
-    //   type: Number,
-    //   default: 0
-    // },
     min: {
       type: Number,
       default: 0
