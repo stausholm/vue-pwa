@@ -125,7 +125,7 @@ export default {
  *    maxChecked: 6, //max ammount of checked checkboxes in checkboxgroup
  *    custom: [
  *      {
- *        value: /asd|dsa/g, //regex to match
+ *        value: /asd|dsa/, //regex to match. the g flag messes with current implementation that loops over the custom array
  *        message: "Value may only be asd or dsa"
  *      },
  *      {

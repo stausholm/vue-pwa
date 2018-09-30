@@ -1,3 +1,10 @@
+import { minLength } from './validators/minLength';
+import { maxLength } from './validators/maxLength';
+import { minValue } from './validators/minValue';
+import { maxValue } from './validators/maxValue';
+import { validEmail } from './validators/validEmail';
+import { validUrl } from './validators/validUrl';
+
 export const formValidation = {
   data() {
     return {
@@ -88,36 +95,56 @@ export const formValidation = {
       // }
       //console.log('after if')
 
-      if (this.validations.minLength) {
-        if (typeof this.validations.minLength === 'number') {
-          if (this.value.length < this.validations.minLength) {
-            this.errorText = `Use minimum ${this.validations.minLength} characters`;
-            return false;
-          }
-        } else {
-          // assume object with 'value' and 'message' properties
-          if (this.value.length < this.validations.minLength.value) {
-            this.errorText = this.validations.minLength.message;
-            return false;
-          }
+      if (this.validations.minLength && this.value) { // also check for this.value incase the field is not required but should still validate if user inputs something
+        if (!minLength(this)) {
+          return false
         }
       }
 
-      if (this.validations.maxLength) {
-        if (typeof this.validations.maxLength === 'number') {
-          if (this.value.length > this.validations.maxLength) {
-            this.errorText = `Use maximum ${this.validations.maxLength} characters`;
-            return false;
-          }
-        } else {
-          // assume object with 'value' and 'message' properties
-          if (this.value.length > this.validations.maxLength.value) {
-            this.errorText = this.validations.maxLength.message;
-            return false;
-          }
+      if (this.validations.maxLength && this.value) {
+        if (!maxLength(this)) {
+          return false
         }
       }
 
+      if (this.validations.minValue && this.value) {
+        if (!minValue(this)) {
+          return false
+        }
+      }
+
+      if (this.validations.maxValue && this.value) {
+        if (!maxValue(this)) {
+          return false
+        }
+      }
+
+      if (this.validations.email && this.value) {
+        if (!validEmail(this)) {
+          return false
+        }
+      }
+
+      if (this.validations.url && this.value) {
+        if (!validUrl(this)) {
+          return false
+        }
+      }
+
+      if (this.validations.custom && this.value) {
+        let invalid = false;
+
+        for (let obj of this.validations.custom) {
+          if (!obj.value.test(this.value)) {
+            this.errorText = obj.message;
+            invalid = true;
+            break;
+          }
+        }
+        if (invalid) {
+          return false;
+        }
+      }
 
 
       this.errorText = '';
