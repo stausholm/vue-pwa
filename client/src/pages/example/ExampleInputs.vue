@@ -106,11 +106,12 @@ export default {
           }
         },
         {
-          fieldType: 'PasswordConfirm',
+          fieldType: 'ConfirmInput',
           name: 'passwordConfirm',
           label: 'Confirm password',
           helper: 'bean',
-          match: 'password'
+          match: 'password',
+          type: 'password'
           //disabled: true
         },
         {

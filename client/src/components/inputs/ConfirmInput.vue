@@ -3,7 +3,7 @@
     <div class="input-group" :class="classes">
       <label for="" class="input-label">{{label}}</label>
       <div class="input-wrapper">
-        <input type="password" 
+        <input :type="type" 
           class="input-item"
           :value="value"
           @input="$emit('input', $event.target.value)"
@@ -30,6 +30,14 @@ export default {
     match: { // the name attribute of the input field to match
       type: String, 
       default: 'password'
+    },
+    matchMessage: { // the name attribute of the input field to match
+      type: String, 
+      default: 'Content does not match'
+    },
+    type: {
+      type: String,
+      default: 'text'
     }
   },
   data() {
@@ -57,7 +65,7 @@ export default {
         return false;
       }
       if (!this.contentMatches) {
-        this.errorText = 'Content doesnt match';
+        this.errorText = this.matchMessage;
         return false;
       }
 
@@ -71,7 +79,6 @@ export default {
     }
   },
   mounted() {
-    //this.inputToMatch = document.querySelector(`input[type="password"][name="${this.match}"]`) // this assumes that password input always will start out as type password, and not type text (toggle password visibility)
     this.inputToMatch = document.querySelector(`input[name="${this.match}"], select[name="${this.match}"]`) // works matching any string value input field, excluding radiobuttongroup
     this.inputToMatch.addEventListener('input', this.handleUpdateInMatched)
   },

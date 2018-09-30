@@ -41,7 +41,7 @@
           
           <password-input v-model="password" name="password" label="Password" />
 
-          <password-confirm v-model="password_confirmation" name="confirm" label="Confirm Password" match="email"/>
+          <confirm-input v-model="email_confirmation" name="confirm" label="Confirm Email" match="email" type="email" matchMessage="please make sure that both emails match"/>
 
           <div class="input-group">
               <button type="submit" class="btn">Register</button>
@@ -75,19 +75,19 @@ import HeroBlock from '@/components/hero/HeroBlock';
 import TextInput from '@/components/inputs/TextInput';
 import EmailInput from '@/components/inputs/EmailInput';
 import PasswordInput from '@/components/inputs/PasswordInput';
-import PasswordConfirm from '@/components/inputs/PasswordConfirmInput';
+import ConfirmInput from '@/components/inputs/ConfirmInput';
 
 export default {
   name: 'Register',
   components: {
-    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail, HeroBlock, TextInput, EmailInput, PasswordInput, PasswordConfirm
+    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail, HeroBlock, TextInput, EmailInput, PasswordInput, ConfirmInput
   },
   data() {
     return {
       name : "",
       email : "",
       password : "",
-      password_confirmation : "",
+      email_confirmation : "",
       is_admin : null,
       showEmailForm: false
     }

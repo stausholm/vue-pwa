@@ -31,13 +31,13 @@ import RadioGroup from './RadioGroup';
 import SelectList from './SelectList';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
-import PasswordConfirm from './PasswordConfirmInput';
+import ConfirmInput from './ConfirmInput';
 import SliderInput from './SliderInput';
 import NumberInput from './NumberInput';
 
 export default {
   name: 'FormGenerator',
-  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordConfirm, SliderInput, NumberInput},
+  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, ConfirmInput, SliderInput, NumberInput},
   props: {
     schema: {
       type: Array
@@ -139,6 +139,9 @@ export default {
  * @param min - Number, for range slider min value - default 0
  * @param max - Number, for range slider max value - default 100
  * @param steps - Number, range slider step
+ * @param type - String, for Confirminput. Defines what type of input it should be. Default 'text'
+ * @param match - String, for ConfirmInput. Defines what other inputfield it should match
+ * @param matchMessage - String, for ConfirmInput. Defines a message to show if it doesn't match
  */
 
 </script>
