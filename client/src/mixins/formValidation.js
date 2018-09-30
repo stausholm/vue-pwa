@@ -154,13 +154,13 @@ export const formValidation = {
   watch: { // let parent know if field is valid
     isValid() {
       let valid = this.isValid ? "valid" : "error";
-      console.log(valid)
+      console.log(this.name + ' input is now: ' + valid)
       this.$emit(valid, valid, this.disabled, this.dumb, 'watch')
     }
   },
   created() { // let parent know if field is valid oncreate.
     let valid = this.isValid ? "valid" : "error";
-    console.log(valid, this.name, this.disabled, this.dumb)
+    console.log(`${this.name} state on create: ${valid}. Disabled: ${this.disabled} Dumb: ${this.dumb}`)
     this.$emit(valid, valid, this.disabled, this.dumb, 'created')
   }
 }

@@ -85,15 +85,15 @@ export default {
     },
     updateErrors(value, isDisabled, isDumb, caller) {
       // TODO: Redo this
-      console.log('updating Errors')
+      //console.log('updating Errors')
       if (value === "valid" && !isDisabled && !isDumb && caller === 'watch') {
-        console.log('is valid')
-        // we only want to increment for each field that is valid while not being disabled or dumb. 
-        // if the value is valid on created(), we don't want to increment
-        this.invalidFields++
-      } else if (value === "error") {
+        //console.log('is valid')
+        // we only want to decrement for each field that is valid while not being disabled or dumb. 
+        // if the value is valid on created(), we don't want to decrement, so we check for caller === 'watch'
         this.invalidFields--
-        console.log('is error')
+      } else if (value === "error") {
+        this.invalidFields++
+        //console.log('is error')
       }
     }
   }
