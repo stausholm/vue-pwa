@@ -14,7 +14,10 @@ export const formValidation = {
         disabled: false
       },
       hasBlurredOnce: false,
-      errorText: ''
+      errorText: '',
+      defaultMessages: {
+        required: 'Field required'
+      }
     }
   },
   props: {
@@ -78,7 +81,7 @@ export const formValidation = {
       }
 
       if (this.required && !this.value) {
-        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : 'Field required';
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : this.defaultMessages.required;
         return false;
       }
 

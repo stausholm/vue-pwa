@@ -35,7 +35,7 @@ export default {
   computed: {
     isValid() { // overwrite default validation checks
       if (this.required && !this.value) {
-        this.errorText = 'Field required';
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : this.defaultMessages.required;
         return false;
       }
 

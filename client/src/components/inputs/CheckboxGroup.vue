@@ -42,12 +42,12 @@ export default {
       }
 
       if (this.required && this.values.length < 1) {
-        this.errorText = 'Field required';
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : this.defaultMessages.required;
         return false;
       }
 
       if (this.values.length < this.minChecked) {
-        this.errorText = ''; // we just use checkedMessage to show a helping text allways
+        this.errorText = ''; // we just use checkedMessage to show a helping text always
         return false;
       }
 
