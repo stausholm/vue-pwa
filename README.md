@@ -1,5 +1,5 @@
 # Vue PWA 
-> Comes with auth, simple mongodb, serviceworker, and vuex.
+> MEVN Comes with auth, simple mongodb, serviceworker, and vuex.
 
 ##Client Setup
 ``` bash

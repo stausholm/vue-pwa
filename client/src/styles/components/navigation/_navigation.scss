@@ -4,6 +4,7 @@
   height: $toolbar-height;
   @include z-index(toolbar);
   position: relative;
+  //transition: background-color .25s;
 
   &.fixed-header {
     position: fixed;
@@ -146,6 +147,23 @@
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
       top: 50%;
+    }
+  }
+}
+
+.page-header[data-navigation-layout="navigation-transparent-simple"] {
+  background: none;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transition: background-color .1s;
+
+  .route-title {
+    b {
+      opacity: 0;
+      transform: translateY(200%);
+      display: block;
     }
   }
 }

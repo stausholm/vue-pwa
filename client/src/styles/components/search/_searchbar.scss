@@ -1,26 +1,27 @@
+// default search bar 
 .search-container {
   min-width: 260px;
   position: relative;
+  @include z-index(searchbar);
 
   .search-input {
     width: 100%;
     border: 1px solid $white;
-    border-radius: 10px;
-    background: rgba($white, 1);
+    background: $white;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    border: 1px solid $light-grey;
     padding: 0 $default-spacing / 2;
 
     input {
       width: 100%;
-      height: 24px;
-      height: 100%;
-      font-size: .85rem;
+      height: 48px;
       background: none;
-      outline: 0;
       border: 0;
+      outline: 0;
       font-family: inherit;
+      font-size: inherit;
     }
     svg g {
       fill: $text-secondary-color;
@@ -29,28 +30,30 @@
 
   .search-suggestions {
     width: 100%;
-    //background: $white;
     color: $text-primary-color;
     max-height: 500px;
     overflow: auto;
     position: absolute;
-    top: calc(100% + 6px);
-    box-shadow: $box-shadow;
-    border-radius: 10px;
-    //border: 1px solid $light-grey;
+    top: 100%;
 
     ul {
       list-style-type: none;
 
       li {
-        padding: $default-spacing $default-spacing / 2;
+        background: $white;
         border-bottom: 1px solid $light-grey;
+        border-left: 1px solid $light-grey;
+        border-right: 1px solid $light-grey;
         cursor: pointer;
         display: flex;
         align-items: center;
-        background: $white;
+        padding: $default-spacing $default-spacing / 2;
 
         &:hover {
+          background-color: $light-grey;
+        }
+
+        &.search-highlighted-item {
           background-color: $light-grey;
         }
 
@@ -62,73 +65,114 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          //background: $light-grey;
         }
+      }
+    }
+  }
 
-        &.search-highlighted-item {
-          background-color: $light-grey;
+  .search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    //background: rgba($color: #000000, $alpha: .5);
+    z-index: -1;
+  }
+}
+
+
+// overwrites for searchbar in header (wide viewport)
+.header-buttons:not(.header-buttons--layout-small) {
+  .searchbar-in-nav {
+    .search-container {
+      .search-input {
+        border: 1px solid $white;
+        border-radius: 10px;
+
+        input {
+          height: 32px;
+        }
+      }
+
+      .search-suggestions {
+        top: calc(100% + 6px);
+        box-shadow: $box-shadow;
+        border-radius: 10px;
+        border: 1px solid $light-grey;
+
+        li {
+          border: 0;
         }
       }
     }
   }
 }
 
-.search-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba($color: #000000, $alpha: .5);
-  z-index: -1;
-}
 
-
-// tablet landscape
-@include breakpoint-max(ipad-landscape) {
-  .search-container {
-    position: absolute;
+// overwrites for searchbar in header (small viewport)
+.header-buttons--layout-small {
+  .btn-icon--search {
+    position: fixed;
+    left: 0;
+    z-index: 1;
+    svg > g {
+      fill: $text-secondary-color;
+    }
+  }
+  
+  .searchbar-in-nav {
+    position: fixed;
     top: 0;
-    left: 48px;
-    right: $default-spacing;
-    //height: 48px;
-    bottom: 0;
-    //background: green;
-    display: flex;
-    align-items: center;
-    
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-    .search-input {
-      //height: 100%;
+    left: 0;
+    right: 0;
+    height: $toolbar-height;
+    background: $white;
+    color: $text-primary-color;
+  
+    .search-container {
+      z-index: initial;
 
-      input {
-        font-size: 1rem;
+      .search-input {
+        height: $toolbar-height;
+        padding: 0;
+        padding-left: 48px;
+        border: 0;
+        border-radius: 0;
+
+        button {
+          width: 48px;
+          height: 48px;
+          min-width: 48px;
+        }
       }
-    }
+  
+      .search-suggestions {
+        max-height: none;
+        overflow: initial;
+        position: initial;
 
-    .search-suggestions {
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: $toolbar-height;
-      border-radius: 0;
-      bottom: 0;
-      box-shadow: none;
-
-      ul {
         li {
-          padding: $default-spacing 0;
-
+          border: 0;
+          padding: 0;
+          height: $toolbar-height;
+          
+          &:first-of-type {
+            border-top: 1px solid $light-grey;
+          }
+  
           .list-icon {
             width: 48px;
             height: 48px;
-            //background: $light-grey;
-            margin-right: 8px;
+            min-width: 48px;
+            min-height: 48px;
+            margin: 0;
           }
         }
+      }
+  
+      .search-overlay {
+        background: rgba($color: #000000, $alpha: .5);
       }
     }
   }

@@ -13,31 +13,27 @@
   box-shadow: $box-shadow;
   border-width: 1px;
   border-style: solid;
+  color: $white;
 
   &-info {
-    color: #0c5460;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
+    background-color: $color-info;
+    border-color: $color-info-dark;
   }
   &-primary {
-    background: $primary-color;
-    color: $primary-color-dark;
+    background-color: $primary-color;
     border-color: $primary-color-dark;
   }
   &-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
+    background-color: $color-danger;
+    border-color: $color-danger-dark;
   }
   &-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
+    background-color: $color-warning;
+    border-color: $color-warning-dark;
   }
   &-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+    background-color: $color-success;
+    border-color: $color-success-dark;
   }
   &-light {
     color: #818182;

@@ -4,34 +4,60 @@
       <h1>Login</h1>
       <div>
         <p class="text-secondary">Continue with</p>
-        <button class="btn-auth btn-auth--google">
-          <icon-base iconName="Google" iconColor="#fff" width="24" height="24">
-            <icon-logo-google />
-          </icon-base>
-          Google
-        </button>
-        <button class="btn-auth btn-auth--facebook">
-          <icon-base iconName="Facebook" iconColor="#fff" width="24" height="24">
-            <icon-logo-facebook />
-          </icon-base>
-          Facebook
-        </button>
+        <div class="input-group">
+          <button class="btn-auth btn-auth--google">
+            <icon-base iconName="Google" iconColor="#fff" width="24" height="24">
+              <icon-logo-google />
+            </icon-base>
+            Google
+          </button>
+        </div>
+        <div class="input-group">
+          <button class="btn-auth btn-auth--facebook">
+            <icon-base iconName="Facebook" iconColor="#fff" width="24" height="24">
+              <icon-logo-facebook />
+            </icon-base>
+            Facebook
+          </button>
+        </div>
         <span class="divider-with-text"><span>or</span></span>
-        <button class="btn-auth" @click="showEmailForm = !showEmailForm">
-          <icon-base iconName="Email" iconColor="#fff" width="24" height="24">
-            <icon-mail />
-          </icon-base>
-          Email
-        </button>
+        <div class="input-group">
+          <button class="btn-auth" @click="showEmailForm = !showEmailForm">
+            <icon-base iconName="Email" iconColor="#fff" width="24" height="24">
+              <icon-mail />
+            </icon-base>
+            Email
+          </button>
+        </div>
 
-        <form class="login" @submit.prevent="login" v-if="showEmailForm">
-          <label>Email</label>
-          <input required v-model="email" type="email" placeholder="Name"/>
-          <label>Password</label>
-          <input required v-model="password" type="password" placeholder="Password"/>
-          <button type="submit">Login</button>
-        </form>
+        <form-generator :loading="loading" :schema="schema" v-model="formData" v-if="showEmailForm" @success="login">
+          <span v-if="loading">LOADING</span> slot content
+        </form-generator>
+        <!-- <form @submit.prevent="login" v-if="showEmailForm">
+          <div class="input-group">
+            <label for="email" class="input-label">Email Address</label>
+            <div class="input-wrapper">
+              <input id="email" type="email" v-model="email" required autofocus class="input-item">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="password" class="input-label">Password</label>
+            <div class="input-wrapper">
+              <input id="password" type="password" v-model="password" required class="input-item">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <button type="submit" class="btn btn--responsive">Login</button>
+          </div>
+        </form> -->
       </div>
+
+      <p v-if="serverError">{{errorMsg}}</p>
+      <p v-if="formSuccess">Form was submitted succesfully</p>
+      <p v-if="loading">Loading...</p>
+
       <router-link to="/register" class="link-other-form">Register new account</router-link>
       
       <p class="footnote">Your privacy is important to us. We handle all data with great care, and use the information you provide, to enhance and personalize your experience.
@@ -48,25 +74,66 @@ import IconLogoGoogle from '@/components/icons/IconLogoGoogle';
 import IconLogoFacebook from '@/components/icons/IconLogoFacebook';
 import IconMail from '@/components/icons/IconMail';
 
+import FormGenerator from '@/components/inputs/FormGenerator';
+
 export default {
   name: 'Login',
   components: {
-    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail
+    IconBase, IconLogoGoogle, IconLogoFacebook, IconMail, FormGenerator
   },
   data() {
     return {
-      email: "",
-      password: "",
-      showEmailForm: false
+      formData: {
+        email: "",
+        password: ""
+      },
+      schema: [
+        {
+          fieldType: 'EmailInput',
+          name: 'email',
+          label: 'Email Address',
+          placeholder: 'johndoe@example.com',
+          helper: 'your email is your username',
+          //dumb: true,
+          //autofocus: true,
+          validations: {
+            minLength: 20,
+            maxLength: {
+              value: 30,
+              message: 'my custom error message'
+            }
+          }
+        },
+        {
+          fieldType: 'PasswordInput',
+          name: 'password',
+          label: 'Password'
+        }
+      ],
+      showEmailForm: false,
+      serverError: null,
+      errorMsg: null,
+      formSuccess: null,
+      loading: false
     }
   },
   methods: {
     login() {
-      let email = this.email 
-      let password = this.password
-      this.$store.dispatch('login', { email, password })
-      .then(() => this.$router.push('/'))
-      .catch(err => console.log(err))
+      console.log('trying to login')
+      this.loading = true;
+
+      this.$store.dispatch('login', this.formData)
+      .then(() => {
+        this.loading = false;
+        this.formSuccess = true;
+        this.$router.push('/')
+      })
+      .catch(err => {
+        console.log(err)
+        this.loading = false;
+        this.serverError = true;
+        this.errorMsg = err.message;
+      })
     }
   }
 }

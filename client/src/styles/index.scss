@@ -1,12 +1,15 @@
 // Base styles
+@import './vendors/normalize';
 @import './base/variables';
 @import './base/breakpoints';
 @import './base/base';
+@import './base/typography';
 // @import './base/fontAwesome';
 // @import './base/options';
 @import './base/z-index';
 @import './base/transitions';
 @import './base/buttons';
+@import './base/forms';
 
 // Forms
 // @import './forms/forms';
@@ -24,6 +27,8 @@
 @import './components/loader/loaderspinner';
 @import './components/search/searchbar';
 @import './components/notifications/notificationsmall';
+@import './components/hero/heroblock';
+@import './components/hero/heroblocksplit';
 // @import './components/toolbar';
 // @import './components/slideout';
 // @import './components/bottomnav';

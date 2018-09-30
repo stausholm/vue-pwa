@@ -16,8 +16,19 @@
   transition: background-color .15s ease;
   user-select: none;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: $primary-color-light;
+  }
+
+  &--large {
+    font-size: 1.2rem;
+    padding: $default-spacing $default-spacing * 2;
+  }
+
+  &--responsive {
+    @include breakpoint-max(sm) {
+      width: 100%;
+    }
   }
 
   &--cta {
@@ -86,6 +97,12 @@
     width: 48px;
     height: 48px;
   }
+  &--animate {
+    svg > g > g {
+      position: absolute;
+      transform-origin: center center;
+    }
+  }
 }
 
 .btn-account {
@@ -119,7 +136,7 @@
   border-radius: $default-border-radius;
   width: 100%;
   box-shadow: $box-shadow;
-  margin: $default-spacing 0;
+  //margin: $default-spacing 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -135,7 +152,7 @@
   }
   &--facebook {
     color: #FFF;
-    background-color: #385499;
+    background-color: #3b5998;
     box-shadow: 0 2px 8px 0 rgba(59, 89, 152,0.35);
 
     &:hover {

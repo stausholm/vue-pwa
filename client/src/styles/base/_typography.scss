@@ -1,0 +1,51 @@
+html {
+  font-size: $base-font-size;
+}
+
+body {
+  font-family: $system-font;
+  color: $text-primary-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: $base-line-height;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 {
+  font-size: $font-size-h1;
+}
+h2 {
+  font-size: $font-size-h2;
+}
+h3 {
+  font-size: $font-size-h3;
+}
+h4 {
+  font-size: $font-size-h4;
+}
+h5 {
+  font-size: $font-size-h5;
+}
+h6 {
+  font-size: $font-size-h6;
+}
+small {
+  font-size: $font-size-small;
+}
+
+.footnote {
+  font-size: $font-size-small;
+  color: $text-secondary-color;
+}
+
+.text-secondary {
+  color: $text-secondary-color;
+}
+
+a {
+  text-decoration: none;
+}
