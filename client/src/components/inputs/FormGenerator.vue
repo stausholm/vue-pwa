@@ -31,12 +31,12 @@ import RadioGroup from './RadioGroup';
 import SelectList from './SelectList';
 import Checkbox from './Checkbox';
 import CheckboxGroup from './CheckboxGroup';
-import PasswordWithConfirm from './PasswordWithConfirmInput';
+import PasswordConfirm from './PasswordConfirmInput';
 import SliderInput from './SliderInput';
 
 export default {
   name: 'FormGenerator',
-  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordWithConfirm, SliderInput},
+  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, PasswordConfirm, SliderInput},
   props: {
     schema: {
       type: Array

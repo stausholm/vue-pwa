@@ -28,7 +28,7 @@ export default {
         //password: "neato",
         gender: "Female",
         bio: "yo",
-        //favoriteFruit: "apple",
+        favoriteFruit: "apple",
         //newsletter: true,
         //recentStores: ["KFC"],
         rating: "2"
@@ -55,7 +55,7 @@ export default {
           fieldType: 'PasswordInput',
           name: 'password',
           label: 'Password',
-          disabled: true
+          //disabled: true
         },
         {
           fieldType: 'RadioGroup',
@@ -101,9 +101,14 @@ export default {
             }
           }
         },
-        //{
-          //fieldType: 'PasswordWithConfirm'
-        //},
+        {
+          fieldType: 'PasswordConfirm',
+          name: 'passwordConfirm',
+          label: 'Confirm password',
+          helper: 'bean',
+          match: 'password'
+          //disabled: true
+        },
         {
           fieldType: 'SliderInput',
           name: 'rating',
