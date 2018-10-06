@@ -9,6 +9,7 @@ import Example from '@/pages/example/Example'
 import ExampleWithAuth from '@/pages/example/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/example/ExampleWithAuthRole'
 import ExampleInputs from '@/pages/example/ExampleInputs'
+import ExampleDataList from '@/pages/example/ExampleDataList'
 import Account from '@/pages/account/Account'
 import ErrorPage from '@/pages/error/ErrorPage'
 import Search from '@/pages/search/Search'
@@ -142,6 +143,14 @@ let router = new Router({
       path: '/exampleinputs',
       name: 'ExampleInputs',
       component: ExampleInputs,
+      meta: {
+
+      }
+    },
+    {
+      path: '/exampledatalist',
+      name: 'ExampleDataList',
+      component: ExampleDataList,
       meta: {
 
       }
