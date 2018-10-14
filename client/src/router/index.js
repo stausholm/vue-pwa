@@ -35,8 +35,8 @@ Vue.use(Router)
 let router = new Router({
   //mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    console.log('inside scrollBehaviour')
-    console.log('is back or forwards button? ', to.meta.fromHistory = savedPosition !== null)
+    //console.log('inside scrollBehaviour')
+    //console.log('is back or forwards button? ', to.meta.fromHistory = savedPosition !== null)
 
     // https://github.com/quasarframework/quasar/issues/1466
     // https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
@@ -67,14 +67,14 @@ let router = new Router({
       //setTimeout(() => {
         if (savedPosition) {
           setTimeout(() => {
-            console.log('savedPosition',savedPosition)
+            //console.log('savedPosition',savedPosition)
             resolve(savedPosition);
           }, 200)
         } else if (to.hash) { // TODO: This works? 
-          console.log('hash', to.hash)
+          //console.log('hash', to.hash)
           resolve({selector: to.hash});
         } else {
-          console.log('none')
+          //console.log('none')
           resolve({ x: 0, y: 0 })
         }
       //}, 200)
@@ -116,10 +116,7 @@ let router = new Router({
     {
       path: '/example',
       name: 'Example',
-      component: Example,
-      meta: {
-
-      }
+      component: Example
     },
     {
       path: '/examplewithauth',
@@ -142,18 +139,12 @@ let router = new Router({
     {
       path: '/exampleinputs',
       name: 'ExampleInputs',
-      component: ExampleInputs,
-      meta: {
-
-      }
+      component: ExampleInputs
     },
     {
       path: '/exampledatalist',
       name: 'ExampleDataList',
-      component: ExampleDataList,
-      meta: {
-
-      }
+      component: ExampleDataList
     },
     {
       path: '/account',
@@ -197,47 +188,26 @@ let router = new Router({
   ]
 });
 
+
+import handlePageTitle from './middleware/pageTitle';
+import handleMetaTags from './middleware/metaTags';
+
 router.beforeEach((to, from, next) => {
   
   console.log('inside beforeEach', to)
-  // title
-  // This goes through the matched routes from last to first, finding the closest route with a title.
-  // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
-  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
-  // If a route with a title was found, set the document (page) title to that value.
-  //if(nearestWithTitle) document.title = nearestWithTitle.meta.title;
-  document.title = nearestWithTitle ? nearestWithTitle.meta.title : 'no nearest with title';
-
-  //meta tags
-  // Find the nearest route element with meta tags.
-  const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
-  const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
-
-  // Remove any stale meta tags from the document using the key attribute we set below.
-  Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
-
-  // there are meta tags
-  if(nearestWithMeta) {
-    // Turn the meta tag definitions into actual elements in the head.
-    nearestWithMeta.meta.metaTags.map(tagDef => {
-      const tag = document.createElement('meta');
-
-      Object.keys(tagDef).forEach(key => {
-        tag.setAttribute(key, tagDef[key]);
-      });
-
-      // We use this to track which meta tags we create, so we don't interfere with other ones.
-    tag.setAttribute('data-vue-router-controlled', '');
-
-    return tag;
-    }).forEach(tag => document.head.appendChild(tag));
-  }
-
+  handlePageTitle(to, 'fallback title');
+  handleMetaTags(to);
+  
+  // prevent navigating backwards if slideout menu is open, and close it instead
+  // if (store.getters.slideoutIsOpen) {
+  //   store.dispatch('changeSlideoutState', false);
+  //   next(false);
+  // } 
 
   // if (to.matched.some(record => record.meta.is_role)) { // is only for certain role
   //   if (store.getters.userRole)
   // }
-  if (to.matched.some(record => record.meta.allowedRoles)) { // allowed roles have been specified
+  if (to.matched.some(record => record.meta && record.meta.allowedRoles)) { // allowed roles have been specified
     if (store.getters.isLoggedIn && to.meta.allowedRoles.includes(store.getters.userRole)) { // user is logged in and, user's role is allowed on page
       next();
       return
@@ -251,7 +221,7 @@ router.beforeEach((to, from, next) => {
     })
     return
   }
-  if (to.matched.some(record => record.meta.requiresAuth)) { // auth is required for page
+  if (to.matched.some(record => record.meta && record.meta.requiresAuth)) { // auth is required for page
     if (store.getters.isLoggedIn) {
       next()
       return
@@ -260,7 +230,7 @@ router.beforeEach((to, from, next) => {
       path:'/login',
       query: {redirect: to.fullPath}
     }) 
-  } else if (to.matched.some(record => record.meta.guest)) { // page should only be shown to guests, such as /register or /login
+  } else if (to.matched.some(record => record.meta && record.meta.guest)) { // page should only be shown to guests, such as /register or /login
     if (store.getters.isLoggedIn) {
       next('/')
       return
