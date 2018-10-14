@@ -84,6 +84,7 @@
   min-width: 24px;
   min-height: 24px;
   border-radius: 50%;
+  transition: background-color .15s ease-out;
   
   svg {
     margin-bottom: -2px;
@@ -101,6 +102,19 @@
     svg > g > g {
       position: absolute;
       transform-origin: center center;
+    }
+  }
+
+  &--scale-on-active {
+    svg > g > g {
+      transition: transform .2s;
+      transform-origin: center center;
+    }
+
+    &:active {
+      svg > g > g {
+        transform: scale(.7);
+      }
     }
   }
 }

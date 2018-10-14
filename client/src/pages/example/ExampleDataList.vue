@@ -2,7 +2,10 @@
   <div>
     <div class="container--content">
       <h1>This is data table</h1>
+    </div>
+    <div class="container--content">
       <data-list :data="gridData" :columns="gridColumns"/>
+      <p style="margin: 200px 0;">MORE HEIGHT</p>
     </div>
   </div>
 </template>
