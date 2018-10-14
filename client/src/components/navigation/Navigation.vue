@@ -66,13 +66,14 @@ export default {
   },
   computed: {
     navigationLinks() {
-      return this.$router.options.routes.filter((route) => {
-        if (route.meta.allowedRoles) {
-          return route.meta.showInNav != false && route.meta.allowedRoles.includes(this.$store.getters.userRole);
-        } else {
-          return route.meta.showInNav != false;
-        }
-      });
+      console.log(this.$router.options)
+      return this.$router.options.routes
+        .filter((route) => { // only show routes where showInNav is not false
+          return route.meta ? route.meta.showInNav != false : route;
+        })
+        .filter((route) => { // only show routes allowed for the userrole
+          return route.meta && route.meta.allowedRoles ? route.meta.allowedRoles.includes(this.$store.getters.userRole) : route;
+        })
     },
     navigationLayout() {
       const defaultLayout = 'navigation-default'
