@@ -10,6 +10,7 @@ import ExampleWithAuth from '@/pages/example/ExampleWithAuth'
 import ExampleWithAuthRole from '@/pages/example/ExampleWithAuthRole'
 import ExampleInputs from '@/pages/example/ExampleInputs'
 import ExampleDataList from '@/pages/example/ExampleDataList'
+import ExampleGraphs from '@/pages/example/ExampleGraphs'
 import Account from '@/pages/account/Account'
 import ErrorPage from '@/pages/error/ErrorPage'
 import Search from '@/pages/search/Search'
@@ -147,6 +148,11 @@ let router = new Router({
       component: ExampleDataList
     },
     {
+      path: '/examplegraphs',
+      name: 'ExampleGraphs',
+      component: ExampleGraphs
+    },
+    {
       path: '/account',
       name: 'Account',
       component: Account,
@@ -194,7 +200,7 @@ import handleMetaTags from './middleware/metaTags';
 
 router.beforeEach((to, from, next) => {
   
-  console.log('inside beforeEach', to)
+  //console.log('inside beforeEach', to)
   handlePageTitle(to, 'fallback title');
   handleMetaTags(to);
   

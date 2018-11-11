@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     navigationLinks() {
-      console.log(this.$router.options)
+      //console.log(this.$router.options)
       return this.$router.options.routes
         .filter((route) => { // only show routes where showInNav is not false
           return route.meta ? route.meta.showInNav != false : route;
