@@ -1,7 +1,9 @@
+import defaultMessages from './validatorsDefaults'
+
 export function maxValue(scope) {
   if (typeof scope.validations.maxValue === 'number') {
     if (parseFloat(scope.value) > scope.validations.maxValue) { 
-      scope.errorText = `Maximum ${scope.validations.maxValue}`;
+      scope.errorText = defaultMessages.maxValue(scope.validations.maxValue);
       return false;
     }
   } else {

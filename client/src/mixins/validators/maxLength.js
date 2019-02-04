@@ -1,7 +1,9 @@
+import defaultMessages from './validatorsDefaults'
+
 export function maxLength(scope) {
   if (typeof scope.validations.maxLength === 'number') {
     if (scope.value.length > scope.validations.maxLength) {
-      scope.errorText = `Use maximum ${scope.validations.maxLength} characters`;
+      scope.errorText = defaultMessages.maxLength(scope.validations.maxLength);
       return false;
     }
   } else {

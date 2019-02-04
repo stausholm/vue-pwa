@@ -1,7 +1,9 @@
+import defaultMessages from './validatorsDefaults'
+
 export function minValue(scope) {
   if (typeof scope.validations.minValue === 'number') {
     if (parseFloat(scope.value) < scope.validations.minValue) { 
-      scope.errorText = `Minimum ${scope.validations.minValue}`;
+      scope.errorText = defaultMessages.minValue(scope.validations.minValue);
       return false;
     }
   } else {

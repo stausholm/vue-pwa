@@ -146,6 +146,9 @@ export default {
   },
   filters: {
     highlightmatch(words, query) {
+      if (!query) {
+        return words;
+      }
       const queryWords = `(${query.trim().split(' ').join('|')})`; 
       const re = new RegExp(queryWords, 'ig'); // /(ht|m|l)/gi
       return words.toString().replace(re, function(matchedTxt, a, b) {
