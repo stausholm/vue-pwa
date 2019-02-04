@@ -1,7 +1,9 @@
+import defaultMessages from './validatorsDefaults'
+
 export function minLength(scope) {
   if (typeof scope.validations.minLength === 'number') {
     if (scope.value.length < scope.validations.minLength) {
-      scope.errorText = `Use minimum ${scope.validations.minLength} characters`;
+      scope.errorText = defaultMessages.minLength(scope.validations.minLength);
       return false;
     }
   } else {

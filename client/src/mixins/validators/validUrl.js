@@ -1,3 +1,5 @@
+import defaultMessages from './validatorsDefaults'
+
 export function validUrl(scope) {
   // https://mathiasbynens.be/demo/url-regex
   // https://gist.github.com/dperini/729294
@@ -5,7 +7,7 @@ export function validUrl(scope) {
 
   if (!re.test(scope.value)) { 
     if (typeof scope.validations.url === 'boolean') {
-      scope.errorText = `${scope.value} is not a valid URL. Did you remember the http(s):// part?`;
+      scope.errorText = defaultMessages.validUrl(scope.value);
     } else {
       scope.errorText = scope.validations.url.message;
     }
