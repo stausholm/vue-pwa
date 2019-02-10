@@ -12,9 +12,8 @@
               :style="`stop-color:${graph.colorGradientFill2};stop-opacity:${graph.gradientFill2Opacity}`"/>
           </linearGradient>
         </defs>
-        <g>
+        <g v-if="graph.xLines">
           <line 
-            v-if="graph.xLines"
             v-for="n in graph.xLinesCount"
             :key="n"
             class="graph-line--horizontal"
@@ -26,9 +25,8 @@
             stroke-width="1">
           </line>
         </g>
-        <g>
+        <g v-if="graph.yLines">
           <line 
-            v-if="graph.yLines"
             v-for="(value, index) in graph.data"
             :key="'line' + index"
             class="graph-line--vertical"
@@ -65,19 +63,20 @@
           fill="none"
           vector-effect="non-scaling-stroke">
         </path>
-        <circle 
-          v-if="graph.dots"
-          v-for="(value, index) in graph.data"
-          :key="'dot' + index"
-          class="graph-dot"
-          :cx="index * verticalPositionMultiplier" 
-          :cy="getY1(value.y)" 
-          :r="graph.dotRadius" 
-          :fill="graph.colorDot" 
-          :stroke="graph.colorDotStroke" 
-          :stroke-width="graph.dotStrokeWeight" 
-          vector-effect="non-scaling-stroke">
-        </circle>
+        <g v-if="graph.dots">
+          <circle 
+            v-for="(value, index) in graph.data"
+            :key="'dot' + index"
+            class="graph-dot"
+            :cx="index * verticalPositionMultiplier" 
+            :cy="getY1(value.y)" 
+            :r="graph.dotRadius" 
+            :fill="graph.colorDot" 
+            :stroke="graph.colorDotStroke" 
+            :stroke-width="graph.dotStrokeWeight" 
+            vector-effect="non-scaling-stroke">
+          </circle>
+        </g>
         <text
           v-for="(value, index) in graph.data"
           :key="'dotlabel' + index"

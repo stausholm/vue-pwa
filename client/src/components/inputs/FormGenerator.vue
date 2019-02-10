@@ -141,6 +141,7 @@ export default {
  *    maxValue: 12, //max value of number
  *    minChecked: 4, //min ammount of checked checkboxes in checkboxgroup
  *    maxChecked: 6, //max ammount of checked checkboxes in checkboxgroup
+ *    maxSize: 10000 //max size in bytes for imageInput
  *    custom: [
  *      {
  *        value: /asd|dsa/, //regex to match. the g flag messes with current implementation that loops over the custom array
