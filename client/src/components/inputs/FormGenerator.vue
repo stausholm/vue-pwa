@@ -8,6 +8,7 @@
                 @input="updateForm(field.name, $event)"
                 @error="updateErrors"
                 @valid="updateErrors"
+                @file="setFile(field.name, $event)"
                 v-bind="field"
                 :submitAttempted="submitAttempted">
       </component>
@@ -34,10 +35,23 @@ import CheckboxGroup from './CheckboxGroup';
 import ConfirmInput from './ConfirmInput';
 import SliderInput from './SliderInput';
 import NumberInput from './NumberInput';
+import ImageInput from './ImageInput';
 
 export default {
   name: 'FormGenerator',
-  components: {TextInput, EmailInput, PasswordInput, TextArea, RadioGroup, SelectList, Checkbox, CheckboxGroup, ConfirmInput, SliderInput, NumberInput},
+  components: {
+    TextInput, 
+    EmailInput, 
+    PasswordInput, 
+    TextArea, 
+    RadioGroup, 
+    SelectList, 
+    Checkbox, 
+    CheckboxGroup, 
+    ConfirmInput, 
+    SliderInput, 
+    NumberInput,
+    ImageInput},
   props: {
     schema: {
       type: Array
@@ -95,6 +109,10 @@ export default {
         this.invalidFields++
         //console.log('is error')
       }
+    },
+    setFile(fieldName, value) {
+      this.$set(this.formData, fieldName + '__file', value);
+      this.$emit("input", this.formData);
     }
   }
 }

@@ -230,7 +230,7 @@
 
 
 // Radio button group
-fieldset.input-group {
+.fieldset-group.input-group {
   .fieldset-label {
     color: $text-secondary-color;
     padding: 0;
@@ -350,7 +350,7 @@ input[type="checkbox"] {
 
 
 //disabled styles
-fieldset.input-group.disabled {
+.fieldset-group.input-group.disabled {
   legend {
     color: $text-disabled-color;
   }
@@ -370,7 +370,7 @@ fieldset.input-group.disabled {
 }
 
 //focused styles
-fieldset.input-group.focused {
+.fieldset-group.input-group.focused {
   .fieldset-label {
     color: $primary-color;
   }
@@ -423,6 +423,81 @@ fieldset.input-group.focused {
     flex-shrink: 0;
   }
 }
+
+
+
+
+
+// image with preview
+.input-image {
+  .placeholder {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border-radius: $default-border-radius;
+    overflow: hidden;
+    margin-top: $default-spacing / 2;
+    color: $text-secondary-color;
+    user-select: none;
+
+    &__text {
+      padding: $default-spacing;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  &__preview {
+    width: 100%;
+    display: flex;
+    max-height: 100vh;
+    object-fit: contain;
+  }
+
+  &__preview-wrapper {
+    position: relative;
+
+    .wrapper-label {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: rgba($white,.7);
+      padding: $default-spacing / 4;
+      display: flex;
+      align-items: center;
+      border-top-left-radius: $default-border-radius;
+
+      svg {
+        margin-right: $default-spacing / 4;
+      }
+    }
+  }
+
+  &.disabled {
+    .placeholder {
+      // pointer-events: none;
+      color: $text-disabled-color;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      * {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+
+
+
 
 
 .slider-label {

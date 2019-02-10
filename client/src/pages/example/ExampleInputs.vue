@@ -7,6 +7,7 @@
       </form-generator>
     </div>
     <p style="margin-top:200px">more height!</p>
+    <image-input v-model="dummy" :required="false" label="yoyo" placeholder="placeholder" @file="dummy__file = $event"/>
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
@@ -16,13 +17,17 @@
 <script>
 import FormGenerator from '@/components/inputs/FormGenerator';
 
+import ImageInput from '@/components/inputs/ImageInput';
+
 export default {
   name: 'ExampleInputs',
   components: {
-    FormGenerator
+    FormGenerator, ImageInput
   },
   data() {
     return {
+      dummy: '',
+      dummy__file: null,
       formData: {
         email: "bob@bob.dk",
         //password: "neato",
@@ -148,6 +153,15 @@ export default {
           validations: {
             url: true
           }
+        },
+        {
+          fieldType: 'ImageInput',
+          name: 'avatar',
+          label: 'Your profile image',
+          placeholder: 'Choose an Image',
+          helper: 'Image helper text',
+          required: false,
+          // disabled: true
         },
         {
           fieldType: 'TextInput',

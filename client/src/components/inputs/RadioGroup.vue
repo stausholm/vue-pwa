@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="input-group" :class="classes">
+  <fieldset class="input-group fieldset-group" :class="classes">
     <legend class="fieldset-label">{{label}}</legend>
     <div class="fieldset-input-wrapper">
       <label v-for="(option, index) in options" :key="index">
