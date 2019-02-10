@@ -1,12 +1,12 @@
 <template>
   <transition name="advanced-modal">
   <div class="modal-advanced-container">
-    <div class="overlay" @click="$emit('close')"></div>
+    <div class="overlay" @click="closeModal"></div>
     <div class="modal-advanced container">
       <div class="modal-advanced__header" v-if="header">
         {{header}}
       </div>
-      <div class="modal-advanced__body">
+      <div class="modal-advanced__body" ref="modalbody" tabindex="0">
         <slot>
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam doloremque perspiciatis ullam asperiores magni consequatur fugiat odit quidem rem molestiae tempore, nulla unde recusandae, adipisci inventore laboriosam officia totam neque!</p>
           <ul>
@@ -30,7 +30,7 @@
         </slot>
       </div>
       <div class="modal-advanced__footer">
-        <button @click="$emit('close')">Cancel</button>
+        <button @click="closeModal">Cancel</button>
         <button v-if="confirmLabel" :class="{destructive: confirmIsDestructive}" @click="$emit('accept')">{{confirmLabel}}</button>
       </div>
     </div>
@@ -58,11 +58,35 @@ export default {
 
     }
   },
+  methods: {
+    closeModal() {
+      this.$emit('close');
+    },
+    handleKeydown(e) {
+      if (e.key.toLowerCase() === "escape") {
+        e.preventDefault();
+        return this.closeModal();
+      }
+    },
+    handleFocusIn(e) {
+      if (!e.target.matches('.modal-advanced *')) {
+        // move focus back inside modal
+        this.$refs.modalbody.focus()
+      }
+    }
+  },
+  created() {
+    window.addEventListener('keydown', this.handleKeydown)
+    document.addEventListener('focusin', this.handleFocusIn)
+  },
   mounted() {
     document.body.classList.add('modal-advanced-open')
+    this.$refs.modalbody.focus();
   },
   beforeDestroy() {
     document.body.classList.remove('modal-advanced-open')
+    window.removeEventListener('keydown', this.handleKeydown)
+    document.removeEventListener('focusin', this.handleFocusIn)
   }
 }
 </script>

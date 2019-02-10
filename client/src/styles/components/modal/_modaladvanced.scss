@@ -50,6 +50,7 @@ body.modal-advanced-open {
       //margin-bottom: calc(4 * 16px + 1rem);
       //position: absolute;
       //bottom: calc(4 * 16px + 1rem);
+      outline: 0;
       
       li {
         border-bottom: 1px solid $divider-color;
@@ -89,6 +90,13 @@ body.modal-advanced-open {
 
         &.destructive {
           color: $color-danger;
+          &:focus {
+            box-shadow: 0 0 0 2px $color-danger;
+          }
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 2px $primary-color;
         }
       }
     }
