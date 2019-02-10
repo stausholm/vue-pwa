@@ -11,7 +11,7 @@
       <bar-graph />
 
       <h2>Donut chart</h2>
-      <donut-chart />
+      <donut-chart :initialValues="donutValues"/>
       <p style="margin: 200px 0;">MORE HEIGHT</p>
     </div>
   </div>
@@ -35,14 +35,15 @@ export default {
       {x: "Thu", y: 50},
       {x: "Fri", y: 120},
       {x: "Sat", y: 72},
-      {x: "Sun", y: -200},
+      {x: "Sun", y: -100},
       {x: "blab", y: 120},
     ];
 
     return {
       lineSettings: {
         data: days
-      }
+      },
+      donutValues: [230, 308, 520, 130, 200]
     }
   }
 }
