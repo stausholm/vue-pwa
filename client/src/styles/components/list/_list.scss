@@ -1,0 +1,54 @@
+.list-header {
+  // background-color: $light-bg-color;
+  background-color: lighten($light-grey, 5%);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .015rem;
+  font-weight: 500;
+  padding: $default-spacing / 1.25 $default-spacing $default-spacing / 2;
+}
+
+.options-list__item {
+  padding: $default-spacing;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $divider-color;
+  }
+
+  &:active {
+    background-color: $light-grey;
+  }
+
+  &.disabled {
+    opacity: .6;
+    pointer-events: none;
+    user-select: none;
+    color: $text-secondary-color;
+  }
+
+  .description {
+    &__subtitle {
+      color: $text-secondary-color;
+      font-size: .85rem;
+    }
+  }
+
+  .action {
+    margin-left: $default-spacing;
+    display: flex;
+    align-items: center;
+    color: $text-secondary-color;
+    font-size: .85rem;
+  }
+}
+
+.sticky-header {
+  .list-header {
+    position: sticky;
+    top: $toolbar-height;
+    z-index: 1;
+  }
+}

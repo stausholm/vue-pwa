@@ -1,5 +1,10 @@
+.dropdown {
+  .sign-in-sign-up {
+    padding: $default-spacing;
+  }
+}
+
 .sign-in-sign-up {
-  padding: $default-spacing;
 
   div:first-of-type {
     background: $primary-color;
