@@ -14,6 +14,7 @@
         :placeholder="placeholder">
     </div>
     <p class="helper-text">{{helperText}}</p>
+    <p class="helper-text" v-if="validations.maxLength">{{value.length}} / {{validations.maxLength.value || validations.maxLength}}</p>
   </div>
 </template>
 

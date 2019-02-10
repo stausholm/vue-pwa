@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>this is example with auth role</h1>
+    <div class="container--content">
+      <h1>this is example with auth role</h1>
+    </div>
   </div>
 </template>
 

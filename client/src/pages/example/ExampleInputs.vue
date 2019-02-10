@@ -151,7 +151,11 @@ export default {
           helper: 'website helper text',
           required: false,
           validations: {
-            url: true
+            url: true,
+            maxLength: {
+              value: 12,
+              message: 'only 12'
+            }
           }
         },
         {
