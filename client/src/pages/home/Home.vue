@@ -10,14 +10,20 @@
         <span v-if="isLoggedIn"><a @click.prevent="logout">Logout</a></span>
       </header>
       <a2hs-button v-if="showPWAButton"/>
-      <nav>
+      <nav class="temp">
         <router-link to="/">Home</router-link>
         <router-link to="/example">Example</router-link>
         <router-link to="/exampleWithAuth">Example auth</router-link>
         <router-link to="/exampleWithAuthRole">Example auth role</router-link>
+        <router-link to="/exampleinputs">Example inputs</router-link>
+        <router-link to="/exampledatalist">Example datalist</router-link>
+        <router-link to="/examplegraphs">Example graphs</router-link>
         <router-link to="/search">Search</router-link>
         <router-link to="/account">Account</router-link>
       </nav>
+      <button class="btn" @click="toggleLogin">{{isLoggedIn ? 'logout' : 'login'}}</button>
+      
+      <p style="margin-top:200px">more height!</p>
     </div>
   </div>
 </template>
@@ -46,7 +52,19 @@ export default {
         .then(() => {
           this.$router.push('/login');
         })
+    },
+    toggleLogin() {
+      this.$store.commit('dummyLogin')
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.temp {
+  a {
+    display: block;
+    margin: 16px 0;
+  }
+}
+</style>

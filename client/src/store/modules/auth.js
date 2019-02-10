@@ -33,6 +33,15 @@ const mutations = {
   logout(state){
     state.status = ''
     state.token = ''
+  },
+  dummyLogin(state) {
+    if(state.token) {
+      state.token = ''
+      state.user = {role: 'guest'}
+    } else {
+      state.token = 'dummyToken'
+      state.user = {role: 'admin'}
+    }
   }
 };
 
