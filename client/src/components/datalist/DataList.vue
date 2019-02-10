@@ -3,35 +3,33 @@
     <div class="datalist-controls">
       <input type="search" name="query" v-model="searchQuery" @input="movePages(0)" placeholder="Search...">
     </div>
-    <div class="table-overflow-gradient-wrapper" :class="{'reached-end': !showGradient}">
-      <div class="datalist-table-wrapper" ref="tablewrapper">
-        <table class="datalist-table" 
-          :class="{'datalist-table--fixed': fixed, 
-            'datalist-table--stripes': stripes, 
-            'datalist-table--condensed': condensed}"
-          :style="{minWidth: columns.length * 150 + 'px'}">
-          <thead class="table-header">
-            <tr>
-              <th v-for="key in columns"
-                @click="sortBy(key)"
-                :class="{ active: sortKey == key }"
-                :key="key"
-              >
-                {{ key | capitalize }}
-                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <tr v-for="(entry, i) in dataPerPage" :key="'row'+i">
-              <td v-for="(key, j) in columns" 
-                :key="'data'+ j + i" 
-                :inner-html.prop="entry[key] ? entry[key] : '--' | highlightmatch(searchQuery)">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="datalist-table-wrapper">
+      <table class="datalist-table" 
+        :class="{'datalist-table--fixed': fixed, 
+          'datalist-table--stripes': stripes, 
+          'datalist-table--condensed': condensed}"
+        :style="{minWidth: columns.length * 150 + 'px'}">
+        <thead class="table-header">
+          <tr>
+            <th v-for="key in columns"
+              @click="sortBy(key)"
+              :class="{ active: sortKey == key }"
+              :key="key"
+            >
+              {{ key | capitalize }}
+              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr v-for="(entry, i) in dataPerPage" :key="'row'+i">
+            <td v-for="(key, j) in columns" 
+              :key="'data'+ j + i" 
+              :inner-html.prop="entry[key] ? entry[key] : '--' | highlightmatch(searchQuery)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <p class="datalist-no-data" v-if="filteredData.length === 0">No data that matches your search!</p>
     <div class="datalist-footer">
@@ -78,8 +76,6 @@ import IconArrowLeft from '@/components/icons/IconArrowLeft'
 import IconArrowRight from '@/components/icons/IconArrowRight'
 import IconArrowDown from '@/components/icons/IconArrowDown'
 
-import throttle from '@/utils/throttle';
-
 //https://vuejs.org/v2/examples/grid-component.html
 //https://alligator.io/vuejs/grid-component/
 export default {
@@ -110,9 +106,7 @@ export default {
       sortOrders: {},
       startRow: 0,
       rowsPerPage: 10,
-      pageSizeMenu: [10, 20, 50, 100],
-      showGradient: false,
-      gradientFunction: throttle(this.overflowScrollGradient, 200) // stored in a variable so we can call removeEventListener in beforeDestroy()
+      pageSizeMenu: [10, 20, 50, 100]
     }
   },
   computed: {
@@ -177,16 +171,6 @@ export default {
       if (newStartRow >= 0 && newStartRow < this.filteredData.length) {
         this.startRow = newStartRow;
       }
-    },
-    overflowScrollGradient() {
-      console.log('yo')
-      const el = this.$refs.tablewrapper;
-      if (el.scrollLeft + el.offsetWidth === el.scrollWidth) {
-        // we scrolled to the end
-        return this.showGradient = false;
-      }
-
-      this.showGradient = true;
     }
   },
   created(){
@@ -195,20 +179,6 @@ export default {
       sortOrders[key] = 1;
     })
     this.sortOrders = sortOrders;
-  },
-  mounted() {
-    if (this.$refs.tablewrapper.offsetWidth < this.$refs.tablewrapper.scrollWidth) {
-      // table is wider than screen, so scrollbar is visible
-      this.$refs.tablewrapper.addEventListener('scroll', this.gradientFunction);
-
-      // show gradient initially
-      this.overflowScrollGradient();
-    }
-    window.addEventListener('resize', this.gradientFunction);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.gradientFunction)
-    // Note: we don't have to removeEventListener for this.$refs.tablewrapper, as Vue is smart enough to handle that
   }
 }
 </script>
