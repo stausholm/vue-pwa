@@ -162,6 +162,12 @@ export default {
           helper: 'Image helper text',
           required: false,
           // disabled: true
+          validations: {
+            maxSize: {
+              value:10000,
+              message: 'max 10000 bytes yo'
+            }
+          }
         },
         {
           fieldType: 'TextInput',

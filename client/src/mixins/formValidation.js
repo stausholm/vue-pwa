@@ -4,6 +4,9 @@ import { minValue } from './validators/minValue';
 import { maxValue } from './validators/maxValue';
 import { validEmail } from './validators/validEmail';
 import { validUrl } from './validators/validUrl';
+import { validFileSize } from './validators/validFileSize';
+
+import validatorsDefaults from './validators/validatorsDefaults'
 
 export const formValidation = {
   data() {
@@ -81,7 +84,7 @@ export const formValidation = {
       }
 
       if (this.required && !this.value) {
-        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : this.defaultMessages.required;
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : validatorsDefaults.required;
         return false;
       }
 
@@ -92,6 +95,7 @@ export const formValidation = {
         if (this.validations.maxValue && !maxValue(this)) return false;
         if (this.validations.email && !validEmail(this)) return false;
         if (this.validations.url && !validUrl(this)) return false;
+        if (this.validations.maxSize && !validFileSize(this)) return false;
       }
 
       if (this.validations.custom && this.value) {

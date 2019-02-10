@@ -1,7 +1,7 @@
 <template>
   <div class="input-group fieldset-group input-image" :class="classes">
     <label for="" class="fieldset-label">{{label}}</label>
-    <div class="placeholder" @click="() => $refs.image.click()">
+    <div class="placeholder" @click="handleClick">
       <div class="placeholder__text" v-if="!base64Image">
         <icon-base iconName="camera" width="24" height="24">
           <icon-photo-camera />
@@ -31,7 +31,7 @@
         @blur="blur"
         :placeholder="placeholder">
     </div>
-    <p class="helper-text">{{helperText}}</p>
+    <p class="helper-text">{{helperText}}. Size: {{fileSizeFormatted}}</p>
   </div>
 </template>
 
@@ -40,6 +40,8 @@ import { formValidation } from '@/mixins/formValidation';
 
 import IconBase from '@/components/icons/IconBase';
 import IconPhotoCamera from '@/components/icons//IconPhotoCamera';
+
+import bytesToSize from '@/utils/bytesToSize';
 
 export default {
   name: 'ImageInput',
@@ -50,11 +52,23 @@ export default {
   },
   data() {
     return {
-      base64Image: null
+      base64Image: null,
+      fileByteSize: 0
     }
   },
   computed: {
-
+    fileSizeFormatted() {
+      return bytesToSize(this.fileByteSize)
+    },
+    maxSizeFormatted() {
+      if (this.validations.maxSize) {
+        return bytesToSize(this.validations.maxSize)
+      }
+      return false
+    },
+    // isValid() {
+    //   return false
+    // }
   },
   methods: {
     formatImage(e) {
@@ -74,16 +88,23 @@ export default {
       // reader.readAsDataURL(file)
       
       return e.target.value
+    },
+    handleClick() {
+      this.$refs.image.focus()
+      this.$refs.image.click()
     }
   },
   watch: {
     value() {
       console.log('value changed')
       if (!this.value) {
-        return this.base64Image = null
+        this.fileByteSize = 0
+        this.base64Image = null
+        return 
       }
 
       const file = this.$refs.image.files[0]
+      this.fileByteSize = file.size
       const reader = new FileReader
       reader.onload = e => {
         this.base64Image = e.target.result
