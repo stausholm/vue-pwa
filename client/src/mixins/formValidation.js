@@ -128,7 +128,7 @@ export const formValidation = {
         error: !this.isValid && this.hasBlurredOnce || !this.isValid && this.submitAttempted,
         'has-content': this.value,
         disabled: this.disabled,
-        valid: this.isValid && !this.disabled // disabled inputs should only be able to use 'has-content' and 'disabled' classes
+        valid: this.hasBlurredOnce && this.isValid && !this.disabled // disabled inputs should only be able to use 'has-content' and 'disabled' classes
       }
     },
     helperText() {
