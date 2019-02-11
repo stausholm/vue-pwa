@@ -75,6 +75,9 @@ export const formValidation = {
     options: {
       type: Array,
       default: () => []
+    },
+    sortDir: {
+      type: String
     }
   },
   computed: {

@@ -34,6 +34,7 @@ export default {
         gender: "Female",
         bio: "yo",
         favoriteFruit: "apple",
+        favoriteAnimal: "val1",
         //newsletter: true,
         //recentStores: ["KFC"],
         rating: "2"
@@ -87,6 +88,22 @@ export default {
           //disabled: true
           //dumb: true,
           helper: 'Only the best in stores'
+        },
+        {
+          fieldType: 'SelectList',
+          name: 'favoriteAnimal',
+          label: 'Your favourite animal',
+          options: [
+            { label: "Horse", value: "val1"}, 
+            { label: "Cat", value: "val2"}, 
+            { label: "Dog", value: "val3"}, 
+            { label: "kiwi", value: "val4"}, 
+            { label: "Birb", value: "val5"}
+          ],
+          //disabled: true
+          //dumb: true,
+          helper: 'Only the best in stores',
+          sortDir: 'asc'
         },
         {
           fieldType: 'Checkbox',

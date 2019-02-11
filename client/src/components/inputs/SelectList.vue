@@ -11,9 +11,10 @@
           @focus="classObject.focused = true"
           @blur="blur">
 
-          <option disabled>Please select one</option>
-          <option v-for="option in options" :key="option">
-            {{option}}
+          <option value="" disabled></option>
+          
+          <option v-for="option in formattedOptions" :key="option.value" :value="option.value">
+            {{option.label}}
           </option>
 
         </select>
@@ -31,6 +32,39 @@ import { formValidation } from '@/mixins/formValidation';
 
 export default {
   name: 'SelectList',
-  mixins: [formValidation]
+  mixins: [formValidation],
+  computed: {
+    formattedOptions() {
+      if (typeof this.options[0] === 'string') {
+        if (this.sortDir === 'asc') {
+          return this.options.map(item => ({label: item, value: item})).sort(this.sortAsc)
+        } else if (this.sortDir === 'desc') {
+          return this.options.map(item => ({label: item, value: item})).sort(this.sortDesc)
+        }
+        return this.options.map(item => ({label: item, value: item}))
+      }
+
+
+      if (this.sortDir === 'asc') {
+        return this.options.map(item => item).sort(this.sortAsc)
+      } else if (this.sortDir === 'desc') {
+        return this.options.map(item => item).sort(this.sortDesc)
+      }
+
+      return this.options
+    }
+  },
+  methods: {
+    sortAsc(a, b) {
+      const labelA = a.label.toLowerCase()
+      const labelB = b.label.toLowerCase()
+      return labelA > labelB ? 1 : -1
+    },
+    sortDesc(a, b) {
+      const labelA = a.label.toLowerCase()
+      const labelB = b.label.toLowerCase()
+      return labelA < labelB ? 1 : -1
+    }
+  }
 }
 </script>

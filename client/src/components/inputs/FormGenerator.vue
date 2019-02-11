@@ -154,7 +154,8 @@ export default {
  * }
  * 
  * input specific
- * @param options - Array of string values to be used with radiogroups, checkboxgroups and select lists
+ * @param options - Array of string values (or objects {label:'text', value: 'val'}) to be used with radiogroups, checkboxgroups and select lists
+ * @param sortDir - either 'asc' or 'desc', for options. if not defined, use original array order, else sort alphabetically
  * @param min - Number, for range slider min value - default 0
  * @param max - Number, for range slider max value - default 100
  * @param steps - Number, range slider step
