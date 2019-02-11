@@ -2,16 +2,16 @@
   <fieldset class="input-group fieldset-group" :class="classes">
     <legend class="fieldset-label">{{label}}</legend>
     <div class="fieldset-input-wrapper">
-      <label v-for="(option, index) in options" :key="index">
+      <label v-for="(option, index) in formattedOptions" :key="index">
         <input type="checkbox"
           :name="name"
-          :value="option"
-          :disabled="maxChecked && !disabled ? values.length >= maxChecked && !values.includes(option) : disabled" 
+          :value="option.value"
+          :disabled="maxChecked && !disabled ? values.length >= maxChecked && !values.includes(option.value) : disabled" 
           v-model="values"
           @change="updateValue"
           @focus="classObject.focused = true"
           @blur="blur"> <!-- disabled is applied to elements that are not checked, if max allowed checkboxes have been checked -->
-          <span>{{option}}</span>
+          <span>{{option.label}}</span>
       </label>
 
     </div>
@@ -22,10 +22,11 @@
 
 <script>
 import { formValidation } from '@/mixins/formValidation';
+import { formFormatOptions } from '@/mixins/formFormatOptions';
 
 export default {
   name: 'CheckboxGroup',
-  mixins: [formValidation],
+  mixins: [formValidation, formFormatOptions],
   props: {
 
   },

@@ -2,16 +2,16 @@
   <fieldset class="input-group fieldset-group" :class="classes">
     <legend class="fieldset-label">{{label}}</legend>
     <div class="fieldset-input-wrapper">
-      <label v-for="(option, index) in options" :key="index">
+      <label v-for="(option, index) in formattedOptions" :key="index">
         <input type="radio"
           :disabled="disabled" 
           :name="name" 
-          :value="option"
-          :checked="value === option" 
+          :value="option.value"
+          :checked="value === option.value" 
           @input="$emit('input', $event.target.value)"
           @focus="classObject.focused = true"
           @blur="blur">
-        <span>{{option}}</span>
+        <span>{{option.label}}</span>
       </label>
     </div>
     <p class="helper-text">{{helperText}}</p>
@@ -20,9 +20,10 @@
 
 <script>
 import { formValidation } from '@/mixins/formValidation';
+import { formFormatOptions } from '@/mixins/formFormatOptions';
 
 export default {
   name: 'RadioGroup',
-  mixins: [formValidation]
+  mixins: [formValidation, formFormatOptions]
 }
 </script>

@@ -36,7 +36,8 @@ export default {
         favoriteFruit: "apple",
         favoriteAnimal: "val1",
         //newsletter: true,
-        //recentStores: ["KFC"],
+        recentStores: ["val4"],
+        recentStores2: ["KFC"],
         rating: "2"
       },
       schema: [
@@ -115,6 +116,23 @@ export default {
           fieldType: 'CheckboxGroup',
           name: 'recentStores',
           label: 'Recently visited stores',
+          helper: 'Check the stores you\'ve visited in the past month',
+          options: [
+            {label:"Burger King", value:"val1"}, 
+            {label:"KFC", value:"val2"}, 
+            {label:"MC Donalds", value:"val3"}, 
+            {label:"Dunkin donuts", value:"val4"}, 
+            {label:"Sunset Boulevard", value:"val5"}
+          ],
+          validations: {
+            minChecked: 2
+          },
+          sortDir: 'asc'
+        },
+        {
+          fieldType: 'CheckboxGroup',
+          name: 'recentStores2',
+          label: 'Recently visited stores but strings',
           helper: 'Check the stores you\'ve visited in the past month',
           options: ["Burger King", "KFC", "MC Donalds", "Dunkin donuts", "Sunset Boulevard"],
           //disabled: true,
