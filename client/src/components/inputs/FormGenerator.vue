@@ -9,6 +9,7 @@
                 @error="updateErrors"
                 @valid="updateErrors"
                 @file="setFile(field.name, $event)"
+                @filebytearray="setByteArray(field.name, $event)"
                 v-bind="field"
                 :submitAttempted="submitAttempted">
       </component>
@@ -112,6 +113,10 @@ export default {
     },
     setFile(fieldName, value) {
       this.$set(this.formData, fieldName + '__file', value);
+      this.$emit("input", this.formData);
+    },
+    setByteArray(fieldName, value) {
+      this.$set(this.formData, fieldName + '__byte-array', value);
       this.$emit("input", this.formData);
     }
   }

@@ -1,0 +1,69 @@
+.input-file {
+  &__input {
+    position: relative;
+    height: 200px;
+    background-color: $light-grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      opacity: .8;
+    }
+  
+    input {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+  &__files {
+    &_counter {
+
+    }
+
+    ul {
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: .85rem;
+        padding: $default-spacing / 2;
+
+        &.file--too-big {
+          color: $color-danger;
+
+          .file-icon__label {
+            fill: $color-danger;
+          }
+          .file-size {
+            color: $color-danger;
+          }
+        }
+
+        .file-name {
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          white-space: nowrap;
+
+          .file-icon {
+            margin-right: $default-spacing / 2;
+          }
+          &__name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+
+        .file-size {
+          color: $text-secondary-color;
+          white-space: nowrap;
+          margin-left: $default-spacing / 2;
+        }
+      }
+    }
+  }
+}

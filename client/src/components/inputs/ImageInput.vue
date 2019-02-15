@@ -78,15 +78,18 @@ export default {
       }
 
       const file = e.target.files[0]
+      this.$emit('file', file)
+
       const reader = new FileReader
       reader.onload = ev => {
         const bytes = new Uint8Array(ev.target.result)
         // const bytes = ev.target.result
-        this.$emit('file', bytes)
+        this.$emit('filebytearray', bytes)
       }
       reader.readAsArrayBuffer(file)
       // reader.readAsDataURL(file)
       
+      // value for the 'input' emit
       return e.target.value
     },
     handleClick() {

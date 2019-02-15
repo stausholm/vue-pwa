@@ -1,0 +1,11 @@
+.file-icon {
+  &__label {
+    font-size: 8px;
+    fill: $primary-color;
+    letter-spacing: 0.07em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    // text-anchor: middle;
+  }
+}

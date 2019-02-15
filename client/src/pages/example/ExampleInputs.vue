@@ -9,6 +9,7 @@
     <p style="margin-top:200px">more height!</p>
     <image-input v-model="dummy" :required="false" label="yoyo" placeholder="placeholder" @file="dummy__file = $event"/>
     <p style="margin-top:200px">more height!</p>
+    <file-input />
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
   </div>
@@ -18,11 +19,12 @@
 import FormGenerator from '@/components/inputs/FormGenerator';
 
 import ImageInput from '@/components/inputs/ImageInput';
+import fileInput from '@/components/inputs/FileInput';
 
 export default {
   name: 'ExampleInputs',
   components: {
-    FormGenerator, ImageInput
+    FormGenerator, ImageInput, fileInput
   },
   data() {
     return {
