@@ -4,6 +4,7 @@
       <input 
         ref="input"
         type="file" 
+        :accept="accept"
         :multiple="multiple"
         :disabled="disabled || files.length >= maxFiles"
         :name="name"
@@ -69,7 +70,7 @@ export default {
   props: {
     multiple: {
       type: Boolean,
-      default: false
+      default: true
     },
     disabled: Boolean,
     name: String,

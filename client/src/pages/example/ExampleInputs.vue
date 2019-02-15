@@ -9,7 +9,7 @@
     <p style="margin-top:200px">more height!</p>
     <image-input v-model="dummy" :required="false" label="yoyo" placeholder="placeholder" @file="dummy__file = $event"/>
     <p style="margin-top:200px">more height!</p>
-    <file-input />
+    <file-input accept="image/*,video/*"/>
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
   </div>
