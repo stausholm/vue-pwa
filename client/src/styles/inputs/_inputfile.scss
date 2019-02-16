@@ -1,4 +1,22 @@
 .input-file {
+  .fieldset-label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &.dropzone-active {
+    .input-file__input {
+      background-color: darken($light-grey, 15);
+      box-shadow: inset 0 0 0 6px darken($light-grey, 15), inset 0 0 0 8px $text-secondary-color;
+    }
+  }
+
+  &.error {
+    .input-file__input {
+      background-color: lighten($color-danger, 20)
+    }
+  }
+
   &__input {
     position: relative;
     height: 200px;
@@ -6,6 +24,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: $default-spacing / 2;
+    border-radius: $default-border-radius;
+    color: $text-secondary-color;
+    text-align: center;
+    padding: $default-spacing;
 
     &:hover {
       opacity: .8;
@@ -20,24 +43,30 @@
     }
   }
   &__files {
-    &_counter {
-
-    }
-
     ul {
       li {
         display: flex;
         align-items: center;
         justify-content: space-between;
         font-size: .85rem;
-        padding: $default-spacing / 2;
+        padding: $default-spacing / 1.5 0;
 
-        &.file--too-big {
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba($light-grey, .75);
+        }
+
+        &.file--too-big, &.file--wrong-type {
           color: $color-danger;
 
-          .file-icon__label {
-            fill: $color-danger;
+          .file-name {
+            .file-icon {
+              color: inherit;
+              &__label {
+                fill: $color-danger;
+              }
+            }
           }
+
           .file-size {
             color: $color-danger;
           }
@@ -51,6 +80,7 @@
 
           .file-icon {
             margin-right: $default-spacing / 2;
+            color: $text-secondary-color;
           }
           &__name {
             text-overflow: ellipsis;
@@ -63,7 +93,72 @@
           white-space: nowrap;
           margin-left: $default-spacing / 2;
         }
+
+        .file-right {
+          display: flex;
+          align-items: center;
+
+          .file-remove-button {
+            color: $color-danger;
+            background-color: rgba($color-danger, .2);
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            min-height: 18px;
+            margin-left: $default-spacing / 4;
+
+            &:hover {
+              opacity: .8;
+              box-shadow: inset 0 0 0 1px $color-danger;
+            }
+
+            svg {
+              height: inherit;
+            }
+          }
+        }
       }
     }
+  }
+
+  &.disabled {
+    color: $text-disabled-color;
+    
+    > *:not(.input-file__input) {
+      pointer-events: none;
+    }
+
+    .input-file__input {
+      &:hover {
+        opacity: 1;
+      }
+
+      * {
+        cursor: not-allowed;
+      }
+    }
+
+    .input-file__files {
+      ul {
+        li {
+          color: $text-disabled-color;
+
+          .file-icon__label {
+            fill: $text-disabled-color;
+          }
+          .file-size {
+            color: $text-disabled-color;
+          }
+
+          .file-right {
+            .file-remove-button {
+              color: $text-disabled-color;
+              background-color: lighten($text-disabled-color, 66);
+            }
+          }
+        }
+      }
+    }
+
   }
 }

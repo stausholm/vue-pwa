@@ -37,6 +37,7 @@ import ConfirmInput from './ConfirmInput';
 import SliderInput from './SliderInput';
 import NumberInput from './NumberInput';
 import ImageInput from './ImageInput';
+import FileInput from './FileInput';
 
 export default {
   name: 'FormGenerator',
@@ -52,7 +53,9 @@ export default {
     ConfirmInput, 
     SliderInput, 
     NumberInput,
-    ImageInput},
+    ImageInput,
+    FileInput
+  },
   props: {
     schema: {
       type: Array

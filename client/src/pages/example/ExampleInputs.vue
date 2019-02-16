@@ -9,7 +9,7 @@
     <p style="margin-top:200px">more height!</p>
     <image-input v-model="dummy" :required="false" label="yoyo" placeholder="placeholder" @file="dummy__file = $event"/>
     <p style="margin-top:200px">more height!</p>
-    <file-input accept="image/*,video/*"/>
+    <file-input accept="image/*,video/*" v-model="dummy2" @file="dummy2__files = $event" :disabled="true"/>
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
   </div>
@@ -30,6 +30,8 @@ export default {
     return {
       dummy: '',
       dummy__file: null,
+      dummy2: '',
+      dummy2__files: null,
       formData: {
         email: "bob@bob.dk",
         //password: "neato",
@@ -40,7 +42,7 @@ export default {
         //newsletter: true,
         recentStores: ["val4"],
         recentStores2: ["KFC"],
-        rating: "2"
+        //rating: "2"
       },
       schema: [
         {
@@ -164,7 +166,8 @@ export default {
           min: 1,
           max: 5,
           step: 0.5,
-          disabled: true
+          disabled: false,
+          requiredMessage: 'is required you know'
         },
         {
           fieldType: 'NumberInput',
@@ -201,14 +204,30 @@ export default {
           label: 'Your profile image',
           placeholder: 'Choose an Image',
           helper: 'Image helper text',
-          required: false,
-          // disabled: true
+          required: true,
+          disabled: false,
           validations: {
             maxSize: {
               value:10000,
               message: 'max 10000 bytes yo'
             }
           }
+        },
+        {
+          fieldType: 'FileInput',
+          name: 'files',
+          label: 'Your attachments',
+          helper: 'file input helper text',
+          required: true,
+          requiredMessage: 'yo you need to add files',
+          multiple: true,
+          disabled: false,
+          maxFiles: 3,
+          maxSize: 10000000,
+          validFileTypes: [
+            'application/pdf',
+            'image/svg+xml'
+          ]
         },
         {
           fieldType: 'TextInput',
