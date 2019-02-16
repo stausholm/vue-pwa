@@ -19,7 +19,7 @@ export const formValidation = {
       hasBlurredOnce: false,
       errorText: '',
       defaultMessages: {
-        required: 'Field required'
+        required: validatorsDefaults.required
       }
     }
   },
@@ -87,7 +87,7 @@ export const formValidation = {
       }
 
       if (this.required && !this.value) {
-        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : validatorsDefaults.required;
+        this.errorText = this.requiredMessage !== '' ? this.requiredMessage : this.defaultMessages.required;
         return false;
       }
 
