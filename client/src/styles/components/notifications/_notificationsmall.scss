@@ -1,48 +1,88 @@
-.notification-small {
+.snackbar {
   position: fixed;
   @include z-index(notification);
   left: 0;
-  right: 0;
-  bottom: 20%;
-  max-width: 260px;
-  margin: 0 auto;
-  text-align: center;
-  padding: $default-spacing;
-  pointer-events: none;
-  border-radius: $default-border-radius;
+  bottom: 0;
+  margin: $default-spacing;
+  width: calc(100% - 2 * #{$default-spacing});
+  max-width: 450px;
   box-shadow: $box-shadow;
-  border-width: 1px;
-  border-style: solid;
-  color: $white;
+  transform-origin: center 0%;
 
-  &-info {
-    background-color: $color-info;
-    border-color: $color-info-dark;
+  &-inner {
+    transition: background-color .2s;
+    border-radius: $default-border-radius;
+    padding: $default-spacing;
+    background-color: #333;
+    color: rgba($white, .87);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#333, 5);
+    }
   }
-  &-primary {
-    background-color: $primary-color;
-    border-color: $primary-color-dark;
+
+  // &__content {
+  //   span {
+  //     max-width: 80%;
+  //     display: inline-block;
+  //   }
+  // }
+
+  &__label {
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    color: $color-info;
   }
-  &-danger {
-    background-color: $color-danger;
-    border-color: $color-danger-dark;
+
+  @mixin snackbar-theme($bg-color, $color, $label-color) {
+    .snackbar-inner {
+      background-color: $bg-color;
+      color: rgba($color, .87);
+
+      &:hover {
+        background-color: darken($bg-color, 5)
+      }
+
+      .snackbar__label {
+        color: $label-color;
+      }
+    }
   }
-  &-warning {
-    background-color: $color-warning;
-    border-color: $color-warning-dark;
+  &--light {
+    @include snackbar-theme(#fefefe, $text-primary-color, $primary-color)
   }
-  &-success {
-    background-color: $color-success;
-    border-color: $color-success-dark;
+  &--warning {
+    @include snackbar-theme(#333, $white, $color-warning)
   }
-  &-light {
-    color: #818182;
-    background-color: #fefefe;
-    border-color: #fdfdfe;
+  &--danger {
+    @include snackbar-theme(#333, $white, $color-danger)
   }
-  &-dark {
-    color: #1b1e21;
-    background-color: #d6d8d9;
-    border-color: #c6c8ca;
+  &--success {
+    @include snackbar-theme(#333, $white, $color-success)
   }
+}
+
+.bottom-nav:not(.bottomnav-hide) ~ .snackbar {
+  bottom: $default-spacing + 24px + $base-font-size;
+}
+
+.snackbar-enter {
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+}
+.snackbar-enter-active {
+  transition: opacity .125s ease-out, transform .125s cubic-bezier(.51,.23,.34,.96);
+}
+.snackbar-leave-active {
+  transition: opacity .15s ease-out, transform .2s ease-in-out;
+  opacity: 0;
+  transform: translateY(10px);
 }

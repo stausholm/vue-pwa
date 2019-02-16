@@ -14,7 +14,7 @@ $font-size-small: 0.85rem;
 
 // https://makandracards.com/makandra/42500-sass-how-to-convert-an-rgba-color-to-its-rgb-look-alike
 @function rgba-to-rgb($rgba, $background: #fff) { // default to white background
-    @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%)
+    @return mix(rgb(red($rgba), green($rgba), blue($rgba)), $background, alpha($rgba) * 100%);
 }
 
 // colors

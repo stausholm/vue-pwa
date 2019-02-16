@@ -12,6 +12,7 @@
       </cta-button-icon>
       <button @click="testNotification">test notification</button>
       <button @click="testNotification2">test notification warning</button>
+      <div style="width:200px;height:200px;background:red;" v-if="showBox"></div>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
@@ -36,15 +37,34 @@ export default {
     IconBeachAccess,
     SearchBar
   },
+  data() {
+    return {
+      showBox: true
+    }
+  },
   methods: {
     testNotification() {
-      this.$store.dispatch('changeNotification', {content: 'some content', duration: 2000})
+      this.$store.dispatch('changeNotification', {content: '5 files deleted', duration: 4000, label: 'Undo'})
     },
     testNotification2() {
-      this.$store.dispatch('changeNotification', {content: 'some warning content that is very long, what will happen now huh', duration: 2000, alert: 'warning'})
+      this.showBox = false
+
+      this.$store.dispatch('changeNotification', {
+        content: 'some warning content that is very long, what will happen now huh', 
+        duration: 400000, 
+        theme: 'warning',
+        // action: () => this.showBox = !this.showBox,
+        // action: this.test,
+        action: () => this.test200(200),
+        label: 'yoyo'
+        })
     },
     test() {
       console.log('test .native')
+    },
+    test200(val) {
+      console.log(val)
+      this.showBox = !this.showBox
     }
   }
 }

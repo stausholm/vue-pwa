@@ -13,7 +13,10 @@ export default new Vuex.Store({
     notification: {
       content: 'REPLACE ME',
       duration: 1000, // ms
-      alert: 'info' // color settings
+      theme: 'default', // color settings,
+      action: null,
+      label: 'Dismiss',
+      dismissable: true
     }
   },
   getters: {
@@ -43,7 +46,10 @@ export default new Vuex.Store({
       state.notification = {
         content: changes.content || 'REPLACE ME',
         duration: changes.duration || 1000,
-        alert: changes.alert || 'info'
+        theme: changes.theme || 'default',
+        action: changes.action || null,
+        label: changes.label || '',
+        dismissable: changes.dismissable || true
       }
     },
     layoutSizeChanged(state, bool) {
