@@ -18,6 +18,7 @@
         <router-link to="/exampleinputs">Example inputs</router-link>
         <router-link to="/exampledatalist">Example datalist</router-link>
         <router-link to="/examplegraphs">Example graphs</router-link>
+        <router-link to="/exampleicons">Example icons</router-link>
         <router-link to="/search">Search</router-link>
         <router-link to="/account">Account</router-link>
       </nav>

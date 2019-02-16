@@ -11,6 +11,7 @@ import ExampleWithAuthRole from '@/pages/example/ExampleWithAuthRole'
 import ExampleInputs from '@/pages/example/ExampleInputs'
 import ExampleDataList from '@/pages/example/ExampleDataList'
 import ExampleGraphs from '@/pages/example/ExampleGraphs'
+import ExampleIcons from '@/pages/example/ExampleIcons'
 import Account from '@/pages/account/Account'
 import ErrorPage from '@/pages/error/ErrorPage'
 import Search from '@/pages/search/Search'
@@ -151,6 +152,11 @@ let router = new Router({
       path: '/examplegraphs',
       name: 'ExampleGraphs',
       component: ExampleGraphs
+    },
+    {
+      path: '/exampleicons',
+      name: 'ExampleIcons',
+      component: ExampleIcons
     },
     {
       path: '/account',
