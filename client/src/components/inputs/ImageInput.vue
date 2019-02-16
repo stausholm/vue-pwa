@@ -72,12 +72,14 @@ export default {
   },
   methods: {
     formatImage(e) {
-      if (!e.target.value) {
+      const file = e.target.files[0]
+
+      if (!e.target.value || !file.type.match(/^image/)) {
+        // only allow image types
         this.$emit('file', '')
         return ''
       }
 
-      const file = e.target.files[0]
       this.$emit('file', file)
 
       const reader = new FileReader
