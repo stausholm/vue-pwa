@@ -165,3 +165,22 @@ $ie-bottom-track-color: darken($track-color, $contrast) !default;
     }
   }
 }
+
+.input-group.error {
+  [type='range'] {
+    &::-webkit-slider-thumb {
+      background: $color-danger;
+      border-color: $color-danger;
+    }
+
+    &::-moz-range-thumb {
+      background: $color-danger;
+      border-color: $color-danger;
+    }
+
+    &::-ms-thumb {
+      background: $color-danger;
+      border-color: $color-danger;
+    }
+  }
+}
