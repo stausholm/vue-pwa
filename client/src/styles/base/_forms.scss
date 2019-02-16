@@ -149,79 +149,6 @@
   }  
 }
 
-//has-content styles
-.input-group.has-content {
-  .input-label {
-    transform: translate(0, 1.5px) scale(0.75);
-    transform-origin: top left;
-  }
-}
-
-//focused styles
-.input-group.focused {
-
-  .input-label {
-    transform: translate(0, 1.5px) scale(0.75);
-    transform-origin: top left;
-    color: $primary-color;
-  }
-
-  .input-wrapper:after {
-    transform: scaleX(1);
-  }
-}
-
-//error styles
-.input-group.error {
-  .input-label, .helper-text, .fieldset-label {
-    color: $color-danger;
-  }
-  .input-wrapper:after {
-    transform: scaleX(1);
-    border-bottom-color: $color-danger;
-  }
-}
-
-//success styles
-.input-group.valid:not(.focused) {
-  .input-label, .helper-text, .fieldset-label {
-    color: $color-success;
-  }
-  .input-wrapper:after {
-    transform: scaleX(1);
-    border-bottom-color: $color-success;
-  }
-}
-
-//disabled styles
-.input-group.disabled {
-  * {
-    cursor: default;
-  }
-  .input-wrapper, .input-label, .helper-text {
-    color: $text-disabled-color;
-  }
-  .input-wrapper:before {
-    border-bottom: 1px dotted $text-disabled-color;
-  }
-  .select-wrapper {
-    .input-item {
-      cursor: default;
-    }
-    svg {
-      color: $text-disabled-color;
-    }
-  }
-  .slider-result {
-    color: $text-disabled-color;
-  }
-}
-
-// hover styles when no state is active
-.input-group:not(.focused):not(.error):not(.disabled) .input-wrapper:hover:before {
-  border-bottom: 2px solid $text-primary-color;
-}
-
 
 
 
@@ -349,6 +276,82 @@ input[type="checkbox"] {
 }
 
 
+
+//has-content styles
+.input-group.has-content {
+  .input-label {
+    transform: translate(0, 1.5px) scale(0.75);
+    transform-origin: top left;
+  }
+}
+
+//focused styles
+.input-group.focused {
+
+  .input-label {
+    transform: translate(0, 1.5px) scale(0.75);
+    transform-origin: top left;
+    color: $primary-color;
+  }
+
+  .input-wrapper:after {
+    transform: scaleX(1);
+  }
+}
+
+//error styles
+.input-group.error {
+  .input-label, .helper-text, .fieldset-label {
+    color: $color-danger;
+  }
+  .input-wrapper:after {
+    transform: scaleX(1);
+    border-bottom-color: $color-danger;
+  }
+}
+
+//success styles
+.input-group.valid:not(.focused) {
+  .input-label, .helper-text, .fieldset-label {
+    color: $color-success;
+  }
+  .input-wrapper:after {
+    transform: scaleX(1);
+    border-bottom-color: $color-success;
+  }
+}
+
+//disabled styles
+.input-group.disabled {
+  * {
+    cursor: default;
+  }
+  .input-wrapper, .input-label, .helper-text {
+    color: $text-disabled-color;
+  }
+  .input-wrapper:before {
+    border-bottom: 1px dotted $text-disabled-color;
+  }
+  .select-wrapper {
+    .input-item {
+      cursor: default;
+    }
+    svg {
+      color: $text-disabled-color;
+    }
+  }
+  .slider-result {
+    color: $text-disabled-color;
+  }
+}
+
+// hover styles when no state is active
+.input-group:not(.focused):not(.error):not(.disabled) .input-wrapper:hover:before {
+  border-bottom: 2px solid $text-primary-color;
+}
+
+
+
 //disabled styles
 .fieldset-group.input-group.disabled {
   legend {
@@ -431,7 +434,7 @@ input[type="checkbox"] {
 // image with preview
 .input-image {
   .placeholder {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: $light-grey;
     cursor: pointer;
     border-radius: $default-border-radius;
     overflow: hidden;
@@ -493,13 +496,22 @@ input[type="checkbox"] {
       }
     }
   }
+  &.error {
+    .placeholder {
+      background-color: lighten($color-danger, 20)
+    }
+  }
 }
 
 
 
 
 
-
+.input-group.error {
+  .slider-label {
+    color: $color-danger;
+  }
+}
 .slider-label {
   color: $text-secondary-color;
   padding: 0;
