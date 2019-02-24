@@ -33,9 +33,77 @@
   </head>
   <body>
     <noscript>
-      This is your fallback content in case JavaScript fails to load.
+      <div class="app-no-js">
+        <img src="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/android-chrome-192x192.png" alt="logo">
+        <h1>Oops, that's awkward.</h1>
+  
+        <p>
+          <strong>APPNAME</strong> is a
+          <a href="https://en.wikipedia.org/wiki/Web_application" target="_blank">web application</a>
+          and requires JavaScript to run. Please consider enabling it.
+        </p>
+        <p>More info: <a href="https://github.com/stausholm/vue-pwa" target="_blank">APPNAME on GitHub</a></p>
+      </div>
     </noscript>
+    <div class="app-initial-load">
+      <style>
+        .app-initial-load, .app-no-js {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #333;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          color: #fff;
+          font-family: sans-serif;
+          text-align: center;
+        }
+        .app-no-js {
+          z-index: 1;
+          overflow-y: auto;
+        }
+        .initial-load-spinner {
+          width: 40px;
+          height: 40px;
+          background-color: #fff;
+
+          margin: 100px auto;
+          -webkit-animation: initial-load-rotateplane 1.2s infinite ease-in-out;
+          animation: initial-load-rotateplane 1.2s infinite ease-in-out;
+        }
+
+        @-webkit-keyframes initial-load-rotateplane {
+          0% { -webkit-transform: perspective(120px) }
+          50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+          100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+        }
+
+        @keyframes initial-load-rotateplane {
+          0% { 
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+          } 50% { 
+            transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+          } 100% { 
+            transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+          }
+        }
+      </style>
+      <div class="initial-load-spinner"></div>
+      <b>Loading APPNAME</b>
+    </div>
     <div id="app"></div>
+    <script>
+      window.addEventListener('load', () => {
+        document.querySelector('.app-initial-load').remove()
+      })
+    </script>
     <!-- Todo: only include in production -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
     <!-- built files will be auto injected -->
