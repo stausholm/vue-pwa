@@ -50,6 +50,16 @@ export default {
       Swiper.scrollLeft = this.scrollLeft - walk;
       // Swiper.scrollTo({top:0, left:this.scrollLeft - walk, behavior: 'smooth'});
     }
+  },
+  watch: {
+    isDown() {
+      if (!this.isDown) {
+        // dumb fix
+        this.$nextTick(() => {
+          this.$refs.swiper.scrollBy({top: 0, left:1, behavior:'smooth'})
+        })
+      }
+    }
   }
 }
 </script>
@@ -74,13 +84,14 @@ export default {
     cursor: grabbing;
     // scroll-snap-type: x;
 
-    // .swiper__item {
-    //   scroll-snap-align: none;
-    // }
+    .swiper__item {
+      scroll-snap-align: none;
+    }
   }
 
   &__item {
     scroll-snap-align: center;
+    transform: translateZ(0); // prevent repainting entire component
   }
 }
 

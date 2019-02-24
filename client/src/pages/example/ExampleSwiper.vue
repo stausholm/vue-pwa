@@ -12,6 +12,8 @@
       <p style="margin-top:200px">more height!</p>
       <button @click="addItem">add item</button>
       <button @click="removeItem">remove item</button>
+      <a href="https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9">https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9</a>
+      <a href="https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/">https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/</a>
       
       <!-- <swiper>
         <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
