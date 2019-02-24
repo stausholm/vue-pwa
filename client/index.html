@@ -61,10 +61,15 @@
           color: #fff;
           font-family: sans-serif;
           text-align: center;
+          transition: opacity .175s ease-out;
+          z-index: 9999998;
         }
         .app-no-js {
-          z-index: 1;
+          z-index: 9999999;
           overflow-y: auto;
+        }
+        .app-initial-load--finished {
+          opacity: 0;
         }
         .initial-load-spinner {
           width: 40px;
@@ -101,7 +106,11 @@
     <div id="app"></div>
     <script>
       window.addEventListener('load', () => {
-        document.querySelector('.app-initial-load').remove()
+        var loader = document.querySelector('.app-initial-load');
+        loader.classList.add('app-initial-load--finished');
+        loader.addEventListener('transitionend', () => {
+          loader.remove();
+        })
       })
     </script>
     <!-- Todo: only include in production -->
