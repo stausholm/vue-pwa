@@ -12,6 +12,7 @@ import ExampleInputs from '@/pages/example/ExampleInputs'
 import ExampleDataList from '@/pages/example/ExampleDataList'
 import ExampleGraphs from '@/pages/example/ExampleGraphs'
 import ExampleIcons from '@/pages/example/ExampleIcons'
+import ExampleSwiper from '@/pages/example/ExampleSwiper'
 import Account from '@/pages/account/Account'
 import ErrorPage from '@/pages/error/ErrorPage'
 import Search from '@/pages/search/Search'
@@ -157,6 +158,11 @@ let router = new Router({
       path: '/exampleicons',
       name: 'ExampleIcons',
       component: ExampleIcons
+    },
+    {
+      path: '/exampleswiper',
+      name: 'ExampleSwiper',
+      component: ExampleSwiper
     },
     {
       path: '/account',
