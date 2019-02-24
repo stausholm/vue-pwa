@@ -16,7 +16,7 @@ export default {
   props: {
     noScrollbar: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data() {
@@ -90,12 +90,23 @@ export default {
   }
 
   &__item {
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     transform: translateZ(0); // prevent repainting entire component
+
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    background-color: #fff;
+    color: #6a6a6a;
+    border-radius: 2px;
+    min-width: 40%;
+    padding: 20px;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
   }
 }
 
-.hide-scrollbar {
+.hide-scrollbars {
   scrollbar-width: none;
   -ms-overflow-style: none;
 
