@@ -24,6 +24,7 @@ import NotificationSmall from './components/notifications/NotificationSmall';
 
 import handleOrientationChange from './utils/orientationChange';
 import handleLayoutBreakpoint from './utils/layoutBreakpoint';
+import replaceBrokenImagesInit from './utils/handleBrokenImages';
 
 export default {
   name: 'app',
@@ -82,6 +83,9 @@ export default {
     handleOrientationChange(this);
     // viewport media query layout breakpoint listener
     handleLayoutBreakpoint(this);
+
+    // add eventlistener to document, for 'error' on images
+    replaceBrokenImagesInit('/static/img/wizard.jpg');
   },
   watch: {
     '$route' (to, from) {

@@ -36,6 +36,9 @@ body {
 ul {
   list-style-type: none;
 }
+img {
+  max-width: 100%;
+}
 
 .divider-with-text {
   background: $light-grey;
