@@ -3,7 +3,7 @@
     <app-navigation :fixed="true" :hideOnScroll="true"/>
     <bottom-nav />
     <main>
-      <transition name="fade">
+      <transition :name="transitionName" mode="out-in">
         <router-view></router-view>
       </transition>
       <!-- <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      transitionName: 'slide-left'
+      transitionName: 'route-primary'
     }
   },
   computed: {
@@ -89,6 +89,12 @@ export default {
   },
   watch: {
     '$route' (to, from) {
+      // TODO: no need for reactive watching here, if we use nested router-views
+      const oneIsPrimary = to.meta.isPrimary || from.meta.isPrimary
+      if (oneIsPrimary) {
+        return this.transitionName = 'route-primary'
+      }
+
       //const toDepth = to.path.split('/').length
       //const fromDepth = from.path.split('/').length
       //this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
@@ -97,6 +103,8 @@ export default {
       // } else {
       //   this.transitionName = 'slide-left'
       // }
+
+      return this.transitionName = ''
     }
   }
 }

@@ -18,7 +18,7 @@
               <switch-input :disabled="false" v-model="test"/>
             </div>
           </li>
-          <li class="options-list__item">
+          <li class="options-list__item" @click="$router.push('/account/setting1')">
             <div class="description">
               <p class="description__title">Ring duration</p>
               <p class="description__subtitle">Alarm will ring for 5 minutes</p>
@@ -58,15 +58,7 @@
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="list-header">List header</b>
         <ul class="options-list">
-          <li class="options-list__item">
-            <div class="description">
-              <p class="description__title">Option headline</p>
-              <p class="description__subtitle">subheader content</p>
-            </div>
-            <div class="action">
-              action
-            </div>
-          </li>
+          <list-item subtitle="subtitle" type="check" v-model="test2"></list-item>
           <li class="options-list__item">
             <div class="description">
               <p class="description__title">Option headline</p>
@@ -150,6 +142,8 @@ import IconArrowRight from '@/components/icons/IconArrowRight'
 
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
+import ListItem from '@/components/list/ListItem'
+
 export default {
   name: 'Account',
   data() {
@@ -161,7 +155,7 @@ export default {
     }
   },
   components: {
-    AccountCard, SignInSignUp, SwitchInput, IconBase, IconArrowRight, ModalAdvanced
+    AccountCard, SignInSignUp, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
   },
   computed: {
     isLoggedIn() {

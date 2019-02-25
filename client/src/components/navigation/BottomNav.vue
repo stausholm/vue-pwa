@@ -2,17 +2,11 @@
   <div class="bottom-nav" :class="{ 'bottomnav-hide': subRoute}">
     <div class="container">
       <nav>
-        <router-link to="/example" replace>
-          <icon-base iconName="beach" iconColor="#fff" width="24" height="24">
-            <icon-beach-access />
+        <router-link v-for="route in routes" :key="route.name" :to="route.path" replace>
+          <icon-base>
+            <component :is="route.meta.icon || fallbackIcon"></component>
           </icon-base>
-          example
-        </router-link>
-        <router-link to="/" replace>
-          <icon-base iconName="business center" iconColor="#fff" width="24" height="24">
-            <icon-business-center />
-          </icon-base>
-          home
+          <span>{{route.meta.title}}</span>
         </router-link>
         <router-link to="/aa" replace>
           <icon-base iconName="casino" iconColor="#fff" width="24" height="24">
@@ -45,7 +39,13 @@ export default {
   },
   computed: {
     subRoute() {
-      return this.$route.meta.enableBack;
+      return this.$route.meta.enableBack //|| !this.$route.meta.isPrimary;
+    },
+    routes() {
+      return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)
+    },
+    fallbackIcon() {
+      return IconCasino
     }
   }
 }
