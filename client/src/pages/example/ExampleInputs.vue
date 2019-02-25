@@ -2,7 +2,7 @@
   <div>
     <div class="container--content">
       <h1>Examples of form inputs</h1>
-      <form-generator :schema="schema" v-model="formData" @success="submitForm">
+      <form-generator :schema="schema" v-model="testYo" @success="submitForm">
         dummy submit
       </form-generator>
     </div>
@@ -11,6 +11,7 @@
     <p style="margin-top:200px">more height!</p>
     <file-input accept="image/*,video/*" v-model="dummy2" @file="dummy2__files = $event" :disabled="true"/>
     <p style="margin-top:200px">more height!</p>
+    <hidden-input v-model="hiddenVal" name="_charset_"/>
     <p style="margin-top:200px">more height!</p>
   </div>
 </template>
@@ -20,19 +21,22 @@ import FormGenerator from '@/components/inputs/FormGenerator';
 
 import ImageInput from '@/components/inputs/ImageInput';
 import fileInput from '@/components/inputs/FileInput';
+import HiddenInput from '@/components/inputs/HiddenInput';
 
 export default {
   name: 'ExampleInputs',
   components: {
-    FormGenerator, ImageInput, fileInput
+    FormGenerator, ImageInput, fileInput, HiddenInput
   },
   data() {
     return {
+      hiddenVal: 'yoyo',
       dummy: '',
       dummy__file: null,
       dummy2: '',
       dummy2__files: null,
       formData: {
+        hiddenyo: 'to',
         email: "bob@bob.dk",
         //password: "neato",
         gender: "Female",
@@ -44,6 +48,7 @@ export default {
         recentStores2: ["KFC"],
         //rating: "2"
       },
+      testYo: null,
       schema: [
         {
           fieldType: 'EmailInput',
@@ -230,6 +235,11 @@ export default {
           ]
         },
         {
+          fieldType: 'HiddenInput',
+          name: 'hiddenyo',
+          value: 'val'
+        },
+        {
           fieldType: 'TextInput',
           name: 'custom',
           label: 'Custom validation',
@@ -255,6 +265,12 @@ export default {
     submitForm() {
       console.log('WOOH!', this.formData)
     }
+  },
+  created() {
+    this.testYo = this.schema.reduce((acc, cur) => {
+      acc[cur.name] = cur.value
+      return acc
+    }, {})
   }
 }
 </script>
