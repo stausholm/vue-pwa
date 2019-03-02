@@ -78,6 +78,7 @@ export default {
   created() {
     window.addEventListener('keydown', this.handleKeydown)
     document.addEventListener('focusin', this.handleFocusIn)
+    window.addEventListener('popstate', this.closeModal)
   },
   mounted() {
     document.body.classList.add('modal-advanced-open')
@@ -87,6 +88,7 @@ export default {
     document.body.classList.remove('modal-advanced-open')
     window.removeEventListener('keydown', this.handleKeydown)
     document.removeEventListener('focusin', this.handleFocusIn)
+    window.removeEventListener('popstate', this.closeModal)
   }
 }
 </script>

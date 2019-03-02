@@ -39,6 +39,7 @@ Vue.use(Router);
 let router = new Router({
   //mode: 'history',
   scrollBehavior(to, from, savedPosition) {
+    console.log('inside scrollbehavior')
     if (savedPosition) {
       return savedPosition;
     }
@@ -237,6 +238,15 @@ router.beforeEach((to, from, next) => {
   //console.log('inside beforeEach', to)
   handlePageTitle(to, "fallback title");
   handleMetaTags(to);
+  if(document.body.classList.contains('modal-advanced-open')) {
+    // if ('scrollRestoration' in history) {
+    //   // this fixes the jumping issue, but has not been tested if it breaks anything else
+    //   history.scrollRestoration = 'manual';
+    // }
+    console.log('modal open, back button should not go back', from)
+    // why does this make the page jump..
+    return next(false)
+  }
 
   // prevent navigating backwards if slideout menu is open, and close it instead
   // if (store.getters.slideoutIsOpen) {
