@@ -5,19 +5,15 @@ import Hello from "@/components/Hello";
 import Home from "@/pages/home/Home";
 import Login from "@/pages/login/Login";
 import Register from "@/pages/register/Register";
-import Example from "@/pages/example/Example";
-import ExampleWithAuth from "@/pages/example/ExampleWithAuth";
-import ExampleWithAuthRole from "@/pages/example/ExampleWithAuthRole";
-import ExampleInputs from "@/pages/example/ExampleInputs";
-import ExampleDataList from "@/pages/example/ExampleDataList";
-import ExampleGraphs from "@/pages/example/ExampleGraphs";
-import ExampleIcons from "@/pages/example/ExampleIcons";
+
 import ErrorPage from "@/pages/error/ErrorPage";
 import Search from "@/pages/search/Search";
 
 import AccountMain from "@/pages/account/Index";
 import Account from "@/pages/account/Account";
 import Setting1 from "@/pages/account/settings/Setting1";
+
+import example from './routes/example'
 
 Vue.use(Router);
 
@@ -91,6 +87,7 @@ let router = new Router({
     // })
   },
   routes: [
+    ...example,
     {
       path: "/",
       name: "Home",
@@ -124,54 +121,6 @@ let router = new Router({
         showInNav: false,
         title: "Sign up"
       }
-    },
-    {
-      path: "/example",
-      name: "Example",
-      component: Example,
-      meta: {
-        isPrimary: true,
-        title: "Example title",
-        icon: "IconBeachAccess"
-      }
-    },
-    {
-      path: "/examplewithauth",
-      name: "ExampleWithAuth",
-      component: ExampleWithAuth,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/examplewithauthrole",
-      name: "ExampleWithAuthRole",
-      component: ExampleWithAuthRole,
-      meta: {
-        requiresAuth: true,
-        is_role: true,
-        allowedRoles: ["admin", "premium", "basic"]
-      }
-    },
-    {
-      path: "/exampleinputs",
-      name: "ExampleInputs",
-      component: ExampleInputs
-    },
-    {
-      path: "/exampledatalist",
-      name: "ExampleDataList",
-      component: ExampleDataList
-    },
-    {
-      path: "/examplegraphs",
-      name: "ExampleGraphs",
-      component: ExampleGraphs
-    },
-    {
-      path: "/exampleicons",
-      name: "ExampleIcons",
-      component: ExampleIcons
     },
     {
       path: "/account",

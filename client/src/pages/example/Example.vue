@@ -14,6 +14,12 @@
       <button @click="testNotification2">test notification warning</button>
       <div style="width:200px;height:200px;background:red;" v-if="showBox"></div>
       <p style="margin-top:200px">more height!</p>
+      <ul>
+        <li v-for="link in childRoutes" :key="link.path">
+          <router-link :to="'/example/' + link.path">{{link.name}}</router-link>
+        </li>
+      </ul>
+      <router-view />
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <search-bar />
@@ -40,6 +46,11 @@ export default {
   data() {
     return {
       showBox: true
+    }
+  },
+  computed: {
+    childRoutes() {
+      return this.$router.options.routes.find(route => route.path === '/example').children
     }
   },
   methods: {
