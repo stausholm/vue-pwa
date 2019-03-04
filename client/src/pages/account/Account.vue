@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isLoggedIn">
+    <div>
       <div class="container--content">
         <account-card/>
         <button @click="logout" class="btn btn--responsive btn-logout">Sign out</button>
@@ -110,15 +110,12 @@
           </li>
         </ul>
       </div>
+      <!-- <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-    </div>
-    <div class="container--content" v-else>
-      <sign-in-sign-up/>
+      <p style="margin-top:200px">more height!</p> -->
     </div>
     <modal-advanced 
       v-if="showModal" 
@@ -134,7 +131,6 @@
 
 <script>
 import AccountCard from '@/components/account/AccountCard';
-import SignInSignUp from '@/components/account/SignInSignUp';
 import SwitchInput from '@/components/inputs/SwitchInput';
 
 import IconBase from '@/components/icons/IconBase'
@@ -144,6 +140,8 @@ import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 import ListItem from '@/components/list/ListItem'
 
+import getMenuData from './getSettingsMenuData'
+
 export default {
   name: 'Account',
   data() {
@@ -151,16 +149,15 @@ export default {
       test: true,
       test2: true,
       stickyHeaders: true,
-      showModal: false
+      showModal: false,
+      menu: getMenuData()
     }
   },
   components: {
-    AccountCard, SignInSignUp, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
+    AccountCard, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn
-    }
+    
   },
   methods: {
     logout() {

@@ -62,42 +62,42 @@ export default [
       }
     ]
   },
-  {
-    path: "/examplewithauth",
-    name: "ExampleWithAuth",
-    component: ExampleWithAuth,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/examplewithauthrole",
-    name: "ExampleWithAuthRole",
-    component: ExampleWithAuthRole,
-    meta: {
-      requiresAuth: true,
-      is_role: true,
-      allowedRoles: ["admin", "premium", "basic"]
-    }
-  },
-  {
-    path: "/exampleinputs",
-    name: "ExampleInputs",
-    component: ExampleInputs
-  },
-  {
-    path: "/exampledatalist",
-    name: "ExampleDataList",
-    component: ExampleDataList
-  },
-  {
-    path: "/examplegraphs",
-    name: "ExampleGraphs",
-    component: ExampleGraphs
-  },
-  {
-    path: "/exampleicons",
-    name: "ExampleIcons",
-    component: ExampleIcons
-  }
+  // {
+  //   path: "/examplewithauth",
+  //   name: "ExampleWithAuth",
+  //   component: ExampleWithAuth,
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: "/examplewithauthrole",
+  //   name: "ExampleWithAuthRole",
+  //   component: ExampleWithAuthRole,
+  //   meta: {
+  //     requiresAuth: true,
+  //     is_role: true,
+  //     allowedRoles: ["admin", "premium", "basic"]
+  //   }
+  // },
+  // {
+  //   path: "/exampleinputs",
+  //   name: "ExampleInputs",
+  //   component: ExampleInputs
+  // },
+  // {
+  //   path: "/exampledatalist",
+  //   name: "ExampleDataList",
+  //   component: ExampleDataList
+  // },
+  // {
+  //   path: "/examplegraphs",
+  //   name: "ExampleGraphs",
+  //   component: ExampleGraphs
+  // },
+  // {
+  //   path: "/exampleicons",
+  //   name: "ExampleIcons",
+  //   component: ExampleIcons
+  // }
 ]

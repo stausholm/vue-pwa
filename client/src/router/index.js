@@ -9,11 +9,9 @@ import Register from "@/pages/register/Register";
 import ErrorPage from "@/pages/error/ErrorPage";
 import Search from "@/pages/search/Search";
 
-import AccountMain from "@/pages/account/Index";
-import Account from "@/pages/account/Account";
-import Setting1 from "@/pages/account/settings/Setting1";
 
 import example from './routes/example'
+import account from './routes/account'
 
 Vue.use(Router);
 
@@ -31,6 +29,10 @@ Vue.use(Router);
  * @param showInNav - Define if this route should be rendered in the main navigation. Current implementation should probably rename it to hideFromNav
  *
  */
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
 
 let router = new Router({
   //mode: 'history',
@@ -88,6 +90,7 @@ let router = new Router({
   },
   routes: [
     ...example,
+    ...account,
     {
       path: "/",
       name: "Home",
@@ -123,42 +126,6 @@ let router = new Router({
       }
     },
     {
-      path: "/account",
-      // name: "Account",
-      component: AccountMain,
-      meta: {
-        title: "My user",
-        enableBack: true,
-        overwriteHide: true,
-        metaTags: [
-          {
-            name: "description",
-            content: "The account page of the app"
-          },
-          {
-            property: "og:description",
-            content: "the account page of the app yo"
-          }
-        ]
-      },
-      children: [
-        {
-          path: "/",
-          component: Account,
-          meta: {
-            enableBack: true
-          }
-        },
-        {
-          path: "setting1",
-          component: Setting1,
-          meta: {
-            enableBack: true
-          }
-        }
-      ]
-    },
-    {
       path: "/search",
       name: "Search",
       component: Search,
@@ -183,17 +150,16 @@ let router = new Router({
 import handlePageTitle from "./middleware/pageTitle";
 import handleMetaTags from "./middleware/metaTags";
 
-router.beforeEach((to, from, next) => {
-  //console.log('inside beforeEach', to)
+router.afterEach((to, from) => {
   handlePageTitle(to, "fallback title");
   handleMetaTags(to);
+})
+
+router.beforeEach((to, from, next) => {
+  //console.log('inside beforeEach', to)
   if(document.body.classList.contains('modal-advanced-open')) {
-    // if ('scrollRestoration' in history) {
-    //   // this fixes the jumping issue, but has not been tested if it breaks anything else
-    //   history.scrollRestoration = 'manual';
-    // }
     console.log('modal open, back button should not go back', from)
-    // why does this make the page jump..
+    // this makes the page jump unless history.scrollRestoration is set to 'manual', because a popstate event is fired
     return next(false)
   }
 

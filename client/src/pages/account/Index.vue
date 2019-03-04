@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>account index</h1>
+  <div class="account-page">
     <transition :name="transitionName" mode="in-out">
       <router-view class="bob"></router-view>
     </transition>  
