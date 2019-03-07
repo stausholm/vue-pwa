@@ -37,56 +37,26 @@ if ('scrollRestoration' in history) {
 let router = new Router({
   //mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    console.log('inside scrollbehavior')
-    if (savedPosition) {
-      return savedPosition;
-    }
-    if (to.hash) {
-      return { selector: to.hash };
-    }
-    return { x: 0, y: 0 };
+    return new Promise(resolve => {
+      // wait for the out transition to complete (if necessary)
+      router.app.$root.$once('triggerScroll', () => {
+        // if the resolved position is falsy or an empty object,
+        // will retain current scroll position.
 
-    //console.log('inside scrollBehaviour')
-    //console.log('is back or forwards button? ', to.meta.fromHistory = savedPosition !== null)
-    // https://github.com/quasarframework/quasar/issues/1466
-    // https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
-    // return new Promise((resolve) => {
-    //   const position = savedPosition || {};
-    //   console.log(position)
-    //   if (!savedPosition) {
-    //     if (to.hash) {
-    //       position.selector = to.hash;
-    //     }
-    //   }
-    //   router.app.$root.$once('triggerScroll', () => {
-    //     router.app.$nextTick(() => resolve(position));
-    //   });
-    // })
-    // if (savedPosition) {
-    //   return savedPosition;
-    // }
-    // if (to.hash) {
-    //   return {selector: to.hash};
-    // }
-    // return {x: 0, y: 0}
-    // https://github.com/vuejs/vue-router/pull/1758
-    // https://router.vuejs.org/guide/advanced/scroll-behavior.html
-    // return new Promise((resolve, reject) => {
-    //   //setTimeout(() => {
-    //     if (savedPosition) {
-    //       setTimeout(() => {
-    //         //console.log('savedPosition',savedPosition)
-    //         resolve(savedPosition);
-    //       }, 200)
-    //     } else if (to.hash) { // TODO: This works?
-    //       //console.log('hash', to.hash)
-    //       resolve({selector: to.hash});
-    //     } else {
-    //       //console.log('none')
-    //       resolve({ x: 0, y: 0 })
-    //     }
-    //   //}, 200)
-    // })
+        //https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
+        //https://github.com/quasarframework/quasar/issues/1466
+        if (savedPosition) {
+          console.log('savedposition')
+          return router.app.$nextTick(() => resolve(savedPosition))
+        } else if (to.hash) {
+          console.log('to.hash')
+          return router.app.$nextTick(() => resolve({selector: to.hash}))
+        } else {
+          console.log('0,0')
+          return router.app.$nextTick(() => resolve({ x: 0, y: 0 }))
+        }
+      })
+    })
   },
   routes: [
     ...example,

@@ -3,7 +3,7 @@
     <app-navigation :fixed="true" :hideOnScroll="true"/>
     <bottom-nav />
     <main>
-      <transition :name="transitionName" mode="out-in">
+      <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
         <router-view></router-view>
       </transition>
       <!-- <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
@@ -44,12 +44,12 @@ export default {
       return this.$store.getters.showPWAOverlay
     }
   },
-  // methods: {
-  //   afterLeave() {
-  //     console.log('afterLeave fired')
-  //     this.$root.$emit('triggerScroll')
-  //   }
-  // },
+  methods: {
+    afterLeave() {
+      console.log('afterLeave fired')
+      this.$root.$emit('triggerScroll')
+    }
+  },
   created() {
     // handle expired token
     this.$http.interceptors.response.use(undefined, function (err) { // intercept axios to see if we get 401 Unauthorized. If so, token has expired and dispatch "logout" action
