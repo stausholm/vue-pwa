@@ -17,6 +17,7 @@ import IconMenu from './IconMenu.vue'
 import IconPhotoCamera from './IconPhotoCamera.vue'
 import IconRestore from './IconRestore.vue'
 import IconSearch from './IconSearch.vue'
+import IconMoreVert from './IconMoreVert.vue'
 
 // outline folder
 import IconVisibility from './outline/IconVisibility.vue'
@@ -41,6 +42,7 @@ export default {
   IconPhotoCamera,
   IconRestore,
   IconSearch,
+  IconMoreVert,
 
   // outline icons
   IconVisibility,

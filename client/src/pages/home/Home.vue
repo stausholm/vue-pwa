@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hero-block-split :background="['image', 'fade']"/>
+    <hero-block-split :pullImageLeft="false" :background="['image', 'fade']"/>
     <div class="container--content">
       <h1>this is home</h1>
       <offline />
