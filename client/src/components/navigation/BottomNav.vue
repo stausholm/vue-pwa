@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-nav" :class="{ 'bottomnav-hide': subRoute}">
+  <div class="bottom-nav" :class="{ 'bottomnav-hide': hideNav}">
     <div class="container">
       <nav>
         <router-link v-for="route in routes" :key="route.name" :to="route.path" replace>
@@ -32,14 +32,35 @@ export default {
   },
   data() {
     return {
+      onScreenKeyboardActive: false
+    }
+  },
+  methods: {
+    handleKeyboard({type, target}) {
+      if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT' && target.getAttribute('type').match(/password|text|number|search|email|tel|url/i)) {
+        if (type === 'focus') {
+          this.onScreenKeyboardActive = true;
+        } else {
+          this.onScreenKeyboardActive = false;
+        }
+      }
     }
   },
   mounted() {
     document.documentElement.classList.add('has-bottomnav')
+
+    // prevent nav from being attached to the top of on-screen keyboard, by hiding it. 
+    document.addEventListener('focus', this.handleKeyboard, true)
+    document.addEventListener('blur', this.handleKeyboard, true)
+  },
+  beforeDestroy() {
+    // we never destroy the bottom nav, but just in case we decide to in the future
+    document.removeEventListener('focus', this.handleKeyboard, true)
+    document.removeEventListener('blur', this.handleKeyboard, true)
   },
   computed: {
-    subRoute() {
-      return this.$route.meta.enableBack //|| !this.$route.meta.isPrimary;
+    hideNav() {
+      return this.$route.meta.enableBack || this.onScreenKeyboardActive //|| !this.$route.meta.isPrimary;
     },
     routes() {
       return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)

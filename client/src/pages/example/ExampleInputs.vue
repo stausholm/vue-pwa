@@ -88,7 +88,7 @@ export default {
           fieldType: 'TextArea',
           name: 'bio',
           label: 'Bio',
-          disabled: true
+          //disabled: true
         },
         {
           fieldType: 'SelectList',
