@@ -12,6 +12,7 @@ import Search from "@/pages/search/Search";
 
 import example from './routes/example'
 import account from './routes/account'
+import onboarding from './routes/onboarding'
 
 Vue.use(Router);
 
@@ -61,6 +62,7 @@ let router = new Router({
   routes: [
     ...example,
     ...account,
+    ...onboarding,
     {
       path: "/",
       name: "Home",
@@ -131,6 +133,11 @@ router.beforeEach((to, from, next) => {
     console.log('modal open, back button should not go back', from)
     // this makes the page jump unless history.scrollRestoration is set to 'manual', because a popstate event is fired
     return next(false)
+  }
+
+  if (!localStorage.getItem('onBoardingComplete') && !to.path.match(/^\/onboarding/)) {
+    next('/onboarding')
+    return
   }
 
   // prevent navigating backwards if slideout menu is open, and close it instead
