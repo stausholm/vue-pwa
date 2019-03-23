@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './modules/auth';
 import A2HS from './modules/A2HS';
+import sitesettings from './modules/sitesettings';
 
 Vue.use(Vuex);
 
@@ -71,6 +72,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    auth, A2HS
+    auth, A2HS, sitesettings
   }
 });

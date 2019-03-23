@@ -38,11 +38,11 @@
         <h1>Oops, that's awkward.</h1>
   
         <p>
-          <strong>APPNAME</strong> is a
+          <strong><%= htmlWebpackPlugin.options.title %></strong> is a
           <a href="https://en.wikipedia.org/wiki/Web_application" target="_blank">web application</a>
           and requires JavaScript to run. Please consider enabling it.
         </p>
-        <p>More info: <a href="https://github.com/stausholm/vue-pwa" target="_blank">APPNAME on GitHub</a></p>
+        <p>More info: <a href="https://github.com/stausholm/vue-pwa" target="_blank"><%= htmlWebpackPlugin.options.title %> on GitHub</a></p>
       </div>
     </noscript>
     <div class="app-initial-load">
@@ -102,7 +102,7 @@
         }
       </style>
       <div class="initial-load-spinner"></div>
-      <b>Loading APPNAME</b>
+      <b>Loading <%= htmlWebpackPlugin.options.title %></b>
     </div>
     <div id="app"></div>
     <script>
