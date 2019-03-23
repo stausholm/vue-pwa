@@ -8,7 +8,7 @@
         <div class="dots">
           <span v-for="(dot, index) in childRoutes" :key="index" class="dot" :class="{'dot--is-current': index === activeStep}"></span>
         </div>
-        <button class="btn" @click="skip">Skip onboarding</button>
+        <button class="btn btn--small btn--inverted" @click="skip">Skip onboarding</button>
       </div>
     </div>
   </div>

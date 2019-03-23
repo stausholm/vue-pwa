@@ -1,12 +1,12 @@
 <template>
   <transition name="fade">
     <div class="A2HS-overlay">
-      <div class="container">
+      <div class="container--content">
         <b>Add {{appName}} to Homescreen</b>
         <p>
-          Tap your browser's settings icon in the corner, to bring up your browser menu and select 'Add to homescreen' to pin the {{appName}} web app and enjoy offline support
+          Tap your browser's settings icon, and select 'Add to homescreen' to pin the {{appName}} web app and enjoy offline support
         </p>
-        <button @click.stop="toggleOverlay">Got it!</button>
+        <button class="btn btn--small btn--inverted" @click.stop="toggleOverlay">Got it!</button>
       </div>
     </div>
   </transition>
@@ -24,6 +24,12 @@ export default {
     toggleOverlay() {
       this.$store.dispatch('togglePWAOverlay');
     }
+  },
+  mounted() {
+    document.body.classList.add('overflow-hide')
+  },
+  beforeDestroy() {
+    document.body.classList.remove('overflow-hide')
   }
 }
 </script>

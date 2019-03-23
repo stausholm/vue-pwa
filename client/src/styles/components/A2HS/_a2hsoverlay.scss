@@ -8,7 +8,7 @@
   //width: 100vw;
   //height: 100vh;
   background-color: rgba($primary-color, .9);
-  padding: $default-spacing * 3;
+  //padding: $default-spacing * 3;
   color: $white;
   cursor: default;
 
@@ -31,16 +31,5 @@
     white-space: initial !important;
     text-overflow: initial !important;
     margin: $default-spacing 0;
-  }
-  button {
-    border: 0;
-    background: $white;
-    color: $primary-color;
-    padding: $default-spacing / 2 $default-spacing;
-    box-shadow: $box-shadow;
-    border-radius: $default-border-radius;
-    letter-spacing: .015rem;
-    text-transform: uppercase;
-    cursor: pointer;
   }
 }

@@ -113,8 +113,8 @@
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="list-header">Some actual pages</b>
         <ul class="options-list">
-          <list-item title="About" type="arrow" @click.native="$router.push('/account/about')"></list-item>
-          <list-item title="Delete data" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
+          <list-item title="Delete my data" subtitle="Remove all locally stored content" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
         </ul>
       </div>
     </div>

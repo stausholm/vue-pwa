@@ -3,11 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
+
 html {
   $header-color: $primary-color;
   $footer-color: $light-grey;
@@ -40,28 +36,7 @@ img {
   max-width: 100%;
 }
 
-.divider-with-text {
-  background: $light-grey;
-  height: 1px;
-  margin: $default-spacing 0;
-  width: 100%;
-  display: block;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: $text-secondary-color;
-  position: relative;
 
-  span {
-    background: $white;
-    font-weight: 600;
-    font-size: .85rem;
-    user-select: none;
-    padding: 4px $default-spacing;
-    display: inline-block;
-    transform: translateY(-50%);
-  }
-}
 
 .has-fixed-header main {
   padding-top: $toolbar-height;
@@ -79,14 +54,4 @@ img {
   body.overlay-active {
     overflow-y: hidden;
   }
-}
-
-// hide content but remain accessible
-// https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
-.visually-hidden {
-  position: absolute; 
-  overflow: hidden; 
-  clip: rect(0 0 0 0); 
-  height: 1px; width: 1px; 
-  margin: -1px; padding: 0; border: 0; 
 }

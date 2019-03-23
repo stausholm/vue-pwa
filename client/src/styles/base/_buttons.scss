@@ -33,8 +33,10 @@
 
 
   &--secondary {
-    &:hover, &:focus {
+    background-color: $text-secondary-color-noAlpha;
 
+    &:hover, &:focus {
+      background-color: $text-primary-color-noAlpha;
     }
   }
 
@@ -71,6 +73,16 @@
     &:hover, &:focus {
       background-color: $color-danger-dark;
     }
+  }
+
+  &--small {
+    padding: $default-spacing / 2 $default-spacing;
+    letter-spacing: .015rem;
+  }
+
+  &--inverted {
+    background-color: $white;
+    color: $primary-color;
   }
 
   &--cta {
