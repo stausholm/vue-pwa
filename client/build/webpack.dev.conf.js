@@ -10,7 +10,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-import SiteSettings from '../src/constants/SiteSettings'
+const SiteSettings = require('../src/constants/SiteSettings')
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
