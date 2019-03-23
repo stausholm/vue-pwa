@@ -31,6 +31,48 @@
     }
   }
 
+
+  &--secondary {
+    &:hover, &:focus {
+
+    }
+  }
+
+  &--transparent {
+    background-color: transparent;
+    color: $text-primary-color;
+    box-shadow: none;
+
+    &:hover, &:focus {
+      background-color: $light-grey;
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    box-shadow: $box-shadow, inset 0 0 0 1px $primary-color;
+    color: $primary-color;
+
+    &:hover, &:focus {
+      color: $white;
+      background-color: $primary-color;
+    }
+  }
+
+  &--disabled {
+    background-color: $light-grey;
+    color: $text-disabled-color;
+    pointer-events: none;
+  }
+
+  &--danger {
+    background-color: $color-danger;
+
+    &:hover, &:focus {
+      background-color: $color-danger-dark;
+    }
+  }
+
   &--cta {
     overflow: hidden;
     display: inline-flex;

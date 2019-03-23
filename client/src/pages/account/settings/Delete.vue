@@ -7,7 +7,7 @@
         Deleting your data is a permanent and irreversible action.
         Please be sure before proceeding.
       </p>
-      <button @click="showModal = true">Delete application data</button>
+      <button class="btn btn--danger" @click="showModal = true">Delete application data</button>
 
       <modal-advanced
         v-if="showModal"
