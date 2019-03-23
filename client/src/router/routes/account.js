@@ -41,6 +41,20 @@ export default [
         meta: {
           enableBack: true
         }
+      },
+      {
+        path: "about",
+        component: () => import('@/pages/account/settings/About' /* webpackChunkName: "account" */),
+        meta: {
+          enableBack: true
+        }
+      },
+      {
+        path: "delete",
+        component: () => import('@/pages/account/settings/Delete' /* webpackChunkName: "account" */),
+        meta: {
+          enableBack: true
+        }
       }
     ]
   }

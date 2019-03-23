@@ -110,12 +110,13 @@
           </li>
         </ul>
       </div>
-      <!-- <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p> -->
+      <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
+        <b class="list-header">Some actual pages</b>
+        <ul class="options-list">
+          <list-item title="About" type="arrow" @click.native="$router.push('/account/about')"></list-item>
+          <list-item title="Delete data" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+        </ul>
+      </div>
     </div>
     <modal-advanced 
       v-if="showModal" 
