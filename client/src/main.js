@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import LoggerService from './utils/logger'
+
 import './styles/index.scss'
 
 import { clickOutside } from './directives/click-outside'
