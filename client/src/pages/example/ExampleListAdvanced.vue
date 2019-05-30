@@ -70,9 +70,19 @@ export default {
         return console.warn('tried to call action handler without any payload')
       }
     },
-    handleDelete() {
+    handleDelete(payload) {
+      const isBulkAction = Array.isArray(payload)
       console.log('handledelete')
-      this.$store.dispatch('changeNotification', {content: 'deleted', duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
+      
+      if (isBulkAction && payload.length === 0) {
+        return console.warn('tried to call action handler without any payload')
+      }
+
+      if(!isBulkAction || isBulkAction && payload.length < 5) {
+        this.$store.dispatch('changeNotification', {content: 'deleted', duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
+      } else {
+        console.log('should show confirm modal')
+      }
     }
   }
 }

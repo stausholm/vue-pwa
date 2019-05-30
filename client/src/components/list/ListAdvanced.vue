@@ -20,9 +20,12 @@
       :itemIsSelected="selectedItems.includes(item)"
       :isSelecting="isSelecting"
       :actions="actions"
-      @actions[0]="console.log('asd')"
       @selected="updateSelected(item, $event)"
       :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+
+      <div class="list-loader" v-if="1>2">
+        loading more items
+      </div>
   </div>
 </template>
 
