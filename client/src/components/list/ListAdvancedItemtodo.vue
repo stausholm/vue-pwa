@@ -1,6 +1,6 @@
 <template>
   <div class="list-item" tabindex="0" @click="handleClick" @touchstart="handleTouchStart" @touchend="handleTouchEnd" @touchmove="handleTouchMove" @touchcancel="handleTouchCancel">
-    <div class="list-item__content">
+    <div class="list-item__content" :style="{left: `${cardPositionX}px`, transition: enableTransition ? 'left 200ms ease' : ''}">
       <div class="list-item__content-inner">
         <div>
           <p class="title">{{item.title}}</p>
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="list-item__actions">
+    <div class="list-item__actions" v-if="showDelete">
       <button v-for="action in actions" :key="action"  @click="$parent.$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
         <icon-base :iconName="action" width="24" height="24">
           <!-- <component :is="action"/> -->
@@ -76,7 +76,16 @@ export default {
   },
   data() {
     return {
-      longTouchfunc: null
+      longTouchfunc: null,
+      animationFrame: false,
+      cardPositionX: 0,
+      cardStartPositionX: 0,
+      enableTransition: false,
+      isScroll: null,
+      showDelete: false,
+      touchEndX: false,
+      touchStartX: false,
+      touchStartY: false
     }
   },
   methods: {
@@ -89,30 +98,117 @@ export default {
         return
       }
     },
-    handleTouchStart() {
-      console.log('start');
+    handleTouchStart(e) {
+      //console.log('start');
       if (!this.isSelecting) {
-        this.longTouchfunc = setTimeout(this.selectMe, 500)
+        this.longTouchfunc = setTimeout(() => {
+          this.selectMe();
+          this.enableTransition = true;
+          this.resetSwipe();
+        }, 500)
+      } else {
+        return // don't do the swipes if selecting
       }
+
+      console.log(e.currentTarget)
+      this.touchStartX = e.changedTouches[0].screenX;
+      this.touchStartY = e.changedTouches[0].screenY;
+      this.cardStartPositionX = this.cardPositionX;
+      if (this.enableTransition) this.enableTransition = false;
+      
+      //e.currentTarget.focus();
     },
-    handleTouchEnd() {
-      console.log('end');
+    handleTouchEnd(e) {
+      //console.log('end');
+      if (this.isSelecting) {
+        return
+      }
       if (!this.isSelecting && this.longTouchfunc !== null) {
         clearTimeout(this.longTouchfunc)
         this.longTouchfunc = null;
       }
+
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.handleSwipeEnd();
     },
-    handleTouchMove() {
-      console.log('move');
+    handleTouchMove(e) {
+      //console.log('move');
+      if (this.isSelecting) {
+        return
+      }
       if (!this.isSelecting && this.longTouchfunc !== null) {
         clearTimeout(this.longTouchfunc)
         this.longTouchfunc = null;
       }
+
+      this.animationFrame = window.requestAnimationFrame(() => this.swiping(e));
     },
-    handleTouchCancel() {
+    handleTouchCancel(e) {
       console.log('cancel');
-    }
-  }
+    },
+
+    
+    handleSwipeEnd() {
+      const threshold = Math.min(window.innerWidth, 1200) / 2;
+      const thresholdButton = 26;
+      window.cancelAnimationFrame(this.animationFrame);
+      this.enableTransition = true;
+      this.isScroll = null;
+      if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
+        this.cardPositionX = this.actions.length * 48;
+        this.showDelete = true;
+      } else if (this.cardPositionX >= threshold) { // swiped very far
+        this.$parent.$emit('delete', this.item);
+        this.cardPositionX = window.innerWidth;
+        this.showDelete = false;
+      } else { // didn't swipe very far at all
+        this.cardPositionX = 0;
+        this.showDelete = false;
+      }
+    },
+    swiping(e) {
+      const currentX = e.changedTouches[0].screenX;
+      const currentY = e.changedTouches[0].screenY;
+      const distanceX = currentX - this.touchStartX;
+      const distanceY = currentY - this.touchStartY;
+      const limitLeft = 0;
+      const limitRight = window.innerWidth;
+
+      if (Math.abs(distanceY) >= Math.abs(distanceX) && this.isScroll === null) this.isScroll = true;
+      else if (this.isScroll === null) this.isScroll = false;
+
+      if (this.isScroll) return;
+
+      console.table({currentX,currentY,distanceX,distanceY, cardPositionX: this.cardPositionX})
+      console.count('swiping')
+      if (this.cardPositionX >= limitLeft && this.cardPositionX <= limitRight) {
+        console.count('is true')
+        if (distanceX >= 0) {
+          console.count('is true true')
+          this.cardPositionX = Math.min(this.cardStartPositionX + distanceX, limitRight);
+        } else {
+          this.cardPositionX = Math.max(this.cardStartPositionX + distanceX, limitLeft)
+        };
+      }
+    },
+    handleBlur(e) {
+      if (!this.$el.contains(e.target)) this.resetSwipe();
+    },
+    resetSwipe() {
+      if (this.showDelete || this.cardPositionX !== 0) {
+        this.cardPositionX = 0;
+        this.showDelete = false;
+      }
+    },
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleBlur);
+    window.removeEventListener('touchstart', this.handleBlur);
+  },
+  mounted() {
+    window.addEventListener('click', this.handleBlur);
+    window.addEventListener('touchstart', this.handleBlur);
+  },
 }
 </script>
 

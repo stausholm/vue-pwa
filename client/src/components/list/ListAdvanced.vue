@@ -107,3 +107,12 @@ export default {
   // }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/base/variables.scss';
+.list-wrapper {
+  margin: 0 -$default-spacing;
+  padding: $default-spacing;
+  overflow: hidden;
+}
+</style>
