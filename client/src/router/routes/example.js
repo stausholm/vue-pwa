@@ -5,6 +5,7 @@ import ExampleInputs from "@/pages/example/ExampleInputs";
 import ExampleDataList from "@/pages/example/ExampleDataList";
 import ExampleGraphs from "@/pages/example/ExampleGraphs";
 import ExampleIcons from "@/pages/example/ExampleIcons";
+import ExampleListAdvanced from "@/pages/example/ExampleListAdvanced";
 
 export default [
   {
@@ -59,6 +60,11 @@ export default [
         path: "exampleicons",
         name: "ExampleIcons",
         component: ExampleIcons
+      },
+      {
+        path: "examplelistadvanced",
+        name: "ExampleListAdvanced",
+        component: ExampleListAdvanced
       }
     ]
   },
