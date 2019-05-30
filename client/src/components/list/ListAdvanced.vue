@@ -15,7 +15,7 @@
     <component 
       v-for="item in list" 
       :key="item.id" 
-      v-bind="item" 
+      :item="item" 
       :is="itemTemplate"
       :itemIsSelected="selectedItems.includes(item)"
       :isSelecting="isSelecting"

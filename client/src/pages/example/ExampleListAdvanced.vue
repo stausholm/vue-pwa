@@ -63,8 +63,12 @@ export default {
     updateSelectedCount(selectedItems) {
       console.log(this.listItems.includes(selectedItems[0]))
     },
-    handleStar() {
-      console.log('handlestar')
+    handleStar(payload) {
+      const isBulkAction = Array.isArray(payload)
+      console.log('handlestar',isBulkAction)
+      if (isBulkAction && payload.length === 0) {
+        return console.warn('tried to call action handler without any payload')
+      }
     },
     handleDelete() {
       console.log('handledelete')
