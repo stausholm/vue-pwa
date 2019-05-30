@@ -17,13 +17,26 @@
   position: relative;
 
   span {
-    background: $white;
+    //background: $white;
     font-weight: 600;
     font-size: .85rem;
     user-select: none;
     padding: 4px $default-spacing;
     display: inline-block;
     transform: translateY(-50%);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: 1px;
+      transform: translateY(-50%);
+      width: 100%;
+      background: $white;
+      z-index: -1;
+    }
   }
 }
 
