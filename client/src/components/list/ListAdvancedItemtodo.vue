@@ -85,7 +85,8 @@ export default {
       showDelete: false,
       touchEndX: false,
       touchStartX: false,
-      touchStartY: false
+      touchStartY: false,
+      shouldCancel: false
     }
   },
   methods: {
@@ -117,9 +118,10 @@ export default {
       if (this.enableTransition) this.enableTransition = false;
       
       //e.currentTarget.focus();
+      this.shouldCancel = false;
     },
     handleTouchEnd(e) {
-      //console.log('end');
+      console.log('####################end');
       if (this.isSelecting) {
         return
       }
@@ -154,19 +156,29 @@ export default {
       window.cancelAnimationFrame(this.animationFrame);
       this.enableTransition = true;
       this.isScroll = null;
+      document.body.style.overflowY = '';
+      this.shouldCancel = true;
+
       if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
         this.cardPositionX = this.actions.length * 48;
         this.showDelete = true;
+        console.log('end short', this.cardPositionX)
       } else if (this.cardPositionX >= threshold) { // swiped very far
         this.$parent.$emit('delete', this.item);
         this.cardPositionX = window.innerWidth;
         this.showDelete = false;
+        console.log('end far', this.cardPositionX)
       } else { // didn't swipe very far at all
         this.cardPositionX = 0;
         this.showDelete = false;
+        console.log('end very short', this.cardPositionX)
       }
     },
     swiping(e) {
+      if (this.shouldCancel) { // calling requestAnimationFrame in touchmove means that sometimes this.swiping can get called after a touchend event
+        return
+      }
+
       const currentX = e.changedTouches[0].screenX;
       const currentY = e.changedTouches[0].screenY;
       const distanceX = currentX - this.touchStartX;
@@ -174,17 +186,19 @@ export default {
       const limitLeft = 0;
       const limitRight = window.innerWidth;
 
-      if (Math.abs(distanceY) >= Math.abs(distanceX) && this.isScroll === null) this.isScroll = true;
-      else if (this.isScroll === null) this.isScroll = false;
+      const scrollingVertically = Math.abs(distanceY) >= Math.abs(distanceX);
+      if ( scrollingVertically && this.isScroll === null) {
+        this.isScroll = true;
+      } else if (this.isScroll === null) {
+        document.body.style.overflowY = 'hidden';
+        this.isScroll = false;
+      }
 
       if (this.isScroll) return;
 
-      console.table({currentX,currentY,distanceX,distanceY, cardPositionX: this.cardPositionX})
-      console.count('swiping')
+      //console.count('swiping')
       if (this.cardPositionX >= limitLeft && this.cardPositionX <= limitRight) {
-        console.count('is true')
-        if (distanceX >= 0) {
-          console.count('is true true')
+        if (distanceX >= 0) { // pulling left or right
           this.cardPositionX = Math.min(this.cardStartPositionX + distanceX, limitRight);
         } else {
           this.cardPositionX = Math.max(this.cardStartPositionX + distanceX, limitLeft)
@@ -217,6 +231,7 @@ export default {
   width: 100%;
   margin-bottom: 10px;
   position: relative;
+  user-select: none;
 
   .list-item__content {
     background-color: lightgrey;
