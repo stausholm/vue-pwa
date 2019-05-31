@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isTouchDevice: 'ontouchstart' in window,
       longTouchfunc: null,
       animationFrame: false,
       cardPositionX: 0,
@@ -75,8 +76,11 @@ export default {
       isScroll: null,
       showDelete: false,
       touchEndX: false,
+      touchEndY: false,
+      touchEndTime: false,
       touchStartX: false,
       touchStartY: false,
+      touchStartTime: false,
       shouldCancel: false
     }
   },
@@ -114,6 +118,7 @@ export default {
       console.log(e.currentTarget)
       this.touchStartX = e.changedTouches[0].screenX;
       this.touchStartY = e.changedTouches[0].screenY;
+      this.touchStartTime = Date.now();
       this.cardStartPositionX = this.cardPositionX;
       if (this.enableTransition) this.enableTransition = false;
       
@@ -131,6 +136,16 @@ export default {
       }
 
       this.touchEndX = e.changedTouches[0].screenX;
+      this.touchEndY = e.changedTouches[0].screenY;
+      this.touchEndTime = Date.now();
+      const time = this.touchEndTime - this.touchStartTime;
+
+      const deltaX = this.touchEndX - this.touchStartX;
+      const deltaY = this.touchEndY - this.touchStartY;
+      const distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+      const velocity = distance / time; // higher = faster
+      const angleInDegrees = Math.atan2(deltaY, deltaX);
+      console.log({time, distance, velocity, horizontalSwipe: !this.isScroll, angleInDegrees})
       this.handleSwipeEnd();
     },
     handleTouchMove(e) {
@@ -190,7 +205,7 @@ export default {
       if ( scrollingVertically && this.isScroll === null) {
         this.isScroll = true;
       } else if (this.isScroll === null) {
-        document.body.style.overflowY = 'hidden';
+        document.body.style.overflowY = 'hidden'; // prevent vertical scrolling while swiping card
         this.isScroll = false;
       }
 
