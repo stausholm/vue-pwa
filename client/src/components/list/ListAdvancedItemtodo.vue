@@ -1,6 +1,13 @@
 <template>
-  <div class="list-item" tabindex="0" @click="handleClick" @touchstart="handleTouchStart" @touchend="handleTouchEnd" @touchmove="handleTouchMove" @touchcancel="handleTouchCancel">
-    <div class="list-item__content" :style="{left: `${cardPositionX}px`, transition: enableTransition ? 'left 200ms ease' : ''}">
+  <div class="list-item" 
+    tabindex="0" 
+    @click="handleClick" 
+    @touchstart="handleTouchStart" 
+    @touchend="handleTouchEnd" 
+    @touchmove="handleTouchMove" 
+    @touchcancel="handleTouchCancel"
+  >
+    <div class="list-item__content" :style="stylesObj">
       <div class="list-item__content-inner">
         <div>
           <p class="title">{{item.title}}</p>
@@ -46,22 +53,6 @@ export default {
       type: Object,
       required: true
     },
-    // id: {
-    //   type: Number,
-    //   required: true
-    // },
-    // completed: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // userId: {
-    //   type: Number,
-    //   required: true
-    // },
     isSelecting: {
       type: Boolean,
       required: true
@@ -87,6 +78,15 @@ export default {
       touchStartX: false,
       touchStartY: false,
       shouldCancel: false
+    }
+  },
+  computed: {
+    stylesObj() {
+      return {
+        'transform': `translateX(${this.cardPositionX}px)`, 
+        'transition': this.enableTransition ? 'transform 200ms ease' : '', 
+        'will-change': this.cardPositionX > 0 ? 'transform': ''
+      }
     }
   },
   methods: {
