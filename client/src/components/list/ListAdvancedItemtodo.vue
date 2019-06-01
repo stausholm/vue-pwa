@@ -6,6 +6,7 @@
     @touchend="handleTouchEnd" 
     @touchmove="handleTouchMove" 
     @touchcancel="handleTouchCancel"
+    :class="{'list-item--no-touch': !isTouchDevice}"
   >
     <div class="list-item__content" :style="stylesObj">
       <div class="list-item__content-inner">
@@ -18,7 +19,7 @@
       </div>
     </div>
 
-    <div class="list-item__actions" v-if="showDelete">
+    <div class="list-item__actions" v-if="showDelete || !isTouchDevice">
       <button v-for="action in actions" :key="action"  @click="$parent.$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
         <icon-base :iconName="action" width="24" height="24">
           <!-- <component :is="action"/> -->
@@ -241,7 +242,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .list-item {
   width: 100%;
   margin-bottom: 10px;
@@ -301,4 +302,33 @@ export default {
     }
   }
 }
+
+.list-item--no-touch {
+  .list-item__actions {
+    z-index: 2;
+    left: auto;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+
+    &:focus {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:hover, &:focus {
+    .list-item__actions {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .list--is-selecting & {
+    .list-item__actions {
+      right: 30px;
+    }
+  }
+}
+
 </style>

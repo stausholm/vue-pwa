@@ -79,7 +79,7 @@ export default {
       }
 
       if(!isBulkAction || isBulkAction && payload.length < 5) {
-        this.$store.dispatch('changeNotification', {content: 'deleted', duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
+        this.$store.dispatch('changeNotification', {content: `Deleted ${payload.length} items`, duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
       } else {
         console.log('should show confirm modal')
       }

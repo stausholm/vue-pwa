@@ -1,5 +1,5 @@
 <template>
-  <div class="list-wrapper">
+  <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
     yo
     <button @click="emitLoadMore">more</button>
     <button @click="toggleSelecting">selecting: {{isSelecting}}</button>
