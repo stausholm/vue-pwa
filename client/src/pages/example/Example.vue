@@ -35,6 +35,8 @@ import IconBase from '@/components/icons/IconBase';
 import IconBeachAccess from '@/components/icons/IconBeachAccess';
 import SearchBar from '@/components/search/SearchBar';
 
+import {getUAObject} from '@/utils/browserSpecs';
+
 export default {
   name: 'Example',
   components: {
@@ -71,7 +73,7 @@ export default {
         })
     },
     test() {
-      console.log('test .native')
+      console.log('test .native', getUAObject())
     },
     test200(val) {
       console.log(val)

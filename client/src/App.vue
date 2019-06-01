@@ -25,6 +25,7 @@ import NotificationSmall from './components/notifications/NotificationSmall';
 import handleOrientationChange from './utils/orientationChange';
 import handleLayoutBreakpoint from './utils/layoutBreakpoint';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
+import {setBrowserCompatibilityClasses} from './utils/browserSpecs';
 
 export default {
   name: 'app',
@@ -86,6 +87,9 @@ export default {
 
     // add eventlistener to document, for 'error' on images
     replaceBrokenImagesInit('/static/img/wizard.jpg');
+
+    // set browser specific css classes on body
+    setBrowserCompatibilityClasses('dummy--');
   },
   watch: {
     '$route' (to, from) {
