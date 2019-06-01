@@ -116,7 +116,7 @@ export default {
         return // don't do the swipes if selecting
       }
 
-      console.log(e.currentTarget)
+      //console.log(e.currentTarget)
       this.touchStartX = e.changedTouches[0].screenX;
       this.touchStartY = e.changedTouches[0].screenY;
       this.touchStartTime = Date.now();
@@ -127,7 +127,7 @@ export default {
       this.shouldCancel = false;
     },
     handleTouchEnd(e) {
-      console.log('####################end');
+      //console.log('end');
       if (this.isSelecting) {
         return
       }
@@ -141,13 +141,32 @@ export default {
       this.touchEndTime = Date.now();
       const time = this.touchEndTime - this.touchStartTime;
 
+      // https://stackoverflow.com/a/16101634
       const deltaX = this.touchEndX - this.touchStartX;
       const deltaY = this.touchEndY - this.touchStartY;
       const distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
       const velocity = distance / time; // higher = faster
-      const angleInDegrees = Math.atan2(deltaY, deltaX);
-      console.log({time, distance, velocity, horizontalSwipe: !this.isScroll, angleInDegrees})
-      this.handleSwipeEnd();
+      const angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+      const direction = this.getDirection(angleInDegrees)
+      const isQuickSwipe = !this.isScroll && velocity > 1.5 && direction === 'left';
+      console.table({time, distance, velocity, horizontalSwipe: !this.isScroll, angleInDegrees, isQuickSwipe, direction})
+
+      if (angleInDegrees < 50 && angleInDegrees > 40) {
+        console.log('swiping ~45 degrees angle towards bottom-right corner of screen')
+      }
+      this.handleSwipeEnd(isQuickSwipe);
+    },
+    getDirection(angleInDegrees) {
+      if (angleInDegrees >= -135 && angleInDegrees < -45) {
+        return 'down'
+      }
+      if (angleInDegrees <= 45 && angleInDegrees >= -45) {
+        return 'left'
+      }
+      if (angleInDegrees > 45 && angleInDegrees < 135) {
+        return 'up'
+      }
+      return 'right'
     },
     handleTouchMove(e) {
       //console.log('move');
@@ -166,7 +185,7 @@ export default {
     },
 
     
-    handleSwipeEnd() {
+    handleSwipeEnd(isQuickSwipe) {
       const threshold = Math.min(window.innerWidth, 1200) / 2;
       const thresholdButton = 26;
       window.cancelAnimationFrame(this.animationFrame);
@@ -175,15 +194,15 @@ export default {
       document.body.style.overflowY = '';
       this.shouldCancel = true;
 
-      if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
-        this.cardPositionX = this.actions.length * 48;
-        this.showDelete = true;
-        console.log('end short', this.cardPositionX)
-      } else if (this.cardPositionX >= threshold) { // swiped very far
+      if (this.cardPositionX >= threshold || isQuickSwipe) { // swiped very far or very fast
         this.$parent.$emit('delete', this.item);
         this.cardPositionX = window.innerWidth;
         this.showDelete = false;
         console.log('end far', this.cardPositionX)
+      } else if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
+        this.cardPositionX = this.actions.length * 48;
+        this.showDelete = true;
+        console.log('end short', this.cardPositionX)
       } else { // didn't swipe very far at all
         this.cardPositionX = 0;
         this.showDelete = false;
