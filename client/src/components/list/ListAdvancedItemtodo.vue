@@ -148,7 +148,7 @@ export default {
       const velocity = distance / time; // higher = faster
       const angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
       const direction = this.getDirection(angleInDegrees)
-      const isQuickSwipe = !this.isScroll && velocity > 1.5 && direction === 'left';
+      const isQuickSwipe = !this.isScroll && velocity > 1.1 && direction === 'left';
       console.table({time, distance, velocity, horizontalSwipe: !this.isScroll, angleInDegrees, isQuickSwipe, direction})
 
       if (angleInDegrees < 50 && angleInDegrees > 40) {

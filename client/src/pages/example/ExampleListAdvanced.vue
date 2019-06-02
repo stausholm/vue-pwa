@@ -3,10 +3,11 @@
     <div class="container--content">
       <h1>this is example list advanced</h1>
       <p style="white-space:pre-wrap;">Stuff that should be possible
-        - list should be searchable/filterable
-        - list items should be selectable (hold down on one or via other button) and should keep track of which items are selected
-        - should be possible to select all/ deselect all
-        - should allow for toggling between different viewing modes
+        - list should be filterable
+        - list should be searchable
+        - ✅list items should be selectable (hold down on one or via other button) and should keep track of which items are selected
+        - ✅should be possible to select all/ deselect all
+        - ✅should allow for toggling between different viewing modes
         - list items should be able to be hooked up to actions through a swipe interface and through vertical dots menu
         - list should remember scroll position
         - list should support ajax by emiting an event when scrolled to the bottom while there is still more results left
@@ -22,6 +23,7 @@
       :list="listItems" 
       @loadMore="loadMoreItems" 
       @selected="updateSelectedCount"
+      @searched="handleSearch"
     >
     </list-advanced>
   </div>
@@ -45,7 +47,7 @@ export default {
     this.loadItems();
   },
   methods: {
-    loadMoreItems() {
+    loadMoreItems(query) {
       console.log('should load more')
       this.page++;
       this.loadItems();
@@ -79,10 +81,22 @@ export default {
       }
 
       if(!isBulkAction || isBulkAction && payload.length < 5) {
-        this.$store.dispatch('changeNotification', {content: `Deleted ${payload.length} items`, duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
+        this.$store.dispatch('changeNotification', {content: `Deleted ${payload.length || 1} items`, duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
       } else {
         console.log('should show confirm modal')
       }
+    },
+    handleSearch(query) {
+      console.log(query)
+      this.page = 1;
+      // fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=5&q=${query}`)
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     this.listItems = data;
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     }
   }
 }

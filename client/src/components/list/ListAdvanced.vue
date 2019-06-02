@@ -6,14 +6,14 @@
     <button @click="toggleSelectAll">{{ allAreSelected ? 'deselect all' : 'select all'}}</button>
     <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode">Use alternative mode: {{useAlternativeDisplayMode}}</button>
 
+    <input type="text" v-model="searchQuery" @input="$emit('searched', $event.target.value)">
+
     <div class="bulk-actions">
       <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
     </div>
-    <!-- <ul>
-      <li v-for="item in list" :key="item.id">{{item.id}}</li>
-    </ul> -->
+
     <component 
-      v-for="item in list" 
+      v-for="item in filteredList" 
       :key="item.id" 
       :item="item" 
       :is="itemTemplate"
@@ -23,8 +23,11 @@
       @selected="updateSelected(item, $event)"
       :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
 
-      <div class="list-loader" v-if="1>2">
+      <div class="list-loader" v-if="isLoading">
         loading more items
+      </div>
+      <div class="list-no-results" v-if="!isLoading && filteredList.length === 0">
+        <p>no results :(</p>
       </div>
   </div>
 </template>
@@ -38,30 +41,58 @@ export default {
     ListAdvancedItemTodo
   },
   props: {
-    list: {
+    list: { // the items in the list
       type: Array,
       required: true
     },
-    // skal det være en template i examplelistadvanced eller en component :is="prop" i denne fil
-    itemTemplate: {
+    itemTemplate: { // name of .vue file to use for each item in list
       type: String,
       required: true
     },
-    actions: {
+    actions: { // custom events that we should emit, which the parent will then handle 
       type: Array,
       default: () => []
+    },
+    searchProperties: { // optional list of whitelisted properties to search from. If none are provided it defaults to search all item properties
+      type: Array,
+      default: () => []
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       selectedItems: [],
       isSelecting: false,
-      useAlternativeDisplayMode: false
+      useAlternativeDisplayMode: false,
+      searchQuery: ''
     }
   },
   computed: {
     allAreSelected() {
       return this.list.length === this.selectedItems.length
+    },
+    filteredList() {
+      const filterKey = this.searchQuery && this.searchQuery.toLowerCase(); // make filter lowercase
+      const hasPropertyWhitelist = this.searchProperties.length > 0;
+
+      if (filterKey && !hasPropertyWhitelist) { // search input has value, so filter based on this.searchQuery
+        return this.list.filter((item) => {
+          return Object.keys(item).some((key) => {
+            return String(item[key]).toLowerCase().indexOf(filterKey) > -1;
+          })
+        })
+      } else if (filterKey) {
+        return this.list.filter((item) => {
+          return this.searchProperties.some((key) => {
+            return String(item[key]).toLowerCase().indexOf(filterKey) > -1;
+          })
+        })
+      }
+      
+      return this.list;
     }
   },
   methods: {
