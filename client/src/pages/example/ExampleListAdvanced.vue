@@ -24,6 +24,7 @@
       @loadMore="loadMoreItems" 
       @selected="updateSelectedCount"
       @searched="handleSearch"
+      :isLoading="loadingItems"
     >
     </list-advanced>
   </div>
@@ -40,7 +41,8 @@ export default {
   data() {
     return {
       listItems: [],
-      page: 1
+      page: 1,
+      loadingItems: false
     }
   },
   created() {
@@ -50,16 +52,19 @@ export default {
     loadMoreItems(query) {
       console.log('should load more')
       this.page++;
-      this.loadItems();
+      this.loadItems(query);
     },
-    loadItems() {
-      fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=30`)
+    loadItems(query) {
+      this.loadingItems = true;
+      fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=30&q=${query || ''}`)
         .then(res => res.json())
         .then(data => {
+          this.loadingItems = false;
           this.listItems = this.listItems.concat(data);
         })
         .catch(err => {
           console.log(err)
+          this.loadingItems = false;
         })
     },
     updateSelectedCount(selectedItems) {
@@ -89,6 +94,9 @@ export default {
     handleSearch(query) {
       console.log(query)
       this.page = 1;
+      this.listItems = [];
+      this.loadItems(query);
+
       // fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=5&q=${query}`)
       //   .then(res => res.json())
       //   .then(data => {

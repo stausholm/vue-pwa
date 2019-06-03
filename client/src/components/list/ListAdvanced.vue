@@ -6,7 +6,7 @@
     <button @click="toggleSelectAll">{{ allAreSelected ? 'deselect all' : 'select all'}}</button>
     <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode">Use alternative mode: {{useAlternativeDisplayMode}}</button>
 
-    <input type="text" v-model="searchQuery" @input="$emit('searched', $event.target.value)">
+    <input type="text" v-model="searchQuery" @input="handleSearch">
 
     <div class="bulk-actions">
       <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import debounce from '@/utils/debounce'
+
 import ListAdvancedItemTodo from './ListAdvancedItemtodo'
 
 export default {
@@ -60,6 +62,10 @@ export default {
     isLoading: {
       type: Boolean,
       default: false
+    },
+    disableDebounce: { // debounce search input value emition
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -97,7 +103,7 @@ export default {
   },
   methods: {
     emitLoadMore() {
-      this.$emit('loadMore')
+      this.$emit('loadMore', this.searchQuery)
     },
     updateSelected(item) {
       console.log(item)
@@ -120,8 +126,31 @@ export default {
       }
       this.isSelecting = true;
       this.$emit('selected', this.selectedItems)
+    },
+    handleSearch() {
+      if (!this.disableDebounce) {
+        return this.$emit('searched', this.searchQuery)
+      }
+
+      this.debounceStuff(() => {
+        console.log('crap')
+      })
+      // debounce(() => {
+      //   console.log('yoyo')
+      //   //this.$emit('searched', this.searchQuery)
+      // }, 1000).call()
+    },
+    debounceStuff(func) {
+      var timer = null
+      clearTimeout(func)
+      return func = setTimeout(func, 1000);
     }
   },
+  watch: {
+    // searchQuery: debounce(() => {
+    //   console.log('asd')
+    // }, 1000)
+  }
   // created() { // https://vuejs.org/v2/guide/migration.html#dispatch-and-broadcast-replaced
   //   this.actions.forEach(action => {
   //     this.$on(action, () => {
