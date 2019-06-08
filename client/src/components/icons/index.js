@@ -21,11 +21,15 @@ import IconMoreVert from './IconMoreVert.vue'
 import IconDelete from './IconDelete.vue'
 import IconStar from './IconStar.vue'
 import IconStarBorder from './IconStarBorder.vue'
-
+import IconLibraryBooks from './IconLibraryBooks.vue'
+import IconViewList from './IconViewList.vue'
+import IconViewModule from './IconViewModule.vue'
+import IconEdit from './IconEdit.vue'
 
 // outline folder
 import IconVisibility from './outline/IconVisibility.vue'
 import IconVisibilityOff from './outline/IconVisibilityOff.vue'
+import IconLibraryBooks2 from './outline/IconLibraryBooks.vue'
 
 export default {
   IconA2HS,
@@ -50,8 +54,13 @@ export default {
   IconDelete,
   IconStar,
   IconStarBorder,
+  IconLibraryBooks,
+  IconViewList,
+  IconViewModule,
+  IconEdit,
 
   // outline icons
   IconVisibility,
-  IconVisibilityOff
+  IconVisibilityOff,
+  IconLibraryBooks2
 }
