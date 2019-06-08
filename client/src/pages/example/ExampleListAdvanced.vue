@@ -25,6 +25,9 @@
       @selected="updateSelectedCount"
       @searched="handleSearch"
       :isLoading="loadingItems"
+      :showLoadButton="true"
+      :isAsyncPaginated="true"
+      :allDataLoaded="allDataLoaded"
     >
     </list-advanced>
   </div>
@@ -42,7 +45,8 @@ export default {
     return {
       listItems: [],
       page: 1,
-      loadingItems: false
+      loadingItems: false,
+      allDataLoaded: false
     }
   },
   created() {
@@ -55,12 +59,21 @@ export default {
       this.loadItems(query);
     },
     loadItems(query) {
+      if (this.allDataLoaded) {
+        return
+      }
+
       this.loadingItems = true;
+
       fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=30&q=${query || ''}`)
         .then(res => res.json())
         .then(data => {
           this.loadingItems = false;
           this.listItems = this.listItems.concat(data);
+
+          if (data.length === 0) {
+            this.allDataLoaded = true;
+          } 
         })
         .catch(err => {
           console.log(err)
@@ -95,6 +108,7 @@ export default {
       // if search should not clear selected items then don't call this func
       this.page = 1;
       this.listItems = [];
+      this.allDataLoaded = false;
       this.loadItems(query);
 
     }

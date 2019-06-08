@@ -1,27 +1,53 @@
 <template>
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
-    yo
-    <button @click="emitLoadMore">more</button>
-    <button @click="toggleSelecting">selecting: {{isSelecting}}</button>
-    <button @click="toggleSelectAll">{{ allAreSelected ? 'deselect all' : 'select all'}}</button>
-    <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode">Use alternative mode: {{useAlternativeDisplayMode}}</button>
+    <p v-if="isSelecting">selected: {{selectedItems.length}}</p>
 
-    <input type="text" v-model="searchQuery" @input="handleSearch">
+    <button @click="toggleSelecting" class="btn-icon--animate">
+      <icon-base :iconName="isSelecting ? 'exit bulk mode' : 'enter bulk mode'">
+        <transition name="icon-scale">
+          <icon-multimode-off v-if="isSelecting" />
+          <icon-multimode-on v-else />
+        </transition>
+      </icon-base>
+    </button>
 
-    <div class="bulk-actions">
+    <button @click="toggleSelectAll" class="btn-icon--animate">
+      <icon-base iconName="toogle select all">
+        <transition name="icon-scale">
+          <icon-deselect-all v-if="allAreSelected" />
+          <icon-select-all v-else />
+        </transition>
+      </icon-base>
+      <span>{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
+    </button>
+
+    <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="btn-icon--animate">
+      <icon-base iconName="toogle view mode">
+        <transition name="icon-scale">
+          <icon-view-mode-2 v-if="useAlternativeDisplayMode" />
+          <icon-view-mode-1 v-else />
+        </transition>
+      </icon-base>
+    </button>
+
+    <input type="text" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
+
+    <div class="bulk-actions" v-if="isSelecting">
       <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
     </div>
 
-    <component 
-      v-for="item in filteredList" 
-      :key="item.id" 
-      :item="item" 
-      :is="itemTemplate"
-      :itemIsSelected="selectedItems.includes(item)"
-      :isSelecting="isSelecting"
-      :actions="actions"
-      @selected="updateSelected(item, $event)"
-      :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+    <div ref="list">
+      <component 
+        v-for="item in filteredList" 
+        :key="item.id" 
+        :item="item" 
+        :is="itemTemplate"
+        :itemIsSelected="selectedItems.includes(item)"
+        :isSelecting="isSelecting"
+        :actions="actions"
+        @selected="updateSelected(item, $event)"
+        :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+    </div>
 
       <div class="list-loader" v-if="isLoading">
         loading more items
@@ -29,15 +55,37 @@
       <div class="list-no-results" v-if="!isLoading && filteredList.length === 0">
         <p>no results :(</p>
       </div>
+      <div class="list-load-more" v-if="!isLoading && isAsyncPaginated && showLoadButton && !allDataLoaded">
+        <button @click="emitLoadMore">more</button>
+      </div>
+      <div v-if="allDataLoaded">
+        <p>You've reached the end!</p>
+      </div>
   </div>
 </template>
 
 <script>
+import IconBase from '@/components/icons/IconBase';
+import IconViewModule from '@/components/icons/IconViewModule';
+import IconViewList from '@/components/icons/IconViewList';
+import IconLibraryBooks from '@/components/icons/IconLibraryBooks';
+import IconLibraryBooks2 from '@/components/icons/outline/IconLibraryBooks';
+import IconClose from '@/components/icons/IconClose';
+import IconEdit from '@/components/icons/IconEdit';
+
 import ListAdvancedItemTodo from './ListAdvancedItemtodo'
 
 export default {
   name: 'ListAdvanced',
   components: {
+    IconBase,
+    'icon-select-all': IconLibraryBooks2,
+    'icon-deselect-all': IconLibraryBooks,
+    'icon-view-mode-1': IconViewList,
+    'icon-view-mode-2': IconViewModule,
+    'icon-multimode-on': IconEdit,
+    'icon-multimode-off': IconClose,
+
     ListAdvancedItemTodo
   },
   props: {
@@ -68,6 +116,22 @@ export default {
     debounceWaitTime: {
       type: Number,
       default: 700 // ms
+    },
+    isAsyncPaginated: { // inform if list potentially does not show all results 
+      type: Boolean,
+      default: false
+    },
+    showLoadButton: { // show load button or use infinite scroll
+      type: Boolean,
+      default: false
+    },
+    allDataLoaded: {
+      type: Boolean,
+      default: true
+    },
+    useCustomSearch: { // completely disable search box, and let parent handle filtering this.list
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -84,6 +148,10 @@ export default {
       return this.list.length === this.selectedItems.length
     },
     filteredList() {
+      if(this.useCustomSearch) {
+        return this.list;
+      }
+
       const filterKey = this.searchQuery && this.searchQuery.toLowerCase(); // make filter lowercase
       const hasPropertyWhitelist = this.searchProperties.length > 0;
 
