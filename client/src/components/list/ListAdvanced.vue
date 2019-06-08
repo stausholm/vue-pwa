@@ -47,6 +47,8 @@
         :actions="actions"
         @selected="updateSelected(item, $event)"
         :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+
+        <observer @intersect="reachedBottom" :options="{rootMargin: '200px'}"/>
     </div>
 
       <div class="list-loader" v-if="isLoading">
@@ -73,6 +75,8 @@ import IconLibraryBooks2 from '@/components/icons/outline/IconLibraryBooks';
 import IconClose from '@/components/icons/IconClose';
 import IconEdit from '@/components/icons/IconEdit';
 
+import Observer from '@/utils/observer'
+
 import ListAdvancedItemTodo from './ListAdvancedItemtodo'
 
 export default {
@@ -85,6 +89,8 @@ export default {
     'icon-view-mode-2': IconViewModule,
     'icon-multimode-on': IconEdit,
     'icon-multimode-off': IconClose,
+
+    Observer,
 
     ListAdvancedItemTodo
   },
@@ -207,25 +213,14 @@ export default {
       this.debounceFunc = setTimeout(() => {
         this.$emit('searched', this.searchQuery)
       }, this.debounceWaitTime)
+    },
+    reachedBottom() {
+      this.$emit('reached_bottom')
     }
   },
   beforeDestroy() {
     clearTimeout(this.debounceFunc) // just in case the user decides to leave before debounced func has been called
   }
-  // created() { // https://vuejs.org/v2/guide/migration.html#dispatch-and-broadcast-replaced
-  //   this.actions.forEach(action => {
-  //     this.$on(action, () => {
-  //       console.log(action)
-  //     })
-  //   });
-  // },
-  // beforeDestroy() {
-  //   this.actions.forEach(action => {
-  //     this.$off(action, () => {
-  //       console.log(action)
-  //     })
-  //   });
-  // }
 }
 </script>
 
