@@ -1,42 +1,51 @@
 <template>
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
-    <p v-if="isSelecting">selected: {{selectedItems.length}}</p>
+    <div class="list__action-header">
+      <div>
+        <input type="text" placeholder="Search..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
 
-    <button @click="toggleSelecting" class="btn-icon--animate">
-      <icon-base :iconName="isSelecting ? 'exit bulk mode' : 'enter bulk mode'">
-        <transition name="icon-scale">
-          <icon-multimode-off v-if="isSelecting" />
-          <icon-multimode-on v-else />
-        </transition>
-      </icon-base>
-    </button>
+        <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="list-btn btn-icon--animate">
+          <icon-base iconName="toogle view mode">
+            <transition name="icon-scale">
+              <icon-view-mode-2 v-if="useAlternativeDisplayMode" />
+              <icon-view-mode-1 v-else />
+            </transition>
+          </icon-base>
+        </button>
+      </div>
 
-    <button @click="toggleSelectAll" class="btn-icon--animate">
-      <icon-base iconName="toogle select all">
-        <transition name="icon-scale">
-          <icon-deselect-all v-if="allAreSelected" />
-          <icon-select-all v-else />
-        </transition>
-      </icon-base>
-      <span>{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
-    </button>
+      <div>
+        <p v-if="isSelecting" class="selected-label">selected: <span class="selected-count">{{selectedItems.length}}</span></p>
+      
+        <div class="bulk-actions" v-if="isSelecting">
+          <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
+        </div>
 
-    <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="btn-icon--animate">
-      <icon-base iconName="toogle view mode">
-        <transition name="icon-scale">
-          <icon-view-mode-2 v-if="useAlternativeDisplayMode" />
-          <icon-view-mode-1 v-else />
-        </transition>
-      </icon-base>
-    </button>
+        <button @click="toggleSelectAll" class="list-btn btn-icon--animate tooltip">
+          <icon-base iconName="toogle select all">
+            <transition name="icon-scale">
+              <icon-deselect-all v-if="allAreSelected" />
+              <icon-select-all v-else />
+            </transition>
+          </icon-base>
+          <span class="tooltip-text tooltip-text--">{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
+        </button>
 
-    <input type="text" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
+        <button @click="toggleSelecting" class="list-btn btn-icon--animate" :class="{'active': isSelecting}">
+          <icon-base :iconName="isSelecting ? 'exit bulk mode' : 'enter bulk mode'">
+            <transition name="icon-scale">
+              <icon-multimode-off v-if="isSelecting" />
+              <icon-multimode-on v-else />
+            </transition>
+          </icon-base>
+        </button>
+      </div>
 
-    <div class="bulk-actions" v-if="isSelecting">
-      <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
     </div>
 
-    <div ref="list">
+
+
+    <div class="list__advanced-list" :class="{'list__advanced-list--alternative': useAlternativeDisplayMode}" ref="list">
       <component 
         v-for="item in filteredList" 
         :key="item.id" 
@@ -51,18 +60,18 @@
         <observer @intersect="reachedBottom" :options="{rootMargin: '200px'}"/>
     </div>
 
-      <div class="list-loader" v-if="isLoading">
-        loading more items
-      </div>
-      <div class="list-no-results" v-if="!isLoading && filteredList.length === 0">
-        <p>no results :(</p>
-      </div>
-      <div class="list-load-more" v-if="!isLoading && isAsyncPaginated && showLoadButton && !allDataLoaded">
-        <button @click="emitLoadMore">more</button>
-      </div>
-      <div v-if="allDataLoaded">
-        <p>You've reached the end!</p>
-      </div>
+    <div class="list__loader" v-if="isLoading">
+      loading more items
+    </div>
+    <div class="list__no-results" v-if="!isLoading && filteredList.length === 0">
+      <p>no results :(</p>
+    </div>
+    <div class="list__load-more" v-if="!isLoading && isAsyncPaginated && showLoadButton && !allDataLoaded">
+      <button @click="emitLoadMore">more</button>
+    </div>
+    <div class="list__reached-end" v-if="allDataLoaded">
+      <p>You've reached the end!</p>
+    </div>
   </div>
 </template>
 
@@ -229,6 +238,177 @@ export default {
 .list-wrapper {
   margin: 0 -$default-spacing;
   padding: $default-spacing;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.list__action-header {
+  display: flex;
+  background-color: #f9f9f9;
+  padding: 10px 0;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    height: 40px;
+    align-items: center;
+  }
+
+  .list-search {
+    padding: 8px 12px;
+    border-radius: 0.25rem;
+    border: none;
+    margin-right: 5px;
+    height: 40px;
+  }
+
+  .list-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    background-color: transparent;
+    color: #99a0a3;
+    transition: color .2s ease-out, background-color .2s ease-out;
+    outline: 0;
+
+    &:hover, &:focus {
+      color: #1d1f20;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    &.active {
+      background-color: #fff;
+      color: #f32556;
+    }
+  }
+}
+
+.selected-label {
+  padding: 5px;
+
+  .selected-count {
+    margin-left: 4px;
+    padding: 2px 7px;
+    background: #99a0a3;
+    font-size: .9em;
+    border-radius: .25rem;
+    font-weight: bold;
+  }
+}
+
+
+.list__advanced-list--alternative {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+
+  .list-item {
+    width: 49%;
+    height: 250px;
+  }
+}
+
+
+// tooltip
+.tooltip {
+  position: relative;
+
+  .tooltip-text {
+    $arrow-size: 5px;
+    $tooltip-color: rgba(0,0,0,.6);
+
+    visibility: hidden;
+    opacity: 0;
+    max-width: 120px;
+    width: max-content;
+    background-color: $tooltip-color;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 0.25rem;
+    position: absolute;
+    z-index: 3;
+    word-break: break-word;
+    transition: visibility .2s, opacity .2s, transform .2s;
+
+    // default to bottom
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); 
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -$arrow-size;
+      border-width: $arrow-size;
+      border-style: solid;
+      border-color: transparent transparent $tooltip-color transparent;
+    }
+
+    &.tooltip-text--left {
+      top: 50%;
+      right: 105%;
+      left: auto;
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: 100%;
+        margin-left: 0;
+        margin-top: -$arrow-size;
+        border-color: transparent transparent transparent $tooltip-color;
+      }
+    }
+
+    &.tooltip-text--right {
+      top: 50%;
+      left: 105%;
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: auto;
+        right: 100%;
+        margin-left: 0;
+        margin-top: -$arrow-size;
+        border-color: transparent $tooltip-color transparent transparent;
+      }
+    }
+
+    &.tooltip-text--top {
+      bottom: 100%;
+      left: 50%; 
+      top: auto;
+
+      &::after {
+        top: 100%;
+        bottom: auto;
+        border-color: $tooltip-color transparent transparent transparent;
+      }
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(5px);
+
+      &.tooltip-text--top {
+        transform: translateX(-50%) translateY(-5px);
+      }
+
+      &.tooltip-text--left {
+        transform: translateY(-50%) translateX(-5px);
+      }
+
+      &.tooltip-text--right {
+        transform: translateY(-50%) translateX(5px);
+      }
+    }
+  }
 }
 </style>

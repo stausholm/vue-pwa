@@ -24,7 +24,7 @@
       @loadMore="loadMoreItems" 
       @selected="updateSelectedCount"
       @searched="handleSearch"
-      @reached_bottom="loadMoreItems"
+      @reached_bottom="() => {}"
       :isLoading="loadingItems"
       :showLoadButton="true"
       :isAsyncPaginated="true"

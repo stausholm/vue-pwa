@@ -305,6 +305,7 @@ export default {
     padding: 0;
 
     &-inner {
+      height: 100%;
       background: skyblue;
       padding: 4px;
       border-radius: 3px;
