@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import debounce from '@/utils/debounce'
-
 import ListAdvancedItemTodo from './ListAdvancedItemtodo'
 
 export default {
@@ -66,6 +64,10 @@ export default {
     disableDebounce: { // debounce search input value emition
       type: Boolean,
       default: true
+    },
+    debounceWaitTime: {
+      type: Number,
+      default: 700 // ms
     }
   },
   data() {
@@ -73,7 +75,8 @@ export default {
       selectedItems: [],
       isSelecting: false,
       useAlternativeDisplayMode: false,
-      searchQuery: ''
+      searchQuery: '',
+      debounceFunc: null
     }
   },
   computed: {
@@ -128,28 +131,18 @@ export default {
       this.$emit('selected', this.selectedItems)
     },
     handleSearch() {
-      if (!this.disableDebounce) {
+      if (this.disableDebounce) {
         return this.$emit('searched', this.searchQuery)
       }
 
-      this.debounceStuff(() => {
-        console.log('crap')
-      })
-      // debounce(() => {
-      //   console.log('yoyo')
-      //   //this.$emit('searched', this.searchQuery)
-      // }, 1000).call()
-    },
-    debounceStuff(func) {
-      var timer = null
-      clearTimeout(func)
-      return func = setTimeout(func, 1000);
+      clearTimeout(this.debounceFunc)
+      this.debounceFunc = setTimeout(() => {
+        this.$emit('searched', this.searchQuery)
+      }, this.debounceWaitTime)
     }
   },
-  watch: {
-    // searchQuery: debounce(() => {
-    //   console.log('asd')
-    // }, 1000)
+  beforeDestroy() {
+    clearTimeout(this.debounceFunc) // just in case the user decides to leave before debounced func has been called
   }
   // created() { // https://vuejs.org/v2/guide/migration.html#dispatch-and-broadcast-replaced
   //   this.actions.forEach(action => {

@@ -92,19 +92,11 @@ export default {
       }
     },
     handleSearch(query) {
-      console.log(query)
+      // if search should not clear selected items then don't call this func
       this.page = 1;
       this.listItems = [];
       this.loadItems(query);
 
-      // fetch(`https://jsonplaceholder.typicode.com/todos?_page=${this.page}&_limit=5&q=${query}`)
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     this.listItems = data;
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
     }
   }
 }
