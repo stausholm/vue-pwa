@@ -1,7 +1,7 @@
 <template>
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
     <div class="list__action-header" ref="actionsheader">
-      <div>
+      <div class="list__search">
         <input type="text" placeholder="Search..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
 
         <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="list-btn btn-icon--animate">
@@ -16,7 +16,7 @@
         <p v-if="isLoading">loading</p>
       </div>
 
-      <div class="list__actions">
+      <div class="list__actions" ref="listactions">
         <p v-if="isSelecting" class="selected-label">selected: <span class="selected-count">{{selectedItems.length}}</span></p>
       
         <transition name="slide-up">
@@ -32,6 +32,16 @@
                 <component :is="action.icon"/>
               </icon-base>
               <span class="tooltip-text">{{action.label}}</span>
+            </button>
+            
+            <button class="list-btn" v-if="useOverflowMenu" @click="toggleShowMore">
+              <icon-base iconName="more actions">
+                <icon-more />
+              </icon-base>
+
+              <ul v-if="showingOverflowMenu" @click.stop="showingOverflowMenu = false" v-click-outside="toggleShowMore">
+                <li v-for="(action, index) in actions.slice(sliceIndex - 1)" :key="index" @click="$emit(action.emit, selectedItems)">{{action.label}}</li>
+              </ul>
             </button>
           </div>
         </transition>
@@ -98,6 +108,7 @@ import IconLibraryBooks from '@/components/icons/IconLibraryBooks';
 import IconLibraryBooks2 from '@/components/icons/outline/IconLibraryBooks';
 import IconClose from '@/components/icons/IconClose';
 import IconEdit from '@/components/icons/IconEdit';
+import IconMoreVert from '@/components/icons/IconMoreVert';
 
 import Observer from '@/utils/observer'
 
@@ -115,6 +126,7 @@ export default {
     'icon-view-mode-2': IconViewModule,
     'icon-multimode-on': IconEdit,
     'icon-multimode-off': IconClose,
+    'icon-more': IconMoreVert,
 
     Observer,
 
@@ -175,7 +187,8 @@ export default {
       searchQuery: '',
       debounceFunc: null,
       useOverflowMenu: false,
-      sliceIndex: this.actions.length
+      sliceIndex: this.actions.length,
+      showingOverflowMenu: false
     }
   },
   computed: {
@@ -219,7 +232,10 @@ export default {
     },
     updateSelected(item) {
       console.log(item)
-      this.isSelecting = true;
+      if (!this.isSelecting) {
+        this.isSelecting = true;
+        this.updateOverflowMenu();
+      }
       this.selectedItems.includes(item) ? this.selectedItems = this.selectedItems.filter(thing => thing != item) : this.selectedItems.push(item)
       this.$emit('selected', this.selectedItems)
     },
@@ -229,7 +245,7 @@ export default {
         this.selectedItems = [];
         this.$emit('selected', this.selectedItems)
       } else {
-        this.$nextTick(this.calculateOverflowingActions)
+        this.updateOverflowMenu();
       }
     },
     toggleSelectAll() {
@@ -254,43 +270,51 @@ export default {
     reachedBottom() {
       this.$emit('reached_bottom')
     },
+    updateOverflowMenu() {
+      this.sliceIndex = this.actions.length
+      this.useOverflowMenu = false;
+      this.$nextTick(this.calculateOverflowingActions)
+    },
     calculateOverflowingActions() {
-      const $wrap = this.$refs.bulkactions;
-      if (!$wrap) {
+      if (!this.$refs.bulkactions) {
         return
       }
-
-      this.sliceIndex = this.actions.length
-
-      let availableWidth = $wrap.offsetWidth;
-      const actionWidth = $wrap.querySelector('button').offsetWidth;
-      const actionWidthTotal = this.actions.length * actionWidth;
-
-      console.log(availableWidth, actionWidth, actionWidthTotal)
       
-      if (availableWidth <= actionWidthTotal) {
-        this.useOverflowMenu = true;
+      const $wrap = this.$refs.listactions;
 
-        while (availableWidth < actionWidthTotal) {
-          availableWidth += actionWidth;
+      let wrapWidth = $wrap.offsetWidth;
+      const usedWidth = Array.from($wrap.children).reduce((a,b) => a + b.offsetWidth,0);
+      const actionWidth = this.$refs.bulkactions.querySelector('button').offsetWidth;
+      
+      if (wrapWidth < usedWidth) {
+        this.useOverflowMenu = true;
+ 
+        while (wrapWidth < usedWidth) {
+          wrapWidth += actionWidth;
           this.sliceIndex--;
         }
       } else {
         this.useOverflowMenu = false;
       }
+    },
+    toggleShowMore() {
+      this.showingOverflowMenu = !this.showingOverflowMenu;
     }
   },
   mounted() {
-    this.calculateOverflowingActions();
+    //this.calculateOverflowingActions();
+    window.addEventListener('resize', this.updateOverflowMenu)
   },
   beforeDestroy() {
     clearTimeout(this.debounceFunc) // just in case the user decides to leave before debounced func has been called
+    window.removeEventListener('resize', this.updateOverflowMenu)
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/base/variables.scss';
+@import '@/styles/base/_breakpoints.scss';
 .list-wrapper {
   margin: 0 -$default-spacing;
   padding: $default-spacing;
@@ -302,6 +326,7 @@ export default {
   background-color: #f9f9f9;
   padding: 10px 0;
   justify-content: space-between;
+  position: relative;
 
   > div {
     display: flex;
@@ -317,9 +342,23 @@ export default {
     height: 40px;
   }
 
+  .list__search {
+    @include breakpoint-max(sm) {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+
+      .list--is-selecting & {
+        z-index: -1;
+      }
+    }
+  }
+
   .list-btn {
     width: 40px;
     height: 40px;
+    min-width: 40px;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
@@ -347,6 +386,7 @@ export default {
 
 .selected-label {
   padding: 5px;
+  white-space: nowrap;
 
   .selected-count {
     margin-left: 4px;
@@ -374,6 +414,7 @@ export default {
 .list__actions {
   flex: 1;
   justify-content: flex-end;
+  flex-flow: row wrap;
 
   .bulk-actions {
     flex: 1;
