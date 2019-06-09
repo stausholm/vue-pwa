@@ -34,14 +34,16 @@
               <span class="tooltip-text">{{action.label}}</span>
             </button>
             
-            <button class="list-btn" v-if="useOverflowMenu" @click="toggleShowMore">
+            <button class="list-btn btn--dropdown" v-if="useOverflowMenu" @click="toggleShowMore">
               <icon-base iconName="more actions">
                 <icon-more />
               </icon-base>
 
-              <ul v-if="showingOverflowMenu" @click.stop="showingOverflowMenu = false" v-click-outside="toggleShowMore">
-                <li v-for="(action, index) in actions.slice(sliceIndex - 1)" :key="index" @click="$emit(action.emit, selectedItems)">{{action.label}}</li>
-              </ul>
+              <transition name="slide-up">
+                <ul v-if="showingOverflowMenu" @click.stop="showingOverflowMenu = false" v-click-outside="toggleShowMore">
+                  <li v-for="(action, index) in actions.slice(sliceIndex - 1)" :key="index" @click="$emit(action.emit, selectedItems)">{{action.label}}</li>
+                </ul>
+              </transition>
             </button>
           </div>
         </transition>
@@ -420,6 +422,36 @@ export default {
     flex: 1;
     justify-content: flex-end;
     display: flex;
+  }
+}
+
+
+.btn--dropdown {
+  position: relative;
+
+  ul {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    z-index: 22;
+    border-radius: .25rem;
+    width: max-content;
+    max-width: 90vw;
+    text-align: right;
+
+    li {
+      padding: 10px;
+      color: #1d1f20;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #d2d3d4;
+      }
+    }
   }
 }
 
