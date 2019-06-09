@@ -20,9 +20,9 @@
     </div>
 
     <div class="list-item__actions" v-if="showDelete || !isTouchDevice">
-      <button v-for="action in actions" :key="action"  @click="$parent.$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
+      <button v-for="action in actionsLocal" :key="action"  @click="$parent.$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
         <icon-base :iconName="action" width="24" height="24">
-          <!-- <component :is="action"/> -->
+         
           <transition v-if="action === 'star'" name="icon-scale">
             <star v-if="item.completed"/>
             <star-border v-else/>
@@ -82,7 +82,8 @@ export default {
       touchStartX: false,
       touchStartY: false,
       touchStartTime: false,
-      shouldCancel: false
+      shouldCancel: false,
+      actionsLocal: ['star','delete']
     }
   },
   computed: {
@@ -200,7 +201,7 @@ export default {
         this.showDelete = false;
         console.log('end far', this.cardPositionX)
       } else if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
-        this.cardPositionX = this.actions.length * 48;
+        this.cardPositionX = this.actionsLocal.length * 48;
         this.showDelete = true;
         console.log('end short', this.cardPositionX)
       } else { // didn't swipe very far at all

@@ -1,6 +1,6 @@
 <template>
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
-    <div class="list__action-header">
+    <div class="list__action-header" ref="actionsheader">
       <div>
         <input type="text" placeholder="Search..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
 
@@ -12,16 +12,31 @@
             </transition>
           </icon-base>
         </button>
+
+        <p v-if="isLoading">loading</p>
       </div>
 
-      <div>
+      <div class="list__actions">
         <p v-if="isSelecting" class="selected-label">selected: <span class="selected-count">{{selectedItems.length}}</span></p>
       
-        <div class="bulk-actions" v-if="isSelecting">
-          <button v-for="action in actions" :key="action"  @click="$emit(action, selectedItems)">{{action}}</button>
-        </div>
+        <transition name="slide-up">
+          <div class="bulk-actions" v-if="isSelecting" ref="bulkactions">
+            <!-- <floating-action-bar :options="actions"/> -->
+            <button v-for="action in slicedActions" 
+              :key="action.label" 
+              :disabled="selectedItems.length < 1" 
+              @click="$emit(action.emit, selectedItems)"
+              class="list-btn tooltip"
+            >
+              <icon-base :iconName="action.label">
+                <component :is="action.icon"/>
+              </icon-base>
+              <span class="tooltip-text">{{action.label}}</span>
+            </button>
+          </div>
+        </transition>
 
-        <button @click="toggleSelectAll" class="list-btn btn-icon--animate tooltip">
+        <button v-if="actions.length > 0" @click="toggleSelectAll" class="list-btn btn-icon--animate tooltip">
           <icon-base iconName="toogle select all">
             <transition name="icon-scale">
               <icon-deselect-all v-if="allAreSelected" />
@@ -31,7 +46,7 @@
           <span class="tooltip-text tooltip-text--">{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
         </button>
 
-        <button @click="toggleSelecting" class="list-btn btn-icon--animate" :class="{'active': isSelecting}">
+        <button v-if="actions.length > 0" @click="toggleSelecting" class="list-btn btn-icon--animate" :class="{'active': isSelecting}">
           <icon-base :iconName="isSelecting ? 'exit bulk mode' : 'enter bulk mode'">
             <transition name="icon-scale">
               <icon-multimode-off v-if="isSelecting" />
@@ -88,6 +103,8 @@ import Observer from '@/utils/observer'
 
 import ListAdvancedItemTodo from './ListAdvancedItemtodo'
 
+import FloatingActionBar from '@/components/floatingActionBar/FloatingActionBar'
+
 export default {
   name: 'ListAdvanced',
   components: {
@@ -101,7 +118,8 @@ export default {
 
     Observer,
 
-    ListAdvancedItemTodo
+    ListAdvancedItemTodo,
+    FloatingActionBar
   },
   props: {
     list: { // the items in the list
@@ -155,7 +173,9 @@ export default {
       isSelecting: false,
       useAlternativeDisplayMode: false,
       searchQuery: '',
-      debounceFunc: null
+      debounceFunc: null,
+      useOverflowMenu: false,
+      sliceIndex: this.actions.length
     }
   },
   computed: {
@@ -185,6 +205,12 @@ export default {
       }
       
       return this.list;
+    },
+    slicedActions() {
+      if (this.useOverflowMenu) {
+        return this.actions.slice(0, this.sliceIndex - 1)
+      }
+      return this.actions.slice(0, this.sliceIndex)
     }
   },
   methods: {
@@ -202,6 +228,8 @@ export default {
       if (!this.isSelecting) {
         this.selectedItems = [];
         this.$emit('selected', this.selectedItems)
+      } else {
+        this.$nextTick(this.calculateOverflowingActions)
       }
     },
     toggleSelectAll() {
@@ -225,7 +253,35 @@ export default {
     },
     reachedBottom() {
       this.$emit('reached_bottom')
+    },
+    calculateOverflowingActions() {
+      const $wrap = this.$refs.bulkactions;
+      if (!$wrap) {
+        return
+      }
+
+      this.sliceIndex = this.actions.length
+
+      let availableWidth = $wrap.offsetWidth;
+      const actionWidth = $wrap.querySelector('button').offsetWidth;
+      const actionWidthTotal = this.actions.length * actionWidth;
+
+      console.log(availableWidth, actionWidth, actionWidthTotal)
+      
+      if (availableWidth <= actionWidthTotal) {
+        this.useOverflowMenu = true;
+
+        while (availableWidth < actionWidthTotal) {
+          availableWidth += actionWidth;
+          this.sliceIndex--;
+        }
+      } else {
+        this.useOverflowMenu = false;
+      }
     }
+  },
+  mounted() {
+    this.calculateOverflowingActions();
   },
   beforeDestroy() {
     clearTimeout(this.debounceFunc) // just in case the user decides to leave before debounced func has been called
@@ -277,6 +333,11 @@ export default {
       background: rgba(255, 255, 255, 0.5);
     }
 
+    &:disabled {
+      cursor: not-allowed;
+      color: #d2d3d4;
+    }
+
     &.active {
       background-color: #fff;
       color: #f32556;
@@ -306,6 +367,18 @@ export default {
   .list-item {
     width: 49%;
     height: 250px;
+  }
+}
+
+
+.list__actions {
+  flex: 1;
+  justify-content: flex-end;
+
+  .bulk-actions {
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
   }
 }
 

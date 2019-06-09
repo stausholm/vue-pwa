@@ -100,6 +100,7 @@ export default {
   display: flex;
   justify-content: center;
   pointer-events: none;
+  z-index: 22222;
 
   .fab-list {
     height: 100%;

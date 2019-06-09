@@ -17,7 +17,7 @@
     </div>
     <list-advanced 
       itemTemplate="ListAdvancedItemTodo" 
-      :actions="['star', 'delete']"
+      :actions="actions"
       @star="handleStar"
       @delete="handleDelete" 
       :list="listItems" 
@@ -31,23 +31,62 @@
       :allDataLoaded="allDataLoaded"
     >
     </list-advanced>
+
+    <modal-advanced 
+      v-if="showModal" 
+      @close="showModal = false" 
+      header="modal header" 
+      confirmLabel="label" 
+      :confirmIsDestructive="true">
+      <p>Sure you want to delete these?</p>
+    </modal-advanced>
   </div>
 </template>
 
 <script>
 import ListAdvanced from '@/components/list/ListAdvanced'
+import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 export default {
   name: 'ExampleListAdvanced',
   components: {
-    ListAdvanced
+    ListAdvanced,
+    ModalAdvanced
   },
   data() {
     return {
       listItems: [],
       page: 1,
       loadingItems: false,
-      allDataLoaded: false
+      allDataLoaded: false,
+      actions: [
+        {
+          label: 'Favorite selected',
+          icon: () => import('@/components/icons/IconStar'),
+          emit: 'star'
+        },
+        {
+          label: 'Unfavorite selected',
+          icon: () => import('@/components/icons/IconStarBorder'),
+          emit: 'unstar'
+        },
+        {
+          label: 'Delete',
+          icon: () => import('@/components/icons/IconDelete'),
+          emit: 'delete'
+        },
+        {
+          label: 'Archive',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'archive'
+        },
+        {
+          label: 'Beach boi has a very long name',
+          icon: () => import('@/components/icons/IconBeachAccess'),
+          emit: 'beach'
+        }
+      ],
+      showModal: false
     }
   },
   created() {
@@ -103,6 +142,7 @@ export default {
         this.$store.dispatch('changeNotification', {content: `Deleted ${payload.length || 1} items`, duration: 2000, label: 'Undo', action: () => {console.log('should undo')}})
       } else {
         console.log('should show confirm modal')
+        this.showModal = true;
       }
     },
     handleSearch(query) {
