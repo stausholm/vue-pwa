@@ -72,6 +72,12 @@
           opacity: 0;
           transform: scale(3.5);
         }
+
+        .error {
+          font-size: 100px;
+          margin: 100px auto;
+        }
+
         .initial-load-spinner {
           width: 40px;
           height: 40px;
@@ -102,17 +108,48 @@
         }
       </style>
       <div class="initial-load-spinner"></div>
-      <b>Loading <%= htmlWebpackPlugin.options.title %></b>
+      <b class="loader-info-label">Loading <%= htmlWebpackPlugin.options.title %></b>
+      <span class="progress-notice"></span>
     </div>
     <div id="app"></div>
     <script>
-      window.addEventListener('load', () => { // TODO: Use document instead of window to not wait for images to load?
-        var loader = document.querySelector('.app-initial-load');
-        loader.classList.add('app-initial-load--finished');
-        loader.addEventListener('transitionend', () => {
-          loader.remove();
-        })
-      })
+      (function(){
+        var label = document.querySelector('.app-initial-load .loader-info-label');
+        var notice = document.querySelector('.app-initial-load .progress-notice');
+        var spinner = document.querySelector('.app-initial-load .initial-load-spinner');
+        
+        var timer = setTimeout(function() {
+          notice.textContent = "Loading is taking a while..";
+          console.log('App load is taking longer than 4000ms')
+        }, 4000)
+
+        console.log('Loading app...')
+
+        var finishFunc = function() {
+          var loader = document.querySelector('.app-initial-load');
+          clearTimeout(timer);
+          loader.classList.add('app-initial-load--finished');
+          loader.addEventListener('transitionend', function() {
+            loader.remove();
+            window.removeEventListener('load', finishFunc)
+            window.removeEventListener('error', loadErrorFunc)
+          })
+        }
+
+        var loadErrorFunc = function() {
+          clearTimeout(timer);
+          spinner.className = "error";
+          spinner.textContent = "😢";
+          label.textContent = "Failed to load";
+          notice.textContent = "";
+        }
+        
+        window.addEventListener('load', finishFunc) // TODO: Use document instead of window to not wait for images to load? Also how does this work with manifest.json splashscreen?
+
+        window.addEventListener('error', loadErrorFunc)
+
+      })()
+
     </script>
     <!-- Todo: only include in production -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
