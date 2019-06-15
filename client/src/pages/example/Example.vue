@@ -14,6 +14,9 @@
       <button @click="testNotification2">test notification warning</button>
       <div style="width:200px;height:200px;background:red;" v-if="showBox"></div>
       <p style="margin-top:200px">more height!</p>
+      <p>this is some text <spoiler>this is a spoiler</spoiler> this is more text in the same paragraph</p>
+      <spoiler-image src="test.png"/>
+
       <ul>
         <li v-for="link in childRoutes" :key="link.path">
           <router-link :to="'/example/' + link.path">{{link.name}}</router-link>
@@ -34,6 +37,8 @@ import CTAButtonWithIcon from '@/components/buttons/CTAButtonWithIcon';
 import IconBase from '@/components/icons/IconBase';
 import IconBeachAccess from '@/components/icons/IconBeachAccess';
 import SearchBar from '@/components/search/SearchBar';
+import Spoiler from '@/components/spoiler/spoiler';
+import SpoilerImage from '@/components/spoiler/spoilerImage';
 
 import {getUAObject} from '@/utils/browserSpecs';
 
@@ -43,7 +48,9 @@ export default {
     'cta-button-icon': CTAButtonWithIcon,
     IconBase,
     IconBeachAccess,
-    SearchBar
+    SearchBar,
+    Spoiler,
+    SpoilerImage
   },
   data() {
     return {
