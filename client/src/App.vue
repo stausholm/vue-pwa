@@ -49,6 +49,21 @@ export default {
     afterLeave() {
       console.log('afterLeave fired')
       this.$root.$emit('triggerScroll')
+    },
+    isInstalled() {
+      if (navigator.standalone) {
+        return true;  // iOS
+      }
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        return true;  // Android with "display": "standalone" in Manifest
+      }
+      // if (new URL(window.location).searchParams.has('homescreen')) {
+      //   return true;  // fallback to check for "?homescreen=1"
+      // }
+      if (window.location.search.includes('source=pwa')) {
+        return true;
+      }
+      return false;
     }
   },
   created() {
@@ -75,7 +90,7 @@ export default {
     //   });
 
     // hide pwa button if launched as pwa
-    if(window.location.search.includes('source=pwa')) {
+    if(this.isInstalled()) {
       console.log('app was launched as a pwa')
       this.$store.dispatch('hidePWAButton')
     }
