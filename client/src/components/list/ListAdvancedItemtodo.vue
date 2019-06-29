@@ -14,8 +14,7 @@
           <p class="title">{{item.title}}</p>
           <p class="id">item id: {{item.id}}</p>
         </div>
-        <!-- <button @click="selectMe">select</button> -->
-        <input v-if="isSelecting" type="checkbox" :checked="itemIsSelected" @change="$emit('selected')">
+        <input v-if="isSelecting" type="checkbox" :checked="itemIsSelected" >
       </div>
     </div>
 
