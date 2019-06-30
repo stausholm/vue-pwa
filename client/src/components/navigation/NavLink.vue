@@ -17,6 +17,8 @@
       :rel="rel"
       :title="route.title">{{route.label || route.title}}</a>
 
+      <span v-if="route.badge" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>
+
     <button v-if="route.children" @click="toggleChildren">{{showChildren ? '-' : '+'}}</button>
 
     <ul v-if="route.children && showChildren">

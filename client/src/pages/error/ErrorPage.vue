@@ -23,7 +23,7 @@ export default {
     return {
       nav: {
         useRouterLink: true,
-        expandAllChildren: true,
+        expandAllChildren: false,
         navGroups: [
           {
             groupLabel: 'a label that is quite long oh no dios mio',
@@ -42,6 +42,10 @@ export default {
                     label: 'label 1.1',
                     path: '',
                     target: '_blank',
+                    badge: {
+                      label: 'asd',
+                      type: 'info'
+                    },
                     children: [
                       {
                         label: 'label 1.1.1',
