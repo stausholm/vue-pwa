@@ -415,7 +415,7 @@
             visibility: hidden;
             transition: opacity .4s, visibility .4s;
             content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
