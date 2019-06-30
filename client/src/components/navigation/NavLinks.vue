@@ -53,9 +53,9 @@ export default {
 </script>
 
 <style lang="scss">
-.nav-list {
-  max-width: 200px;// for test
-  background: lightgray;
+// .nav-list {
+//   max-width: 200px;// for test
+//   background: lightgray;
 
-}
+// }
 </style>

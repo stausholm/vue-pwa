@@ -215,8 +215,8 @@
 
   .dropdown-nav {
     position: fixed;
-    padding: 20px;
-    background-color: red;
+    //padding: 20px;
+    background-color: lightgreen;
     top: 0;
     left: 0;
     bottom: 0;
@@ -224,11 +224,17 @@
     z-index: 99999;
 
     @include breakpoint-max(md) {
+      border-top: 1px solid black;
       position: static;
       width: auto;
+
+      .nav-group {
+        display: none;
+      }
     }
 
     @include breakpoint-max(sm) {
+      border-top: 0;
       width: 100%;
       position: fixed;
       transform: translateX(-100%);
@@ -245,11 +251,101 @@
       }
 
       @include breakpoint-max(md) {
-
+        .nav-group {
+          display: block;
+        }
       }
 
       @include breakpoint-max(sm) {
         transform: translateX(0);
+      }
+    }
+
+    .nav-group {
+      &__label {
+        font-weight: bold;
+        padding: 10px 20px;
+        display: block;
+        text-transform: uppercase;
+        font-size: .85em;
+        letter-spacing: .06em;
+        padding-top: 14px;
+        word-break: break-word;
+      }
+
+      &__list {
+        .nav-link {
+
+          // &:hover {
+          //   background-color: grey;
+
+          //   > .nav-link-header .nav-link__expander {
+          //     opacity: .3;
+          //   }
+          // }
+
+          a {
+            padding: 18px 20px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 44px;
+            width: 100%;
+            //flex: 1;
+
+            &:hover {
+              background-color: gray;
+
+              ~ .nav-link__expander {
+                opacity: .3;
+              }
+            }
+          }
+
+          .nav-link-header {
+            display: flex;
+            align-items: center;
+            //justify-content: space-between;
+            position: relative;
+          }
+
+          .nav-link__expander {
+            background-color: skyblue;
+            transition: transform .2s;
+            margin-right: 20px;
+            position: absolute;
+            right: 0;
+
+            &:hover {
+              opacity: 1;
+            }
+
+            &.expanded {
+              transform: rotate(90deg);
+            }
+          }
+
+          &.parent-link, &.back-button {
+            display: none;
+          }
+
+          ul {
+            background-color: burlywood;
+
+            ul {
+              background-color: darken(burlywood, 5);
+              
+              ul {
+                background-color: darken(burlywood, 10);
+                
+                ul {
+                  background-color: darken(burlywood, 15);
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -332,6 +428,7 @@
 
 
 .nav-link__badge {
+  pointer-events: none;
   position: absolute;
   // height: 10px;
   // font-size: 8px;
