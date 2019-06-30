@@ -27,7 +27,11 @@
       </button>
     </div>
 
-    <transition name="nav-children">
+    <transition name="nav-children" 
+      @enter="start"
+      @after-enter="end"
+      @before-leave="start"
+      @after-leave="end">
       <ul v-if="route.children && showChildren">
         <li class="nav-link back-button">
           <div class="nav-link-header">
@@ -89,8 +93,7 @@ export default {
   },
   data() {
     return {
-      showChildren: this.expandAllChildren,
-      test: false
+      showChildren: this.expandAllChildren
     }
   },
   computed: {
@@ -108,8 +111,7 @@ export default {
         'has-children': this.route.children && this.route.children.length > 0,
         'children-visible': this.showChildren,
         [this.route.class]: this.route.class,
-        ['nav-link--depth-' + this.depth]: true,
-        'move-out': this.test
+        ['nav-link--depth-' + this.depth]: true
       }
     }
   },
@@ -121,16 +123,22 @@ export default {
       }
       this.showChildren = !this.showChildren;
 
-      this.$emit('toggleChildren', this.showChildren)
+      this.$emit('toggleChildren', this.showChildren, this.$el)
     },
-    handleEmit(val) {
-      console.log(val)
-      this.test = val;
+    handleEmit(val, el) {
       if (val) {
-        this.$el.parentNode.classList.add('test')
+        el.parentNode.classList.add('test2')
       } else {
-        this.$el.parentNode.classList.remove('test')
+        el.parentNode.classList.remove('test2')
       }
+    },
+    start(el) {
+      console.log(el)
+      el.style.height = `${el.scrollHeight}px`
+    },
+    end(el) {
+      console.log(el)
+      el.style.height = ''
     }
   }
 }

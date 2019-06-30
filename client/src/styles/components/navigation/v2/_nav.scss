@@ -258,6 +258,15 @@
 
       @include breakpoint-max(sm) {
         transform: translateX(0);
+
+        .nav-list {
+          &.test2 {
+            .nav-group__label, .nav-group__list > .nav-link > .nav-link-header {
+              will-change: transform;
+              transform: translateX(-30%);
+            }
+          }
+        }
       }
     }
 
@@ -271,6 +280,7 @@
         letter-spacing: .06em;
         padding-top: 14px;
         word-break: break-word;
+        transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
       }
 
       &__list {
@@ -391,50 +401,39 @@
                 visibility: visible;
               }
             }
-
-            // &:not(.move-out) {
-            //   color: red;
-            //   .nav-link-header {
-            //     transform: translateX(-20px);
-            //   }
-            // }
           }
         }
 
-        ul { // alternativt opsæt pseudo på det ul der animeres ind
-          > li > ul {
-            &::after {
-              pointer-events: none;
-              opacity: 0;
-              visibility: hidden;
-              transition: opacity .4s;
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background-color: black;
-            }
+        ul { 
+          &::after {
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .4s, visibility .4s;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: black;
           }
         }
 
-        ul.test {
-          > li > ul {
-            // filter: brightness(0.5);
-            &::after {
-              // background-color: rgba(0,0,0,.5);
-              opacity: .5;
-              pointer-events: all;
-              visibility: visible;
-            }
-
-            > li {
-              > .nav-link-header {
-                transform: translateX(-30%);
-              }
+        ul.test2 {
+          &::after {
+            opacity: .5;
+            pointer-events: all;
+            visibility: visible;
+          }
+          
+          > li {
+            > .nav-link-header {
+              will-change: transform;
+              transform: translateX(-30%);
             }
           }
+
         }
       }
     }
@@ -537,14 +536,44 @@
 
 
 .nav-children-enter {
-  //opacity: 0;
-  transform: translateX(100%);
+  @include breakpoint(sm) {
+    height: 0 !important;
+    opacity: 0;
+  }
+
+  @include breakpoint-max(sm) {
+    transform: translateX(100%);
+  }
 }
 .nav-children-enter-active {
-  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  @include breakpoint(sm) {
+    will-change: height, opacity;
+    transition: height .3s ease-in-out, opacity .3s ease-in-out;
+    overflow: hidden;
+  }
+
+  @include breakpoint-max(sm) {
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
 }
 .nav-children-leave-active {
-  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  //opacity: 0;
-  transform: translateX(100%);
+  @include breakpoint(sm) {
+    will-change: height, opacity;
+    transition: height .3s ease-in-out, opacity .3s ease-in-out;
+    overflow: hidden;
+  }
+
+  @include breakpoint-max(sm) {
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform: translateX(100%);
+  }
+}
+
+.nav-children-leave-to {
+  @include breakpoint(sm) {
+    height: 0 !important;
+    opacity: 0;
+  }
 }
