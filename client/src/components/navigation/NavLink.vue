@@ -127,17 +127,15 @@ export default {
     },
     handleEmit(val, el) {
       if (val) {
-        el.parentNode.classList.add('test2')
+        el.parentNode.classList.add('move-out')
       } else {
-        el.parentNode.classList.remove('test2')
+        el.parentNode.classList.remove('move-out')
       }
     },
     start(el) {
-      console.log(el)
       el.style.height = `${el.scrollHeight}px`
     },
     end(el) {
-      console.log(el)
       el.style.height = ''
     }
   }

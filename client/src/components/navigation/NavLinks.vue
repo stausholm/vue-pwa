@@ -28,11 +28,11 @@ export default {
   methods: {
     handleEmit(val, el) {
       if (val) {
-        el.parentNode.classList.add('test2')
-        this.$refs.navList.classList.add('test2')
+        el.parentNode.classList.add('move-out')
+        this.$refs.navList.classList.add('move-out')
       } else {
-        el.parentNode.classList.remove('test2')
-        this.$refs.navList.classList.remove('test2')
+        el.parentNode.classList.remove('move-out')
+        this.$refs.navList.classList.remove('move-out')
       }
     }
   }
