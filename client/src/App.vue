@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <app-navigation :fixed="true" :hideOnScroll="true"/>
-    <bottom-nav />
-    <main>
+    <!-- <app-navigation :fixed="true" :hideOnScroll="true"/>
+    <bottom-nav /> -->
+    <app-nav />
+    <main id="content">
       <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
         <router-view></router-view>
       </transition>
@@ -27,13 +28,16 @@ import handleLayoutBreakpoint from './utils/layoutBreakpoint';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
 import {setBrowserCompatibilityClasses} from './utils/browserSpecs';
 
+import Nav from './components/navigation/v2/Nav'
+
 export default {
   name: 'app',
   components: {
     'app-navigation': Navigation,
     BottomNav,
     'a2hs-overlay': A2HSOverlay,
-    NotificationSmall
+    NotificationSmall,
+    'app-nav': Nav
   },
   data() {
     return {
@@ -130,13 +134,13 @@ export default {
 </script>
 
 <style>
-main > div {
+/* main > div {
   position: absolute;
   width: 100%;
   top: 0;
   left: 0;
   background: #fff;
-}
+} */
 .routerfadepositive-enter {
   opacity: 0;
   transform: translateX(100%);
