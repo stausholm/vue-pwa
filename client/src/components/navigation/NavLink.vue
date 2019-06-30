@@ -27,30 +27,36 @@
       </button>
     </div>
 
-    <ul v-if="route.children && showChildren">
-      <li class="nav-link back-button">
-        <a href="" @click.prevent="toggleChildren">Back</a>
-      </li>
-      <li class="nav-link parent-link">
-        <a v-if="route.action"
-          href="" 
-          @click.prevent.stop="route.action"
-          :title="route.title">{{route.label || route.title}}</a>
+    <transition name="nav-children">
+      <ul v-if="route.children && showChildren">
+        <li class="nav-link back-button">
+          <div class="nav-link-header">
+            <a href="" @click.prevent="toggleChildren">Back</a>
+          </div>
+        </li>
+        <li class="nav-link parent-link">
+          <div class="nav-link-header">
+            <a v-if="route.action"
+              href="" 
+              @click.prevent.stop="route.action"
+              :title="route.title">{{route.label || route.title}}</a>
 
-        <router-link v-else-if="useRouterLink"
-          :to="route.path"
-          :target="route.target"
-          :rel="rel"
-          :title="route.title">{{route.label || route.title}}</router-link>
-          
-        <a v-else 
-          :href="route.path"
-          :target="route.path"
-          :rel="rel"
-          :title="route.title">{{route.label || route.title}}</a>
-      </li>
-      <navlink v-for="child in route.children" :key="child.label" :useRouterLink="useRouterLink" :route="child" :depth="depth + 1" :expandAllChildren="expandAllChildren"/>
-    </ul>
+            <router-link v-else-if="useRouterLink"
+              :to="route.path"
+              :target="route.target"
+              :rel="rel"
+              :title="route.title">{{route.label || route.title}}</router-link>
+              
+            <a v-else 
+              :href="route.path"
+              :target="route.path"
+              :rel="rel"
+              :title="route.title">{{route.label || route.title}}</a>
+          </div>
+        </li>
+        <navlink @toggleChildren="handleEmit" v-for="child in route.children" :key="child.label" :useRouterLink="useRouterLink" :route="child" :depth="depth + 1" :expandAllChildren="expandAllChildren"/>
+      </ul>
+    </transition>
   </li>
 </template>
 
@@ -83,7 +89,8 @@ export default {
   },
   data() {
     return {
-      showChildren: this.expandAllChildren 
+      showChildren: this.expandAllChildren,
+      test: false
     }
   },
   computed: {
@@ -101,7 +108,8 @@ export default {
         'has-children': this.route.children && this.route.children.length > 0,
         'children-visible': this.showChildren,
         [this.route.class]: this.route.class,
-        ['nav-link--depth-' + this.depth]: true
+        ['nav-link--depth-' + this.depth]: true,
+        'move-out': this.test
       }
     }
   },
@@ -112,6 +120,17 @@ export default {
         return;
       }
       this.showChildren = !this.showChildren;
+
+      this.$emit('toggleChildren', this.showChildren)
+    },
+    handleEmit(val) {
+      console.log(val)
+      this.test = val;
+      if (val) {
+        this.$el.parentNode.classList.add('test')
+      } else {
+        this.$el.parentNode.classList.remove('test')
+      }
     }
   }
 }
