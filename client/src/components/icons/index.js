@@ -25,6 +25,7 @@ import IconLibraryBooks from './IconLibraryBooks.vue'
 import IconViewList from './IconViewList.vue'
 import IconViewModule from './IconViewModule.vue'
 import IconEdit from './IconEdit.vue'
+import IconHome from './IconHome.vue'
 
 // outline folder
 import IconVisibility from './outline/IconVisibility.vue'
@@ -58,6 +59,7 @@ export default {
   IconViewList,
   IconViewModule,
   IconEdit,
+  IconHome,
 
   // outline icons
   IconVisibility,

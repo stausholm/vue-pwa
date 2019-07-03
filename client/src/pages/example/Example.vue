@@ -2,6 +2,7 @@
   <div>
     <div class="container--content">
       <h1>this is example yo</h1>
+      <breadcrumbs />
       <cta-button-icon @click.native="test">
         <template slot="text">amazing cta text</template>
         <template slot="icon">
@@ -39,6 +40,7 @@ import IconBeachAccess from '@/components/icons/IconBeachAccess';
 import SearchBar from '@/components/search/SearchBar';
 import Spoiler from '@/components/spoiler/spoiler';
 import SpoilerImage from '@/components/spoiler/spoilerImage';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
 import {getUAObject} from '@/utils/browserSpecs';
 
@@ -50,7 +52,8 @@ export default {
     IconBeachAccess,
     SearchBar,
     Spoiler,
-    SpoilerImage
+    SpoilerImage,
+    Breadcrumbs
   },
   data() {
     return {

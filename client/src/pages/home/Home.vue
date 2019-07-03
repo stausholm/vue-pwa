@@ -2,6 +2,7 @@
   <div>
     <hero-block-split :pullImageLeft="false" :background="['image', 'fade']"/>
     <div class="container--content">
+      <breadcrumbs />
       <h1>this is home</h1>
       <offline />
       <header>
@@ -33,11 +34,12 @@
 import A2HSButton from '@/components/A2HS/A2HSbutton';
 import offline from '@/components/offline/OfflineNotice';
 import HeroBlockSplit from '@/components/hero/HeroBlockSplit';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
 export default {
   name: 'Home',
   components: {
-    'a2hs-button': A2HSButton, offline, HeroBlockSplit
+    'a2hs-button': A2HSButton, offline, HeroBlockSplit, Breadcrumbs
   },
   computed: {
     isLoggedIn() {
