@@ -5,7 +5,7 @@
     right: 0;
     top: 0;
     height: 60px;
-    background-color: yellow;
+    background-color: #fff;
     z-index: 99999;
 
     display: flex;
@@ -14,6 +14,7 @@
 
     @include breakpoint(md) { // above tablet portrait
       padding: 0 $default-spacing;
+      box-shadow: 0 0.125rem 0.625rem rgba(90,97,105,.12);
 
       .nav-open & {
         left: 60px;
@@ -29,11 +30,12 @@
             display: flex;
             padding: .35em;
             margin-right: $default-spacing;
-            background-color: red;
+            background-color: $primary-color;
             border-radius: $default-border-radius;
+            color: #fff;
 
             &.router-link-exact-active {
-              background-color: green;
+              background-color: $primary-color-dark;
             }
 
             span.label {
@@ -62,15 +64,20 @@
             display: flex;
             align-items: center;
             white-space: nowrap;
-            color: rgba(255, 255, 255, 0.8);
+            //color: rgba(255, 255, 255, 0.8);
+            color: #3d5170;
             padding: 18px;
+            transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
 
             &:hover {
-              background-color: lime;
+              background-color: #fbfbfb;
+              color: #007bff;
             }
-
+            
             &.router-link-exact-active {
-              background-color: gray;
+              background-color: #fbfbfb;
+              color: #007bff;
+              box-shadow: inset 0.1875rem 0 0 #007bff;
             }
 
             body:not(.nav-open) & {
@@ -80,7 +87,7 @@
   
                 visibility: hidden;
                 opacity: 0;
-                background-color: black;
+                background-color: #007bff;
                 color: #fff;
                 padding: 5px;
                 border-radius: $default-border-radius;
@@ -96,7 +103,7 @@
                   margin-top: -5px;
                   border-width: 5px;
                   border-style: solid;
-                  border-color: transparent black transparent transparent;
+                  border-color: transparent #007bff transparent transparent;
                 }
               }
   
@@ -216,7 +223,7 @@
   .dropdown-nav {
     position: fixed;
     //padding: 20px;
-    background-color: lightgreen;
+    background-color: #fff;
     top: 0;
     left: 0;
     bottom: 0;
@@ -224,6 +231,17 @@
     z-index: 99999;
     overflow-y: auto;
     overflow-x: hidden;
+
+    @include breakpoint(md) {
+      box-shadow: 0 0 2rem 0 rgba(136,152,170,.15);
+      padding-top: 60px;
+
+      .nav-group:not(:first-child) {
+        .nav-group__label {
+          border-top: 1px solid rgba(0,0,0,.1);
+        }
+      }
+    }
 
     @include breakpoint-max(md) {
       border-top: 1px solid black;
@@ -242,6 +260,11 @@
       transform: translateX(-100%);
       transition: transform .3s cubic-bezier(0.165, 0.84, 0.44, 1);
       padding-top: 60px;
+      z-index: 999999;
+
+      .nav-group {
+        display: block;
+      }
     }
 
     .nav-open & {
@@ -260,6 +283,7 @@
 
       @include breakpoint-max(sm) {
         transform: translateX(0);
+        will-change: transform;
 
         .nav-list {
           &.move-out {
@@ -283,6 +307,11 @@
         padding-top: 14px;
         word-break: break-word;
         transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        color: #8898aa;
+
+        @include breakpoint-between(sm, md) {
+          width: 250px;
+        }
       }
 
       &__list {
@@ -304,10 +333,14 @@
             text-overflow: ellipsis;
             padding-right: 44px;
             width: 100%;
+            color: #3d5170;
+            transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
             //flex: 1;
 
             &:hover {
-              background-color: gray;
+              box-shadow: inset 0.1875rem 0 0 #007bff;
+              background-color: #fbfbfb;
+              color: #007bff;
 
               ~ .nav-link__expander {
                 opacity: .3;
@@ -323,14 +356,17 @@
           }
 
           .nav-link__expander {
-            background-color: skyblue;
+            //background-color: skyblue;
             transition: transform .2s;
             margin-right: 20px;
             position: absolute;
             right: 0;
+            color: #007bff;
 
             &:hover {
               opacity: 1;
+              color: #fff;
+              background-color: rgba(#007bff, .8);
             }
 
             &.expanded {
@@ -447,18 +483,25 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 48px;
-    width: 48px;
-    z-index: 99999;
-    background-color: skyblue;
+    height: 60px;
+    width: 60px;
+    z-index: 999999;
+    //background-color: skyblue;
 
     @include breakpoint-max(md) {
 
     }
 
     @include breakpoint-max(sm) {
+      transition: transform .3s;
+      will-change: transform;
       bottom: auto;
       top: 0;
+    }
+  }
+  @include breakpoint-max(sm) {
+    &:not(.app-nav--expanded) .primary-nav--scrolled ~ .nav-hamburger {
+      transform: translateY(-100%);
     }
   }
 
@@ -490,6 +533,7 @@
 
 #content {
   padding-left: 250px;
+  background: #f8f9fe;
 
   @include breakpoint(md) {
     .nav-open & {
@@ -519,6 +563,9 @@
     right: 0;
     z-index: 99998;
   }
+  @include breakpoint-max(sm) {
+    z-index: 999998;
+  }
 }
 
 
@@ -538,6 +585,18 @@
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
+}
+
+.page-title {
+  display: none;
+
+  @include breakpoint-max(sm) {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    // font-size: .9em;
+    letter-spacing: 0.6px;
+  }
 }
 
 
@@ -583,3 +642,45 @@
     opacity: 0;
   }
 }
+
+
+
+// darkmode
+// .app-nav.dark-mode {
+//   .primary-nav {
+//     background-color: #27293d;
+//     color: rgba(255, 255, 255, 0.7);
+
+//     @include breakpoint(md) {
+//       box-shadow: 0 0.125rem 0.625rem rgba(0,0,0, 0.12);
+//     }
+//   }
+  
+//   .dropdown-nav {
+//     background-color: #27293d;
+
+//     @include breakpoint(md) {
+//       box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
+
+//       .nav-group:not(:first-child) {
+//         .nav-group__label {
+//           border-top: 1px solid rgba(255,255,255,.1);
+//         }
+//       }
+//     }
+//     .nav-group {
+//       &__label {
+//         color: #fff;
+        
+//       }
+
+//       &__list {
+
+//       }
+//     }
+//   }
+// }
+
+// #content {
+//   background-color: #1e1e24;
+// }

@@ -4,7 +4,7 @@
       <div class="nav-group" v-for="(group, index) in nav.navGroups" :key="index">
         <b class="nav-group__label">{{group.groupLabel}}</b>
         <ul class="nav-group__list">
-          <nav-link @toggleChildren="handleEmit" v-for="route in group.routes" :key="route.label" :depth="0" :useRouterLink="nav.useRouterLink" :route="route" :expandAllChildren="nav.expandAllChildren"/>
+          <nav-link @linkClicked="handleClick" @toggleChildren="handleEmit" v-for="route in group.routes" :key="route.label" :depth="0" :useRouterLink="nav.useRouterLink" :route="route" :expandAllChildren="nav.expandAllChildren"/>
         </ul>
       </div>
     </nav>
@@ -34,6 +34,9 @@ export default {
         el.parentNode.classList.remove('move-out')
         this.$refs.navList.classList.remove('move-out')
       }
+    },
+    handleClick() {
+      this.$emit('linkClicked');
     }
   }
 }

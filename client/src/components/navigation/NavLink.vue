@@ -3,19 +3,21 @@
     <div class="nav-link-header">
       <a v-if="route.action"
         href="" 
-        @click.prevent.stop="route.action"
+        @click.prevent.stop="handleClick"
         :title="route.title">{{route.label || route.title}}</a>
 
       <router-link v-else-if="useRouterLink"
         :to="route.path"
         :target="route.target"
         :rel="rel"
+        @click.native="handleClick"
         :title="route.title">{{route.label || route.title}}</router-link>
         
       <a v-else 
         :href="route.path"
         :target="route.path"
         :rel="rel"
+        @click="handleClick"
         :title="route.title">{{route.label || route.title}}</a>
 
       <span v-if="route.badge" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>
@@ -42,23 +44,25 @@
           <div class="nav-link-header">
             <a v-if="route.action"
               href="" 
-              @click.prevent.stop="route.action"
+              @click.prevent.stop="handleClick"
               :title="route.title">{{route.label || route.title}}</a>
 
             <router-link v-else-if="useRouterLink"
               :to="route.path"
               :target="route.target"
               :rel="rel"
+              @click.native="handleClick"
               :title="route.title">{{route.label || route.title}}</router-link>
               
             <a v-else 
               :href="route.path"
               :target="route.path"
               :rel="rel"
+              @click="handleClick"
               :title="route.title">{{route.label || route.title}}</a>
           </div>
         </li>
-        <navlink @toggleChildren="handleEmit" v-for="child in route.children" :key="child.label" :useRouterLink="useRouterLink" :route="child" :depth="depth + 1" :expandAllChildren="expandAllChildren"/>
+        <navlink @toggleChildren="handleEmit" @linkClicked="$emit('linkClicked')" v-for="child in route.children" :key="child.label" :useRouterLink="useRouterLink" :route="child" :depth="depth + 1" :expandAllChildren="expandAllChildren"/>
       </ul>
     </transition>
   </li>
@@ -131,6 +135,13 @@ export default {
       } else {
         el.parentNode.classList.remove('move-out')
       }
+    },
+    handleClick() {
+      if (this.route.action) {
+        this.route.action();
+      }
+      this.$emit('linkClicked');
+
     },
     start(el) {
       el.style.height = `${el.scrollHeight}px`

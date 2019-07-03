@@ -1,6 +1,6 @@
 <template>
   <div class="app-nav-wrapper">
-    <div class="app-nav" :class="{'app-nav--expanded': navOpen}">
+    <div class="app-nav dark-mode" :class="{'app-nav--expanded': navOpen}">
 
       <div class="primary-nav" :class="{'primary-nav--scrolled': scrolled}" ref="primaryNav">
         <div class="nav-items" :class="{'nav-items--hide': hidePrimaryNav}">
@@ -23,12 +23,13 @@
           </div>
         </div>
         <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled}" ref="mobileHeader">
+          <span class="page-title" v-if="currentPage">{{currentPage}}</span>
           avatar
         </div>
       </div>
 
       <div class="dropdown-nav">
-        <nav-links :nav="dummyNav" />
+        <nav-links :nav="dummyNav" @linkClicked="handleNavClick"/>
       </div>
 
       <button class="nav-hamburger btn-icon btn-icon--animate" @click="toggleNav">
@@ -58,6 +59,14 @@ import NavLinks from '@/components/navigation/NavLinks';
 
 import dummyNav from '@/pages/error/ErrorPage';
 
+const breakpoints = {
+  xs: 576,
+  sm: 768,
+  md: 992,
+  ipadLandscape: 1025,
+  lg: 1200
+}
+
 export default {
   name: 'Nav',
   components: {
@@ -85,6 +94,17 @@ export default {
     },
     hidePrimaryNav() {
       return this.$route.meta.enableBack || this.onScreenKeyboardActive //|| !this.$route.meta.isPrimary;
+    },
+    currentPage() {
+      const r = this.$route;
+      if (r.meta && r.meta.title) {
+        return r.meta.title;
+      } else if(r.matched && r.matched.length > 0) {
+        const match = r.matched.filter(x => x.meta && x.meta.title).slice(-1); // get last match in list
+        return match.length > 0 ? match[0].meta.title : null;
+      }
+
+      return null;
     }
   },
   methods: {
@@ -117,6 +137,13 @@ export default {
         this.scrolled = false;
       }
       this.prevScrollPos = window.scrollY;
+    },
+    handleNavClick() {
+      if (window.innerWidth < breakpoints.md) { // close menu on navclick on mobile and tablet
+        setTimeout(() => { // artificial delay as it felt nicer
+          this.toggleNav();
+        },50)
+      }
     }
   },
   created() {
