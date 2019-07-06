@@ -63,18 +63,19 @@ export default {
   }
 
   a {
-    color: #333;
     padding: 6px 8px;
     display: flex;
     align-items: center;
+    color: #666;
 
     &:hover {
       text-decoration: underline;
-      color: #555;
+      color: #444;
       text-underline-position: under;
     }
 
     &.router-link-exact-active {
+      color: #333;
       font-weight: bold;
       pointer-events: none;
     }

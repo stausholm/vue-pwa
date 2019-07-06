@@ -23,23 +23,52 @@
       }
 
       .nav-items {
+        height: 100%;
+
+        .container {
+          height: 100%;
+        }
+
         nav {
+          height: 100%;
           display: flex;
 
           a {
             display: flex;
+            align-items: center;
             padding: .35em;
             margin-right: $default-spacing;
-            background-color: $primary-color;
-            border-radius: $default-border-radius;
-            color: #fff;
+            color: #3d5170;
+            transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
+            position: relative;
 
+            svg {
+              color: #cacedb;
+              transition: color .2s ease;
+            }
+
+            &:hover {
+              background-color: #fbfbfb;
+              color: #007bff;
+              box-shadow: inset 0 -0.1875rem 0 #007bff;
+              
+              svg {
+                color: #007bff;
+              }
+            }
+            
             &.router-link-exact-active {
-              background-color: $primary-color-dark;
+              color: #007bff;
+              box-shadow: inset 0 -0.1875rem 0 #007bff;
+              
+              svg {
+                color: #007bff;
+              }
             }
 
             span.label {
               padding: 0 .25em;
+              line-height: 24px; // icon size
             }
           }
         }
@@ -171,7 +200,8 @@
             white-space: nowrap;
             overflow: hidden;
             //transition: flex .2s;
-            color: $text-secondary-color;
+            color: #3d5170;
+            position: relative;
             
             span.label {
               max-width: 80%;
@@ -180,15 +210,15 @@
             }
             
             svg g {
-              fill: lighten($text-secondary-color, 10%);
+              fill: #cacedb;
             }
 
             &.router-link-exact-active {
               //flex: 2;
-              color: $primary-color;
+              color: #007bff;
 
               svg g {
-                fill: $primary-color;
+                fill: #007bff;
               }
             }
           }
@@ -356,21 +386,27 @@
           }
 
           .nav-link__expander {
-            //background-color: skyblue;
-            transition: transform .2s;
-            margin-right: 20px;
+            //margin-right: 20px;
+            width: 48px;
+            height: 48px;
             position: absolute;
             right: 0;
+            top: 50%;
+            transform: translateY(-50%);
             color: #007bff;
 
-            &:hover {
-              opacity: 1;
-              color: #fff;
-              background-color: rgba(#007bff, .8);
-            }
-
-            &.expanded {
-              transform: rotate(90deg);
+            @include breakpoint(sm) {
+              transition: transform .2s;
+  
+              &:hover {
+                opacity: 1;
+                //color: #fff;
+                background-color: transparent;
+              }
+  
+              &.expanded {
+                transform: translateY(-50%) rotate(90deg);
+              }
             }
           }
 
@@ -378,17 +414,19 @@
             display: none;
           }
 
-          ul {
-            background-color: burlywood;
-
+          @include breakpoint(sm) {
             ul {
-              background-color: darken(burlywood, 5);
-              
-              ul {
-                background-color: darken(burlywood, 10);
+              background-color: #fbfbfb;
+  
+              a:hover, ul {
+                background-color: darken(#fbfbfb, 4);
                 
-                ul {
-                  background-color: darken(burlywood, 15);
+                a:hover, ul {
+                  background-color: darken(#fbfbfb, 7);
+                  
+                  a:hover, ul {
+                    background-color: darken(#fbfbfb, 10);
+                  }
                 }
               }
             }
@@ -432,7 +470,7 @@
               width: 100%;
               height: 100%;
               //transform: translateX(100%);
-              background-color: #daf9f4;
+              background-color: #fff;
               //background-color: rgba(0,0,0,.5);
               transition: 0.3s;
               visibility: hidden;

@@ -24,6 +24,8 @@
         <router-link to="/account">Account</router-link>
       </nav>
       <button class="btn" @click="toggleLogin">{{isLoggedIn ? 'logout' : 'login'}}</button>
+
+      <pre>{{UA}}</pre>
       
       <p style="margin-top:200px">more height!</p>
     </div>
@@ -36,10 +38,17 @@ import offline from '@/components/offline/OfflineNotice';
 import HeroBlockSplit from '@/components/hero/HeroBlockSplit';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
+import {getUAObject} from '@/utils/browserSpecs';
+
 export default {
   name: 'Home',
   components: {
     'a2hs-button': A2HSButton, offline, HeroBlockSplit, Breadcrumbs
+  },
+  data() {
+    return {
+      UA: getUAObject()
+    }
   },
   computed: {
     isLoggedIn() {
