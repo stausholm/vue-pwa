@@ -59,13 +59,7 @@ import NavLinks from '@/components/navigation/NavLinks';
 
 import dummyNav from '@/pages/error/ErrorPage';
 
-const breakpoints = {
-  xs: 576,
-  sm: 768,
-  md: 992,
-  ipadLandscape: 1025,
-  lg: 1200
-}
+import breakpoints from '@/constants/Breakpoints';
 
 export default {
   name: 'Nav',

@@ -72,6 +72,8 @@
 import IconBase from '@/components/icons/IconBase';
 import IconArrowRight from '@/components/icons/IconArrowRight';
 
+import breakpoints from '@/constants/Breakpoints';
+
 export default {
   name: 'navlink',
   components: {
@@ -144,9 +146,15 @@ export default {
 
     },
     start(el) {
+      if (window.innerWidth < breakpoints.sm) {
+        return;
+      }
       el.style.height = `${el.scrollHeight}px`
     },
     end(el) {
+      if (window.innerWidth < breakpoints.sm) {
+        return;
+      }
       el.style.height = ''
     }
   }
