@@ -11,7 +11,7 @@
                   <component :is="null || fallbackIcon"></component>
                 </icon-base>
                 <span class="label">title yo</span>
-                <span class="nav-link__badge">yo</span>
+                <span class="nav-link__badge"></span>
               </router-link>
               <router-link to="/example">
                 <icon-base>

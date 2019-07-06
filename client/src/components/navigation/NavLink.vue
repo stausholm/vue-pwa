@@ -4,23 +4,34 @@
       <a v-if="route.action"
         href="" 
         @click.prevent.stop="handleClick"
-        :title="route.title">{{route.label || route.title}}</a>
+        :title="route.title"
+      >
+        {{route.label || route.title}}
+        <span v-if="route.badge" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>      
+      </a>
 
       <router-link v-else-if="useRouterLink"
         :to="route.path"
         :target="route.target"
         :rel="rel"
-        @click.native="handleClick"
-        :title="route.title">{{route.label || route.title}}</router-link>
+        @click="handleClick"
+        :title="route.title"
+      >
+        {{route.label || route.title}}
+        <span v-if="route.badge" :title="route.badge.label" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>      
+      </router-link>
         
       <a v-else 
         :href="route.path"
         :target="route.path"
         :rel="rel"
         @click="handleClick"
-        :title="route.title">{{route.label || route.title}}</a>
+        :title="route.title"
+      >
+        {{route.label || route.title}}
+        <span v-if="route.badge" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>      
+      </a>
 
-      <span v-if="route.badge" :class="['nav-link__badge', `nav-link__badge--${route.badge.type || 'default'}`]">{{route.badge.label}}</span>
 
       <button v-if="route.children" @click="toggleChildren" class="nav-link__expander btn-icon" :class="{'expanded': showChildren}">
         <icon-base>

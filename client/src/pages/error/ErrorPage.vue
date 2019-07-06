@@ -39,7 +39,7 @@ export default {
                 //useSecureTargetBlank: true, // if target _blank, rel should be 'noopener noreferrer'. Default to true
                 children: [
                   {
-                    label: 'label 1.1',
+                    label: 'label 1.1 is also very long but has a badge',
                     path: '',
                     target: '_blank',
                     badge: {
@@ -240,7 +240,7 @@ export default {
             groupLabel: 'anotherlabelwithoutspace',
             routes: [
               {
-                path: '',
+                path: '/example',
                 label: 'label3withoutanyspaces coolbeanslongname',
                 children: [
                   {
@@ -250,7 +250,7 @@ export default {
                 ]
               },
               {
-                path: '',
+                path: '/',
                 label: 'label 4'
               }
             ]
