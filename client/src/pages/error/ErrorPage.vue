@@ -2,22 +2,32 @@
   <div>
     <div class="container--content">
       <h1>Woah..</h1>
+      <breadcrumbs />
 
       <nav-links :nav="nav"/>
 
       <p>Looks like you requested a page that doesn't exists</p>
       <!-- <img src="/static/img/errorpage.png" alt="error page image"> -->
+      <p>this is some text <spoiler>this is a spoiler</spoiler> this is more text in the same paragraph</p>
+      <spoiler-image src="test.png"/>
       <router-link to="/">Go home!</router-link>
     </div>
   </div>
 </template>
 
 <script>
-import NavLinks from '@/components/navigation/NavLinks'
+import NavLinks from '@/components/navigation/NavLinks';
+
+import Spoiler from '@/components/spoiler/spoiler';
+import SpoilerImage from '@/components/spoiler/spoilerImage';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
 export default {
   components: {
-    NavLinks
+    NavLinks,
+    Spoiler,
+    SpoilerImage,
+    Breadcrumbs
   },
   data() {
     return {
