@@ -25,7 +25,7 @@
       </nav>
       <button class="btn" @click="toggleLogin">{{isLoggedIn ? 'logout' : 'login'}}</button>
 
-      <pre>{{UA}}</pre>
+      <pre style="overflow: scroll;">{{UA}}</pre>
       
       <p style="margin-top:200px">more height!</p>
     </div>

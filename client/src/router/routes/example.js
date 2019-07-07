@@ -15,7 +15,7 @@ export default [
     meta: {
       isPrimary: true,
       title: "Example title",
-      icon: "IconBeachAccess"
+      icon: () => import('@/components/icons/IconBeachAccess')
     },
     children: [
       // {

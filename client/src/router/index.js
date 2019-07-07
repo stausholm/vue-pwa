@@ -113,7 +113,8 @@ let router = new Router({
       name: "ErrorPage",
       component: ErrorPage,
       meta: {
-        showInNav: false
+        showInNav: false,
+        title: 'oh no'
       }
     }
   ]

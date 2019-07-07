@@ -6,18 +6,11 @@
         <div class="nav-items" :class="{'nav-items--hide': hidePrimaryNav}">
           <div class="container">
             <nav>
-              <router-link to="/">
+              <router-link v-for="route in primaryNavRoutes" :key="route.name" :to="route.path" replace>
                 <icon-base>
-                  <component :is="null || fallbackIcon"></component>
+                  <component :is="route.meta.icon || fallbackIcon"></component>
                 </icon-base>
-                <span class="label">title yo</span>
-                <span class="nav-link__badge"></span>
-              </router-link>
-              <router-link to="/example">
-                <icon-base>
-                  <component :is="null || fallbackIcon"></component>
-                </icon-base>
-                <span class="label">another title</span>
+                <span class="label">{{route.meta.title}}</span>
               </router-link>
             </nav>
           </div>
@@ -29,17 +22,11 @@
       </div>
 
       <div class="dropdown-nav">
+        <div class="dropdown-nav-header">{{appName}}</div>
         <nav-links :nav="dummyNav" @linkClicked="handleNavClick"/>
       </div>
 
-      <button class="nav-hamburger btn-icon btn-icon--animate" @click="toggleNav">
-        <icon-base :iconName="navOpen ? 'close menu': 'open menu'" width="24" height="24">
-          <transition name="icon-rotate">
-            <icon-close v-if="navOpen"/>
-            <icon-menu v-else/>
-          </transition>
-        </icon-base>
-      </button>
+      <hamburger :navOpen="navOpen" @toggleNav="toggleNav"/>
 
     </div>
 
@@ -51,10 +38,9 @@
 
 <script>
 import IconBase from '@/components/icons/IconBase';
-import IconMenu from '@/components/icons/IconMenu';
-import IconClose from '@/components/icons/IconClose';
 import IconCasino from '@/components/icons/IconCasino';
 
+import Hamburger from '@/components/navigation/v2/Hamburger';
 import NavLinks from '@/components/navigation/NavLinks';
 
 import dummyNav from '@/pages/error/ErrorPage';
@@ -65,10 +51,9 @@ export default {
   name: 'Nav',
   components: {
     IconBase,
-    IconMenu,
-    IconClose,
     IconCasino,
-    NavLinks
+    NavLinks,
+    Hamburger
   },
   props: {
     
@@ -89,6 +74,9 @@ export default {
     hidePrimaryNav() {
       return this.$route.meta.enableBack || this.onScreenKeyboardActive //|| !this.$route.meta.isPrimary;
     },
+    primaryNavRoutes() {
+      return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)
+    },
     currentPage() {
       const r = this.$route;
       if (r.meta && r.meta.title) {
@@ -99,6 +87,9 @@ export default {
       }
 
       return null;
+    },
+    appName() {
+      return this.$store.getters.sitesettings.APPNAME
     }
   },
   methods: {
@@ -120,7 +111,7 @@ export default {
       const headerHeight = this.$refs.primaryNav.offsetHeight || this.$refs.mobileHeader.offsetHeight;
       //console.log(this.$refs.primaryNav.offsetHeight, this.$refs.mobileHeader.offsetHeight, headerHeight)
 
-      if (window.scrollY < headerHeight) {
+      if (window.scrollY < headerHeight * 2) {
         // we at the top of the page, so don't hide it 
         return this.scrolled = false;
       }
