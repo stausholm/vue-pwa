@@ -827,7 +827,7 @@ body.nav-open { // prevent scroll on mobile
 
 
 .secondary-header {
-  position: sticky;
+  position: sticky !important;
   top: $nav-height;
 
   @include breakpoint-max(md) {
@@ -836,10 +836,13 @@ body.nav-open { // prevent scroll on mobile
 
   @include breakpoint-max(sm) {
     top: $nav-height;
-    transition: transform .3s;
+    // transition: transform .3s;
+    transition: top .3s;
+    will-change: top;
   
     .scrolled & {
-      transform: translateY(-$nav-height);
+      //transform: translateY(-$nav-height);
+      top: 0;
     }
     
   }

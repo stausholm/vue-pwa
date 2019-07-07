@@ -1,6 +1,6 @@
 <template>
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
-    <div class="list__action-header" ref="actionsheader">
+    <div class="list__action-header secondary-header" ref="actionsheader">
       <div class="list__search">
         <input type="text" placeholder="Search..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
 
@@ -317,18 +317,16 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/base/variables.scss';
 @import '@/styles/base/_breakpoints.scss';
-.list-wrapper {
-  margin: 0 -$default-spacing;
-  padding: $default-spacing;
-  overflow-x: hidden;
-}
 
 .list__action-header {
   display: flex;
   background-color: #f9f9f9;
-  padding: 10px 0;
+  padding: 10px $default-spacing;
   justify-content: space-between;
-  position: relative;
+  //position: relative;
+  z-index: 4;
+  margin: 0 -$default-spacing;
+
 
   > div {
     display: flex;
@@ -352,7 +350,8 @@ export default {
       transform: translateY(-50%);
 
       .list--is-selecting & {
-        z-index: -1;
+        // z-index: -1;
+        display: none;
       }
     }
   }
@@ -400,6 +399,11 @@ export default {
   }
 }
 
+.list__advanced-list {
+  margin: 0 -$default-spacing;
+  padding: $default-spacing;
+  overflow-x: hidden;
+}
 
 .list__advanced-list--alternative {
   display: flex;
