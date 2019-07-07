@@ -1,17 +1,28 @@
 <template>
   <div>
+    <div class="search-header secondary-header">
+      <div class="container">
+        <div class="search-input">
 
+        </div>
+        <div class="search-filters">
+          <div class="filter">
+
+          </div>
+          <div class="sorting">
+            <select name="" id="">
+
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container--content">
       <div v-if="loading">
         <loader />
       </div>
       <div v-else-if="results.length > 0">
-        <div class="search-header">
-          <p>{{results.length}} results for <b>{{queryParam}}</b></p>
-          <div class="search-header__filters">
-            <p>sorting and filtering controls here</p>
-          </div>
-        </div>
+        <p>{{results.length}} results for <b>{{queryParam}}</b></p>
         <div class="search__results-highlighted">
           <b>Other users really like these things when it comes to "{{queryParam}}"</b>
           <div>
@@ -127,3 +138,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.search-header {
+  background-color: gray;
+}
+
+.search__results {
+  article {
+    background-color: #fff;
+    padding: 16px;
+    margin-bottom: 1600px;
+  }
+}
+</style>

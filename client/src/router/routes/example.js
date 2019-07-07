@@ -6,6 +6,7 @@ import ExampleDataList from "@/pages/example/ExampleDataList";
 import ExampleGraphs from "@/pages/example/ExampleGraphs";
 import ExampleIcons from "@/pages/example/ExampleIcons";
 import ExampleListAdvanced from "@/pages/example/ExampleListAdvanced";
+import ExampleTopSecret from "@/pages/example/ExampleTopSecret";
 
 export default [
   {
@@ -68,6 +69,11 @@ export default [
       }
     ]
   },
+  {
+    path: "/topsecret",
+    name: "TopSecret",
+    component: ExampleTopSecret
+  }
   // {
   //   path: "/examplewithauth",
   //   name: "ExampleWithAuth",

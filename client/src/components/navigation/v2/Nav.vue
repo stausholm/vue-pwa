@@ -17,7 +17,7 @@
         </div>
         <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled}" ref="mobileHeader">
           <span class="page-title" v-if="currentPage">{{currentPage}}</span>
-          avatar
+          <component class="actions-wrapper" :is="actionLayout"/>
         </div>
       </div>
 
@@ -47,13 +47,16 @@ import dummyNav from '@/pages/error/ErrorPage';
 
 import breakpoints from '@/constants/Breakpoints';
 
+import ActionsDefault from '@/components/navigation/v2/ActionsDefault';
+
 export default {
   name: 'Nav',
   components: {
     IconBase,
     IconCasino,
     NavLinks,
-    Hamburger
+    Hamburger,
+    ActionsDefault
   },
   props: {
     
@@ -68,6 +71,9 @@ export default {
     }
   },
   computed: {
+    actionLayout() {
+      return ActionsDefault;
+    },
     fallbackIcon() {
       return IconCasino
     },
@@ -113,13 +119,16 @@ export default {
 
       if (window.scrollY < headerHeight * 2) {
         // we at the top of the page, so don't hide it 
+        document.body.classList.remove('scrolled')
         return this.scrolled = false;
       }
 
       if (window.scrollY > this.prevScrollPos) {
         this.scrolled = true;
+        document.body.classList.add('scrolled')
       } else {
         this.scrolled = false;
+        document.body.classList.remove('scrolled')
       }
       this.prevScrollPos = window.scrollY;
     },

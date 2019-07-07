@@ -1,0 +1,75 @@
+.nav-actions {
+  .nav-avatar {
+    display: flex;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      
+      @include breakpoint-max(md) {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @include breakpoint-between(sm, md) {
+      height: $nav-height;
+    }
+  }
+
+  .avatar-btn {
+    @include breakpoint(md) {
+      height: 32px;
+      width: 32px;
+      margin-left: $default-spacing;
+    }
+  }
+
+  .search-btn, .avatar-btn {
+    @include breakpoint-max(md) {
+      height: $nav-height;
+      width: $nav-height;
+      //z-index: 1;
+      position: relative;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .nav-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $nav-bg-color;
+    padding: 0;
+    padding-top: $nav-height;
+    z-index: 1;
+
+    .search-btn {
+      z-index: 5003;
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
+
+    .search-wrapper {
+      padding: 0 $default-spacing;
+    }
+  }
+}
+
+body.search-open {
+  @include breakpoint-max(md) {
+    overflow: hidden;
+
+    .nav-hamburger {
+      visibility: hidden;
+    }
+  }
+}

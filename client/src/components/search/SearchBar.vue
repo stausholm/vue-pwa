@@ -80,6 +80,12 @@ export default {
   components: {
     IconBase, IconSearch, IconClose, IconRestore
   },
+  props: {
+    focusOnMount: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       searchVal: '',
@@ -309,6 +315,10 @@ export default {
   mounted() {
     if (this.showRecents) {
       this.recentSearches = JSON.parse(localStorage.getItem('userRecentSearches')) || [];
+    }
+
+    if (this.focusOnMount) {
+      this.$refs.searchinput.focus();
     }
   },
   watch: {
