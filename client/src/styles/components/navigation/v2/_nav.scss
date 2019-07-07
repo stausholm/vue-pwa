@@ -1,26 +1,46 @@
 $nav-link-color: #007bff !default;
+$nav-link-color-default: #3d5170;
+$nav-link-color-bg-hover: #fbfbfb;
+$nav-link-transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
+$nav-bg-color: $white;
+$nav-transition-bezier-mobile: cubic-bezier(0.165, 0.84, 0.44, 1);
+$nav-height: 60px;
+$nav-width-small: 60px;
+$nav-width-big: 250px;
 
 .app-nav {
   .primary-nav {
     position: fixed;
-    left: 250px;
+    left: $nav-width-big;
     right: 0;
     top: 0;
-    height: 60px;
-    background-color: #fff;
+    height: $nav-height;
+    background-color: $nav-bg-color;
     @include z-index(nav);
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    .nav-items {
+      nav {
+        display: flex;
+
+        a {
+          display: flex;
+          align-items: center;
+          position: relative;
+          color: $nav-link-color-default;
+          white-space: nowrap;
+        }
+      }
+    }
+
     @include breakpoint(md) { // above tablet portrait
       padding: 0 $default-spacing;
       box-shadow: 0 0.125rem 0.625rem rgba(90,97,105,.12);
 
       .nav-open & {
-        left: 60px;
-
         left: 0;
       }
 
@@ -33,16 +53,11 @@ $nav-link-color: #007bff !default;
 
         nav {
           height: 100%;
-          display: flex;
 
           a {
-            display: flex;
-            align-items: center;
             padding: .35em;
             margin-right: $default-spacing;
-            color: #3d5170;
             transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
-            position: relative;
 
             svg {
               color: #cacedb;
@@ -50,7 +65,7 @@ $nav-link-color: #007bff !default;
             }
 
             &:hover {
-              background-color: #fbfbfb;
+              background-color: $nav-link-color-bg-hover;
               color: $nav-link-color;
               box-shadow: inset 0 -0.1875rem 0 $nav-link-color;
               
@@ -81,32 +96,19 @@ $nav-link-color: #007bff !default;
       .nav-items {
         width: 100%;
         nav {
-          display: flex;
           flex-direction: column;
 
           a {
-            // position: relative;
-            // height: 60px;
-            // display: flex;
-            // align-items: center;
-            // justify-content: center;
-
-            position: relative;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            //color: rgba(255, 255, 255, 0.8);
-            color: #3d5170;
             padding: 18px;
             transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
 
             &:hover {
-              background-color: #fbfbfb;
+              background-color: $nav-link-color-bg-hover;
               color: $nav-link-color;
             }
             
             &.router-link-exact-active {
-              background-color: #fbfbfb;
+              background-color: $nav-link-color-bg-hover;
               color: $nav-link-color;
               box-shadow: inset 0.1875rem 0 0 $nav-link-color;
             }
@@ -119,7 +121,7 @@ $nav-link-color: #007bff !default;
                 visibility: hidden;
                 opacity: 0;
                 background-color: $nav-link-color;
-                color: #fff;
+                color: $white;
                 padding: 5px;
                 border-radius: $default-border-radius;
                 white-space: nowrap;
@@ -148,14 +150,9 @@ $nav-link-color: #007bff !default;
             }
 
             .nav-open & {
-              // height: auto;
-              // justify-content: flex-start;
-              // padding: 20px;
-
               span.label {
-                // position: static;
                 position: absolute;
-                left: 48px;
+                left: $nav-width-small - 12px; // iconwidth/2
               }
             }
           }
@@ -169,14 +166,7 @@ $nav-link-color: #007bff !default;
       height: auto;
     }
 
-    @include breakpoint-max(sm) { // mobile
-      // position: fixed;
-      // left: 0;
-      // height: 60px;
-
-      // justify-content: flex-end;
-      // flex-direction: row;
-      
+    @include breakpoint-max(sm) { // mobile  
       .nav-items {
         @include z-index(nav);
         position: fixed;
@@ -191,18 +181,10 @@ $nav-link-color: #007bff !default;
           padding: $default-spacing / 2 $default-spacing;
         }
         nav {
-          display: flex;
-
           a {
             flex: 1;
-            display: flex;
             flex-direction: column;
-            align-items: center;
-            white-space: nowrap;
             overflow: hidden;
-            //transition: flex .2s;
-            color: #3d5170;
-            position: relative;
             
             span.label {
               max-width: 80%;
@@ -215,7 +197,6 @@ $nav-link-color: #007bff !default;
             }
 
             &.router-link-exact-active {
-              //flex: 2;
               color: $nav-link-color;
 
               svg g {
@@ -236,7 +217,7 @@ $nav-link-color: #007bff !default;
         top: 0;
         left: 0;
         right: 0;
-        height: 60px;
+        height: $nav-height;
         background-color: lightgrey;
 
         display: flex;
@@ -253,19 +234,18 @@ $nav-link-color: #007bff !default;
 
   .dropdown-nav {
     position: fixed;
-    //padding: 20px;
-    background-color: #fff;
+    background-color: $nav-bg-color;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 250px;
+    width: $nav-width-big;
     @include z-index(nav);
     overflow-y: auto;
     overflow-x: hidden;
 
     @include breakpoint(md) {
       box-shadow: 0 0 2rem 0 rgba(136,152,170,.15);
-      padding-top: 60px;
+      padding-top: $nav-height;
 
       .nav-group:not(:first-child) {
         .nav-group__label {
@@ -289,8 +269,8 @@ $nav-link-color: #007bff !default;
       width: 100%;
       position: fixed;
       transform: translateX(-100%);
-      transition: transform .3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      padding-top: 60px;
+      transition: transform .3s $nav-transition-bezier-mobile;
+      padding-top: $nav-height;
       @include z-index(nav-high);
 
       .nav-group {
@@ -301,8 +281,6 @@ $nav-link-color: #007bff !default;
     .nav-open & {
       // inverted on desktop
       @include breakpoint(md) {
-        //width: 60px;
-        
         transform: translateX(-100%);
       }
 
@@ -337,24 +315,16 @@ $nav-link-color: #007bff !default;
         letter-spacing: .06em;
         padding-top: 14px;
         word-break: break-word;
-        transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: transform .5s $nav-transition-bezier-mobile;
         color: #8898aa;
 
         @include breakpoint-between(sm, md) {
-          width: 250px;
+          width: $nav-width-big;
         }
       }
 
       &__list {
         .nav-link {
-
-          // &:hover {
-          //   background-color: grey;
-
-          //   > .nav-link-header .nav-link__expander {
-          //     opacity: .3;
-          //   }
-          // }
 
           a {
             padding: 18px 20px;
@@ -364,13 +334,12 @@ $nav-link-color: #007bff !default;
             text-overflow: ellipsis;
             padding-right: 44px;
             width: 100%;
-            color: #3d5170;
+            color: $nav-link-color-default;
             transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
-            //flex: 1;
 
             &:hover {
               box-shadow: inset 0.1875rem 0 0 $nav-link-color;
-              background-color: #fbfbfb;
+              background-color: $nav-link-color-bg-hover;
               color: $nav-link-color;
 
               ~ .nav-link__expander {
@@ -382,12 +351,10 @@ $nav-link-color: #007bff !default;
           .nav-link-header {
             display: flex;
             align-items: center;
-            //justify-content: space-between;
             position: relative;
           }
 
           .nav-link__expander {
-            //margin-right: 20px;
             width: 48px;
             height: 48px;
             position: absolute;
@@ -401,7 +368,6 @@ $nav-link-color: #007bff !default;
   
               &:hover {
                 opacity: 1;
-                //color: #fff;
                 background-color: transparent;
               }
   
@@ -417,16 +383,16 @@ $nav-link-color: #007bff !default;
 
           @include breakpoint(sm) {
             ul {
-              background-color: #fbfbfb;
+              background-color: $nav-link-color-bg-hover;
   
               a:hover, ul {
-                background-color: darken(#fbfbfb, 4);
+                background-color: darken($nav-link-color-bg-hover, 4);
                 
                 a:hover, ul {
-                  background-color: darken(#fbfbfb, 7);
+                  background-color: darken($nav-link-color-bg-hover, 7);
                   
                   a:hover, ul {
-                    background-color: darken(#fbfbfb, 10);
+                    background-color: darken($nav-link-color-bg-hover, 10);
                   }
                 }
               }
@@ -451,7 +417,7 @@ $nav-link-color: #007bff !default;
             }
 
             .nav-link-header {
-              transition: transform .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+              transition: transform .5s $nav-transition-bezier-mobile;
             }
 
             .nav-link__expander {
@@ -465,14 +431,12 @@ $nav-link-color: #007bff !default;
 
             ul {
               position: fixed;
-              padding-top: 60px;
+              padding-top: $nav-height;
               top: 0;
               left: 0;
               width: 100%;
               height: 100%;
-              //transform: translateX(100%);
-              background-color: #fff;
-              //background-color: rgba(0,0,0,.5);
+              background-color: $nav-bg-color;
               transition: 0.3s;
               visibility: hidden;
               z-index: 1;
@@ -481,11 +445,7 @@ $nav-link-color: #007bff !default;
             }
 
             &.children-visible {
-              // > .nav-link-header {
-              //   transform: translateX(-20px);
-              // }
               > ul {
-                //transform: translateX(0);
                 visibility: visible;
               }
             }
@@ -531,14 +491,9 @@ $nav-link-color: #007bff !default;
     position: fixed;
     left: 0;
     bottom: 0;
-    height: 60px;
-    width: 60px;
+    height: $nav-height;
+    width: $nav-height;
     @include z-index(nav-high);
-    //background-color: skyblue;
-
-    @include breakpoint-max(md) {
-
-    }
 
     @include breakpoint-max(sm) {
       transition: transform .3s;
@@ -562,12 +517,12 @@ $nav-link-color: #007bff !default;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 60px;
-    background-color: green;
+    width: $nav-width-small;
+    background-color: $nav-bg-color;
     transition: width .2s;
 
     .nav-open & {
-      width: 250px;
+      width: $nav-width-big;
       will-change: width;
       overflow-y: auto;
       overflow-x: hidden;
@@ -580,19 +535,19 @@ $nav-link-color: #007bff !default;
 }
 
 #content {
-  padding-left: 250px;
+  padding-left: $nav-width-big;
   background: #f8f9fe;
 
   @include breakpoint(md) {
     .nav-open & {
-      padding-left: 60px;
+      padding-left: $nav-width-small;
 
       padding-left: 0;
     }
   }
 
   @include breakpoint-max(md) {
-    padding-left: 60px;
+    padding-left: $nav-width-small;
   }
 
   @include breakpoint-max(sm) {
@@ -602,7 +557,7 @@ $nav-link-color: #007bff !default;
 
 .nav-overlay {
   @include breakpoint-max(md) {
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba($black,.5);
     cursor: pointer;
     position: fixed;
     top: 0;
@@ -621,8 +576,8 @@ $nav-link-color: #007bff !default;
   pointer-events: none;
   position: absolute;
   border-radius: 10px;
-  background-color: darken(#007bff, 10); // $nav-link-color
-  border: 2px solid #fff;
+  background-color: darken($nav-link-color, 10); // $nav-link-color
+  border: 2px solid $nav-bg-color;
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -649,32 +604,6 @@ $nav-link-color: #007bff !default;
     line-height: calc(1rem + 6px);
   }
 }
-// .nav-link__badge {
-//   pointer-events: none;
-//   position: absolute;
-//   // height: 10px;
-//   // font-size: 8px;
-//   border-radius: 10px;
-//   background-color: yellow;
-//   color: black;
-//   display: inline-block;
-//   padding: 0.25em 0.4em;
-//   font-size: 75%;
-//   font-weight: 700;
-//   line-height: 1;
-//   text-align: center;
-//   white-space: nowrap;
-//   vertical-align: baseline;
-
-//   .primary-nav & {
-//     @include breakpoint(md) {
-//       position: static;
-//     }
-
-//     top: 0;
-//     left: 0;
-//   }
-// }
 
 
 .page-title {
@@ -709,7 +638,7 @@ $nav-link-color: #007bff !default;
 
   @include breakpoint-max(sm) {
     will-change: transform;
-    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.5s $nav-transition-bezier-mobile;
   }
 }
 .nav-children-leave-active {
@@ -721,7 +650,7 @@ $nav-link-color: #007bff !default;
 
   @include breakpoint-max(sm) {
     will-change: transform;
-    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.5s $nav-transition-bezier-mobile;
     transform: translateX(100%);
   }
 }
