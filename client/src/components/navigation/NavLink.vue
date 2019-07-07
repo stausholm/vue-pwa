@@ -14,7 +14,7 @@
         :to="route.path"
         :target="route.target"
         :rel="rel"
-        @click="handleClick"
+        @click.native="handleClick"
         :title="route.title"
       >
         {{route.label || route.title}}
