@@ -46,7 +46,7 @@
     box-shadow: none;
 
     &:hover, &:focus {
-      background-color: $light-grey;
+      background-color: $gray-light;
     }
   }
 
@@ -62,7 +62,7 @@
   }
 
   &--disabled {
-    background-color: $light-grey;
+    background-color: $gray-light;
     color: $text-disabled-color;
     pointer-events: none;
   }
@@ -183,7 +183,7 @@
   text-align: center;
   border-radius: 10px;
   padding: $default-padding;
-  background: $light-grey;
+  background: $gray-light;
 
   &:hover {
     opacity: .8;

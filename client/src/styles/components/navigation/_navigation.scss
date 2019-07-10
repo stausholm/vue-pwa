@@ -69,7 +69,7 @@
     .dropdown {
       position: absolute;
       top: calc(100% + 6px);
-      border: 1px solid $light-grey;
+      border: 1px solid $gray-light;
       right: 0;
       min-width: 260px;
       border-radius: $default-border-radius;
@@ -83,8 +83,8 @@
         content: '';
         width: 12px;
         height: 12px;
-        border-top: 1px solid $light-grey;
-        border-left: 1px solid $light-grey;
+        border-top: 1px solid $gray-light;
+        border-left: 1px solid $gray-light;
         background: inherit;
         display: block;
         position: absolute;
@@ -97,11 +97,11 @@
       a {
         display: block;
         padding: $default-padding;
-        border-top: 1px solid $light-grey;
+        border-top: 1px solid $gray-light;
         cursor: pointer;
 
         &:hover {
-          background: $light-grey;
+          background: $gray-light;
         }
       }
     }

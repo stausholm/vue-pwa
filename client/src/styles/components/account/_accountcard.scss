@@ -1,5 +1,5 @@
 .profile-card {
-  background: $light-grey;
+  background: $gray-light;
   width: 100%;
   border-radius: 10px;
   
@@ -9,7 +9,7 @@
     height: 96px;
     border-radius: 50%;
     object-fit: cover;
-    background: $light-grey;
+    background: $gray-light;
     transform: translateY(-50%);
     display: block;
     margin: 48px auto -48px auto;
@@ -47,7 +47,7 @@
       width: 48px;
       height: 48px;
       //object-fit: cover;
-      //background: $light-grey;
+      //background: $gray-light;
       border-radius: 50%;
       //display: block;
       float: left;
@@ -55,7 +55,7 @@
       margin-bottom: $default-spacing;
       margin-top: 0;
       margin-left: 0;
-      border: 2px solid $light-grey;
+      border: 2px solid $gray-light;
       transform: none;
     }
     p:first-of-type {

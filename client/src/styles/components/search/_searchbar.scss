@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid $light-grey;
+    border: 1px solid $gray-light;
     padding: 0 $default-spacing / 2;
     border-radius: $default-border-radius;
 
@@ -42,20 +42,20 @@
 
       li {
         background: $white;
-        border-bottom: 1px solid $light-grey;
-        border-left: 1px solid $light-grey;
-        border-right: 1px solid $light-grey;
+        border-bottom: 1px solid $gray-light;
+        border-left: 1px solid $gray-light;
+        border-right: 1px solid $gray-light;
         cursor: pointer;
         display: flex;
         align-items: center;
         padding: $default-spacing $default-spacing / 2;
 
         &:hover {
-          background-color: $light-grey;
+          background-color: $gray-light;
         }
 
         &.search-highlighted-item {
-          background-color: $light-grey;
+          background-color: $gray-light;
         }
 
         .list-icon {
@@ -100,7 +100,7 @@
         top: calc(100% + 6px);
         box-shadow: $box-shadow;
         border-radius: 10px;
-        border: 1px solid $light-grey;
+        border: 1px solid $gray-light;
 
         li {
           border: 0;
@@ -159,7 +159,7 @@
           height: $toolbar-height;
           
           &:first-of-type {
-            border-top: 1px solid $light-grey;
+            border-top: 1px solid $gray-light;
           }
   
           .list-icon {

@@ -1,6 +1,6 @@
 .list-header {
   // background-color: $light-bg-color;
-  background-color: lighten($light-grey, 5%);
+  background-color: lighten($gray-light, 5%);
   display: block;
   text-transform: uppercase;
   letter-spacing: .015rem;
@@ -21,7 +21,7 @@
   }
 
   &:active {
-    background-color: $light-grey;
+    background-color: $gray-light;
   }
 
   &.disabled {
