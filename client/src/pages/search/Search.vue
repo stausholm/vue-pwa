@@ -12,6 +12,7 @@
             <icon-base class="" iconName="filter" width="24" height="24" aria-hidden="true">
               <icon-casino />
             </icon-base>
+            Filters
             <span>{{activeFilters.length}}</span>
           </button>
         </div>
@@ -27,7 +28,14 @@
                       {{filter.label}}
                     </label>
                   </li>
+                  <li v-if="filterGroup.values.length > 6">
+                    <button>More filters</button>
+                  </li>
                 </ul>
+              </li>
+              <li class="filter-actions">
+                <button>Apply filters</button>
+                <button @click="expandFilters = !expandFilters">Cancel</button>
               </li>
             </ul>
           </div>
@@ -143,19 +151,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/base/variables';
+@import '../../styles/base/breakpoints';
+@import '../../styles/base/z-index';
+
 .search-header {
-  background-color: gray;
-  padding-top: 2.5em;
+  background-color: $white;
+  //padding-top: 2.5em;
+  padding: $default-spacing*2 0 $default-spacing;
+
+  @include breakpoint-max(md) {
+    padding: $default-spacing/2 0;
+    @include z-index(nav);
+    box-shadow: 0 0.125rem 0.625rem -6px rgba(90, 97, 105, 0.12);
+  }
 
   > .container {
-    padding: 0 16px; // default-spacing
+    padding: 0 $default-spacing; // default-spacing
   }
 }
 
 .search__results {
   article {
     background-color: #fff;
-    padding: 16px;
+    padding: $default-spacing;
     margin-bottom: 1600px;
   }
 }
@@ -205,6 +224,16 @@ export default {
       }
     }
   }
+
+  @include breakpoint-max(sm) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rebeccapurple;
+    z-index: 5555;
+  }
 }
 
 .search-input {
@@ -219,7 +248,8 @@ export default {
   }
 
   input {
-    box-shadow: 0 8px 20px -6px rgba(0,0,0,0.1);
+    //box-shadow: 0 8px 20px -6px rgba(0,0,0,0.1);
+    box-shadow: 0 0 0 1px $gray-lighter;
     outline: none;
     background-color: white;
     height: 70px;
@@ -234,6 +264,11 @@ export default {
     &::placeholder {
       color: #999;
       font-style: italic;
+    }
+
+    @include breakpoint-max(md) {
+      height: 48px;
+      background-color: $gray-lighter;
     }
   }
 
@@ -252,6 +287,10 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
+
+      @include breakpoint-max(md) {
+        background-color: $gray-lighter;
+      }
     }
 
     &::after {
@@ -259,10 +298,10 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
-      margin: -10px 0 0 -10px;
       border-radius: 50%;
       width: 20px;
       height: 20px;
+      transform: translateY(-50%) translateX(-50%);
       border: 0.2rem solid rgba(0,0,0,0.15);
       border-top-color: rgba(0,0,0,0.5);
       animation: spin .5s infinite linear;
@@ -272,25 +311,53 @@ export default {
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: translateY(-50%) translateX(-50%) rotate(0deg);
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: translateY(-50%) translateX(-50%) rotate(360deg);
   }
 }
 
 .filters-button {
   font-weight: 600;
   position: absolute;
-  right: 23px;
+  right: $default-spacing/2;
   top: 50%;
   transform: translateY(-50%);
   border: 0;
   background-color: #e4e4e4;
-  border-radius: 2px;
+  border-radius: $default-border-radius;
   font-size: 1rem;
   letter-spacing: 1.5px;
   line-height: 1;
+  padding: 0 .95rem;
+  height: calc(70px - #{$default-spacing});
+
+  @include breakpoint-max(md) {
+    height: calc(48px - #{$default-spacing/1.5});
+    right: $default-spacing/2.75;
+
+    span {
+      display: none;
+    }
+  }
+
+  // TODO: make ios friendly
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: $default-spacing/2;
+  }
+
+  span {
+    background-color: $text-primary-color;
+    padding: .25em .35em;
+    margin-left: $default-spacing/2;
+    text-align: center;
+    border-radius: $default-border-radius;
+    color: $white;
+  }
 }
 </style>

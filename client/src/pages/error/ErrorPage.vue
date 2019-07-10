@@ -22,6 +22,7 @@
   align-items: center;
   flex-direction: column;
   margin-top: 20vh;
+  text-align: center;
 
   h1 {
     color: #cacedb;
