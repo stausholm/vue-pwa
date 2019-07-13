@@ -51,6 +51,7 @@ body.modal-advanced-open {
       padding: $default-padding;
       max-height: calc(100vh - (8 * #{$default-spacing}) - (2rem)); // (16 + 16) + (16 + 1rem + 16) + (16 + 16 + 1rem + 16 + 16) = outerpadding + header height + footer height
       overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
       //margin-bottom: calc(4 * 16px + 1rem);
       //position: absolute;
       //bottom: calc(4 * 16px + 1rem);

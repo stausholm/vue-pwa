@@ -827,7 +827,8 @@ body.nav-open { // prevent scroll on mobile
 
 
 .secondary-header {
-  position: sticky !important;
+  position: -webkit-sticky;
+  position: sticky;
   top: $nav-height;
 
   @include breakpoint-max(md) {
