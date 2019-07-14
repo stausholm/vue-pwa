@@ -7,7 +7,7 @@
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="header-small">Settings</b>
-        <b class="list-header">List header</b>
+        <b class="list-header">Account</b>
         <ul class="options-list">
           <li class="options-list__item" @click="test = !test">
             <div class="description">
@@ -111,10 +111,19 @@
         </ul>
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
-        <b class="list-header">Some actual pages</b>
+        <b class="list-header">Data</b>
         <ul class="options-list">
-          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
           <list-item title="Delete my data" subtitle="Remove all locally stored content" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+        </ul>
+      </div>
+      <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
+        <b class="list-header">Application</b>
+        <ul class="options-list">
+          <list-item title="Darkmode" type="switch" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
         </ul>
       </div>
     </div>
@@ -167,6 +176,9 @@ export default {
           this.$router.push('/');
         })
     },
+    todo() {
+      console.log('todo')
+    }
   }
 }
 </script>
