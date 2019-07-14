@@ -36,7 +36,7 @@ $accent-color: #FF9800;
 $divider-color: #DADADA;
 
 $light-bg-color: #F4F8FB;
-$body-bg: #fff;
+$body-bg: #f8f9fe;
 
 // label colors
 $color-danger: #ff4444;
@@ -70,6 +70,18 @@ $text-disabled-color: map-get($map: $dark-theme, $key: disabled);
 $text-primary-color-noAlpha: rgba-to-rgb($text-primary-color, $body-bg);
 $text-secondary-color-noAlpha: rgba-to-rgb($text-secondary-color, $body-bg);
 $text-disabled-color-noAlpha: rgba-to-rgb($text-disabled-color, $body-bg);
+
+
+$nav-link-color: #007bff;
+$nav-link-color-default: #3d5170;
+$nav-link-color-bg-hover: #fbfbfb;
+$nav-link-transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
+$nav-bg-color: $white;
+$nav-transition-bezier-mobile: cubic-bezier(0.165, 0.84, 0.44, 1);
+$nav-height: 60px;
+$nav-width-small: 60px;
+$nav-width-big: 250px;
+
 
 
 // elevation

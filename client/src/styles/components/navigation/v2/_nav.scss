@@ -1,13 +1,3 @@
-$nav-link-color: #007bff !default;
-$nav-link-color-default: #3d5170;
-$nav-link-color-bg-hover: #fbfbfb;
-$nav-link-transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
-$nav-bg-color: $white;
-$nav-transition-bezier-mobile: cubic-bezier(0.165, 0.84, 0.44, 1);
-$nav-height: 60px;
-$nav-width-small: 60px;
-$nav-width-big: 250px;
-
 .app-nav {
   .primary-nav {
     position: fixed;
@@ -167,7 +157,7 @@ $nav-width-big: 250px;
             .nav-open & {
               span.label {
                 position: absolute;
-                left: $nav-width-small - 12px; // iconwidth/2
+                left: $nav-width-small - 12px; // 12px = iconwidth/2
               }
             }
           }
@@ -344,12 +334,12 @@ $nav-width-big: 250px;
     .nav-group {
       &__label {
         font-weight: bold;
-        padding: 10px 20px;
+        padding: $default-spacing/2 $default-spacing;
         display: block;
         text-transform: uppercase;
         font-size: .85em;
         letter-spacing: .06em;
-        padding-top: 14px;
+        padding-top: $default-spacing;
         word-break: break-word;
         transition: transform .5s $nav-transition-bezier-mobile;
         color: #8898aa;
@@ -363,12 +353,12 @@ $nav-width-big: 250px;
         .nav-link {
 
           a {
-            padding: 18px 20px;
+            padding: $default-spacing;
             display: block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 44px;
+            padding-right: 44px; // chevron icon button
             width: 100%;
             color: $nav-link-color-default;
             transition: box-shadow .2s ease, color .2s ease, background-color .2s ease;
@@ -575,31 +565,6 @@ $nav-width-big: 250px;
 
   @include breakpoint-max(sm) {
     position: static;
-  }
-}
-
-#content {
-  padding-left: $nav-width-big;
-  background: #f8f9fe;
-  margin-top: $nav-height;
-  min-height: 100vh;
-
-  @include breakpoint(md) {
-    .nav-open & {
-      padding-left: $nav-width-small;
-
-      padding-left: 0;
-    }
-  }
-
-  @include breakpoint-max(md) {
-    margin-top: 0;
-    padding-left: $nav-width-small;
-  }
-  
-  @include breakpoint-max(sm) {
-    margin-top: $nav-height;
-    padding-left: 0;
   }
 }
 

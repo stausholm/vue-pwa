@@ -51,7 +51,7 @@
   .list-header {
     position: -webkit-sticky;
     position: sticky;
-    top: $toolbar-height;
+    top: 0;
     z-index: 1;
   }
 }
