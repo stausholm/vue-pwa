@@ -28,6 +28,9 @@
   }
 
   .a2hs-button {
+    height: $nav-height;
+    width: $nav-height;
+    
     .A2HS-label {
       display: none;
     }

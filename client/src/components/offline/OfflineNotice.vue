@@ -1,8 +1,15 @@
 <template>
-  <div class="offline-notice">
-    <div v-if="showNotice && !isOnline">You offline</div>
-    <div v-else-if="showNotice && isOnline">You online again</div>
-  </div>
+  <transition name="offline-notice">
+    <div class="offline-notice" v-if="showNotice">
+      <div v-if="!isOnline">
+        You offline
+        <button @click="retry">
+          retry
+        </button>
+      </div>
+      <div v-else>You online again</div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -73,30 +80,15 @@ export default {
     })
   },
   watch: {
-    isOnline() {
+    isOnline(newVal, oldVal) {
       this.showNotice = true;
-      setTimeout(() => {
-        this.showNotice = false;
-      }, 1000)
+
+      if (newVal === true) {
+        setTimeout(() => {
+          this.showNotice = false;
+        }, 1000)
+      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-.offline-notice {
-  position: fixed;
-  background-color: red;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 16px; // default spacing
-  transform: translateY(60px);//header-height
-  transition: transform .3s;
-  z-index: 1;
-
-  .scrolled & {
-    transform: translateY(0)
-  }
-}
-</style>

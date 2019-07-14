@@ -1,0 +1,45 @@
+.offline-notice {
+  position: fixed;
+  padding: $default-spacing;
+  @include z-index(contextmenu);
+  background-color: $primary-color;
+  
+  @include breakpoint(sm) {
+    bottom: $default-spacing;
+    right: $default-spacing;
+    border-radius: $default-border-radius;
+  }
+  
+  @include breakpoint-max(sm) {
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY($nav-height);
+    transition: transform .3s;
+    
+    .scrolled & {
+      transform: translateY(0);
+    }
+  }
+}
+
+.offline-notice-enter {
+  opacity: 0;
+  transform: translateY(0);
+
+  .scrolled & {
+    transform: translateY(-100%);
+  }
+}
+.offline-notice-enter-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+}
+.offline-notice-leave-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(0);
+
+  .scrolled & {
+    transform: translateY(-100%);
+  }
+}
