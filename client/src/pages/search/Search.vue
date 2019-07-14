@@ -202,6 +202,7 @@ export default {
       right: 0;
       bottom: 0;
       background-color: $gray-lighter;
+      -webkit-overflow-scrolling: touch;
       overflow-y: auto;
       z-index: 5555;
       padding-bottom: 60px;
