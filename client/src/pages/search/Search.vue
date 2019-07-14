@@ -16,28 +16,30 @@
             <span class="filters-count">{{activeFilters.length}}</span>
           </button>
         </div>
-        <div class="search-filters" v-if="expandFilters">
-          <div class="filter">
-            <ul class="filter-list">
-              <li class="filter-list__mobile-header">
-                <div>
-                  <b class="filter-label">Filters ({{activeFilters.length}})</b>
-                  <button @click="clearFilters">Clear filters</button>
-                </div>
-                <button class="btn-icon" @click="expandFilters = !expandFilters">
-                  <icon-base class="" iconName="close" width="24" height="24" aria-hidden="true">
-                    <icon-close />
-                  </icon-base>
-                </button>
-              </li>
-              <filter-group v-for="filterGroup in filters" :key="filterGroup.label" :filterGroup="filterGroup" :activeFilters="activeFilters" v-model="activeFilters"/>
-              <li class="filter-actions">
-                <button>Apply filters</button>
-                <button @click="expandFilters = !expandFilters">Cancel</button>
-              </li>
-            </ul>
+        <transition name="slide-down">
+          <div class="search-filters" v-if="expandFilters">
+            <div class="filter">
+              <ul class="filter-list">
+                <li class="filter-list__mobile-header">
+                  <div>
+                    <b class="filter-label">Filters ({{activeFilters.length}})</b>
+                    <button class="clear-filters-btn" @click="clearFilters">Clear all</button>
+                  </div>
+                  <button class="btn-icon" @click="expandFilters = !expandFilters">
+                    <icon-base class="" iconName="close" width="24" height="24" aria-hidden="true">
+                      <icon-close />
+                    </icon-base>
+                  </button>
+                </li>
+                <filter-group v-for="filterGroup in filters" :key="filterGroup.label" :filterGroup="filterGroup" :activeFilters="activeFilters" v-model="activeFilters"/>
+                <li class="filter-actions">
+                  <button>Apply filters</button>
+                  <button @click="expandFilters = !expandFilters">Cancel</button>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
     </div>
     <div class="container--content">
@@ -192,6 +194,20 @@ export default {
     }
   }
 
+  .search-filters {
+    @include breakpoint-max(sm) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $gray-lighter;
+      overflow-y: auto;
+      z-index: 5555;
+      padding-bottom: 60px;
+    }
+  }
+
   .filter-list {
     height: auto;
     overflow: visible;
@@ -222,6 +238,15 @@ export default {
         justify-content: space-between;
         padding: $default-spacing;
         border-bottom: .1rem solid #ccc;
+        
+        .clear-filters-btn {
+          border: 0;
+          background: none;
+          text-decoration: underline;
+          font-size: .8em;
+          padding: .2em;
+          margin-left: .2em;
+        }
       }
       @media screen and (min-width: 550px) {
       }
@@ -285,15 +310,7 @@ export default {
     }
 
     @include breakpoint-max(sm) {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: $gray-lighter;
-      overflow-y: auto;
-      z-index: 5555;
-      padding-bottom: 60px;
+      
 
       .filter-col {
         padding: 2.8rem $default-spacing 1rem;

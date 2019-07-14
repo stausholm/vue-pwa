@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>vuepwa</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
     <!-- Prevent safari from converting numbers to phonelinks, unless specified in <a href="tel:"> -->
     <!-- https://developer.apple.com/library/archive/featuredarticles/iPhoneURLScheme_Reference/PhoneLinks/PhoneLinks.html -->
@@ -20,7 +20,7 @@
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="vuepwa">
+    <meta name="apple-mobile-web-app-title" content="<%= htmlWebpackPlugin.options.title %>">
     <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/apple-touch-icon-152x152.png">
     <link rel="mask-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/safari-pinned-tab.svg" color="#4DBA87">
     <!-- Add to home screen for Windows -->
@@ -137,12 +137,15 @@
           })
         }
 
-        var loadErrorFunc = function() {
+        var loadErrorFunc = function(err) {
           clearTimeout(timer);
           spinner.className = "error";
           spinner.textContent = "😢";
           label.textContent = "Failed to load";
+          label.title = err.message;
           notice.textContent = "";
+          window.removeEventListener('load', finishFunc)
+          window.removeEventListener('error', loadErrorFunc)
         }
         
         window.addEventListener('load', finishFunc) // TODO: Use document instead of window to not wait for images to load? Also how does this work with manifest.json splashscreen?

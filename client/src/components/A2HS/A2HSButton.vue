@@ -1,10 +1,10 @@
 <template>
-  <a @click="showPrompt" class="A2HS-button">
-    <icon-base iconName="add to home screen" iconColor="#6a6a6a" width="24" height="24">
+  <button @click="showPrompt" class="A2HS-button">
+    <icon-base iconName="add to home screen" width="24" height="24">
       <icon-a2-h-s />
     </icon-base>
-    Add to home screen
-  </a>
+    <span class="A2HS-label">Add to home screen</span>
+  </button>
 </template>
 
 <script>
@@ -45,7 +45,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     console.log('added event listener for beforeinstallprompt')
     window.addEventListener('beforeinstallprompt', (event)=> {
       event.preventDefault();

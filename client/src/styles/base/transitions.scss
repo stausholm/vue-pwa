@@ -22,6 +22,19 @@
   transform: translateY(10px);
 }
 
+.slide-down-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.slide-down-enter-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+}
+.slide-down-leave-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
 .slide-left-enter {
   //opacity: 0;
   transform: translateX(100%);

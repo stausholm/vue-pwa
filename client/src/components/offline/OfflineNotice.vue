@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="offline-notice">
     <div v-if="showNotice && !isOnline">You offline</div>
     <div v-else-if="showNotice && isOnline">You online again</div>
   </div>
@@ -29,7 +29,7 @@ export default {
       }
 
       // are we really online or in Lie-Fi?
-      return window.fetch('/static/img/icons/favicon-16x16.png')
+      return window.fetch('/static/img/icons/favicon-16x16.png?hash=' + new Date().getTime()) // TODO: does this cache buster work?
         .then((response) => {
           // we're online, even if it returns 400 or 500
           this.isOnline = true;
@@ -82,3 +82,21 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.offline-notice {
+  position: fixed;
+  background-color: red;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px; // default spacing
+  transform: translateY(60px);//header-height
+  transition: transform .3s;
+  z-index: 1;
+
+  .scrolled & {
+    transform: translateY(0)
+  }
+}
+</style>

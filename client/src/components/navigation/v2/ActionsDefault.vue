@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="nav-a2hs" v-if="showPWAButton">
+      <a2hs-button class="btn-icon a2hs-button"/>
+    </div>
     <div class="nav-search">
       <!-- <button class="search-btn btn-icon btn-icon--animate" v-if="layoutSize < MQ.md" @click="toggleSearch">
         <icon-base iconName="search" width="24" height="24">
@@ -45,13 +48,16 @@ import IconSearch from '@/components/icons/IconSearch';
 import IconClose from '@/components/icons/IconClose';
 import SearchBar from '@/components/search/SearchBar';
 
+import A2HSButton from '@/components/A2HS/A2HSbutton';
+
 export default {
   name: 'ActionsDefault',
   components: {
     IconBase,
     IconSearch,
     IconClose,
-    SearchBar
+    SearchBar,
+    'a2hs-button': A2HSButton
   },
   data() {
     return {
@@ -61,6 +67,9 @@ export default {
     }
   },
   computed: {
+    showPWAButton() {
+      return this.$store.getters.showPWAButton
+    }
   },
   methods: {
     resizeWatcher() {

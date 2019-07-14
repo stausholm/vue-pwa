@@ -1,27 +1,21 @@
 <template>
   <div id="app">
-    <!-- <app-navigation :fixed="true" :hideOnScroll="true"/>
-    <bottom-nav /> -->
     <app-nav />
     <main id="content">
       <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
         <router-view></router-view>
       </transition>
-      <!-- <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
-        <keep-alive>
-        </keep-alive>
-      </transition> -->
     </main>
+    <offline />
     <a2hs-overlay v-if="showPWAOverlay"/>
     <notification-small />
   </div>
 </template>
 
 <script>
-import Navigation from './components/navigation/navigation';
-import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import NotificationSmall from './components/notifications/NotificationSmall';
+import offline from '@/components/offline/OfflineNotice';
 
 import handleOrientationChange from './utils/orientationChange';
 import handleLayoutBreakpoint from './utils/layoutBreakpoint';
@@ -33,11 +27,10 @@ import Nav from './components/navigation/v2/Nav'
 export default {
   name: 'app',
   components: {
-    'app-navigation': Navigation,
-    BottomNav,
     'a2hs-overlay': A2HSOverlay,
     NotificationSmall,
-    'app-nav': Nav
+    'app-nav': Nav,
+    offline
   },
   data() {
     return {
@@ -118,38 +111,8 @@ export default {
         return this.transitionName = 'route-primary'
       }
 
-      //const toDepth = to.path.split('/').length
-      //const fromDepth = from.path.split('/').length
-      //this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-      // if (to.name == 'Example') {
-      //   this.transitionName = 'slide-right';
-      // } else {
-      //   this.transitionName = 'slide-left'
-      // }
-
       return this.transitionName = ''
     }
   }
 }
 </script>
-
-<style>
-/* main > div {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background: #fff;
-} */
-.routerfadepositive-enter {
-  opacity: 0;
-  transform: translateX(100%);
-}
-.routerfadenegative-enter {
-  opacity: 0;
-  transform: translateX(-100%);
-}
-.routerfadepositive-enter-active, .routerfadenegative-enter-active {
-  transition: opacity .2s ease-out, transform .2s ease-out;
-}
-</style>

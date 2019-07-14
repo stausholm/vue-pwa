@@ -27,7 +27,13 @@
     }
   }
 
-  .search-btn, .avatar-btn {
+  .a2hs-button {
+    .A2HS-label {
+      display: none;
+    }
+  }
+
+  .search-btn, .avatar-btn, .a2hs-button {
     @include breakpoint-max(md) {
       height: $nav-height;
       width: $nav-height;
@@ -68,8 +74,14 @@ body.search-open {
   @include breakpoint-max(md) {
     overflow: hidden;
 
-    .nav-hamburger {
-      visibility: hidden;
+    // .nav-hamburger {
+    //   visibility: hidden;
+    // }
+  }
+
+  @include breakpoint-max(sm) {
+    .app-nav .primary-nav .nav-actions {
+      @include z-index(modal);
     }
   }
 }

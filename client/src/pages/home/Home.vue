@@ -4,13 +4,11 @@
     <div class="container--content">
       <breadcrumbs />
       <h1>this is home</h1>
-      <offline />
       <header>
         <span v-if="!isLoggedIn"><router-link to="/login">Login</router-link></span>
         <span v-if="!isLoggedIn"><router-link to="/register">Register</router-link></span>
         <span v-if="isLoggedIn"><a @click.prevent="logout">Logout</a></span>
       </header>
-      <a2hs-button v-if="showPWAButton"/>
       <nav class="temp">
         <router-link to="/">Home</router-link>
         <router-link to="/example">Example</router-link>
@@ -33,8 +31,7 @@
 </template>
 
 <script>
-import A2HSButton from '@/components/A2HS/A2HSbutton';
-import offline from '@/components/offline/OfflineNotice';
+
 import HeroBlockSplit from '@/components/hero/HeroBlockSplit';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
@@ -43,7 +40,7 @@ import {getUAObject} from '@/utils/browserSpecs';
 export default {
   name: 'Home',
   components: {
-    'a2hs-button': A2HSButton, offline, HeroBlockSplit, Breadcrumbs
+    HeroBlockSplit, Breadcrumbs
   },
   data() {
     return {
@@ -53,9 +50,6 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
-    },
-    showPWAButton() {
-      return this.$store.getters.showPWAButton
     }
   },
   methods: {

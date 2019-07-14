@@ -16,6 +16,8 @@ import IconMenu from '@/components/icons/IconMenu';
 import IconClose from '@/components/icons/IconClose';
 import IconArrowBack from '@/components/icons/IconArrowBack';
 
+import breakpoints from '@/constants/Breakpoints';
+
 export default {
   name: 'Hamburger',
   components: {
@@ -44,7 +46,7 @@ export default {
       return this.navOpen ? 'close menu' : 'Open menu';
     },
     showBack() {
-      return this.$route.meta.enableBack;
+      return this.$route.meta.enableBack && window.innerWidth < breakpoints.sm;
     }
   },
   methods: {
