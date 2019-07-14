@@ -7,7 +7,7 @@
       width: 100%;
       object-fit: cover;
       border-radius: 50%;
-      
+
       @include breakpoint-max(md) {
         width: 32px;
         height: 32px;
@@ -25,12 +25,15 @@
       width: 32px;
       margin-left: $default-spacing;
     }
+    @include breakpoint-max(sm) {
+      margin-right: 8px;
+    }
   }
 
   .a2hs-button {
     height: $nav-height;
     width: $nav-height;
-    
+
     .A2HS-label {
       display: none;
     }
@@ -46,6 +49,10 @@
       &:hover {
         background-color: transparent;
       }
+    }
+
+    @include breakpoint-max(sm) {
+      width: 44px;
     }
   }
 
@@ -65,6 +72,8 @@
       position: fixed;
       top: 0;
       right: 0;
+      height: $nav-height;
+      width: $nav-height;
     }
 
     .search-wrapper {
