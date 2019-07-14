@@ -74,6 +74,14 @@
   bottom: $default-spacing + 24px + $base-font-size;
 }
 
+body:not(.hide-bottom-nav) {
+  .snackbar {
+    @include breakpoint-max(sm) {
+      bottom: $default-spacing + 24px + $base-font-size;
+    }
+  }
+}
+
 .snackbar-enter {
   opacity: 0;
   transform: translateY(10px) scale(0.9);

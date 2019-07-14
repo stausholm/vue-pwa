@@ -78,7 +78,13 @@ export default {
       return IconCasino
     },
     hidePrimaryNav() {
-      return this.$route.meta.enableBack || this.onScreenKeyboardActive //|| !this.$route.meta.isPrimary;
+      const shouldHide = this.$route.meta.enableBack || this.onScreenKeyboardActive //|| !this.$route.meta.isPrimary;
+      if (shouldHide) {
+        document.body.classList.add('hide-bottom-nav')
+      } else {
+        document.body.classList.remove('hide-bottom-nav')
+      }
+      return shouldHide
     },
     primaryNavRoutes() {
       return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)
