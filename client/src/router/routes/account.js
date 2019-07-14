@@ -25,15 +25,15 @@ export default [
       ]
     },
     children: [
-      // {
-      //   path: "/",
-      //   // component: Account,
-      //   component: () => import('@/pages/account/Account' /* webpackChunkName: "account" */),
-      //   //component: {template:'<div class="ohno"></div>'},
-      //   meta: {
-      //     enableBack: true
-      //   }
-      // },
+      {
+        path: "/",
+        // component: Account,
+        component: () => import('@/pages/account/Account' /* webpackChunkName: "account" */),
+        //component: {template:'<div class="ohno"></div>'},
+        meta: {
+          enableBack: true
+        }
+      },
       {
         path: "setting1",
         // component: Setting1,
