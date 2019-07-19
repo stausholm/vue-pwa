@@ -22,3 +22,7 @@
     padding-left: 0;
   }
 }
+
+.transparent-nav ~ #content {
+  margin-top: 0;
+}

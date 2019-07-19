@@ -1,5 +1,5 @@
 <template>
-  <div class="app-nav-wrapper">
+  <div class="app-nav-wrapper" :class="{'at-top': scrolledToTheTop, 'transparent-nav': transparentHeader}">
     <div class="app-nav dark-mode" :class="{'app-nav--expanded': navOpen}">
 
       <div class="primary-nav" :class="{'primary-nav--scrolled': scrolled, 'overwrite-scroll': overwriteScroll}" ref="primaryNav">
@@ -67,7 +67,8 @@ export default {
       onScreenKeyboardActive: false,
       scrolled: false,
       prevScrollPos: null,
-      dummyNav: dummyNav.data().nav
+      dummyNav: dummyNav.data().nav,
+      scrolledToTheTop: true
     }
   },
   computed: {
@@ -105,6 +106,9 @@ export default {
     },
     overwriteScroll() {
       return false
+    },
+    transparentHeader() {
+      return true
     }
   },
   methods: {
@@ -129,8 +133,11 @@ export default {
       if (window.scrollY < headerHeight * 2) {
         // we at the top of the page, so don't hide it 
         document.body.classList.remove('scrolled')
+        this.scrolledToTheTop = true;
         return this.scrolled = false;
       }
+      
+      this.scrolledToTheTop = false;
 
       if (window.scrollY > this.prevScrollPos) {
         this.scrolled = true;

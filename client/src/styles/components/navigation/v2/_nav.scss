@@ -715,6 +715,32 @@ body.nav-open { // prevent scroll on mobile
 }
 
 
+.transparent-nav {
+  .primary-nav {
+    transition: background-color .3s;
+
+    .nav-actions {
+      transition: background-color .3s;
+
+      @include breakpoint-max(sm) {
+        transition: background-color .3s, transform .3s;
+      }
+    }
+  }
+
+  &.at-top {
+    .primary-nav {
+      background-color: transparent;
+      box-shadow: none;
+      
+      .nav-actions {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
 
 // darkmode
 // .app-nav.dark-mode {
