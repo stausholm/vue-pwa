@@ -233,6 +233,16 @@
         &--scrolled {
           transform: translateY(-100%);
         }
+
+        &--hide {
+
+          .actions-wrapper {
+            opacity: 0;
+            pointer-events: none;
+            user-select: none;
+            visibility: hidden;
+          }
+        }
       }
     }
 

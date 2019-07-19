@@ -15,7 +15,7 @@
             </nav>
           </div>
         </div>
-        <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled}" ref="mobileHeader">
+        <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled, 'nav-actions--hide': hidePrimaryNav}" ref="mobileHeader">
           <span class="page-title">{{currentPage}}</span>
           <component class="actions-wrapper" :is="actionLayout"/>
         </div>
