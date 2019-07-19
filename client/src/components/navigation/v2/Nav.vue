@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled}" ref="mobileHeader">
-          <span class="page-title" v-if="currentPage">{{currentPage}}</span>
+          <span class="page-title">{{currentPage}}</span>
           <component class="actions-wrapper" :is="actionLayout"/>
         </div>
       </div>

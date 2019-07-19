@@ -94,7 +94,7 @@ let router = new Router({
         navigationLayout: "transparent-simple", // requires fixed header and overwriteHide for best effect
         overwriteHide: true,
         showInNav: false,
-        title: "Sign up"
+        title: "Sign up to the cool thing"
       }
     },
     {

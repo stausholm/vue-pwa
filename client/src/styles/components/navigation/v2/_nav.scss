@@ -226,6 +226,9 @@
         background-color: $nav-bg-color;
         box-shadow: 0 0.125rem 0.625rem rgba(90,97,105,.12);
         transition: transform .3s;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         
         &--scrolled {
           transform: translateY(-100%);
@@ -633,10 +636,14 @@ body.nav-open { // prevent scroll on mobile
     text-transform: uppercase;
     // font-size: .9em;
     letter-spacing: 0.6px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translateX(-50%) translateY(-50%);
+    padding-left: $nav-height; // hamburger icon width
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 
