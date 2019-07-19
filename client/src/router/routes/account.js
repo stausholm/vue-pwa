@@ -11,7 +11,7 @@ export default [
     meta: {
       title: "My user",
       enableBack: true,
-      overwriteHide: true,
+      overwriteScroll: true,
       requiresAuth: true,
       metaTags: [
         {

@@ -2,7 +2,7 @@
   <div>
     <hero-block class="route-title-container">
       Some full width hero content here
-      <span class="hero-block-route">{{$route.meta.title || ''}}</span>
+      <!-- <span class="hero-block-route">{{$route.meta.title || ''}}</span> -->
     </hero-block>
     <div class="container--content">
       <h1>Register</h1>

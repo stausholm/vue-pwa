@@ -15,7 +15,7 @@
             </nav>
           </div>
         </div>
-        <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled, 'nav-actions--hide': hidePrimaryNav}" ref="mobileHeader">
+        <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled, 'nav-actions--hide': hideActions}" ref="mobileHeader">
           <span class="page-title">{{currentPage}}</span>
           <component class="actions-wrapper" :is="actionLayout"/>
         </div>
@@ -87,6 +87,9 @@ export default {
       }
       return shouldHide
     },
+    hideActions() {
+      return this.$route.meta.hideActions;
+    },
     primaryNavRoutes() {
       return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)
     },
@@ -104,11 +107,11 @@ export default {
     appName() {
       return this.$store.getters.sitesettings.APPNAME
     },
-    overwriteScroll() {
-      return false
+    overwriteScroll() { // if true: don't hide the top nav when scrolling down on mobile
+      return this.$route.meta.overwriteScroll;
     },
     transparentHeader() {
-      return true
+      return this.$route.meta.transparentHeader;
     }
   },
   methods: {

@@ -24,10 +24,11 @@ Vue.use(Router);
  * @param is_role - Could be used as is_admin or is_premium. Should be removed in favor of allowedRoles[]. Prevents anyone who is not this role, to view this route
  * @param allowedRoles - Represent which user roles are allowed to view this route
  * @param title - Value to be shown in browser tab. The title of the route, shown in the frontend
- * @param overwriteHide - Overwrites toolbar to prevent it from hiding on scroll, if hideOnScroll is enabled. This needs refactoring
+ * @param overwriteScroll - Overwrites navbar to prevent it from hiding on scroll on mobile
  * @param navigationLayout - Define a routebased navigation component to replace the default one
  * @param metaTags - Array of meta tags for the <head> of the document
  * @param showInNav - Define if this route should be rendered in the main navigation. Current implementation should probably rename it to hideFromNav
+ * @param hideActions - Hide actions from mobile layout. This is an alternative to using a different navigationLayout if no actions should be visible
  *
  */
 
@@ -91,10 +92,12 @@ let router = new Router({
       meta: {
         guest: true,
         enableBack: true,
-        navigationLayout: "transparent-simple", // requires fixed header and overwriteHide for best effect
-        overwriteHide: true,
+        navigationLayout: "transparent-simple", 
         showInNav: false,
-        title: "Sign up to the cool thing"
+        title: "Sign up to the cool thing",
+        overwriteScroll: true,
+        transparentHeader: true,
+        hideActions: true
       }
     },
     {
