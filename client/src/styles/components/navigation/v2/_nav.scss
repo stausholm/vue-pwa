@@ -235,6 +235,16 @@
         }
       }
     }
+
+    &.overwrite-scroll {
+      @include breakpoint-max(sm) {
+        .nav-actions {
+          &--scrolled {
+            transform: none;
+          }
+        }
+      }
+    }
   }
 
   .dropdown-nav {
@@ -540,9 +550,12 @@
     }
   }
   @include breakpoint-max(sm) {
-    &:not(.app-nav--expanded) .primary-nav--scrolled ~ .nav-hamburger {
+    &:not(.app-nav--expanded) .primary-nav--scrolled:not(.overwrite-scroll) ~ .nav-hamburger { // scroll hamburger with menu on mobile
       transform: translateY(-100%);
     }
+    // &:not(.app-nav--expanded) .primary-nav--scrolled.overwrite-scroll ~ .nav-hamburger { // don't hide with overwrite scroll
+    //   transform: none;
+    // }
   }
 
   

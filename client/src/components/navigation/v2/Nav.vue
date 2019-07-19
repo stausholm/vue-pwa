@@ -2,7 +2,7 @@
   <div class="app-nav-wrapper">
     <div class="app-nav dark-mode" :class="{'app-nav--expanded': navOpen}">
 
-      <div class="primary-nav" :class="{'primary-nav--scrolled': scrolled}" ref="primaryNav">
+      <div class="primary-nav" :class="{'primary-nav--scrolled': scrolled, 'overwrite-scroll': overwriteScroll}" ref="primaryNav">
         <div class="nav-items" :class="{'nav-items--hide': hidePrimaryNav}">
           <div class="container">
             <nav>
@@ -102,6 +102,9 @@ export default {
     },
     appName() {
       return this.$store.getters.sitesettings.APPNAME
+    },
+    overwriteScroll() {
+      return false
     }
   },
   methods: {
