@@ -59,9 +59,6 @@ let router = new Router({
     })
   },
   routes: [
-    ...example,
-    ...account,
-    ...onboarding,
     {
       path: "/",
       name: "Home",
@@ -107,6 +104,11 @@ let router = new Router({
         enableBack: true
       }
     },
+
+    ...example,
+    ...account,
+    ...onboarding,
+    
     {
       // catch all route
       path: "*",
