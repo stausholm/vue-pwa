@@ -4,9 +4,6 @@
   background-position: center center;
   background-repeat: no-repeat;
   height: 400px;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
   position: relative;
   overflow: hidden;
 
@@ -15,7 +12,6 @@
   }
 
   &-bg {
-    background-image: linear-gradient(45deg, rgba($primary-color,0.3) 0%,rgba($primary-color,0.3) 100%), url('https://picsum.photos/200/300?image=1062');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-color: $gray-light;
@@ -26,6 +22,16 @@
     top: 0;
     left: 0;
     animation: zoom-image .4s ease;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba($primary-color,0.3);
+    }
   }
 
   &-content {
@@ -33,15 +39,6 @@
     width: 100%;
     height: 100%;
     padding: $default-spacing * 4 $default-spacing $default-spacing;
-
-    .hero-block-route {
-      position: absolute;
-      bottom: $default-spacing;
-      left: $default-spacing;
-      color: $white;
-      font-weight: 700;
-      font-size: 3rem;
-    }
   }
 }
 @keyframes zoom-image {

@@ -1,6 +1,6 @@
 import store from "@/store/store";
 
-export default function getMenuData() {
+export default function getMenuData() { // TODO
   return [
     {
       label: 'Settings header 1',
@@ -9,7 +9,7 @@ export default function getMenuData() {
           disabled: false,
           title: 'This is a title',
           subtitle: '',
-          actionLabel: store.getters.deviceLayoutIsSmall,
+          actionLabel: store.getters.sitesettings.APPNAME,
           type: 'switch'
         }
       ]

@@ -150,7 +150,7 @@ import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 import ListItem from '@/components/list/ListItem'
 
-import getMenuData from './getSettingsMenuData'
+import getMenuData from './getSettingsMenuData' // TODO
 
 export default {
   name: 'Account',

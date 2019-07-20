@@ -41,7 +41,7 @@ export default {
   }
 }
 
-// const x = {
+// expected nav structure: {
 //   useRouterLink: true,
 //   navGroups: [
 //     {
@@ -65,11 +65,3 @@ export default {
 //   ]
 // }
 </script>
-
-<style lang="scss">
-// .nav-list {
-//   max-width: 200px;// for test
-//   background: lightgray;
-
-// }
-</style>

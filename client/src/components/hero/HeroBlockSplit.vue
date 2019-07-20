@@ -1,6 +1,6 @@
 <template>
   <div class="hero-split">
-    <div class="hero-split-bg" v-for="item in backgrounds" :key="item" :class="'hero-split-bg--' + item"></div>
+    <div class="hero-split-bg" v-for="item in backgrounds" :key="item" :class="'hero-split-bg--' + item" :style="{'background-image': item === 'image' ? `url('${bgImage}')` : ''}"></div>
     <div class="hero-split-content container" :class="{'hero-split-content--flipped': pullImageLeft}">
       <div class="hero-split-content__image">
         <img :src="image" alt="promotional image">
@@ -27,6 +27,10 @@ export default {
     pullImageLeft: {
       type: Boolean,
       default: false
+    },
+    bgImage: {
+      type: String,
+      default: 'https://picsum.photos/500/300/?image=130'
     },
     background: {
       type: [String, Array],

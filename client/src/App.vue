@@ -17,8 +17,7 @@ import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import NotificationSmall from './components/notifications/NotificationSmall';
 import offline from '@/components/offline/OfflineNotice';
 
-import handleOrientationChange from './utils/orientationChange';
-import handleLayoutBreakpoint from './utils/layoutBreakpoint';
+//import handleOrientationChange from './utils/orientationChange';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
 import {setBrowserCompatibilityClasses} from './utils/browserSpecs';
 
@@ -93,9 +92,7 @@ export default {
     }
 
     // viewport orientation change listener
-    handleOrientationChange(this);
-    // viewport media query layout breakpoint listener
-    handleLayoutBreakpoint(this);
+    //handleOrientationChange(this); // Currently not used for anything
 
     // add eventlistener to document, for 'error' on images
     replaceBrokenImagesInit('/static/img/wizard.jpg');

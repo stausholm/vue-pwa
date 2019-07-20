@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store/store";
-import Hello from "@/components/Hello";
 import Home from "@/pages/home/Home";
 import Login from "@/pages/login/Login";
 import Register from "@/pages/register/Register";
@@ -21,7 +20,6 @@ Vue.use(Router);
  * @param guest - This route should only be available to users not logged in
  * @param enableBack - Turn hamburger icon into a back button
  * @param requiresAuth - Requires the user to be logged in, to view this route
- * @param is_role - Could be used as is_admin or is_premium. Should be removed in favor of allowedRoles[]. Prevents anyone who is not this role, to view this route
  * @param allowedRoles - Represent which user roles are allowed to view this route
  * @param title - Value to be shown in browser tab. The title of the route, shown in the frontend
  * @param overwriteScroll - Overwrites navbar to prevent it from hiding on scroll on mobile
@@ -105,7 +103,6 @@ let router = new Router({
       name: "Search",
       component: Search,
       meta: {
-        //navigationLayout: 'stripped',
         title: "Search",
         enableBack: true
       }
@@ -132,27 +129,19 @@ router.afterEach((to, from) => {
 })
 
 router.beforeEach((to, from, next) => {
-  //console.log('inside beforeEach', to)
+  // prevent navigation if modal is open
   if(document.body.classList.contains('modal-advanced-open')) {
     console.log('modal open, back button should not go back', from)
     // this makes the page jump unless history.scrollRestoration is set to 'manual', because a popstate event is fired
     return next(false)
   }
 
+  // show onboarding if user hasn't seen it
   if (!localStorage.getItem('onBoardingComplete') && !to.path.match(/^\/onboarding/)) {
     next('/onboarding')
     return
   }
 
-  // prevent navigating backwards if slideout menu is open, and close it instead
-  // if (store.getters.slideoutIsOpen) {
-  //   store.dispatch('changeSlideoutState', false);
-  //   next(false);
-  // }
-
-  // if (to.matched.some(record => record.meta.is_role)) { // is only for certain role
-  //   if (store.getters.userRole)
-  // }
   if (to.matched.some(record => record.meta && record.meta.allowedRoles)) {
     // allowed roles have been specified
     if (
@@ -172,6 +161,7 @@ router.beforeEach((to, from, next) => {
     });
     return;
   }
+  
   if (to.matched.some(record => record.meta && record.meta.requiresAuth)) {
     // auth is required for page
     if (store.getters.isLoggedIn) {

@@ -17,10 +17,8 @@
 
 
 // Component styles
-//@import './components/navigation/navigation';
-//@import './components/navigation/bottomnav';
 @import './components/a2hs/a2hsoverlay';
-//@import './components/a2hs/a2hsbutton';
+
 @import './components/account/accountcard';
 @import './components/account/signinsignup';
 @import './components/loader/loaderspinner';
@@ -34,10 +32,15 @@
 @import './components/modal/modaladvanced';
 @import './components/offline/offline-notice';
 
+// spoilers
+@import './components/spoiler/spoiler';
+
 // new nav
 @import './components/navigation/v2/nav';
 @import './components/navigation/v2/content';
 
+// pages
+@import './components/login/login-page';
 
 // icons
 @import './components/icons/fileicon';

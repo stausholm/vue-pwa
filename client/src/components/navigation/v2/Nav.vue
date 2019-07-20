@@ -17,7 +17,7 @@
         </div>
         <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled, 'nav-actions--hide': hideActions}" ref="mobileHeader">
           <span class="page-title">{{currentPage}}</span>
-          <component class="actions-wrapper" :is="actionLayout"/>
+          <component class="actions-wrapper" :is="actionLayout" :key="actionLayout"/>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ import IconCasino from '@/components/icons/IconCasino';
 import Hamburger from '@/components/navigation/v2/Hamburger';
 import NavLinks from '@/components/navigation/NavLinks';
 
-import dummyNav from '@/pages/error/ErrorPage';
+import dummyNav from './dummynav';
 
 import breakpoints from '@/constants/Breakpoints';
 
@@ -57,6 +57,9 @@ export default {
     NavLinks,
     Hamburger,
     ActionsDefault
+    // 'navigation-default': Default,
+    // 'navigation-transparent-simple': TransparentSimple,
+    // 'navigation-stripped': Stripped,
   },
   props: {
     
@@ -67,13 +70,30 @@ export default {
       onScreenKeyboardActive: false,
       scrolled: false,
       prevScrollPos: null,
-      dummyNav: dummyNav.data().nav,
+      dummyNav: dummyNav,
       scrolledToTheTop: true
     }
   },
   computed: {
     actionLayout() {
       return ActionsDefault;
+
+      // const defaultLayout = 'navigation-default'
+      // let layout = this.$route.meta.navigationLayout;
+      // layout = layout ? 'navigation-' + layout : defaultLayout;
+      // this.$nextTick(() => { // $refs is undefined until mounted() hook
+      //   this.$refs.pageheader.setAttribute('data-navigation-layout', layout);
+      // })
+      // return layout;
+    },
+    availableRoutes() { // TODO: should we use this instead of dummyNav?
+      return this.$router.options.routes
+        .filter((route) => { // only show routes where showInNav is not false
+          return route.meta ? route.meta.showInNav != false : route;
+        })
+        .filter((route) => { // only show routes allowed for the userrole
+          return route.meta && route.meta.allowedRoles ? route.meta.allowedRoles.includes(this.$store.getters.userRole) : route;
+        })
     },
     fallbackIcon() {
       return IconCasino

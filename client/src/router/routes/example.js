@@ -38,7 +38,6 @@ export default [
         component: ExampleWithAuthRole,
         meta: {
           requiresAuth: true,
-          is_role: true,
           allowedRoles: ["admin", "premium", "basic"]
         }
       },
@@ -88,7 +87,6 @@ export default [
   //   component: ExampleWithAuthRole,
   //   meta: {
   //     requiresAuth: true,
-  //     is_role: true,
   //     allowedRoles: ["admin", "premium", "basic"]
   //   }
   // },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sign-in-up">
     <div class="container--content">
       <h1>Login</h1>
       <div>
@@ -33,25 +33,6 @@
         <form-generator :loading="loading" :schema="schema" v-model="formData" v-if="showEmailForm" @success="login">
           <span v-if="loading">LOADING</span> slot content
         </form-generator>
-        <!-- <form @submit.prevent="login" v-if="showEmailForm">
-          <div class="input-group">
-            <label for="email" class="input-label">Email Address</label>
-            <div class="input-wrapper">
-              <input id="email" type="email" v-model="email" required autofocus class="input-item">
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="password" class="input-label">Password</label>
-            <div class="input-wrapper">
-              <input id="password" type="password" v-model="password" required class="input-item">
-            </div>
-          </div>
-
-          <div class="input-group">
-            <button type="submit" class="btn btn--responsive">Login</button>
-          </div>
-        </form> -->
       </div>
 
       <p v-if="serverError">{{errorMsg}}</p>
@@ -138,10 +119,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.link-other-form {
-  display: inline-block;
-  margin: 16px 0;
-}
-</style>

@@ -12,12 +12,7 @@
       <nav class="temp">
         <router-link to="/">Home</router-link>
         <router-link to="/example">Example</router-link>
-        <router-link to="/exampleWithAuth">Example auth</router-link>
-        <router-link to="/exampleWithAuthRole">Example auth role</router-link>
-        <router-link to="/exampleinputs">Example inputs</router-link>
-        <router-link to="/exampledatalist">Example datalist</router-link>
-        <router-link to="/examplegraphs">Example graphs</router-link>
-        <router-link to="/exampleicons">Example icons</router-link>
+        <router-link to="/exampleWithAuth">a page that doesn't exist</router-link>
         <router-link to="/search">Search</router-link>
         <router-link to="/account">Account</router-link>
       </nav>

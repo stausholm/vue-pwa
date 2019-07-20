@@ -3,9 +3,10 @@
 </template>
 
 <script>
+// emits event when user scrolls element into view/when options conditions are met
 export default {
   props: {
-    options: {
+    options: { // intersection observer 'options' param
       type: Object  
     }
   },
