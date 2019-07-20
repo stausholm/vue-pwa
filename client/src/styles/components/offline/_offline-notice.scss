@@ -1,8 +1,10 @@
 .offline-notice {
   position: fixed;
   padding: $default-spacing;
-  @include z-index(contextmenu);
-  background-color: $primary-color;
+  @include z-index(nav);
+  background-color: $color-danger;
+  color: $white;
+  font-weight: bold;
   
   @include breakpoint(sm) {
     bottom: $default-spacing;
@@ -21,11 +23,30 @@
       transform: translateY(0);
     }
   }
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .button-group {
+      margin-left: $default-spacing;
+      display: flex;
+      
+      button {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &.success {
+    background-color: $color-success;
+  }
 }
 
 .offline-notice-enter {
   opacity: 0;
-  transform: translateY(0);
+  transform: translateY($nav-height - $default-spacing);
 
   .scrolled & {
     transform: translateY(-100%);
