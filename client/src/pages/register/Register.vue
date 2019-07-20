@@ -3,7 +3,7 @@
     <hero-block>
       Some full width hero content here
     </hero-block>
-    <div class="container--content">
+    <div class="container--content container--small">
       <h1>Register</h1>
       <div>
         <p class="text-secondary">Continue with</p>

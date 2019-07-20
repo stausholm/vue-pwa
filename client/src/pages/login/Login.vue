@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-up">
-    <div class="container--content">
+    <div class="container--content container--small">
       <h1>Login</h1>
       <div>
         <p class="text-secondary">Continue with</p>
