@@ -30,6 +30,9 @@ body {
   margin: 0 auto;
   padding: $default-spacing;
 }
+.container--small {
+  max-width: 500px;
+}
 ul {
   list-style-type: none;
 }

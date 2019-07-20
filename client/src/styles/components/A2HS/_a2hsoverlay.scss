@@ -7,7 +7,7 @@
   bottom: 0;
   //width: 100vw;
   //height: 100vh;
-  background-color: rgba($primary-color, .9);
+  background-color: rgba($primary-color, .95);
   //padding: $default-spacing * 3;
   color: $white;
   cursor: default;
@@ -18,18 +18,86 @@
     right: 0;
     transform: rotate(90deg)
   }
-  svg {
-    margin-right: 0 !important;
-    margin-bottom: -2px;
-  }
 
   b {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 2.1rem;
+    font-weight: bold;
+    display: block;
+    text-align: center;
   }
   p {
     white-space: initial !important;
     text-overflow: initial !important;
     margin: $default-spacing 0;
+  }
+
+  button {
+    margin-top: $default-spacing;
+    float: right;
+  }
+
+  .instructions {
+    background-color: rgba($gray-lighter, .2);
+    padding: $default-spacing/2;
+    border-radius: $default-border-radius;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin: 0 $default-spacing/2;
+    }
+  }
+
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: $default-spacing*4;
+    margin-bottom: $default-spacing*2;
+    margin-left: -$default-spacing/2;
+    margin-right: -$default-spacing/2;
+
+    .icon {
+      width: 20%;
+      margin: $default-spacing/2;
+      
+      &::after {
+        content: "";
+        display: block;
+        padding-top: 100%;
+        background-color: $gray-lighter;
+        border-radius: 16px;
+        opacity: .15;
+      }
+      
+      &:nth-child(1), &:nth-child(5) {
+        &::after {
+          background-color: $gray;
+        }
+      }
+
+      &:nth-child(3) {
+        background-size: 70%;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        &::after {
+          background-color: $accent-color;
+          opacity: 1;
+          box-shadow: $box-shadow;
+          z-index: -1;
+          position: relative;
+        }
+      }
+    }
+
+    @include breakpoint-max(sm) {
+      margin-bottom: $default-spacing;
+
+      .icon {
+        margin: $default-spacing/4;
+      }
+    }
   }
 }

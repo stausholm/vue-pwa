@@ -61,6 +61,7 @@ export const getUAObject = () => {
 
   return {
     UA : navigator.userAgent,
+    platform: navigator.platform,
     browser,
     OS,
     supportsTouch
