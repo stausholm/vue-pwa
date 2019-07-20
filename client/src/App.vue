@@ -21,7 +21,7 @@ import offline from '@/components/offline/OfflineNotice';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
 import {setBrowserCompatibilityClasses} from './utils/browserSpecs';
 
-import Nav from './components/navigation/v2/Nav'
+import Nav from './components/navigation/Nav'
 
 export default {
   name: 'app',

@@ -42,15 +42,15 @@
 import IconBase from '@/components/icons/IconBase';
 import IconCasino from '@/components/icons/IconCasino';
 
-import Hamburger from '@/components/navigation/v2/Hamburger';
+import Hamburger from '@/components/navigation/Hamburger';
 import NavLinks from '@/components/navigation/NavLinks';
 
 import dummyNav from './dummynav';
 
 import breakpoints from '@/constants/Breakpoints';
 
-import ActionsDefault from '@/components/navigation/v2/ActionsDefault';
-import ActionsOther from '@/components/navigation/v2/ActionsOther';
+import ActionsDefault from '@/components/navigation/layouts/ActionsDefault';
+import ActionsOther from '@/components/navigation/layouts/ActionsOther';
 
 export default {
   name: 'Nav',
