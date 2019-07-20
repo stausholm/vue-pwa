@@ -70,3 +70,27 @@ a {
   color: #35495E;
 }
 </style>
+
+
+<script>
+/**
+TODO:
+
+getsettignsmenudata.js til account.vue
+
+searchBar.vue (og filters i datalist.vue)
+offlineNotice.vue (+ offline.js + hello.vue)
+
+floatingactionbar.vue
+
+alt der hedder listAdvanced
+
+
+styles i: 
+search.vue
+onboarding/index.vue
+errorpage.vue
+
+vuex user settings og hook op til account.vue
+ */
+</script>

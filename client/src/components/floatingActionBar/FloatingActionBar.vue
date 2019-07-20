@@ -1,7 +1,7 @@
 <template>
   <!-- <transition name="slide-up" appear>
   </transition> -->
-  <div class="floating-action-bar container">
+  <div class="floating-action-bar">
     <ul ref="list" class="fab-list">
       <li v-for="(option, index) in slicedOptions" :key="index" @click="option.action" class="fab-list__item">
         <icon-base :iconName="option.label" width="18" height="18">
