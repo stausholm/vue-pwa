@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-up">
-    <hero-block class="route-title-container">
+    <hero-block>
       Some full width hero content here
     </hero-block>
     <div class="container--content">

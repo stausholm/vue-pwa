@@ -2,15 +2,17 @@
   .nav-avatar {
     display: flex;
 
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-
-      @include breakpoint-max(md) {
-        width: 32px;
-        height: 32px;
+    .avatar-btn {
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+  
+        @include breakpoint-max(md) {
+          width: 32px;
+          height: 32px;
+        }
       }
     }
 
@@ -94,6 +96,50 @@ body.search-open {
   @include breakpoint-max(sm) {
     .app-nav .primary-nav .nav-actions {
       @include z-index(modal);
+    }
+  }
+}
+
+.dropdown-wrapper {
+  position: relative;
+
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    border: 1px solid $gray-light;
+    right: 0;
+    min-width: 300px;
+    border-radius: $default-border-radius;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    color: $text-primary-color;
+    line-height: initial;
+    @include z-index(dropdown);
+
+    &::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border-top: 1px solid $gray-light;
+      border-left: 1px solid $gray-light;
+      background-color: inherit;
+      display: block;
+      position: absolute;
+      top: -1px;
+      right: 0;
+      transform: translateX(-9px) translateY(-50%) rotate(45deg);
+      box-sizing: border-box;
+    }
+    
+    a {
+      display: block;
+      padding: $default-padding;
+      border-top: 1px solid $gray-light;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $gray-light;
+      }
     }
   }
 }

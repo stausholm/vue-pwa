@@ -17,7 +17,9 @@
         </div>
         <div class="nav-actions" :class="{'nav-actions--scrolled': scrolled, 'nav-actions--hide': hideActions}" ref="mobileHeader">
           <span class="page-title">{{currentPage}}</span>
-          <component class="actions-wrapper" :is="actionLayout" :key="actionLayout"/>
+          <keep-alive>
+            <component class="actions-wrapper" :is="actionLayout" :key="actionLayout.name"/>
+          </keep-alive>
         </div>
       </div>
 
@@ -48,6 +50,7 @@ import dummyNav from './dummynav';
 import breakpoints from '@/constants/Breakpoints';
 
 import ActionsDefault from '@/components/navigation/v2/ActionsDefault';
+import ActionsOther from '@/components/navigation/v2/ActionsOther';
 
 export default {
   name: 'Nav',
@@ -56,10 +59,8 @@ export default {
     IconCasino,
     NavLinks,
     Hamburger,
-    ActionsDefault
-    // 'navigation-default': Default,
-    // 'navigation-transparent-simple': TransparentSimple,
-    // 'navigation-stripped': Stripped,
+    ActionsDefault,
+    ActionsOther
   },
   props: {
     
@@ -76,15 +77,8 @@ export default {
   },
   computed: {
     actionLayout() {
-      return ActionsDefault;
-
-      // const defaultLayout = 'navigation-default'
-      // let layout = this.$route.meta.navigationLayout;
-      // layout = layout ? 'navigation-' + layout : defaultLayout;
-      // this.$nextTick(() => { // $refs is undefined until mounted() hook
-      //   this.$refs.pageheader.setAttribute('data-navigation-layout', layout);
-      // })
-      // return layout;
+      const defaultLayout = ActionsDefault;
+      return this.$route.meta.navigationLayout || defaultLayout;
     },
     availableRoutes() { // TODO: should we use this instead of dummyNav?
       return this.$router.options.routes

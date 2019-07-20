@@ -79,7 +79,7 @@ let router = new Router({
       meta: {
         guest: true,
         enableBack: true,
-        navigationLayout: "stripped",
+        navigationLayout: "actions-other",
         showInNav: false
       }
     },
@@ -161,7 +161,7 @@ router.beforeEach((to, from, next) => {
     });
     return;
   }
-  
+
   if (to.matched.some(record => record.meta && record.meta.requiresAuth)) {
     // auth is required for page
     if (store.getters.isLoggedIn) {
