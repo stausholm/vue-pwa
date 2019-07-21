@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth';
 import A2HS from './modules/A2HS';
 import sitesettings from './modules/sitesettings';
+import applicationSettings from './modules/applicationSettings';
 
 Vue.use(Vuex);
 
@@ -47,6 +48,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    auth, A2HS, sitesettings
+    auth, A2HS, sitesettings, applicationSettings
   }
 });

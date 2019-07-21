@@ -2,7 +2,7 @@
   <div class="onboarding-page">
     <div class="container--content">
       <transition :name="transitionName" mode="out-in">
-        <router-view></router-view>
+        <router-view class="router-view"></router-view>
       </transition>
       <div class="onboarding__bottom">
         <div class="dots">

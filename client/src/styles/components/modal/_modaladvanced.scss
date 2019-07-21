@@ -41,6 +41,10 @@ body.modal-advanced-open {
     //box-sizing: content-box;
     width: 100%;
 
+    @include breakpoint(md) {
+      max-width: 500px;
+    }
+
     &__header {
       text-align: center;
       padding: $default-padding;

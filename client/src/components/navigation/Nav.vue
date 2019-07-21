@@ -1,6 +1,6 @@
 <template>
   <div class="app-nav-wrapper" :class="{'at-top': scrolledToTheTop, 'transparent-nav': transparentHeader}">
-    <div class="app-nav dark-mode" :class="{'app-nav--expanded': navOpen}">
+    <div class="app-nav" :class="{'app-nav--expanded': navOpen}">
 
       <div class="primary-nav" :class="{'primary-nav--scrolled': scrolled, 'overwrite-scroll': overwriteScroll}" ref="primaryNav">
         <div class="nav-items" :class="{'nav-items--hide': hidePrimaryNav}">

@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" :class="localSettingsClasses">
     <app-nav />
     <main id="content">
       <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
-        <router-view></router-view>
+        <router-view class="router-view"></router-view>
       </transition>
     </main>
     <offline />
@@ -39,6 +39,25 @@ export default {
   computed: {
     showPWAOverlay() {
       return this.$store.getters.showPWAOverlay
+    },
+    localSettingsClasses() {
+      const settings = this.$store.getters.localSettings
+
+      if (settings.darkmode) {
+        document.documentElement.classList.add('darkmode')
+      } else {
+        document.documentElement.classList.remove('darkmode')
+      }
+      if (settings.preferReducedMotion) {
+        document.documentElement.classList.add('no-animations')
+      } else {
+        document.documentElement.classList.remove('no-animations')
+      }
+
+      return {
+        'darkmode': settings.darkmode,
+        'no-animations': settings.preferReducedMotion
+      }
     }
   },
   methods: {

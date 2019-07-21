@@ -9,7 +9,7 @@
         {{actionLabel}}
         <icon-arrow-right />
       </icon-base>
-      <switch-input :disabled="false" v-else-if="type === 'switch'"/>
+      <switch-input :value="value" @input="$emit('update')" :disabled="false" v-else-if="type === 'switch'"/>
       <input :checked="value" type="checkbox" v-else-if="type === 'check'">
       <template v-else>{{type}}</template>
     </div>

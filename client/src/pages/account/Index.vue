@@ -2,7 +2,7 @@
   <div class="account-page">
     <transition :name="transitionName" :mode="transitionMode" @after-leave="afterLeave">
       <keep-alive>
-        <router-view></router-view>
+        <router-view class="router-view"></router-view>
       </keep-alive>
     </transition>  
   </div>

@@ -82,9 +82,10 @@ searchBar.vue (og filters i datalist.vue)
 offlineNotice.vue (+ offline.js + hello.vue)
 
 floatingactionbar.vue
+- make bar sticky instead of fixed
+- stick to right side of content on tablet and desktop
 
 alt der hedder listAdvanced
-
 
 styles i: 
 search.vue

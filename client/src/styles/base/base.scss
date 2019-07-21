@@ -39,3 +39,14 @@ ul {
 img {
   max-width: 100%;
 }
+
+// disable specific animations based on usersetting 
+.no-animations {
+  .hero-split-bg--image, .hero-bg {
+    animation: none !important;
+  }
+
+  .router-view {
+    transition: none !important;
+  }
+}

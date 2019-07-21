@@ -15,7 +15,7 @@
     <!--[if IE]><link rel="shortcut icon" href="/static/img/icons/favicon.ico"><![endif]-->
     <!-- Add to home screen for Android and modern mobile browsers -->
     <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
-    <meta name="theme-color" content="#4DBA87">
+    <meta name="theme-color" content="<%= htmlWebpackPlugin.options.theme_color %>">
 
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -130,6 +130,18 @@
           var loader = document.querySelector('.app-initial-load');
           clearTimeout(timer);
           loader.classList.add('app-initial-load--finished');
+          
+          // if (document.querySelector('.no-animations')) {
+          //   loader.remove();
+          //   window.removeEventListener('load', finishFunc)
+          //   window.removeEventListener('error', loadErrorFunc)
+          // }
+          
+          if (document.querySelector('.darkmode')) {
+            var metaThemeColor = document.querySelector("meta[name=theme-color]");
+            metaThemeColor.setAttribute("content", '<%= htmlWebpackPlugin.options.theme_color_dark %>');
+          }
+
           loader.addEventListener('transitionend', function() {
             loader.remove();
             window.removeEventListener('load', finishFunc)

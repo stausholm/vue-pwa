@@ -1,0 +1,109 @@
+.darkmode {
+  .app-nav {
+    background-color: #27293d;
+    .primary-nav {
+      background-color: #27293d;
+      
+      @include breakpoint(md) {
+        box-shadow: 0 0.125rem 0.625rem rgba(0,0,0, 0.12);
+      }
+      
+      .nav-items {
+        background-color: #27293d;
+  
+        nav {
+          a {
+            color: rgba(#fff, .7);
+  
+            @include breakpoint(md) {
+              &:hover {
+                background-color: lighten(#27293d, 3);
+              }
+            }
+  
+            svg {
+              // color: #9a9a9a;
+              color: rgba(#fff, .3);
+              
+              g {
+                @include breakpoint-max(sm) {
+                  fill: rgba(#fff, .7);
+                  
+                }
+              }
+            }
+            
+            &.router-link-exact-active {
+              color: #007bff;
+              font-weight: bold;
+  
+              svg {
+                g {
+                  fill: #007bff;
+                }
+              }
+              @include breakpoint-between(sm, md) {
+                background-color: lighten(#27293d, 3);
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    .dropdown-nav {
+      background-color: #27293d;
+      
+      .dropdown-nav-header {
+        background-color: #27293d;
+      }
+  
+      @include breakpoint(md) {
+        box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
+  
+        .nav-group:not(:first-child) {
+          .nav-group__label {
+            border-top: 1px solid rgba(255,255,255,.1);
+          }
+        }
+      }
+      .nav-group {
+        &__label {
+          color: #fff;
+          
+        }
+  
+        &__list {
+          .nav-link {
+            a {
+              color: rgba(#fff, .7);
+  
+              &:hover {
+                background-color: lighten(#27293d, 3);
+              }
+            }
+            
+            .nav-link__expander {
+              // color: rgba(#fff, .8);
+              color: #9a9a9a;
+            }
+  
+            ul {
+              background-color: #27293d;
+            }
+          }
+        }
+      }
+    }
+  
+    .nav-link__badge {
+      border: 2px solid #27293d;
+      background-color: darken(#fff, 30);
+    }
+  }
+  
+  #content {
+    background-color: #1e1e24;
+    color: rgba(#fff, .85);
+  }
+}

@@ -119,8 +119,8 @@
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="list-header">Application</b>
         <ul class="options-list">
-          <list-item title="Darkmode" type="switch" @keyup.enter.native="todo" @click.native="todo"></list-item>
-          <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Darkmode" type="switch" :value="localSettings.darkmode" @update="toggleDarkmode" @keyup.enter.native="toggleDarkmode" @click.native="toggleDarkmode"></list-item>
+          <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" :value="localSettings.preferReducedMotion" @update="toggleAnimations" @keyup.enter.native="toggleAnimations" @click.native="toggleAnimations"></list-item>
           <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
           <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
           <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
@@ -167,7 +167,12 @@ export default {
     AccountCard, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
   },
   computed: {
-    
+    localSettings() {
+      return this.$store.getters.localSettings
+    },
+    siteSettings() {
+      return this.$store.getters.sitesettings
+    }
   },
   methods: {
     logout() {
@@ -178,6 +183,15 @@ export default {
     },
     todo() {
       console.log('todo')
+    },
+    toggleDarkmode() {
+      const metaThemeColor = document.querySelector("meta[name=theme-color]");
+      metaThemeColor.setAttribute("content", this.localSettings.darkmode ? this.siteSettings.THEME_COLOR : this.siteSettings.THEME_COLOR_DARK);
+      
+      this.$store.dispatch('updateLocalSetting', {key: 'darkmode', val: !this.localSettings.darkmode})
+    },
+    toggleAnimations() {
+      this.$store.dispatch('updateLocalSetting', {key: 'preferReducedMotion', val: !this.localSettings.preferReducedMotion})
     }
   }
 }

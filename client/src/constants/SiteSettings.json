@@ -3,5 +3,7 @@
   "DEBUG_ENABLED": true,
   "CONSOLE_ENABLED": true,
   "MASTER_LOCALE": "en",
-  "APP_VERSION": "0.0.1"
+  "APP_VERSION": "0.0.1",
+  "THEME_COLOR": "#FFFFFF",
+  "THEME_COLOR_DARK": "#000000"
 }

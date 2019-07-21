@@ -22,7 +22,7 @@
           <router-link :to="'/example/' + link.path">{{link.name}}</router-link>
         </li>
       </ul>
-      <router-view />
+      <router-view class="router-view"/>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <search-bar />
