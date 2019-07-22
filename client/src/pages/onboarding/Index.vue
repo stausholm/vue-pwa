@@ -23,8 +23,7 @@ export default {
   },
   data() {
     return {
-      transitionName: 'onboard-left',
-      yo: this.$router
+      transitionName: 'onboard-left'
     }
   },
   methods: {

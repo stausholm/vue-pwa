@@ -20,6 +20,12 @@
                 background-color: lighten(#27293d, 3);
               }
             }
+
+            @include breakpoint-between(sm, md) {
+              &:hover {
+                background-color: lighten(#27293d, 3);
+              }
+            }
   
             svg {
               // color: #9a9a9a;
@@ -49,6 +55,17 @@
           }
         }
       }
+
+      .nav-actions {
+        .a2hs-button, .search-btn {
+          color: rgba(#fff, .7);
+        }
+        
+        @include breakpoint-max(sm) {
+          background-color: #27293d;
+          color: rgba(#fff, .7);
+        }
+      }
     }
     
     .dropdown-nav {
@@ -56,6 +73,7 @@
       
       .dropdown-nav-header {
         background-color: #27293d;
+        color: #fff;
       }
   
       @include breakpoint(md) {
@@ -71,6 +89,9 @@
         &__label {
           color: #fff;
           
+          @include breakpoint-max(sm) {
+            background-color: lighten(#27293d, 3);
+          }
         }
   
         &__list {
@@ -102,6 +123,10 @@
     }
   }
   
+  .nav-hamburger {
+    color: rgba(#fff, .7);
+  }
+
   #content {
     background-color: #1e1e24;
     color: rgba(#fff, .85);
