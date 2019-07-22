@@ -1,55 +1,55 @@
 .darkmode {
   .app-nav {
-    background-color: #27293d;
+    background-color: $bg-dark;
     .primary-nav {
-      background-color: #27293d;
+      background-color: $bg-dark;
       
       @include breakpoint(md) {
         box-shadow: 0 0.125rem 0.625rem rgba(0,0,0, 0.12);
       }
       
       .nav-items {
-        background-color: #27293d;
+        background-color: $bg-dark;
   
         nav {
           a {
-            color: rgba(#fff, .7);
+            color: $nav-color-dark;
   
             @include breakpoint(md) {
               &:hover {
-                background-color: lighten(#27293d, 3);
+                background-color: lighten($bg-dark, 3);
               }
             }
 
             @include breakpoint-between(sm, md) {
               &:hover {
-                background-color: lighten(#27293d, 3);
+                background-color: lighten($bg-dark, 3);
               }
             }
   
             svg {
               // color: #9a9a9a;
-              color: rgba(#fff, .3);
+              color: rgba($white, .3);
               
               g {
                 @include breakpoint-max(sm) {
-                  fill: rgba(#fff, .7);
+                  fill: rgba($white, .7);
                   
                 }
               }
             }
             
             &.router-link-exact-active {
-              color: #007bff;
+              color: $nav-link-color;
               font-weight: bold;
   
               svg {
                 g {
-                  fill: #007bff;
+                  fill: $nav-link-color;
                 }
               }
               @include breakpoint-between(sm, md) {
-                background-color: lighten(#27293d, 3);
+                background-color: lighten($bg-dark, 3);
               }
             }
           }
@@ -58,22 +58,31 @@
 
       .nav-actions {
         .a2hs-button, .search-btn {
-          color: rgba(#fff, .7);
+          color: $nav-color-dark;
         }
         
         @include breakpoint-max(sm) {
-          background-color: #27293d;
-          color: rgba(#fff, .7);
+          background-color: $bg-dark;
+          color: $nav-color-dark;
+        }
+
+        .dropdown {
+          background-color: $bg-dark;
+          color: $text-darkmode;
+        }
+
+        .nav-search-overlay {
+          background-color: $bg-dark;
         }
       }
     }
     
     .dropdown-nav {
-      background-color: #27293d;
+      background-color: $bg-dark;
       
       .dropdown-nav-header {
-        background-color: #27293d;
-        color: #fff;
+        background-color: $bg-dark;
+        color: $white;
       }
   
       @include breakpoint(md) {
@@ -81,36 +90,35 @@
   
         .nav-group:not(:first-child) {
           .nav-group__label {
-            border-top: 1px solid rgba(255,255,255,.1);
+            border-top: 1px solid rgba($white,.1);
           }
         }
       }
       .nav-group {
         &__label {
-          color: #fff;
+          color: $white;
           
           @include breakpoint-max(sm) {
-            background-color: lighten(#27293d, 3);
+            background-color: lighten($bg-dark, 3);
           }
         }
   
         &__list {
           .nav-link {
             a {
-              color: rgba(#fff, .7);
+              color: $nav-color-dark;
   
               &:hover {
-                background-color: lighten(#27293d, 3);
+                background-color: lighten($bg-dark, 3);
               }
             }
             
             .nav-link__expander {
-              // color: rgba(#fff, .8);
-              color: #9a9a9a;
+              color: rgba($white, .6);
             }
   
             ul {
-              background-color: #27293d;
+              background-color: $bg-dark;
             }
           }
         }
@@ -118,17 +126,37 @@
     }
   
     .nav-link__badge {
-      border: 2px solid #27293d;
-      background-color: darken(#fff, 30);
+      border: 2px solid $bg-dark;
+      background-color: darken($white, 30);
     }
   }
   
   .nav-hamburger {
-    color: rgba(#fff, .7);
+    color: $nav-color-dark;
   }
 
   #content {
-    background-color: #1e1e24;
-    color: rgba(#fff, .85);
+    background-color: $body-bg-dark;
+    color: $text-darkmode;
+  }
+}
+
+
+// breadcrumbs
+.darkmode {
+  .breadcrumbs {
+    color: $text-darkmode;
+
+    a {
+      color: $text-darkmode;
+  
+      &:hover {
+        color: $text-darkmode;
+      }
+  
+      &.router-link-exact-active {
+        color: $text-darkmode;
+      }
+    }
   }
 }
