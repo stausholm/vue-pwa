@@ -1,20 +1,20 @@
 <template>
   <div class="floating-action-bar">
     <ul ref="list" class="fab-list">
-      <li v-for="(option, index) in slicedOptions" :key="index" @click="option.action" class="fab-list__item">
+      <li v-for="(option, index) in slicedOptions" :key="index" @click="option.action" class="fab-list__item" tabindex="0">
         <icon-base :iconName="option.label" width="18" height="18">
           <component :is="option.icon"/>
         </icon-base>
         <span>{{option.label}}</span>
       </li>
-      <li v-if="useOverflowMenu" @click="toggleShowMore" class="fab-list__item fab-list__item--more">
+      <li v-if="useOverflowMenu" @click="toggleShowMore" class="fab-list__item fab-list__item--more" tabindex="0">
         <icon-base iconName="show more" width="18" height="18">
           <icon-more-vert />
         </icon-base>
         <span>More</span>
         <transition name="slide-up">
           <ul v-if="showingMore" @click.stop="showingMore = false" v-click-outside="toggleShowMore">
-            <li v-for="(option, index) in options.slice(sliceIndex - 1)" :key="index" @click="option.action">{{option.label}}</li>
+            <li v-for="(option, index) in options.slice(sliceIndex - 1)" :key="index" @click="option.action" tabindex="0">{{option.label}}</li>
           </ul>
         </transition>
       </li>
