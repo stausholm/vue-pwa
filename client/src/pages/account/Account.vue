@@ -150,8 +150,6 @@ import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 import ListItem from '@/components/list/ListItem'
 
-import getMenuData from './getSettingsMenuData' // TODO
-
 export default {
   name: 'Account',
   data() {
@@ -159,8 +157,7 @@ export default {
       test: true,
       test2: true,
       stickyHeaders: true,
-      showModal: false,
-      menu: getMenuData()
+      showModal: false
     }
   },
   components: {

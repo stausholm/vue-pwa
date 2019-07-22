@@ -2,8 +2,6 @@
 /**
 TODO:
 
-getsettignsmenudata.js til account.vue
-
 searchBar.vue (og filters i datalist.vue)
 
 alt der hedder listAdvanced
