@@ -21,6 +21,10 @@
     margin-top: $nav-height;
     padding-left: 0;
     padding-bottom: $default-spacing * 2 + 24px + $base-font-size; // bottom-nav height
+
+    .hide-bottom-nav & {
+      padding-bottom: 0;
+    }
   }
 }
 

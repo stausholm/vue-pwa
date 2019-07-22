@@ -1,12 +1,14 @@
 <template>
   <div>
-    setting page 1
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
+    <div class="container--content">
+      setting page 1
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+      <p style="margin-top:200px">more height!</p>
+    </div>
     <floating-action-bar :options="options" />
   </div>
 </template>

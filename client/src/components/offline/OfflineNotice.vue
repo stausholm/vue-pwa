@@ -50,6 +50,11 @@ export default {
           // we're online, even if it returns 400 or 500
           this.isOnline = true;
           this.loading = false;
+
+          if (!response.ok) {
+            // 4xx or 5xx error
+            console.log('online, but checkStatus returned', response.status)
+          }
         })
         .catch((err) => {
           // actual network error, we're offline

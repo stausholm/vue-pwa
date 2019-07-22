@@ -1,0 +1,24 @@
+.error-notice {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20vh;
+  text-align: center;
+
+  h1 {
+    color: #cacedb;
+    font-weight: 700;
+    font-size: 3.75rem;
+    margin-bottom: 1.5625rem;
+  }
+  h2 {
+    font-weight: 500;
+    font-size: 2.1875rem;
+    margin-bottom: .625rem;
+    color: #3d5170;
+  }
+  p {
+    color: #818ea3;
+    margin-bottom: 1.75rem;
+  }
+}

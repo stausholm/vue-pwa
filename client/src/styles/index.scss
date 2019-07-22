@@ -32,6 +32,7 @@
 @import './components/modal/modaladvanced';
 @import './components/offline/offline-notice';
 @import './components/floating-action-bar/floating-action-bar';
+@import './components/error/error-notice';
 
 // spoilers
 @import './components/spoiler/spoiler';
@@ -42,6 +43,7 @@
 
 // pages
 @import './components/login/login-page';
+@import './components/onboarding/onboarding';
 
 // icons
 @import './components/icons/fileicon';
