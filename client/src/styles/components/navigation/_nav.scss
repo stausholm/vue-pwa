@@ -172,7 +172,7 @@
     }
 
     @include breakpoint-max(sm) { // mobile  
-      .nav-items {
+      .nav-items { // bottomnav
         @include z-index(nav);
         position: fixed;
         bottom: 0;
@@ -195,6 +195,7 @@
               max-width: 80%;
               overflow: hidden;
               text-overflow: ellipsis;
+              font-size: .8rem;
             }
             
             svg g {
@@ -216,7 +217,7 @@
         }
       }
 
-      .nav-actions {
+      .nav-actions { // top bar
         @include z-index(nav);
         position: fixed;
         top: 0;

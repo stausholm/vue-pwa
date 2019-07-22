@@ -29,6 +29,12 @@
     align-items: center;
     justify-content: space-between;
 
+    .offline-label {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
     .button-group {
       margin-left: $default-spacing;
       display: flex;

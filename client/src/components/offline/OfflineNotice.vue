@@ -2,7 +2,7 @@
   <transition name="offline-notice">
     <div class="offline-notice" :class="{'success': isOnline}" v-if="showNotice">
       <div v-if="!isOnline">
-        No internet connection
+        <span class="offline-label">No internet connection</span>
         <div class="button-group">
           <button class="btn btn--small btn--transparent" @click="showNotice = false">
             dismiss

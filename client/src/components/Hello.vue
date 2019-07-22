@@ -81,10 +81,6 @@ getsettignsmenudata.js til account.vue
 searchBar.vue (og filters i datalist.vue)
 offlineNotice.vue (+ offline.js + hello.vue)
 
-floatingactionbar.vue
-- make bar sticky instead of fixed
-- stick to right side of content on tablet and desktop
-
 alt der hedder listAdvanced
 
 styles i: 
@@ -92,6 +88,6 @@ search.vue
 onboarding/index.vue
 errorpage.vue
 
-vuex user settings og hook op til account.vue
+darkmode styles
  */
 </script>
