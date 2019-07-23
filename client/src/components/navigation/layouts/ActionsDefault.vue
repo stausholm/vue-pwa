@@ -9,7 +9,7 @@
           <icon-search />
         </icon-base>
       </button>
-      <search-bar v-else />
+      <search-bar v-else @searchterm="handleSearch"/>
     </div>
     <div class="nav-avatar dropdown-wrapper">
       <button class="avatar-btn btn-icon" @click="handleAvatarClick">
@@ -39,7 +39,7 @@
           </icon-base>
         </button>
         <div class="search-wrapper">
-          <search-bar :focusOnMount="true" @searchString="toggleSearch" @searchterm="toggleSearch"/>
+          <search-bar :focusOnMount="true" @searchString="toggleSearch" @searchterm="handleMobileSearch"/>
         </div>
       </div>
     </transition>
@@ -98,6 +98,10 @@ export default {
 
       document.body.classList.toggle('search-open')
     },
+    handleMobileSearch(searchResult) {
+      this.toggleSearch();
+      this.handleSearch(searchResult)
+    },
     handleAvatarClick() {
       if (this.useSmallLayout) {
         // small screen: go to account page
@@ -117,6 +121,14 @@ export default {
     hideDropdown() {
       console.log('hiding dropdown')
       this.showAvatarDropdown = false;
+    },
+    handleSearch(searchResult) {
+      console.log(searchResult)
+      this.$store.dispatch('changeNotification', {
+        content: 'TODO: handle result #' + JSON.stringify(searchResult), 
+        duration: 40000,
+        theme: 'warning', 
+        label: 'dismiss'})
     }
   },
   created() {
