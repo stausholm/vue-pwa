@@ -1,0 +1,141 @@
+.list__action-header {
+  display: flex;
+  background-color: #f9f9f9;
+  padding: 10px $default-spacing;
+  justify-content: space-between;
+  //position: relative;
+  z-index: 4;
+  margin: 0 -$default-spacing;
+
+
+  > div {
+    display: flex;
+    height: 40px;
+    align-items: center;
+  }
+
+  .list-search {
+    padding: 8px 12px;
+    border-radius: 0.25rem;
+    border: none;
+    margin-right: 5px;
+    height: 40px;
+  }
+
+  .list__search {
+    @include breakpoint-max(sm) {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+
+      .list--is-selecting & {
+        // z-index: -1;
+        display: none;
+      }
+    }
+  }
+
+  .list-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    background-color: transparent;
+    color: #99a0a3;
+    transition: color .2s ease-out, background-color .2s ease-out;
+    outline: 0;
+
+    &:hover, &:focus {
+      color: #1d1f20;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: #d2d3d4;
+    }
+
+    &.active {
+      background-color: #fff;
+      color: #f32556;
+    }
+  }
+}
+
+
+
+.list__advanced-list {
+  margin: 0 -$default-spacing;
+  padding: $default-spacing;
+  overflow-x: hidden;
+}
+
+.list__advanced-list--alternative {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+
+  .list-item {
+    width: 49%;
+    height: 250px;
+  }
+}
+
+
+.list__actions {
+  flex: 1;
+  justify-content: flex-end;
+  flex-flow: row wrap;
+
+  .bulk-actions {
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
+
+    .btn--dropdown {
+      position: relative;
+    
+      ul {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #fff;
+        z-index: 22;
+        border-radius: .25rem;
+        width: max-content;
+        max-width: 90vw;
+        text-align: right;
+    
+        li {
+          padding: 10px;
+          color: #1d1f20;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+    
+          &:not(:last-child) {
+            border-bottom: 1px solid #d2d3d4;
+          }
+        }
+      }
+    }
+  }
+
+  .selected-label {
+    padding: 5px;
+    white-space: nowrap;
+  
+    .selected-count {
+      margin-left: 4px;
+      padding: 2px 7px;
+      background: #99a0a3;
+      font-size: .9em;
+      border-radius: .25rem;
+      font-weight: bold;
+    }
+  }
+}

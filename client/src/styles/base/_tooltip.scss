@@ -1,0 +1,101 @@
+// tooltip
+.tooltip {
+  position: relative;
+
+  .tooltip-text {
+    $arrow-size: 5px;
+    $tooltip-color: rgba(0,0,0,.6);
+
+    visibility: hidden;
+    opacity: 0;
+    max-width: 120px;
+    width: max-content;
+    background-color: $tooltip-color;
+    color: $white;
+    text-align: center;
+    padding: 8px;
+    border-radius: 0.25rem;
+    position: absolute;
+    z-index: 3;
+    word-break: break-word;
+    transition: visibility .2s, opacity .2s, transform .2s;
+
+    // default to bottom
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); 
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -$arrow-size;
+      border-width: $arrow-size;
+      border-style: solid;
+      border-color: transparent transparent $tooltip-color transparent;
+    }
+
+    &.tooltip-text--left {
+      top: 50%;
+      right: 105%;
+      left: auto;
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: 100%;
+        margin-left: 0;
+        margin-top: -$arrow-size;
+        border-color: transparent transparent transparent $tooltip-color;
+      }
+    }
+
+    &.tooltip-text--right {
+      top: 50%;
+      left: 105%;
+      transform: translateY(-50%);
+
+      &::after {
+        top: 50%;
+        left: auto;
+        right: 100%;
+        margin-left: 0;
+        margin-top: -$arrow-size;
+        border-color: transparent $tooltip-color transparent transparent;
+      }
+    }
+
+    &.tooltip-text--top {
+      bottom: 100%;
+      left: 50%; 
+      top: auto;
+
+      &::after {
+        top: 100%;
+        bottom: auto;
+        border-color: $tooltip-color transparent transparent transparent;
+      }
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(5px);
+
+      &.tooltip-text--top {
+        transform: translateX(-50%) translateY(-5px);
+      }
+
+      &.tooltip-text--left {
+        transform: translateY(-50%) translateX(-5px);
+      }
+
+      &.tooltip-text--right {
+        transform: translateY(-50%) translateX(5px);
+      }
+    }
+  }
+}
