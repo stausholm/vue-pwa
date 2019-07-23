@@ -2,6 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+}
+.touch * {
+  @include breakpoint-max(md) { // disable user-select on small touch devices 
+    user-select: none;
+  }
 }
 
 html {
