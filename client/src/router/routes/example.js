@@ -1,3 +1,4 @@
+import Index from "@/pages/example/Index";
 import Example from "@/pages/example/Example";
 import ExampleWithAuth from "@/pages/example/ExampleWithAuth";
 import ExampleWithAuthRole from "@/pages/example/ExampleWithAuthRole";
@@ -13,19 +14,19 @@ import ExampleNotifications from "@/pages/example/ExampleNotifications";
 export default [
   {
     path: '/example',
-    name: "Example",
-    component: Example,
+    //name: "Example",
+    component: Index,
     meta: {
       isPrimary: true,
       title: "Example title",
       icon: () => import('@/components/icons/IconBeachAccess')
     },
     children: [
-      // {
-      //   path: '',
-      //   name: 'ExampleDataListqwe',
-      //   component: ExampleDataList
-      // },
+      {
+        path: '',
+        name: 'Example',
+        component: Example
+      },
       {
         path: "examplewithauth",
         name: "ExampleWithAuth",

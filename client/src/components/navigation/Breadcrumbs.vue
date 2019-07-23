@@ -33,7 +33,12 @@ export default {
   },
   computed: {
     crumbs() {
-      return this.$route.matched;
+      return this.$route.matched.filter(route => {
+        if (route.parent && route.parent.path.replace(/\//g,'') === route.path.replace(/\//g,'')) { // ignore default child route 
+          return false
+        }
+        return true
+      });
     }
   }
 }

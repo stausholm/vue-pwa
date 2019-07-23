@@ -9,6 +9,10 @@
   &.router-link-exact-active {
     font-weight: bold;
     pointer-events: none;
+
+    svg {
+      opacity: 1;
+    }
   }
   
   .slot {

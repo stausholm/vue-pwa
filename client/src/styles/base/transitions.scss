@@ -175,6 +175,19 @@
   transform: translateX(16px);
 }
 
+.router-fade-right-fast-enter {
+  opacity: 0;
+  transform: translateX(16px);
+}
+.router-fade-right-fast-enter-active {
+  transition: opacity 0.1s ease-out, transform 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.router-fade-right-fast-leave-active {
+  transition: opacity 0.1s ease-out, transform 0.1s ease-in-out;
+  opacity: 0;
+  transform: translateX(-16px);
+}
+
 
 .router-fade-right-enter {
   opacity: 0;
