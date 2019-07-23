@@ -3,11 +3,9 @@
     <div class="container--content">
       <h1>this is example yo</h1>
 
-      <ul class="block-link-wrapper">
-        <li v-for="link in childRoutes" :key="link.path">
-          <block-link :to="'/example/' + link.path">{{link.name}}</block-link>
-        </li>
-      </ul>
+      <nav class="block-link-wrapper">
+        <block-link v-for="link in childRoutes" :key="link.path" :to="'/example/' + link.path">{{link.name}}</block-link>
+      </nav>
 
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>

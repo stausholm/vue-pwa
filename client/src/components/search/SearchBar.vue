@@ -327,7 +327,7 @@ export default {
     oldVal(newValue, oldValue) {
       this.results = [];
       clearTimeout(this.debounceFunc);
-      this.debounceFunc = setTimeout(this.fetchSuggestions, 1000);
+      this.debounceFunc = setTimeout(this.fetchSuggestions, 300);
     }
   }
 }
