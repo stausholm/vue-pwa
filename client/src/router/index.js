@@ -157,6 +157,7 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     } else if (store.getters.isLoggedIn) {
+      store.dispatch('changeNotification', {content: 'Not Allowed', duration: 3000, label: 'Dismiss', theme: 'danger'})
       next(false);
       return;
     }
