@@ -62,6 +62,9 @@ export const getUAObject = () => {
   return {
     UA : navigator.userAgent,
     platform: navigator.platform,
+    language: navigator.language,
+    languages: navigator.languages,
+    DNT: window.doNotTrack || navigator.doNotTrack,
     browser,
     OS,
     supportsTouch

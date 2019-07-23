@@ -5,7 +5,6 @@
     </div>
     <div class="container--content">
       <data-list :data="gridData" :columns="gridColumns"/>
-      <p style="margin: 200px 0;">MORE HEIGHT</p>
     </div>
   </div>
 </template>

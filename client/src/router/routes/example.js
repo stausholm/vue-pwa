@@ -7,6 +7,8 @@ import ExampleGraphs from "@/pages/example/ExampleGraphs";
 import ExampleIcons from "@/pages/example/ExampleIcons";
 import ExampleListAdvanced from "@/pages/example/ExampleListAdvanced";
 import ExampleTopSecret from "@/pages/example/ExampleTopSecret";
+import ExampleButtons from "@/pages/example/ExampleButtons";
+import ExampleNotifications from "@/pages/example/ExampleNotifications";
 
 export default [
   {
@@ -65,6 +67,16 @@ export default [
         path: "examplelistadvanced",
         name: "ExampleListAdvanced",
         component: ExampleListAdvanced
+      },
+      {
+        path: "examplebuttons",
+        name: "ExampleButtons",
+        component: ExampleButtons
+      },
+      {
+        path: "examplenotifications",
+        name: "ExampleNotifications",
+        component: ExampleNotifications
       }
     ]
   },
