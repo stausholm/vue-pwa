@@ -117,7 +117,7 @@ export default {
     replaceBrokenImagesInit('/static/img/wizard.jpg');
 
     // set browser specific css classes on body
-    setBrowserCompatibilityClasses('dummy--');
+    setBrowserCompatibilityClasses();
   },
   watch: {
     '$route' (to, from) {
