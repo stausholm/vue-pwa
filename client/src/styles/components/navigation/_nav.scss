@@ -766,6 +766,22 @@ body.nav-open { // prevent scroll on mobile
     }
     
   }
+
+  &.secondary-header--as-primary { // fake the secondary header as a primary header on mobile
+    @include breakpoint-max(sm) {
+      position: fixed;
+      left: 0;
+      right: 0;
+      margin: 0;
+      height: $nav-height;
+
+      @include z-index(nav);
+      background-color: $nav-bg-color;
+      background-color: red;
+      top: 0;
+      padding-left: $nav-height;
+    }
+  }
 }
 
 @import "./nav-actions";
