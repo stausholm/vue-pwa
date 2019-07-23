@@ -122,7 +122,7 @@ export default {
   watch: {
     '$route' (to, from) {
       // TODO: no need for reactive watching here, if we use nested router-views
-      const oneIsPrimary = to.meta.isPrimary || from.meta.isPrimary
+      const oneIsPrimary = to.meta.isPrimary || from.meta.isPrimary || to.meta.usePrimaryTransition || from.meta.usePrimaryTransition
       if (oneIsPrimary) {
         return this.transitionName = 'route-primary'
       }

@@ -27,6 +27,9 @@ Vue.use(Router);
  * @param metaTags - Array of meta tags for the <head> of the document
  * @param showInNav - Define if this route should be rendered in the main navigation. Current implementation should probably rename it to hideFromNav
  * @param hideActions - Hide actions from mobile layout. This is an alternative to using a different navigationLayout if no actions should be visible
+ * @param isPrimary - show this route in the primary nav, and use a special route transition
+ * @param icon - used together with isPrimary, to define an icon for the route
+ * @param usePrimaryTransition - use the same transition that isPrimary uses
  *
  */
 

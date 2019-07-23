@@ -40,6 +40,10 @@ img {
   max-width: 100%;
 }
 
+.router-view {
+  overflow-x: hidden;
+}
+
 // disable specific animations based on usersetting 
 .no-animations {
   .hero-split-bg--image, .hero-bg {

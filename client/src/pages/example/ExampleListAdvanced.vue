@@ -15,22 +15,24 @@
         - if you search/filter or sort, selection is cancelled
       </p>
     </div>
-    <list-advanced 
-      itemTemplate="ListAdvancedItemTodo" 
-      :actions="actions"
-      @star="handleStar"
-      @delete="handleDelete" 
-      :list="listItems" 
-      @loadMore="loadMoreItems" 
-      @selected="updateSelectedCount"
-      @searched="handleSearch"
-      @reached_bottom="() => {}"
-      :isLoading="loadingItems"
-      :showLoadButton="true"
-      :isAsyncPaginated="true"
-      :allDataLoaded="allDataLoaded"
-    >
-    </list-advanced>
+    <div class="container--content">
+      <list-advanced 
+        itemTemplate="ListAdvancedItemTodo" 
+        :actions="actions"
+        @star="handleStar"
+        @delete="handleDelete" 
+        :list="listItems" 
+        @loadMore="loadMoreItems" 
+        @selected="updateSelectedCount"
+        @searched="handleSearch"
+        @reached_bottom="() => {}"
+        :isLoading="loadingItems"
+        :showLoadButton="true"
+        :isAsyncPaginated="true"
+        :allDataLoaded="allDataLoaded"
+      >
+      </list-advanced>
+    </div>
 
     <modal-advanced 
       v-if="showModal" 

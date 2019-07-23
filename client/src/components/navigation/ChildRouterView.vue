@@ -1,8 +1,9 @@
 <template>
   <transition :name="transitionName" :mode="transitionMode" @after-leave="afterLeave">
-    <keep-alive>
+    <keep-alive v-if="keepAlive">
       <router-view class="router-view"></router-view>
     </keep-alive>
+    <router-view class="router-view" v-else></router-view>
   </transition>
 </template>
 
@@ -13,6 +14,10 @@ export default {
   name: 'ChildRouterView',
   props: {
     useAlternativeTransition: {
+      type: Boolean,
+      default: false
+    },
+    keepAlive: {
       type: Boolean,
       default: false
     }

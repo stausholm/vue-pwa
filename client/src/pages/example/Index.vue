@@ -2,8 +2,8 @@
   <div>
     <div class="container--content">
       <breadcrumbs />
-      <child-router-view :useAlternativeTransition="true"/>
     </div>
+    <child-router-view :useAlternativeTransition="true"/>
   </div>
 </template>
 

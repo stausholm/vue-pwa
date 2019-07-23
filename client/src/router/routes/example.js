@@ -25,7 +25,10 @@ export default [
       {
         path: '',
         name: 'Example',
-        component: Example
+        component: Example,
+        meta: {
+          usePrimaryTransition: true
+        }
       },
       {
         path: "examplewithauth",
@@ -47,7 +50,10 @@ export default [
       {
         path: "exampleinputs",
         name: "ExampleInputs",
-        component: ExampleInputs
+        component: ExampleInputs,
+        meta: {
+          title: 'oh wow, inputs'
+        }
       },
       {
         path: "exampledatalist",

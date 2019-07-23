@@ -3,7 +3,7 @@
     <div class="container--content">
       <button @click="testNotification">test notification</button>
       <button @click="testNotification2">test notification warning</button>
-      <div style="width:200px;height:200px;background:red;" v-if="showBox"></div>
+      <div style="width:100%;height:200px;background:red;" v-if="showBox"></div>
     </div>
   </div>
 </template>

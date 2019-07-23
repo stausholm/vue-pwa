@@ -105,7 +105,7 @@ export default {
       return this.$route.meta.hideActions;
     },
     primaryNavRoutes() {
-      return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary)
+      return this.$router.options.routes.filter(route => route.meta && route.meta.isPrimary) // this does not look at child routes
     },
     currentPage() {
       const r = this.$route;
