@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="container--content">
+    <!-- <div class="container--content">
       <breadcrumbs />
     </div>
-    <child-router-view :useAlternativeTransition="true"/>
+    <child-router-view :useAlternativeTransition="true"/> -->
+    <child-router-view />
   </div>
 </template>
 
