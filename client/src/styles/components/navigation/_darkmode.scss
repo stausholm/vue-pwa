@@ -160,3 +160,15 @@
     }
   }
 }
+
+// block-link
+.darkmode {
+  .block-link {
+    color: $text-darkmode;
+    border-color: rgba($gray-light, .4);
+    
+    &:last-child {
+      border-color: rgba($gray-light, .4);
+    }
+  }
+}
