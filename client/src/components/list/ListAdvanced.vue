@@ -21,7 +21,6 @@
       
         <transition name="slide-up">
           <div class="bulk-actions" v-if="isSelecting" ref="bulkactions">
-            <!-- <floating-action-bar :options="actions"/> -->
             <button v-for="action in slicedActions" 
               :key="action.label" 
               :disabled="selectedItems.length < 1" 
@@ -74,7 +73,19 @@
 
     <div class="list__advanced-list" :class="{'list__advanced-list--alternative': useAlternativeDisplayMode}" ref="list">
       <transition-group name="yoyo" class="transition-group-el">
-        <component 
+        <list-advanced-item-wrapper
+          v-for="item in filteredList" 
+          :key="item.id" 
+          :item="item" 
+          :itemTemplate="itemTemplate"
+          :itemIsSelected="selectedItems.includes(item)"
+          :isSelecting="isSelecting"
+          :actions="actions"
+          v-on="$listeners"
+          @selected="updateSelected(item)"
+          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"
+        ></list-advanced-item-wrapper>
+        <!-- <component 
           v-for="item in filteredList" 
           :key="item.id" 
           :item="item" 
@@ -82,8 +93,9 @@
           :itemIsSelected="selectedItems.includes(item)"
           :isSelecting="isSelecting"
           :actions="actions"
-          @selected="updateSelected(item, $event)"
-          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+          v-on="$listeners"
+          @selected="updateSelected(item)"
+          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/> -->
         </transition-group>
         <observer @intersect="reachedBottom" :options="{rootMargin: '200px'}"/>
     </div>
@@ -115,9 +127,7 @@ import IconMoreVert from '@/components/icons/IconMoreVert';
 
 import Observer from '@/utils/observer'
 
-import ListAdvancedItemTodo from './ListAdvancedItemtodo'
-
-import FloatingActionBar from '@/components/floatingActionBar/FloatingActionBar'
+import ListAdvancedItemWrapper from './ListAdvancedItemWrapper';
 
 export default {
   name: 'ListAdvanced',
@@ -133,16 +143,15 @@ export default {
 
     Observer,
 
-    ListAdvancedItemTodo,
-    FloatingActionBar
+    ListAdvancedItemWrapper
   },
   props: {
     list: { // the items in the list
       type: Array,
       required: true
     },
-    itemTemplate: { // name of .vue file to use for each item in list
-      type: String,
+    itemTemplate: { // vue component to use for each item in list
+      type: Object,
       required: true
     },
     actions: { // custom events that we should emit, which the parent will then handle 

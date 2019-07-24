@@ -9,24 +9,25 @@
     :class="{'list-item--no-touch': !isTouchDevice}"
   >
     <div class="list-item__content" :style="stylesObj">
-      <div class="list-item__content-inner">
-        <div>
-          <p class="title">{{item.title}}</p>
-          <p class="id">item id: {{item.id}}</p>
-        </div>
-        <input v-if="isSelecting" type="checkbox" :checked="itemIsSelected" >
-      </div>
+      <component 
+      :item="item" 
+      :is="itemTemplate"
+      :itemIsSelected="itemIsSelected"
+      :isSelecting="isSelecting"
+      :actions="actions"
+      v-on="$listeners"
+      @selected="updateSelected(item)"/>
     </div>
 
-    <div class="list-item__actions" v-if="showDelete || !isTouchDevice">
-      <button v-for="action in actionsLocal" :key="action"  @click="$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
-        <icon-base :iconName="action" width="24" height="24">
-         
-          <transition v-if="action === 'star'" name="icon-scale">
+    <div class="list-item__actions" v-if="showDelete || !isTouchDevice"> <!-- TODO: need option to completely discard this and make a custom in the itemTemplate-->
+      <button v-for="action in actions" :key="action.emit"  @click="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate">
+        <icon-base :iconName="action.label" width="24" height="24">
+          <component :is="action.icon"/>
+          <!-- <transition v-if="action === 'star'" name="icon-scale">
             <star v-if="item.completed" v-on="$listeners"/>
             <star-border v-else/>
           </transition>
-          <delete v-else/>
+          <delete v-else/> -->
         </icon-base>
       </button>
 
@@ -36,19 +37,17 @@
 
 <script>
 import IconBase from '@/components/icons/IconBase';
-import IconDelete from '@/components/icons/IconDelete';
-import IconStar from '@/components/icons/IconStar';
-import IconStarBorder from '@/components/icons/IconStarBorder';
 
 export default {
-  name: 'ListAdvancedItemTodo',
+  name: 'ListAdvancedItemWrapper',
   components: {
-    IconBase,
-    'delete': IconDelete,
-    'star': IconStar,
-    'star-border': IconStarBorder
+    IconBase
   },
   props: {
+    itemTemplate: {
+      type: Object,
+      required: true
+    },
     item: {
       type: Object,
       required: true
@@ -62,7 +61,8 @@ export default {
       required: true
     },
     actions: {
-      type: Array
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -261,6 +261,7 @@ export default {
   },
 }
 </script>
+
 
 <style lang="scss">
 .list-item {

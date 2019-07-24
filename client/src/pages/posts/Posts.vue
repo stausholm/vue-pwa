@@ -13,7 +13,7 @@
       </ul> -->
 
       <list-advanced 
-        itemTemplate="ListAdvancedItemTodo" 
+        :itemTemplate="itemTemplate" 
         :actions="actions"
         @star="handleStar"
         @delete="handleDelete" 
@@ -22,6 +22,7 @@
         @selected="updateSelectedCount"
         @searched="handleSearch"
         @reached_bottom="() => {}"
+        @ohno="test"
         :isLoading="loadingItems"
         :showLoadButton="true"
         :isAsyncPaginated="true"
@@ -43,6 +44,7 @@
 
 <script>
 import ListAdvanced from '@/components/list/ListAdvanced'
+import ListAdvancedItemTodo from '@/components/list/ListAdvancedItemtodo'
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 export default {
@@ -54,6 +56,7 @@ export default {
   data() {
     return {
       listItems: [],
+      itemTemplate: ListAdvancedItemTodo,
       page: 1,
       loadingItems: false,
       allDataLoaded: false,
@@ -164,6 +167,9 @@ export default {
     },
     removeListItem() {
       this.listItems.splice(2,1)
+    },
+    test() {
+      console.log('we doin it')
     }
   },
   created() {
