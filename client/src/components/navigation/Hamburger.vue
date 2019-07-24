@@ -3,7 +3,7 @@
     <icon-base :iconName="iconName" width="24" height="24">
       <transition name="icon-rotate">
         <icon-arrow-back v-if="showBack"/>
-        <icon-close v-else-if="navOpen"/>
+        <icon-close v-else-if="showClose"/>
         <icon-menu v-else/>
       </transition>
     </icon-base>
@@ -43,7 +43,13 @@ export default {
         return 'Go back'
       }
 
-      return this.navOpen ? 'close menu' : 'Open menu';
+      return this.showClose ? 'close menu' : 'Open menu';
+    },
+    showClose() {
+      if (window.innerWidth >= breakpoints.md) {
+        return false;
+      }
+      return this.navOpen;
     },
     showBack() {
       return this.$route.meta.enableBack && window.innerWidth < breakpoints.sm;

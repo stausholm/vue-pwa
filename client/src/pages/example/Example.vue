@@ -14,6 +14,15 @@
       <h5>header 5</h5>
       <h6>header 6</h6>
 
+      <br>
+      <span class="tooltip">tooltip <span class="tooltip-text">a tooltip</span></span>
+      <br>
+      <span class="tooltip">tooltip left<span class="tooltip-text tooltip-text--left">a tooltip</span></span>
+      <br>
+      <span class="tooltip">tooltip right<span class="tooltip-text tooltip-text--right">a tooltip</span></span>
+      <br>
+      <span class="tooltip">tooltip top<span class="tooltip-text tooltip-text--top">a tooltip</span></span>
+
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <search-bar />
