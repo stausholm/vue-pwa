@@ -310,6 +310,7 @@ export default {
         .catch(err => {
           console.log('oh no, search api error:', err)
           this.loading = false;
+          this.$root.$emit('checkOffline') // perform a manual check to see if we're offline, if online, something is wrong with the searchApi
         })
       
     }

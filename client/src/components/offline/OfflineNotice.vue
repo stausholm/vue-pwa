@@ -95,6 +95,8 @@ export default {
         this.retry();
       })
     })
+
+    this.$root.$on('checkOffline', this.retry)
   },
   watch: {
     isOnline(newVal, oldVal) {
