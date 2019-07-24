@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="container--content post">
-      <div class="secondary-header secondary-header--as-primary">
+    <div class="post-header secondary-header secondary-header--as-primary">
+      <div class="container">
         <button class="btn-icon" v-for="option in options" :key="option.label" @click="option.action">
           <icon-base>
             <component :is="option.icon"/>
           </icon-base>
         </button>
       </div>
+    </div>
+    <div class="container--content post">
       This is a post! {{$route.params.id}}
     </div>
 

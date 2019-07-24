@@ -237,7 +237,7 @@
 
         &--hide {
 
-          .actions-wrapper {
+          .actions-wrapper, .page-title {
             opacity: 0;
             pointer-events: none;
             user-select: none;
@@ -777,9 +777,24 @@ body.nav-open { // prevent scroll on mobile
 
       @include z-index(nav);
       background-color: $nav-bg-color;
-      background-color: red;
+      //background-color: red;
       top: 0;
       padding-left: $nav-height;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      //animation: fade .2s;
+      
+      > * {
+        animation: reveal .1s ease-out;
+      }
+    }
+  }
+}
+@include breakpoint-max(sm) {
+  [class*="router-fade"], [class*="router-slide"] {
+    .secondary-header--as-primary {
+      display: none !important;
     }
   }
 }
