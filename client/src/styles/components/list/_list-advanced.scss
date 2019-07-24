@@ -1,11 +1,18 @@
+.list-wrapper {
+  position: relative;
+}
+
 .list__action-header {
   display: flex;
-  background-color: #f9f9f9;
+  background-color: $content-header-bg;
   padding: 10px $default-spacing;
   justify-content: space-between;
   //position: relative;
   z-index: 4;
-  margin: 0 -$default-spacing;
+  margin: 0;
+  margin-left: -$default-spacing;
+  margin-right: -$default-spacing;
+  overflow-y: initial !important;
 
 
   > div {
@@ -70,7 +77,7 @@
 .list__advanced-list {
   margin: 0 -$default-spacing;
   padding: $default-spacing;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .list__advanced-list--alternative {

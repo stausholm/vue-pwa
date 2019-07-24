@@ -3,14 +3,16 @@
     <div class="container--content">
       <h1>These are some cool posts!</h1>
       <p>They should come from jsonplaceholder and be rendered in a ListAdvanced component</p>
-      <ul>
+      <button @click="insertListItem">insert list item</button>
+      <button @click="removeListItem">remove list item</button>
+      <!-- <ul>
         <li>
           <router-link :to="{name: 'Post', params: {id: '2'}}">asd 2</router-link>
           <router-link :to="{name: 'Post', params: {id: '3'}}">asd 3</router-link>
         </li>
-      </ul>
+      </ul> -->
 
-      <!-- <list-advanced 
+      <list-advanced 
         itemTemplate="ListAdvancedItemTodo" 
         :actions="actions"
         @star="handleStar"
@@ -25,7 +27,7 @@
         :isAsyncPaginated="true"
         :allDataLoaded="allDataLoaded"
       >
-      </list-advanced> -->
+      </list-advanced>
     </div>
 
     <modal-advanced 
@@ -145,6 +147,23 @@ export default {
       this.allDataLoaded = false;
       this.loadItems(query);
 
+    },
+    insertListItem(index, item) {
+      // this.listItems.splice(2,0,{
+      //   completed: false,
+      //   id: Date.now(),
+      //   title: "delectus aut autem",
+      //   userId: 1
+      // })
+      this.listItems.splice(2,0,{
+        completed: false,
+        id: Date.now(),
+        title: "delectus aut autem",
+        userId: 1
+      })
+    },
+    removeListItem() {
+      this.listItems.splice(2,1)
     }
   },
   created() {
@@ -152,3 +171,4 @@ export default {
   }
 }
 </script>
+

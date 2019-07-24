@@ -2,7 +2,7 @@
   <div class="list-wrapper" :class="{'list--is-selecting': isSelecting}">
     <div class="list__action-header secondary-header" ref="actionsheader">
       <div class="list__search">
-        <input type="text" placeholder="Search..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
+        <input type="text" placeholder="Filter..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
 
         <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="list-btn btn-icon--animate">
           <icon-base iconName="toogle view mode">
@@ -73,17 +73,18 @@
 
 
     <div class="list__advanced-list" :class="{'list__advanced-list--alternative': useAlternativeDisplayMode}" ref="list">
-      <component 
-        v-for="item in filteredList" 
-        :key="item.id" 
-        :item="item" 
-        :is="itemTemplate"
-        :itemIsSelected="selectedItems.includes(item)"
-        :isSelecting="isSelecting"
-        :actions="actions"
-        @selected="updateSelected(item, $event)"
-        :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
-
+      <transition-group name="yoyo" class="transition-group-el">
+        <component 
+          v-for="item in filteredList" 
+          :key="item.id" 
+          :item="item" 
+          :is="itemTemplate"
+          :itemIsSelected="selectedItems.includes(item)"
+          :isSelecting="isSelecting"
+          :actions="actions"
+          @selected="updateSelected(item, $event)"
+          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/>
+        </transition-group>
         <observer @intersect="reachedBottom" :options="{rootMargin: '200px'}"/>
     </div>
 
@@ -313,3 +314,51 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.yoyo-enter {
+  opacity: 0;  
+}
+.yoyo-enter-active {
+  animation: yoyo-in 1s ease-out forwards;
+  transition: opacity .5s;
+}
+// .yoyo-leave {
+  
+// }
+.yoyo-leave-active {
+  animation: yoyo-out 1s ease-out forwards;
+  transition: opacity 1s;
+  opacity: 0;
+  position: absolute !important;
+}
+
+.yoyo-move {
+  transition: transform 1s;
+}
+
+@keyframes yoyo-in {
+  from {
+    transform: translateY(20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes yoyo-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(20px);
+  }
+}
+
+.list__advanced-list--alternative {
+  .transition-group-el {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+  }
+}
+</style>
