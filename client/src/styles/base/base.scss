@@ -48,6 +48,10 @@ img {
 
 .router-view {
   min-height: 100vh;
+
+  > * { // Due to the router-views location in the DOM, we still trigger a paint due to toggling classes, so the potential fps gains from this are not really noticable
+    will-change: transform, opacity;
+  }
 }
 
 // disable specific animations based on usersetting 

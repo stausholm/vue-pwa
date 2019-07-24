@@ -111,7 +111,7 @@
 // implemented on settings page
 .router-slide-mobile-left-enter {
   transform: translateX(100%);
-  will-change: transform; // TODO: optimize fps
+  will-change: transform, opacity;
 }
 .router-slide-mobile-left-enter-active {
   transition: opacity .15s ease-out, transform .3s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -125,7 +125,7 @@
 }
 .router-slide-mobile-left-leave-active {
   transition: opacity .15s ease-out, transform .3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  will-change: transform; // TODO: optimize fps
+  will-change: transform, opacity;
   //opacity: 0;
   transform: translateX(-20%);
 
