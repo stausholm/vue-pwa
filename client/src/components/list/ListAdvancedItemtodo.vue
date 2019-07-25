@@ -23,7 +23,7 @@
         <icon-base :iconName="action" width="24" height="24">
          
           <transition v-if="action === 'star'" name="icon-scale">
-            <star v-if="item.completed" v-on="$listeners"/>
+            <star v-if="item.completed"/>
             <star-border v-else/>
           </transition>
           <delete v-else/>

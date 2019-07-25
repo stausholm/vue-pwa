@@ -19,18 +19,15 @@
       @selected="updateSelected(item)"/>
     </div>
 
-    <div class="list-item__actions" v-if="showDelete || !isTouchDevice"> <!-- TODO: need option to completely discard this and make a custom in the itemTemplate-->
-      <button v-for="action in actions" :key="action.emit"  @click="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate">
+    <!-- TODO: need option to completely discard this and make a custom in the itemTemplate--> 
+    <!-- ANOTHER TODO: ignore previous todo. we handle actions by passing them down, and defining on them if they should be a bulk, single, or both. 
+         This however means that it wont be possible to maintain a state for each button (e.g. borderedStar action icon if item is unfavorited vs filledStar icon if item is favorited) -->
+    <div class="list-item__actions" v-if="showActions || !isTouchDevice"> 
+      <button v-for="action in itemActions" :key="action.emit"  @click.stop="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate">
         <icon-base :iconName="action.label" width="24" height="24">
           <component :is="action.icon"/>
-          <!-- <transition v-if="action === 'star'" name="icon-scale">
-            <star v-if="item.completed" v-on="$listeners"/>
-            <star-border v-else/>
-          </transition>
-          <delete v-else/> -->
         </icon-base>
       </button>
-
     </div>
   </div>
 </template>
@@ -74,15 +71,14 @@ export default {
       cardStartPositionX: 0,
       enableTransition: false,
       isScroll: null,
-      showDelete: false,
+      showActions: false,
       touchEndX: false,
       touchEndY: false,
       touchEndTime: false,
       touchStartX: false,
       touchStartY: false,
       touchStartTime: false,
-      shouldCancel: false,
-      actionsLocal: ['star','delete']
+      shouldCancel: false
     }
   },
   computed: {
@@ -92,18 +88,31 @@ export default {
         'transition': this.enableTransition ? 'transform 200ms ease' : '', 
         'will-change': this.cardPositionX > 0 ? 'transform': ''
       }
+    },
+    itemActions() {
+      return this.actions.filter(action => {
+        return !action.type || action.type === 'single'
+      })
+    },
+    bulkActions() {
+      return this.actions.filter(action => {
+        return !action.type || action.type === 'bulk'
+      })
     }
   },
   methods: {
     selectMe() {
-      this.$emit('selected')
+      if(this.bulkActions.length > 0) {
+        this.$emit('selected_internal_use_only')
+      }
     },
     handleClick() {
       if(this.isSelecting) {
         this.selectMe()
         return
       }
-      //this.$router.push({name: 'Post', params: {id: this.item.id}})
+
+      this.$emit('itemClicked', this.item)
     },
     handleTouchStart(e) {
       //console.log('start');
@@ -186,7 +195,7 @@ export default {
     },
 
     
-    handleSwipeEnd(isQuickSwipe) {
+    handleSwipeEnd(isQuickSwipe) { // TODO
       const threshold = Math.min(window.innerWidth, 1200) / 2;
       const thresholdButton = 26;
       window.cancelAnimationFrame(this.animationFrame);
@@ -196,17 +205,17 @@ export default {
       this.shouldCancel = true;
 
       if (this.cardPositionX >= threshold || isQuickSwipe) { // swiped very far or very fast
-        this.$emit('delete', this.item);
+        this.$emit('delete', this.item); //TODO
         this.cardPositionX = window.innerWidth;
-        this.showDelete = false;
+        this.showActions = false;
         console.log('end far', this.cardPositionX)
       } else if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
-        this.cardPositionX = this.actionsLocal.length * 48;
-        this.showDelete = true;
+        this.cardPositionX = this.itemActions.length * 48;
+        this.showActions = true;
         console.log('end short', this.cardPositionX)
       } else { // didn't swipe very far at all
         this.cardPositionX = 0;
-        this.showDelete = false;
+        this.showActions = false;
         console.log('end very short', this.cardPositionX)
       }
     },
@@ -245,9 +254,9 @@ export default {
       if (!this.$el.contains(e.target)) this.resetSwipe();
     },
     resetSwipe() {
-      if (this.showDelete || this.cardPositionX !== 0) {
+      if (this.showActions || this.cardPositionX !== 0) {
         this.cardPositionX = 0;
-        this.showDelete = false;
+        this.showActions = false;
       }
     },
   },
@@ -302,24 +311,26 @@ export default {
   }
 }
 
-.list-item--alternative {
-  .list-item__content {
-    padding: 0;
-
-    &-inner {
-      height: 100%;
-      background: skyblue;
-      padding: 4px;
-      border-radius: 3px;
-      transition: transform 300ms cubic-bezier(0.4,0.0,0.2,1);
-    }
-  }
-
-  &.list-item--selected {
+.list-advanced--alternative {
+  .list-item {
     .list-item__content {
-      background-color: lightgrey;
+      padding: 0;
+
       &-inner {
-        transform: scale(0.901961, 0.907407);
+        height: 100%;
+        background: skyblue;
+        padding: 4px;
+        border-radius: 3px;
+        transition: transform 300ms cubic-bezier(0.4,0.0,0.2,1);
+      }
+    }
+
+    &.list-item--selected {
+      .list-item__content {
+        background-color: lightgrey;
+        &-inner {
+          transform: scale(0.901961, 0.907407);
+        }
       }
     }
   }

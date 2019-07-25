@@ -12,6 +12,7 @@ styles i:
 search.vue
 
 change advancedlist header according to paint.exe drawing
+på mobil: kun søgefelt og edit knap
 
 Move all touch logic into a ListAdvancedItemWrapper component and use v-on="$listeners"
 console.error if trying to pass down a reserved event name (use obscure names to mostly avoid this)

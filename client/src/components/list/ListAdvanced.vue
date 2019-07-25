@@ -3,17 +3,7 @@
     <div class="list__action-header secondary-header" ref="actionsheader">
       <div class="list__search">
         <input type="text" placeholder="Filter..." class="list-search" v-if="!useCustomSearch" v-model="searchQuery" @input="handleSearch">
-
-        <button @click="useAlternativeDisplayMode = !useAlternativeDisplayMode" class="list-btn btn-icon--animate">
-          <icon-base iconName="toogle view mode">
-            <transition name="icon-scale">
-              <icon-view-mode-2 v-if="useAlternativeDisplayMode" />
-              <icon-view-mode-1 v-else />
-            </transition>
-          </icon-base>
-        </button>
-
-        <p v-if="isLoading">loading</p>
+        <!-- <p v-if="isLoading">loading</p> -->
       </div>
 
       <div class="list__actions" ref="listactions">
@@ -21,9 +11,9 @@
       
         <transition name="slide-up">
           <div class="bulk-actions" v-if="isSelecting" ref="bulkactions">
-            <button v-for="action in slicedActions" 
-              :key="action.label" 
-              :disabled="selectedItems.length < 1" 
+            <button v-for="action in slicedBulkActions"
+              :key="action.label"
+              :disabled="selectedItems.length < 1"
               @click="$emit(action.emit, selectedItems)"
               class="list-btn tooltip"
             >
@@ -32,7 +22,7 @@
               </icon-base>
               <span class="tooltip-text">{{action.label}}</span>
             </button>
-            
+
             <button class="list-btn btn--dropdown" v-if="useOverflowMenu" @click="toggleShowMore">
               <icon-base iconName="more actions">
                 <icon-more />
@@ -40,24 +30,25 @@
 
               <transition name="slide-up">
                 <ul v-if="showingOverflowMenu" @click.stop="showingOverflowMenu = false" v-click-outside="toggleShowMore">
-                  <li v-for="(action, index) in actions.slice(sliceIndex - 1)" :key="index" @click="$emit(action.emit, selectedItems)">{{action.label}}</li>
+                  <li v-for="(action, index) in bulkActions.slice(sliceIndex - 1)" :key="index" @click="$emit(action.emit, selectedItems)">{{action.label}}</li>
                 </ul>
               </transition>
+            </button>
+
+            <button v-if="bulkActions.length > 0" @click="toggleSelectAll" class="list-btn btn-icon--animate tooltip list-advanced__select-all-button">
+              <icon-base iconName="toogle select all">
+                <transition name="icon-scale">
+                  <icon-deselect-all v-if="allAreSelected" />
+                  <icon-select-all v-else />
+                </transition>
+              </icon-base>
+              <span class="tooltip-text tooltip-text--">{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
             </button>
           </div>
         </transition>
 
-        <button v-if="actions.length > 0" @click="toggleSelectAll" class="list-btn btn-icon--animate tooltip">
-          <icon-base iconName="toogle select all">
-            <transition name="icon-scale">
-              <icon-deselect-all v-if="allAreSelected" />
-              <icon-select-all v-else />
-            </transition>
-          </icon-base>
-          <span class="tooltip-text tooltip-text--">{{ allAreSelected ? 'deselect all' : 'select all'}}</span>
-        </button>
 
-        <button v-if="actions.length > 0" @click="toggleSelecting" class="list-btn btn-icon--animate" :class="{'active': isSelecting}">
+        <button v-if="bulkActions.length > 0" @click="toggleSelecting" class="list-btn btn-icon--animate" :class="{'active': isSelecting}">
           <icon-base :iconName="isSelecting ? 'exit bulk mode' : 'enter bulk mode'">
             <transition name="icon-scale">
               <icon-multimode-off v-if="isSelecting" />
@@ -71,7 +62,7 @@
 
 
 
-    <div class="list__advanced-list" :class="{'list__advanced-list--alternative': useAlternativeDisplayMode}" ref="list">
+    <div class="list__advanced-list" ref="list">
       <transition-group name="yoyo" class="transition-group-el">
         <list-advanced-item-wrapper
           v-for="item in filteredList" 
@@ -82,20 +73,9 @@
           :isSelecting="isSelecting"
           :actions="actions"
           v-on="$listeners"
-          @selected="updateSelected(item)"
-          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"
+          @selected_internal_use_only="updateSelected(item)"
+          :class="{'list-item--selected': selectedItems.includes(item)}"
         ></list-advanced-item-wrapper>
-        <!-- <component 
-          v-for="item in filteredList" 
-          :key="item.id" 
-          :item="item" 
-          :is="itemTemplate"
-          :itemIsSelected="selectedItems.includes(item)"
-          :isSelecting="isSelecting"
-          :actions="actions"
-          v-on="$listeners"
-          @selected="updateSelected(item)"
-          :class="{'list-item--selected': selectedItems.includes(item), 'list-item--alternative': useAlternativeDisplayMode}"/> -->
         </transition-group>
         <observer @intersect="reachedBottom" :options="{rootMargin: '200px'}"/>
     </div>
@@ -117,8 +97,6 @@
 
 <script>
 import IconBase from '@/components/icons/IconBase';
-import IconViewModule from '@/components/icons/IconViewModule';
-import IconViewList from '@/components/icons/IconViewList';
 import IconLibraryBooks from '@/components/icons/IconLibraryBooks';
 import IconLibraryBooks2 from '@/components/icons/outline/IconLibraryBooks';
 import IconClose from '@/components/icons/IconClose';
@@ -135,8 +113,6 @@ export default {
     IconBase,
     'icon-select-all': IconLibraryBooks2,
     'icon-deselect-all': IconLibraryBooks,
-    'icon-view-mode-1': IconViewList,
-    'icon-view-mode-2': IconViewModule,
     'icon-multimode-on': IconEdit,
     'icon-multimode-off': IconClose,
     'icon-more': IconMoreVert,
@@ -195,11 +171,10 @@ export default {
     return {
       selectedItems: [],
       isSelecting: false,
-      useAlternativeDisplayMode: false,
       searchQuery: '',
       debounceFunc: null,
       useOverflowMenu: false,
-      sliceIndex: this.actions.length,
+      sliceIndex: this.actions.length, // also includes actions of type 'single'
       showingOverflowMenu: false
     }
   },
@@ -231,11 +206,16 @@ export default {
       
       return this.list;
     },
-    slicedActions() {
+    bulkActions() {
+      return this.actions.filter(action => {
+        return !action.type || action.type === 'bulk'
+      })
+    },
+    slicedBulkActions() {
       if (this.useOverflowMenu) {
-        return this.actions.slice(0, this.sliceIndex - 1)
+        return this.bulkActions.slice(0, this.sliceIndex - 1)
       }
-      return this.actions.slice(0, this.sliceIndex)
+      return this.bulkActions.slice(0, this.sliceIndex)
     }
   },
   methods: {
@@ -244,7 +224,7 @@ export default {
     },
     updateSelected(item) {
       console.log(item)
-      if (!this.isSelecting) {
+      if (!this.isSelecting && this.bulkActions.length > 0) { // if no bulk actions, we don't update this.isSelecting
         this.isSelecting = true;
         this.updateOverflowMenu();
       }
@@ -283,7 +263,8 @@ export default {
       this.$emit('reached_bottom')
     },
     updateOverflowMenu() {
-      this.sliceIndex = this.actions.length
+      //console.log('update overflow menu')
+      this.sliceIndex = this.bulkActions.length
       this.useOverflowMenu = false;
       this.$nextTick(this.calculateOverflowingActions)
     },
@@ -316,6 +297,14 @@ export default {
   mounted() {
     //this.calculateOverflowingActions();
     window.addEventListener('resize', this.updateOverflowMenu)
+  },
+  created() {
+    const reservedEmitNames = ['loadMore', 'selected', 'searched', 'reached_bottom', 'itemClicked', 'selected_internal_use_only']
+    this.actions.forEach(action => {
+      if (reservedEmitNames.indexOf(action.emit) !== -1) {
+        console.error(`Reserved emitter name used. "${action.emit}" is a reserved name, used internally by this component. Use a different name for your emitter`)
+      }
+    })
   },
   beforeDestroy() {
     clearTimeout(this.debounceFunc) // just in case the user decides to leave before debounced func has been called
@@ -363,7 +352,8 @@ export default {
   }
 }
 
-.list__advanced-list--alternative {
+
+.list-advanced--alternative {
   .transition-group-el {
     display: flex;
     flex-flow: wrap;

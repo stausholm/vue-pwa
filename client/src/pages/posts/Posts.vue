@@ -22,11 +22,13 @@
         @selected="updateSelectedCount"
         @searched="handleSearch"
         @reached_bottom="() => {}"
-        @ohno="test"
+        @itemClicked="handleItemClicked"
         :isLoading="loadingItems"
         :showLoadButton="true"
         :isAsyncPaginated="true"
         :allDataLoaded="allDataLoaded"
+        @updateDisplayMode="useAlternativeList = !useAlternativeList"
+        :class="{'list-advanced--alternative': useAlternativeList}"
       >
       </list-advanced>
     </div>
@@ -44,8 +46,11 @@
 
 <script>
 import ListAdvanced from '@/components/list/ListAdvanced'
-import ListAdvancedItemTodo from '@/components/list/ListAdvancedItemtodo'
+import ListAdvancedItem from '@/components/list/ListAdvancedItem'
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
+
+import IconViewModule from '@/components/icons/IconViewModule';
+import IconViewList from '@/components/icons/IconViewList';
 
 export default {
   name: 'Posts',
@@ -56,11 +61,17 @@ export default {
   data() {
     return {
       listItems: [],
-      itemTemplate: ListAdvancedItemTodo,
+      itemTemplate: ListAdvancedItem,
       page: 1,
       loadingItems: false,
       allDataLoaded: false,
-      actions: [
+      useAlternativeList: false,
+      showModal: false
+    }
+  },
+  computed: {
+    actions() {
+      return [
         {
           label: 'Favorite selected',
           icon: () => import('@/components/icons/IconStar'),
@@ -79,15 +90,21 @@ export default {
         {
           label: 'Archive',
           icon: () => import('@/components/icons/IconCasino'),
-          emit: 'archive'
+          emit: 'archive',
+          type: 'bulk' // bulk, single, both. If property is omitted, action will be rendered both places
         },
         {
           label: 'Beach boi has a very long name',
           icon: () => import('@/components/icons/IconBeachAccess'),
           emit: 'beach'
+        },
+        {
+          label: 'Display mode',
+          icon: this.useAlternativeList ? () => import('@/components/icons/IconViewModule') : () => import('@/components/icons/IconViewList'),
+          emit: 'updateDisplayMode',
+          type: 'bulk'
         }
-      ],
-      showModal: false
+      ]
     }
   },
   methods: {
@@ -168,8 +185,9 @@ export default {
     removeListItem() {
       this.listItems.splice(2,1)
     },
-    test() {
-      console.log('we doin it')
+    handleItemClicked(item) {
+      console.log('we doin it', item)
+      this.$router.push({name: 'Post', params: {id: item.id}})
     }
   },
   created() {
