@@ -19,12 +19,14 @@
       @selected="updateSelected(item)"/>
     </div>
 
-    <!-- TODO: need option to completely discard this and make a custom in the itemTemplate--> 
-    <!-- ANOTHER TODO: ignore previous todo. we handle actions by passing them down, and defining on them if they should be a bulk, single, or both. 
-         This however means that it wont be possible to maintain a state for each button (e.g. borderedStar action icon if item is unfavorited vs filledStar icon if item is favorited) -->
     <div class="list-item__actions" v-if="showActions || !isTouchDevice"> 
       <button v-for="action in itemActions" :key="action.emit"  @click.stop="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate">
-        <icon-base :iconName="action.label" width="24" height="24">
+        <icon-base v-if="action.states" :iconName="action.label" width="24" height="24">
+          <transition name="icon-scale">
+            <component :is="action.states.values.find(val => item[action.states.key] === val.value).icon || action.icon"/>
+          </transition>
+        </icon-base>
+        <icon-base v-else :iconName="action.label" width="24" height="24">
           <component :is="action.icon"/>
         </icon-base>
       </button>

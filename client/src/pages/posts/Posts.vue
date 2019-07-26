@@ -75,12 +75,33 @@ export default {
         {
           label: 'Favorite selected',
           icon: () => import('@/components/icons/IconStar'),
-          emit: 'star'
+          emit: 'star',
+          type: 'bulk'
+        },
+        {
+          label: 'Favorite selected',
+          icon: () => import('@/components/icons/IconCasino'), // this serves as a fallback for 'states'
+          emit: 'togglestar',
+          type: 'single',
+          states: { // can be used with type 'single'
+            key: 'completed', // the property on the single item that we want to validate against
+            values: [ // based on the value of 'key', show corresponding icon
+              {
+                value: true, 
+                icon: () => import('@/components/icons/IconStar') // if we instead import the icons normally, we dont trigger icon animations when they're initially rendered in listAdvancedItemWrapper component
+              },
+              {
+                value: false,
+                icon: () => import('@/components/icons/IconStarBorder')
+              }
+            ]
+          }
         },
         {
           label: 'Unfavorite selected',
           icon: () => import('@/components/icons/IconStarBorder'),
-          emit: 'unstar'
+          emit: 'unstar',
+          type: 'bulk'
         },
         {
           label: 'Delete',
@@ -96,7 +117,8 @@ export default {
         {
           label: 'Beach boi has a very long name',
           icon: () => import('@/components/icons/IconBeachAccess'),
-          emit: 'beach'
+          emit: 'beach',
+          type: 'bulk'
         },
         {
           label: 'Display mode',

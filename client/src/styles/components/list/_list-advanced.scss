@@ -14,11 +14,20 @@
   margin-right: -$default-spacing;
   overflow-y: initial !important;
 
+  @include breakpoint-max(sm) {
+    // background-color: $nav-bg-color;
+    // padding: $default-spacing/2 $default-spacing;
+  }
+
 
   > div {
     display: flex;
     height: 40px;
     align-items: center;
+
+    // @include breakpoint-max(sm) {
+    //   height: 32px;
+    // }
   }
 
   .list-search {
@@ -27,6 +36,28 @@
     border: none;
     margin-right: 5px;
     height: 40px;
+    box-shadow: 0 0 0 1px $gray-lighter;
+    outline: none;
+    background-color: white;
+    
+    border-radius: 4px;
+    width: 100%;
+    border: 0;
+    display: block;
+    color: #444;
+
+    &::placeholder {
+      color: #999;
+      font-style: italic;
+    }
+
+    // @include breakpoint-max(md) {
+    //   background-color: $gray-lighter;
+    // }
+
+    @include breakpoint-max(sm) {
+      // height: 32px;
+    }
   }
 
   .list__search {
@@ -69,6 +100,12 @@
       background-color: #fff;
       color: #f32556;
     }
+
+    // @include breakpoint-max(sm) {
+    //   width: 32px;
+    //   height: 32px;
+    //   min-width: 32px;
+    // }
   }
 }
 
