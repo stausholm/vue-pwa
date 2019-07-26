@@ -20,7 +20,7 @@
     </div>
 
     <div class="list-item__actions" v-if="showActions || !isTouchDevice"> 
-      <button v-for="action in itemActions" :key="action.emit"  @click.stop="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate">
+      <button v-for="action in itemActions" :key="action.emit"  @click.stop="$emit(action.emit, item)" class="btn-icon btn-icon--large btn-icon--animate" :class="action.class">
         <icon-base v-if="action.states" :iconName="action.label" width="24" height="24">
           <transition name="icon-scale">
             <component :is="action.states.values.find(val => item[action.states.key] === val.value).icon || action.icon"/>
@@ -95,6 +95,16 @@ export default {
       return this.actions.filter(action => {
         return !action.type || action.type === 'single'
       })
+    },
+    primaryAction() {
+      const primaryAction = this.actions.filter(action => action.isPrimary);
+      if (primaryAction.length > 1) {
+        console.error('Multiple actions set to primary. Only one action should be primary.')
+      }
+      if (primaryAction[0] && primaryAction[0].type === 'bulk') {
+        console.error('primary action defined on an action of type "bulk". primary actions should only be used with single or both')
+      }
+      return primaryAction[0]
     },
     bulkActions() {
       return this.actions.filter(action => {
@@ -197,7 +207,7 @@ export default {
     },
 
     
-    handleSwipeEnd(isQuickSwipe) { // TODO
+    handleSwipeEnd(isQuickSwipe) {
       const threshold = Math.min(window.innerWidth, 1200) / 2;
       const thresholdButton = 26;
       window.cancelAnimationFrame(this.animationFrame);
@@ -205,14 +215,16 @@ export default {
       this.isScroll = null;
       document.body.style.overflowY = '';
       this.shouldCancel = true;
+      const iconButtonWidth = 48;
 
-      if (this.cardPositionX >= threshold || isQuickSwipe) { // swiped very far or very fast
-        this.$emit('delete', this.item); //TODO
+      if (this.cardPositionX >= threshold && this.primaryAction || isQuickSwipe && this.primaryAction) { // swiped very far or very fast
+        this.$emit(this.primaryAction.emit, this.item);
         this.cardPositionX = window.innerWidth;
         this.showActions = false;
         console.log('end far', this.cardPositionX)
       } else if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
-        this.cardPositionX = this.itemActions.length * 48;
+        const actionsWidth = this.itemActions.length * iconButtonWidth;
+        this.cardPositionX = actionsWidth >= threshold ? Math.floor(threshold / iconButtonWidth) * iconButtonWidth : actionsWidth; // if actionsbuttons take up more space than the max threshold, just show the maximum amount of actions before hitting the threshold
         this.showActions = true;
         console.log('end short', this.cardPositionX)
       } else { // didn't swipe very far at all
@@ -267,6 +279,7 @@ export default {
     window.removeEventListener('touchstart', this.handleBlur);
   },
   mounted() {
+    // this.primaryAction; // validate primary action on mount
     window.addEventListener('click', this.handleBlur);
     window.addEventListener('touchstart', this.handleBlur);
   },

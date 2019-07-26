@@ -263,12 +263,12 @@ export default {
       this.$emit('reached_bottom')
     },
     updateOverflowMenu() {
-      //console.log('update overflow menu')
+      console.log('update overflow menu')
       this.sliceIndex = this.bulkActions.length
       this.useOverflowMenu = false;
       this.$nextTick(this.calculateOverflowingActions)
     },
-    calculateOverflowingActions() {
+    calculateOverflowingActions() { // TODO: redo this entire thing
       if (!this.$refs.bulkactions) {
         return
       }
@@ -278,6 +278,8 @@ export default {
       let wrapWidth = $wrap.offsetWidth;
       const usedWidth = Array.from($wrap.children).reduce((a,b) => a + b.offsetWidth,0);
       const actionWidth = this.$refs.bulkactions.querySelector('button').offsetWidth;
+
+      console.log($wrap, wrapWidth, usedWidth, actionWidth)
       
       if (wrapWidth < usedWidth) {
         this.useOverflowMenu = true;

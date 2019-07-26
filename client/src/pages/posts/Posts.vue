@@ -76,12 +76,18 @@ export default {
           label: 'Favorite selected',
           icon: () => import('@/components/icons/IconStar'),
           emit: 'star',
-          type: 'bulk'
+          type: 'bulk',
+          //isPrimary: true
         },
         {
           label: 'Favorite selected',
           icon: () => import('@/components/icons/IconCasino'), // this serves as a fallback for 'states'
           emit: 'togglestar',
+          // class: 'action-test action-test-2',
+          // class: {
+          //   'action-test': true,
+          //   'action-test-2': false
+          // },
           type: 'single',
           states: { // can be used with type 'single'
             key: 'completed', // the property on the single item that we want to validate against
@@ -106,7 +112,48 @@ export default {
         {
           label: 'Delete',
           icon: () => import('@/components/icons/IconDelete'),
-          emit: 'delete'
+          emit: 'delete',
+          isPrimary: true // action to emit when swiping all the way to the left. if omitted, it's not possible to swipe all the way
+        },
+        {
+          label: 'test1',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test1'
+        },
+        {
+          label: 'test2',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test2'
+        },
+        {
+          label: 'test3',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test3'
+        },
+        {
+          label: 'test4',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test4'
+        },
+        {
+          label: 'test5',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test5'
+        },
+        {
+          label: 'test6',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test6'
+        },
+        {
+          label: 'test7',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test7'
+        },
+        {
+          label: 'test8',
+          icon: () => import('@/components/icons/IconCasino'),
+          emit: 'test8'
         },
         {
           label: 'Archive',
@@ -133,9 +180,9 @@ export default {
     loadMoreItems(query) {
       console.log('should load more')
       this.page++;
-      this.loadItems(query);
+      this.loadItems(query, true);
     },
-    loadItems(query) {
+    loadItems(query, concatResult) {
       if (this.allDataLoaded) {
         return
       }
@@ -146,7 +193,7 @@ export default {
         .then(res => res.json())
         .then(data => {
           this.loadingItems = false;
-          this.listItems = this.listItems.concat(data);
+          this.listItems = concatResult ? this.listItems.concat(data) : data;
 
           if (data.length === 0) {
             this.allDataLoaded = true;
