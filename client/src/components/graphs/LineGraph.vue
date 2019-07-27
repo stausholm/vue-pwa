@@ -281,7 +281,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .graph-wrapper {
   padding: 1rem 0;
 }

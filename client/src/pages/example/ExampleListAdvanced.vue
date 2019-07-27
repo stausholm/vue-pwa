@@ -15,22 +15,27 @@
         - if you search/filter or sort, selection is cancelled
       </p>
     </div>
-    <list-advanced 
-      itemTemplate="ListAdvancedItemTodo" 
-      :actions="actions"
-      @star="handleStar"
-      @delete="handleDelete" 
-      :list="listItems" 
-      @loadMore="loadMoreItems" 
-      @selected="updateSelectedCount"
-      @searched="handleSearch"
-      @reached_bottom="() => {}"
-      :isLoading="loadingItems"
-      :showLoadButton="true"
-      :isAsyncPaginated="true"
-      :allDataLoaded="allDataLoaded"
-    >
-    </list-advanced>
+    <div class="container--content">
+      <div class="block-link-wrapper">
+        <block-link to="/posts">List has been moved to /posts</block-link>
+      </div>
+      <!-- <list-advanced 
+        itemTemplate="ListAdvancedItemTodo" 
+        :actions="actions"
+        @star="handleStar"
+        @delete="handleDelete" 
+        :list="listItems" 
+        @loadMore="loadMoreItems" 
+        @selected="updateSelectedCount"
+        @searched="handleSearch"
+        @reached_bottom="() => {}"
+        :isLoading="loadingItems"
+        :showLoadButton="true"
+        :isAsyncPaginated="true"
+        :allDataLoaded="allDataLoaded"
+      >
+      </list-advanced> -->
+    </div>
 
     <modal-advanced 
       v-if="showModal" 
@@ -47,11 +52,14 @@
 import ListAdvanced from '@/components/list/ListAdvanced'
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
+import BlockLink from '@/components/navigation/BlockLink';
+
 export default {
   name: 'ExampleListAdvanced',
   components: {
     ListAdvanced,
-    ModalAdvanced
+    ModalAdvanced,
+    BlockLink
   },
   data() {
     return {

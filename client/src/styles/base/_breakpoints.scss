@@ -38,3 +38,13 @@ $breakpoints: (
 }
 
 // https://glennmccomb.com/articles/useful-sass-scss-media-query-mixins-for-bootstrap/#the-entire-code
+
+
+@mixin breakpoint-between($breakpointMin, $breakpointMax) {
+  $min-val: map-get($breakpoints, $breakpointMin);
+  $max-val: map-get($breakpoints, $breakpointMax);
+
+  @media (min-width: $min-val) and (max-width: $max-val - 1) {
+    @content;
+  }
+}

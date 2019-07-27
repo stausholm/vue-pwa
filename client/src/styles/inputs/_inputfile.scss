@@ -6,8 +6,8 @@
 
   &.dropzone-active {
     .input-file__input {
-      background-color: darken($light-grey, 15);
-      box-shadow: inset 0 0 0 6px darken($light-grey, 15), inset 0 0 0 8px $text-secondary-color;
+      background-color: darken($gray-light, 15);
+      box-shadow: inset 0 0 0 6px darken($gray-light, 15), inset 0 0 0 8px $text-secondary-color;
     }
   }
 
@@ -20,7 +20,7 @@
   &__input {
     position: relative;
     height: 200px;
-    background-color: $light-grey;
+    background-color: $gray-light;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,7 +52,7 @@
         padding: $default-spacing / 1.5 0;
 
         &:not(:last-child) {
-          border-bottom: 1px solid rgba($light-grey, .75);
+          border-bottom: 1px solid rgba($gray-light, .75);
         }
 
         &.file--too-big, &.file--wrong-type {

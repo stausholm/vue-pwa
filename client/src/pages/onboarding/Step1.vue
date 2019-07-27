@@ -3,8 +3,8 @@
     <icon-base width="100%" height="30vh" class="fade-up">
       <icon-search />
     </icon-base>
-    <h1>Welcome to {{appName}}</h1>
-    <p>To get started we need to show you these messages</p>
+    <h1>Welcome to {{appName}}!</h1>
+    <p>Your all in one wonder solution for that thing this app solves</p>
     <button class="btn" @click="$router.replace('/onboarding/step2')">Get Started</button>
   </div>
 </template>

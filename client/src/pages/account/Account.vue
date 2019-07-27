@@ -7,7 +7,7 @@
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="header-small">Settings</b>
-        <b class="list-header">List header</b>
+        <b class="list-header">Account</b>
         <ul class="options-list">
           <li class="options-list__item" @click="test = !test">
             <div class="description">
@@ -111,10 +111,19 @@
         </ul>
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
-        <b class="list-header">Some actual pages</b>
+        <b class="list-header">Data</b>
         <ul class="options-list">
-          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
           <list-item title="Delete my data" subtitle="Remove all locally stored content" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+        </ul>
+      </div>
+      <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
+        <b class="list-header">Application</b>
+        <ul class="options-list">
+          <list-item title="Darkmode" type="switch" :value="localSettings.darkmode" @update="toggleDarkmode" @keyup.enter.native="toggleDarkmode" @click.native="toggleDarkmode"></list-item>
+          <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" :value="localSettings.preferReducedMotion" @update="toggleAnimations" @keyup.enter.native="toggleAnimations" @click.native="toggleAnimations"></list-item>
+          <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
         </ul>
       </div>
     </div>
@@ -141,8 +150,6 @@ import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
 import ListItem from '@/components/list/ListItem'
 
-import getMenuData from './getSettingsMenuData'
-
 export default {
   name: 'Account',
   data() {
@@ -150,15 +157,19 @@ export default {
       test: true,
       test2: true,
       stickyHeaders: true,
-      showModal: false,
-      menu: getMenuData()
+      showModal: false
     }
   },
   components: {
     AccountCard, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
   },
   computed: {
-    
+    localSettings() {
+      return this.$store.getters.localSettings
+    },
+    siteSettings() {
+      return this.$store.getters.sitesettings
+    }
   },
   methods: {
     logout() {
@@ -167,6 +178,18 @@ export default {
           this.$router.push('/');
         })
     },
+    todo() {
+      console.log('todo')
+    },
+    toggleDarkmode() {
+      const metaThemeColor = document.querySelector("meta[name=theme-color]");
+      metaThemeColor.setAttribute("content", this.localSettings.darkmode ? this.siteSettings.THEME_COLOR : this.siteSettings.THEME_COLOR_DARK);
+      
+      this.$store.dispatch('updateLocalSetting', {key: 'darkmode', val: !this.localSettings.darkmode})
+    },
+    toggleAnimations() {
+      this.$store.dispatch('updateLocalSetting', {key: 'preferReducedMotion', val: !this.localSettings.preferReducedMotion})
+    }
   }
 }
 </script>

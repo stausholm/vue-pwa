@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>vuepwa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="google" value="notranslate">
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
     <!-- Prevent safari from converting numbers to phonelinks, unless specified in <a href="tel:"> -->
     <!-- https://developer.apple.com/library/archive/featuredarticles/iPhoneURLScheme_Reference/PhoneLinks/PhoneLinks.html -->
@@ -15,12 +16,12 @@
     <!--[if IE]><link rel="shortcut icon" href="/static/img/icons/favicon.ico"><![endif]-->
     <!-- Add to home screen for Android and modern mobile browsers -->
     <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
-    <meta name="theme-color" content="#4DBA87">
+    <meta name="theme-color" content="<%= htmlWebpackPlugin.options.theme_color %>">
 
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="vuepwa">
+    <meta name="apple-mobile-web-app-title" content="<%= htmlWebpackPlugin.options.title %>">
     <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/apple-touch-icon-152x152.png">
     <link rel="mask-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/safari-pinned-tab.svg" color="#4DBA87">
     <!-- Add to home screen for Windows -->
@@ -112,6 +113,7 @@
       <span class="progress-notice"></span>
     </div>
     <div id="app"></div>
+    <!-- <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script> -->
     <script>
       (function(){
         var label = document.querySelector('.app-initial-load .loader-info-label');
@@ -129,6 +131,18 @@
           var loader = document.querySelector('.app-initial-load');
           clearTimeout(timer);
           loader.classList.add('app-initial-load--finished');
+          
+          // if (document.querySelector('.no-animations')) {
+          //   loader.remove();
+          //   window.removeEventListener('load', finishFunc)
+          //   window.removeEventListener('error', loadErrorFunc)
+          // }
+          
+          if (document.querySelector('.darkmode')) {
+            var metaThemeColor = document.querySelector("meta[name=theme-color]");
+            metaThemeColor.setAttribute("content", '<%= htmlWebpackPlugin.options.theme_color_dark %>');
+          }
+
           loader.addEventListener('transitionend', function() {
             loader.remove();
             window.removeEventListener('load', finishFunc)
@@ -136,12 +150,15 @@
           })
         }
 
-        var loadErrorFunc = function() {
+        var loadErrorFunc = function(err) {
           clearTimeout(timer);
           spinner.className = "error";
           spinner.textContent = "😢";
           label.textContent = "Failed to load";
+          label.title = err.message;
           notice.textContent = "";
+          window.removeEventListener('load', finishFunc)
+          window.removeEventListener('error', loadErrorFunc)
         }
         
         window.addEventListener('load', finishFunc) // TODO: Use document instead of window to not wait for images to load? Also how does this work with manifest.json splashscreen?

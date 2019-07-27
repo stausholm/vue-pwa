@@ -1,0 +1,33 @@
+#content {
+  padding-left: $nav-width-big;
+  background: $body-bg;
+  margin-top: $nav-height;
+  min-height: 100vh;
+
+  @include breakpoint(md) {
+    .nav-open & {
+      padding-left: $nav-width-small;
+
+      padding-left: 0;
+    }
+  }
+
+  @include breakpoint-max(md) {
+    margin-top: 0;
+    padding-left: $nav-width-small;
+  }
+  
+  @include breakpoint-max(sm) {
+    margin-top: $nav-height;
+    padding-left: 0;
+    padding-bottom: $default-spacing * 2 + 24px + $base-font-size; // bottom-nav height
+
+    .hide-bottom-nav & {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.transparent-nav ~ #content {
+  margin-top: 0;
+}

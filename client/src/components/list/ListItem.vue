@@ -5,11 +5,11 @@
       <p class="description__subtitle">{{subtitle}}</p>
     </div>
     <div class="action">
+      {{actionLabel}}
       <icon-base iconName="go to option" width="24" height="24" v-if="type === 'arrow'">
-        {{actionLabel}}
         <icon-arrow-right />
       </icon-base>
-      <switch-input :disabled="false" v-else-if="type === 'switch'"/>
+      <switch-input :value="value" @input="$emit('update')" :disabled="false" v-else-if="type === 'switch'"/>
       <input :checked="value" type="checkbox" v-else-if="type === 'check'">
       <template v-else>{{type}}</template>
     </div>

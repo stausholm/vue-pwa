@@ -1,6 +1,7 @@
 const mediaQueryList = window.matchMedia("(orientation: portrait)");
 let storedScope;
 
+// detect if viewport is in landscape or portrait orientation, and update vuex store
 function handleOrientationChange(scope) {
   if (!storedScope) {
     storedScope = scope;

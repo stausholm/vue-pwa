@@ -3,12 +3,13 @@
     <icon-base width="100%" height="30vh" class="fade-up">
       <icon-beach-access />
     </icon-base>
-    <p>step 2</p>
-    <button class="btn" @click="next">go to next</button>
+    <h1>Solve that one issue you're having</h1>
+    <p>How to simply solve that one thing with this very useful app</p>
+    <button class="btn" @click="next">Seems useful</button>
+    <!-- <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
     <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
-    <p style="margin-top:200px">more height!</p>
+    <p style="margin-top:200px">more height!</p> -->
   </div>
 </template>
 

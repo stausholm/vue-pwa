@@ -5,7 +5,7 @@
 }
 
 .divider-with-text {
-  background: $light-grey;
+  background: $gray-light;
   height: 1px;
   margin: $default-spacing 0;
   width: 100%;
@@ -34,7 +34,7 @@
       height: 3px;
       transform: translateY(-50%);
       width: 100%;
-      background: $white;
+      background: $body-bg;
       z-index: -1;
     }
   }

@@ -19,7 +19,7 @@
     </div>
 
     <div class="list-item__actions" v-if="showDelete || !isTouchDevice">
-      <button v-for="action in actionsLocal" :key="action"  @click="$parent.$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
+      <button v-for="action in actionsLocal" :key="action"  @click="$emit(action, item)" class="btn-icon btn-icon--large btn-icon--animate">
         <icon-base :iconName="action" width="24" height="24">
          
           <transition v-if="action === 'star'" name="icon-scale">
@@ -103,6 +103,7 @@ export default {
         this.selectMe()
         return
       }
+      //this.$router.push({name: 'Post', params: {id: this.item.id}})
     },
     handleTouchStart(e) {
       //console.log('start');
@@ -195,7 +196,7 @@ export default {
       this.shouldCancel = true;
 
       if (this.cardPositionX >= threshold || isQuickSwipe) { // swiped very far or very fast
-        this.$parent.$emit('delete', this.item);
+        this.$emit('delete', this.item);
         this.cardPositionX = window.innerWidth;
         this.showDelete = false;
         console.log('end far', this.cardPositionX)

@@ -211,6 +211,8 @@ input[type="radio"], input[type="checkbox"] {
   appearance: none;
   width: 18px;
   height: 18px;
+  min-width: 18px;
+  min-height: 18px;
   border: 2px solid $text-secondary-color;
   transition: 0.2s box-shadow ease-out;
   outline: none;
@@ -434,7 +436,7 @@ input[type="checkbox"] {
 // image with preview
 .input-image {
   .placeholder {
-    background-color: $light-grey;
+    background-color: $gray-light;
     cursor: pointer;
     border-radius: $default-border-radius;
     overflow: hidden;

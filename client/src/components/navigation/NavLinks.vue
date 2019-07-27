@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav class="nav-list">
+    <nav class="nav-list" ref="navList">
       <div class="nav-group" v-for="(group, index) in nav.navGroups" :key="index">
         <b class="nav-group__label">{{group.groupLabel}}</b>
         <ul class="nav-group__list">
-          <nav-link v-for="route in group.routes" :key="route.label" :depth="0" :useRouterLink="nav.useRouterLink" :route="route" :expandAllChildren="nav.expandAllChildren"/>
+          <nav-link @linkClicked="handleClick" @toggleChildren="handleEmit" v-for="route in group.routes" :key="route.label" :depth="0" :useRouterLink="nav.useRouterLink" :route="route" :expandAllChildren="nav.expandAllChildren"/>
         </ul>
       </div>
     </nav>
@@ -24,10 +24,24 @@ export default {
       type: Object,
       required: true
     }
+  },
+  methods: {
+    handleEmit(val, el) {
+      if (val) {
+        el.parentNode.classList.add('move-out')
+        this.$refs.navList.classList.add('move-out')
+      } else {
+        el.parentNode.classList.remove('move-out')
+        this.$refs.navList.classList.remove('move-out')
+      }
+    },
+    handleClick() {
+      this.$emit('linkClicked');
+    }
   }
 }
 
-// const x = {
+// expected nav structure: {
 //   useRouterLink: true,
 //   navGroups: [
 //     {
@@ -51,11 +65,3 @@ export default {
 //   ]
 // }
 </script>
-
-<style lang="scss">
-.nav-list {
-  max-width: 200px;// for test
-  background: lightgray;
-
-}
-</style>

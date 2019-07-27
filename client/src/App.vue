@@ -1,39 +1,35 @@
 <template>
-  <div id="app">
-    <app-navigation :fixed="true" :hideOnScroll="true"/>
-    <bottom-nav />
-    <main>
+  <div id="app" :class="localSettingsClasses">
+    <app-nav />
+    <main id="content">
       <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
-        <router-view></router-view>
+        <router-view class="router-view"></router-view>
       </transition>
-      <!-- <transition :name="transitionName" mode="out-in" @after-leave="afterLeave">
-        <keep-alive>
-        </keep-alive>
-      </transition> -->
     </main>
+    <offline />
     <a2hs-overlay v-if="showPWAOverlay"/>
     <notification-small />
   </div>
 </template>
 
 <script>
-import Navigation from './components/navigation/navigation';
-import BottomNav from './components/navigation/bottomnav';
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import NotificationSmall from './components/notifications/NotificationSmall';
+import offline from '@/components/offline/OfflineNotice';
 
-import handleOrientationChange from './utils/orientationChange';
-import handleLayoutBreakpoint from './utils/layoutBreakpoint';
+//import handleOrientationChange from './utils/orientationChange';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
 import {setBrowserCompatibilityClasses} from './utils/browserSpecs';
+
+import Nav from './components/navigation/Nav'
 
 export default {
   name: 'app',
   components: {
-    'app-navigation': Navigation,
-    BottomNav,
     'a2hs-overlay': A2HSOverlay,
-    NotificationSmall
+    NotificationSmall,
+    'app-nav': Nav,
+    offline
   },
   data() {
     return {
@@ -43,6 +39,25 @@ export default {
   computed: {
     showPWAOverlay() {
       return this.$store.getters.showPWAOverlay
+    },
+    localSettingsClasses() {
+      const settings = this.$store.getters.localSettings
+
+      if (settings.darkmode) {
+        document.documentElement.classList.add('darkmode')
+      } else {
+        document.documentElement.classList.remove('darkmode')
+      }
+      if (settings.preferReducedMotion) {
+        document.documentElement.classList.add('no-animations')
+      } else {
+        document.documentElement.classList.remove('no-animations')
+      }
+
+      return {
+        'darkmode': settings.darkmode,
+        'no-animations': settings.preferReducedMotion
+      }
     }
   },
   methods: {
@@ -96,56 +111,24 @@ export default {
     }
 
     // viewport orientation change listener
-    handleOrientationChange(this);
-    // viewport media query layout breakpoint listener
-    handleLayoutBreakpoint(this);
+    //handleOrientationChange(this); // Currently not used for anything
 
     // add eventlistener to document, for 'error' on images
     replaceBrokenImagesInit('/static/img/wizard.jpg');
 
     // set browser specific css classes on body
-    setBrowserCompatibilityClasses('dummy--');
+    setBrowserCompatibilityClasses();
   },
   watch: {
     '$route' (to, from) {
       // TODO: no need for reactive watching here, if we use nested router-views
-      const oneIsPrimary = to.meta.isPrimary || from.meta.isPrimary
+      const oneIsPrimary = to.meta.isPrimary || from.meta.isPrimary || to.meta.usePrimaryTransition || from.meta.usePrimaryTransition
       if (oneIsPrimary) {
         return this.transitionName = 'route-primary'
       }
-
-      //const toDepth = to.path.split('/').length
-      //const fromDepth = from.path.split('/').length
-      //this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-      // if (to.name == 'Example') {
-      //   this.transitionName = 'slide-right';
-      // } else {
-      //   this.transitionName = 'slide-left'
-      // }
 
       return this.transitionName = ''
     }
   }
 }
 </script>
-
-<style>
-main > div {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background: #fff;
-}
-.routerfadepositive-enter {
-  opacity: 0;
-  transform: translateX(100%);
-}
-.routerfadenegative-enter {
-  opacity: 0;
-  transform: translateX(-100%);
-}
-.routerfadepositive-enter-active, .routerfadenegative-enter-active {
-  transition: opacity .2s ease-out, transform .2s ease-out;
-}
-</style>

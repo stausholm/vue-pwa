@@ -1,3 +1,4 @@
+// returns object with browser name and version
 export const browserSpecs = () => {
   const ua = navigator.userAgent;
   let tem;
@@ -16,7 +17,7 @@ export const browserSpecs = () => {
   return {name:M[0],version:M[1]};
 };
 
-
+// returns OS name
 export const OSSpecs = () => {
   let OSName = 'os';
   if (navigator.appVersion.indexOf("Win")!=-1) OSName="windows";
@@ -26,6 +27,7 @@ export const OSSpecs = () => {
   return OSName;
 }
 
+// add CSS classes to <body> depending on browser, OS, and touch capability
 export const setBrowserCompatibilityClasses = (cssPrefix = '') => {
   const body = document.body;
   const OSName = OSSpecs();
@@ -46,10 +48,12 @@ export const setBrowserCompatibilityClasses = (cssPrefix = '') => {
 
 }
 
+// determine if browser supports touch
 export const browserIsTouch = () => {
   return 'ontouchstart' in window;
 }
 
+// nicely format user agent
 export const getUAObject = () => {
   const browser = browserSpecs();
   const OS = OSSpecs();
@@ -57,6 +61,10 @@ export const getUAObject = () => {
 
   return {
     UA : navigator.userAgent,
+    platform: navigator.platform,
+    language: navigator.language,
+    languages: navigator.languages,
+    DNT: window.doNotTrack || navigator.doNotTrack,
     browser,
     OS,
     supportsTouch

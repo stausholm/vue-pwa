@@ -2,11 +2,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+}
+.touch * {
+  @include breakpoint-max(md) { // disable user-select on small touch devices 
+    user-select: none;
+  }
 }
 
 html {
-  $header-color: $primary-color;
-  $footer-color: $light-grey;
+  $header-color: $body-bg;
+  $footer-color: $gray-light;
   background-color: $black; // seen when overscrolling the page on IOS. Apparently only works with solid colors?
   background: linear-gradient(to bottom, rgba($header-color,1) 0%,rgba($header-color,1) 50%,rgba($footer-color,1) 51%,rgba($footer-color,1) 100%);
   // background-attachment: fixed;
@@ -26,8 +32,12 @@ body {
 }
 .container--content {
   max-width: 1100px;
-  margin: $default-spacing * 4 auto $default-spacing auto;
+  //margin: $default-spacing * 4 auto $default-spacing auto;
+  margin: 0 auto;
   padding: $default-spacing;
+}
+.container--small {
+  max-width: 500px;
 }
 ul {
   list-style-type: none;
@@ -36,22 +46,22 @@ img {
   max-width: 100%;
 }
 
+.router-view {
+  min-height: 100vh;
 
-
-.has-fixed-header main {
-  padding-top: $toolbar-height;
-}
-.has-bottomnav main {
-  padding-bottom: $default-spacing * 2 + 24px + $base-font-size;
-}
-.has-transparent-header main {
-  transition: padding-top .2s;
-  padding-top: 0;
+  // this makes it impossible to have position fixed elements inside a router-view
+  // > * { // Due to the router-views location in the DOM, we still trigger a paint due to toggling classes, so the potential fps gains from this are not really noticable
+  //   will-change: transform, opacity;
+  // }
 }
 
-// tablet landscape
-@media screen and (max-width: 1024px) {
-  body.overlay-active {
-    overflow-y: hidden;
+// disable specific animations based on usersetting 
+.no-animations {
+  .hero-split-bg--image, .hero-bg {
+    animation: none !important;
+  }
+
+  .router-view {
+    transition: none !important;
   }
 }

@@ -1,3 +1,5 @@
+$snackbar-color: #333 !default;
+
 .snackbar {
   position: fixed;
   @include z-index(notification);
@@ -13,7 +15,7 @@
     transition: background-color .2s;
     border-radius: $default-border-radius;
     padding: $default-spacing;
-    background-color: #333;
+    background-color: $snackbar-color;
     color: rgba($white, .87);
     display: flex;
     flex-wrap: wrap;
@@ -21,7 +23,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: darken(#333, 5);
+      background-color: darken($snackbar-color, 5);
     }
   }
 
@@ -60,18 +62,22 @@
     @include snackbar-theme(#fefefe, $text-primary-color, $primary-color)
   }
   &--warning {
-    @include snackbar-theme(#333, $white, $color-warning)
+    @include snackbar-theme($snackbar-color, $white, $color-warning)
   }
   &--danger {
-    @include snackbar-theme(#333, $white, $color-danger)
+    @include snackbar-theme($snackbar-color, $white, $color-danger)
   }
   &--success {
-    @include snackbar-theme(#333, $white, $color-success)
+    @include snackbar-theme($snackbar-color, $white, $color-success)
   }
 }
 
-.bottom-nav:not(.bottomnav-hide) ~ .snackbar {
-  bottom: $default-spacing + 24px + $base-font-size;
+body:not(.hide-bottom-nav) {
+  .snackbar {
+    @include breakpoint-max(sm) {
+      bottom: $default-spacing + 24px + $base-font-size;
+    }
+  }
 }
 
 .snackbar-enter {

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <p>step 3</p>
-    <button @click="next">finish onboard</button>
-
-    <button @click="showModal = true">show privacy stuff</button>
+    <h1>It's secure</h1>
+    <p>Obviously this app takes good care of your personal information, and would like to inform you that it infact does so.</p>
+    <button @click="showModal = true" class="btn btn--transparent btn--responsive">How secure?</button>
+    <button @click="next" class="btn btn--responsive">Nice</button>
 
     <modal-advanced 
       v-if="showModal" 
       @close="showModal = false" 
      >
-      <!-- <p>test</p>
-      <button @click="showModal = false">more test</button> -->
+      <p>Very secure</p>
+      <!-- <button @click="showModal = false">more test</button> -->
     </modal-advanced>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
   methods: {
     next() {
       //localStorage.setItem('onBoardingComplete', true)
-      this.$router.replace('/')
+      this.$router.replace('/onboarding/step4')
     }
   }
 }

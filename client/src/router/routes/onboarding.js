@@ -32,6 +32,14 @@ export default [
         meta: {
           step: 3
         }
+      },
+      {
+        path: "step4",
+        name: 'OnboardingStep4',
+        component: () => import('@/pages/onboarding/Step4' /* webpackChunkName: "onboarding" */),
+        meta: {
+          step: 4
+        }
       }
     ]
   }

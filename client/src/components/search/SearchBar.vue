@@ -15,7 +15,7 @@
         @focus="focusSearch">
         <button class="btn-icon">
           <icon-base iconName="search" iconColor="#000" width="24" height="24">
-            <icon-search v-if="searchVal == ''" @click.native="bean"/>
+            <icon-search v-if="searchVal == ''" @click.native="focusInput"/>
             <icon-close v-else-if="searchVal != ''" @mousedown.native.prevent @click.native="cancelSearch"/>
           </icon-base>
         </button>
@@ -23,18 +23,21 @@
 
     <div class="search-suggestions" v-if="showDropdown" ref="suggestions">
       <ul v-if="searchVal">
+        <li v-if="loading">
+          loading...
+        </li>
         <li v-for="suggestion in searchMatchesSliced" 
-          :key="suggestion.title"
+          :key="suggestion[searchableProperty]"
           @mousedown.prevent
           @click="suggestionSelected(suggestion)"
           class="js-fetched-suggestion"
-          :data-value="suggestion.title">
+          :data-value="suggestion[searchableProperty]">
           <div class="list-icon">
             <icon-base iconName="search item" iconColor="#000" width="24" height="24">
               <icon-search />
             </icon-base>
           </div>
-          <span :inner-html.prop="suggestion.title | highlightmatch(oldVal)"></span>
+          <span :inner-html.prop="suggestion[searchableProperty] | highlightmatch(oldVal)"></span>
         </li>
         <li @mousedown.prevent @click="searchForString(oldVal)">
           <p v-if="searchMatches.length > maxResults && searchVal">
@@ -46,6 +49,9 @@
         </li>
       </ul>
       <ul v-else-if="recentSearches.length > 0 && showRecents">
+        <li v-if="loading">
+          loading...
+        </li>
         <li v-for="query in recentSearches" 
           :key="query"
           @mousedown.prevent
@@ -73,12 +79,26 @@ import IconSearch from '../icons/IconSearch';
 import IconClose from '../icons/IconClose';
 import IconRestore from '../icons/IconRestore';
 
-import debounce from '@/utils/debounce';
+// import {getData} from '@/pages/search/dummydata';
 
 export default {
   name: 'SearchBar',
   components: {
     IconBase, IconSearch, IconClose, IconRestore
+  },
+  props: {
+    focusOnMount: {
+      type: Boolean,
+      default: false
+    },
+    searchPageComponentName: {
+      type: String,
+      default: 'Search'
+    },
+    searchableProperty: {
+      type: String,
+      default: 'name'
+    }
   },
   data() {
     return {
@@ -92,51 +112,21 @@ export default {
       maxRecents: 3,
       recentSearches: [],
       loading: false,
-      dummyData: [
-        {
-          title: 'Apple',
-          taste: 'sweet'
-        },
-        {
-          title: 'Banana',
-          taste: 'sweet'
-        },
-        {
-          title: 'Blueberry',
-          taste: 'bad'
-        },
-        {
-          title: 'Kiwi',
-          taste: 'yum'
-        },
-        {
-          title: 'Pear',
-          taste: 'sweet'
-        },
-        {
-          title: 'Pineapple',
-          taste: 'sour'
-        },
-        {
-          title: 'Water melon',
-          taste: 'sweet'
-        },
-        {
-          title: 'How to pineapple',
-          taste: 'paper'
-        }
-      ]
+      debounceFunc: null,
+      searchApi: 'https://jsonplaceholder.typicode.com/comments?q=',
+      // results: getData()
+      results: []
     }
   },
   computed: {
     searchMatches() {
       if (this.updateSearch) {
-        return this.dummyData.filter((item) => {
-          return item.title.toUpperCase().match(this.searchVal.toUpperCase().replace(/\s+/g, '.+'));
+        return this.results.filter((item) => {
+          return item[this.searchableProperty].toUpperCase().match(this.searchVal.toUpperCase().replace(/\s+/g, '.+'));
         })
       } else { // user is navigating the list, so don't update the results to match searchVal
-        return this.dummyData.filter((item) => {
-          return item.title.toUpperCase().match(this.oldVal.toUpperCase().replace(/\s+/g, '.+'));
+        return this.results.filter((item) => {
+          return item[this.searchableProperty].toUpperCase().match(this.oldVal.toUpperCase().replace(/\s+/g, '.+'));
         })
       }
     },
@@ -157,8 +147,11 @@ export default {
     }
   },
   methods: {
-    bean() {
-      console.log('beaan')
+    focusInput() {
+      this.$refs.searchinput.focus();
+    },
+    blurInput() {
+      this.$refs.searchinput.blur();
     },
     inputSearch() {
       // reset active highlight
@@ -176,10 +169,6 @@ export default {
     },
     blurSearch() {
       this.showDropdown = false;
-      this.$nextTick(() => { // delay the emit to allow navigation default component to hide searchbar before blur event is emittet
-        this.$emit('blurSearch')
-
-      })
     },
     focusSearch() {
       this.showDropdown = true;
@@ -191,16 +180,18 @@ export default {
         }
 
         this.$emit('searchString', value);
-        this.$router.push({ name: 'Search', query: { q: value } })
+        this.blurInput();
+        this.$router.push({ name: this.searchPageComponentName, query: { q: value } })
       }
     },
     suggestionSelected(suggestion) {
       if (this.showRecents) {
-        this.updateRecents(suggestion.title);
+        this.updateRecents(suggestion[this.searchableProperty]);
       }
 
-      this.searchVal = suggestion.title;
+      this.searchVal = suggestion[this.searchableProperty];
       this.$emit('searchterm', suggestion);
+      this.blurInput();
     },
     selectItem() {
       let highlightedItem = this.$refs.suggestions.querySelector('.search-highlighted-item');
@@ -304,17 +295,41 @@ export default {
     clearRecents() {
       localStorage.removeItem('userRecentSearches');
       this.recentSearches = [];
+    },
+    fetchSuggestions() {
+      if (!this.oldVal) return 
+
+      console.log('fetching new results:', this.oldVal)
+      this.loading = true;
+      fetch(this.searchApi + this.oldVal)
+        .then(res => res.json())
+        .then(data => {
+          this.loading = false;
+          this.results = data;
+        })
+        .catch(err => {
+          console.log('oh no, search api error:', err)
+          this.loading = false;
+          this.$root.$emit('checkOffline') // perform a manual check to see if we're offline, if online, something is wrong with the searchApi
+        })
+      
     }
   },
   mounted() {
     if (this.showRecents) {
       this.recentSearches = JSON.parse(localStorage.getItem('userRecentSearches')) || [];
     }
+
+    if (this.focusOnMount) {
+      this.$refs.searchinput.focus();
+    }
   },
   watch: {
-    oldVal: debounce(() => {
-      console.log('no updates to oldVal for 1000 miliseconds, make get request and set this.loading to true')
-    }, 1000)
+    oldVal(newValue, oldValue) {
+      this.results = [];
+      clearTimeout(this.debounceFunc);
+      this.debounceFunc = setTimeout(this.fetchSuggestions, 300);
+    }
   }
 }
 </script>

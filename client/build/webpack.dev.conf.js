@@ -33,6 +33,8 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       title: SiteSettings.APPNAME,
+      theme_color: SiteSettings.THEME_COLOR,
+      theme_color_dark: SiteSettings.THEME_COLOR_DARK,
       filename: 'index.html',
       template: 'index.html',
       inject: true,

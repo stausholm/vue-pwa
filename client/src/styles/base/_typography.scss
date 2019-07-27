@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  font-family: $system-font;
+  font-family: $base-font-family;
   color: $text-primary-color;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11,18 +11,31 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: $headings-font-family;
   line-height: 1.2;
   margin: 0;
 }
 
 h1 {
   font-size: $font-size-h1;
+
+  @include breakpoint-max(sm) {
+    font-size: $font-size-h3;
+  }
 }
 h2 {
   font-size: $font-size-h2;
+
+  @include breakpoint-max(sm) {
+    font-size: $font-size-h4;
+  }
 }
 h3 {
   font-size: $font-size-h3;
+
+  @include breakpoint-max(sm) {
+    font-size: $font-size-h4;
+  }
 }
 h4 {
   font-size: $font-size-h4;
