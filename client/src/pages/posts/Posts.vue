@@ -2,7 +2,7 @@
   <div>
     <div class="container--content">
       <h1>These are some cool posts!</h1>
-      <p>They should come from jsonplaceholder and be rendered in a ListAdvanced component</p>
+      <p>They come from jsonplaceholder and are rendered in a ListAdvanced component</p>
       <button @click="insertListItem">insert list item</button>
       <button @click="removeListItem">remove list item</button>
       <!-- <ul>
@@ -27,6 +27,7 @@
         :showLoadButton="true"
         :isAsyncPaginated="true"
         :allDataLoaded="allDataLoaded"
+        :animateList="animateItems"
         @updateDisplayMode="useAlternativeList = !useAlternativeList"
         :class="{'list-advanced--alternative': useAlternativeList}"
       >
@@ -66,7 +67,8 @@ export default {
       loadingItems: false,
       allDataLoaded: false,
       useAlternativeList: false,
-      showModal: false
+      showModal: false,
+      animateItems: true
     }
   },
   computed: {
@@ -115,46 +117,46 @@ export default {
           emit: 'delete',
           isPrimary: true // action to emit when swiping all the way to the left. if omitted, it's not possible to swipe all the way
         },
-        {
-          label: 'test1',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test1'
-        },
-        {
-          label: 'test2',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test2'
-        },
-        {
-          label: 'test3',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test3'
-        },
-        {
-          label: 'test4',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test4'
-        },
-        {
-          label: 'test5',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test5'
-        },
-        {
-          label: 'test6',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test6'
-        },
-        {
-          label: 'test7',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test7'
-        },
-        {
-          label: 'test8',
-          icon: () => import('@/components/icons/IconCasino'),
-          emit: 'test8'
-        },
+        // {
+        //   label: 'test1',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test1'
+        // },
+        // {
+        //   label: 'test2',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test2'
+        // },
+        // {
+        //   label: 'test3',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test3'
+        // },
+        // {
+        //   label: 'test4',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test4'
+        // },
+        // {
+        //   label: 'test5',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test5'
+        // },
+        // {
+        //   label: 'test6',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test6'
+        // },
+        // {
+        //   label: 'test7',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test7'
+        // },
+        // {
+        //   label: 'test8',
+        //   icon: () => import('@/components/icons/IconCasino'),
+        //   emit: 'test8'
+        // },
         {
           label: 'Archive',
           icon: () => import('@/components/icons/IconCasino'),

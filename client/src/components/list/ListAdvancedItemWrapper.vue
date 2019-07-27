@@ -80,7 +80,8 @@ export default {
       touchStartX: false,
       touchStartY: false,
       touchStartTime: false,
-      shouldCancel: false
+      shouldCancel: false,
+      maxMobileButtons: this.actions.length
     }
   },
   computed: {
@@ -94,7 +95,7 @@ export default {
     itemActions() {
       return this.actions.filter(action => {
         return !action.type || action.type === 'single'
-      })
+      }).slice(0, this.maxMobileButtons)
     },
     primaryAction() {
       const primaryAction = this.actions.filter(action => action.isPrimary);
@@ -224,7 +225,12 @@ export default {
         console.log('end far', this.cardPositionX)
       } else if (this.cardPositionX >= thresholdButton && this.cardPositionX < threshold) { // swiped far enough to show action buttons
         const actionsWidth = this.itemActions.length * iconButtonWidth;
-        this.cardPositionX = actionsWidth >= threshold ? Math.floor(threshold / iconButtonWidth) * iconButtonWidth : actionsWidth; // if actionsbuttons take up more space than the max threshold, just show the maximum amount of actions before hitting the threshold
+        const maxButtons = Math.floor(threshold / iconButtonWidth);
+        this.maxMobileButtons = maxButtons;
+        this.cardPositionX = actionsWidth >= threshold ? maxButtons * iconButtonWidth : actionsWidth; // if actionsbuttons take up more space than the max threshold, just show the maximum amount of actions before hitting the threshold
+        if (actionsWidth >= threshold) {
+          console.warn(`Screen too small to display all supplied actions. Showing the first ${maxButtons} actions only`)
+        }
         this.showActions = true;
         console.log('end short', this.cardPositionX)
       } else { // didn't swipe very far at all
@@ -302,10 +308,11 @@ export default {
     position: relative;
     z-index: 2;
     padding: 4px;
+    min-height: 100px;
 
     &-inner {
       display: flex;
-      align-items: center;
+      align-items: top;
       justify-content: space-between;
     }
   }
@@ -352,16 +359,31 @@ export default {
 }
 
 .list-item--no-touch {
+  cursor: pointer;
+
   .list-item__actions {
     z-index: 2;
     left: auto;
     right: 0;
     visibility: hidden;
     opacity: 0;
+    padding: 4px;
+
+    left: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%,rgba(0,0,0,0) 100%);
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 4px;
+    transition: opacity .2s, visibility .2s;
+
 
     &:focus {
       opacity: 1;
       visibility: visible;
+    }
+
+    .btn-icon {
+      box-shadow: none;
     }
   }
 
@@ -374,7 +396,8 @@ export default {
 
   .list--is-selecting & {
     .list-item__actions {
-      right: 30px;
+      // right: 30px;
+      display: none;
     }
   }
 }

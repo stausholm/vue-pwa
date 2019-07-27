@@ -16,7 +16,10 @@
       </p>
     </div>
     <div class="container--content">
-      <list-advanced 
+      <div class="block-link-wrapper">
+        <block-link to="/posts">List has been moved to /posts</block-link>
+      </div>
+      <!-- <list-advanced 
         itemTemplate="ListAdvancedItemTodo" 
         :actions="actions"
         @star="handleStar"
@@ -31,7 +34,7 @@
         :isAsyncPaginated="true"
         :allDataLoaded="allDataLoaded"
       >
-      </list-advanced>
+      </list-advanced> -->
     </div>
 
     <modal-advanced 
@@ -49,11 +52,14 @@
 import ListAdvanced from '@/components/list/ListAdvanced'
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
 
+import BlockLink from '@/components/navigation/BlockLink';
+
 export default {
   name: 'ExampleListAdvanced',
   components: {
     ListAdvanced,
-    ModalAdvanced
+    ModalAdvanced,
+    BlockLink
   },
   data() {
     return {

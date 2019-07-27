@@ -63,7 +63,7 @@
 
 
     <div class="list__advanced-list" ref="list">
-      <transition-group name="yoyo" class="transition-group-el">
+      <transition-group :name="animateList ? 'advanced-list' : ''" class="transition-group-el">
         <list-advanced-item-wrapper
           v-for="item in filteredList" 
           :key="item.id" 
@@ -165,6 +165,10 @@ export default {
     useCustomSearch: { // completely disable search box, and let parent handle filtering this.list
       type: Boolean,
       default: false
+    },
+    animateList : {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -314,52 +318,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.yoyo-enter {
-  opacity: 0;  
-}
-.yoyo-enter-active {
-  animation: yoyo-in 1s ease-out forwards;
-  transition: opacity .5s;
-}
-// .yoyo-leave {
-  
-// }
-.yoyo-leave-active {
-  animation: yoyo-out 1s ease-out forwards;
-  transition: opacity 1s;
-  opacity: 0;
-  position: absolute !important;
-}
-
-.yoyo-move {
-  transition: transform 1s;
-}
-
-@keyframes yoyo-in {
-  from {
-    transform: translateY(20px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes yoyo-out {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(20px);
-  }
-}
-
-
-.list-advanced--alternative {
-  .transition-group-el {
-    display: flex;
-    flex-flow: wrap;
-    justify-content: space-between;
-  }
-}
-</style>
