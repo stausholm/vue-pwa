@@ -1,7 +1,7 @@
 <template>
-  <swiper-item :style="{backgroundImage: content.image}">
-    <b>{{content.title}}</b>
-    <p>{{content.body}}</p>
+  <swiper-item>
+    <b>{{content.id}} {{content.title}}</b>
+    <p>{{content.url}}</p>
   </swiper-item>
 </template>
 

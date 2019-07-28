@@ -10,6 +10,7 @@ import ExampleListAdvanced from "@/pages/example/ExampleListAdvanced";
 import ExampleTopSecret from "@/pages/example/ExampleTopSecret";
 import ExampleButtons from "@/pages/example/ExampleButtons";
 import ExampleNotifications from "@/pages/example/ExampleNotifications";
+import ExampleSwiper from "@/pages/example/ExampleSwiper";
 
 export default [
   {
@@ -84,6 +85,11 @@ export default [
         path: "examplenotifications",
         name: "ExampleNotifications",
         component: ExampleNotifications
+      },
+      {
+        path: "exampleswiper",
+        name: "ExampleSwiper",
+        component: ExampleSwiper
       }
     ]
   },

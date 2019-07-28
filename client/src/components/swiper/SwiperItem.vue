@@ -1,17 +1,13 @@
 <template>
   <div class="swiper__item">
-    <slot></slot>
+    <div class="swiper__item-inner">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SwiperItem',
-  created(){
-    console.log('created')
-  },
-  mounted() {
-    console.log('mounted')
-  }
+  name: 'SwiperItem'
 }
 </script>

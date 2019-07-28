@@ -1,0 +1,109 @@
+.swiper {
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scroll-snap-type: x mandatory;
+  margin: 0;
+  margin-left: -$default-spacing;
+  margin-right: -$default-spacing;
+
+  @include breakpoint(md) {
+    margin-right: 0;
+  }
+
+  &.grabbing {
+    cursor: grabbing;
+
+    .swiper__item {
+      scroll-snap-align: none;
+    }
+  }
+
+  &__item {
+    scroll-snap-align: start;
+    transform: translateZ(0); // prevent repainting entire component
+    min-width: 50%; // default size of each card
+    
+    padding: $default-spacing;
+
+
+    // &:not(:last-child) {
+    //   padding-right: 0;
+    // }
+    &:not(:nth-last-child(2)) { // take account of sentinel being last child
+      padding-right: 0;
+    }
+
+    &-inner { // default swiper card styles
+      padding: $default-spacing;
+      box-shadow: $box-shadow;
+      background-color: $white;
+      color: $text-primary-color;
+      border-radius: $default-border-radius;
+    }
+
+    &.no-card {
+      .swiper__item-inner {
+        box-shadow: none;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.swiper-wrapper {
+  position: relative;
+
+  &::before, &::after { // fade hide elements scrolled out of view
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: $default-spacing*4;
+    pointer-events: none;
+  }
+  &::before {
+    background-image: linear-gradient(to left, rgba($body-bg,0) 0%, rgba($body-bg,0) 50%, rgba($body-bg,0.5) 75%, rgba($body-bg,1) 100%);
+    left: -$default-spacing;
+  }
+  &::after {
+    background-image: linear-gradient(to right, rgba($body-bg,0) 0%, rgba($body-bg,0) 50%, rgba($body-bg,0.5) 75%, rgba($body-bg,1) 100%);
+    right: 0;
+
+    @include breakpoint-max(md) {
+      right: -$default-spacing;
+    }
+  }
+}
+
+.swiper-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+
+  background-color: $white;
+  box-shadow: $box-shadow;
+  color: $text-secondary-color;
+  transition: opacity .2s;
+
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &--back {
+    left: -$default-spacing;
+  }
+  &--forward {
+    right: -$default-spacing;
+  }
+
+  @include breakpoint-max(sm) {
+    display: none;
+  }
+}

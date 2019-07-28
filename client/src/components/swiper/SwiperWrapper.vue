@@ -1,29 +1,65 @@
 <template>
-  <div class="swiper" 
-    :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDown}" 
-    ref="swiper"
-    @mousedown="handleMouseDown"
-    @mouseleave="handleMouseLeave"
-    @mouseup="handleMouseUp"
-    @mousemove="handleMouseMove">
-    <slot></slot>
+  <div class="swiper-wrapper">
+    <button class="swiper-btn swiper-btn--back btn-icon" :disabled="buttonStates.back" @click="back">
+      <icon-base iconName="scroll left">
+        <icon-arrow-left />
+      </icon-base>
+    </button>
+    <button class="swiper-btn swiper-btn--forward btn-icon" :disabled="buttonStates.forward" @click="forward">
+      <icon-base iconName="scroll right">
+        <icon-arrow-right />
+      </icon-base>
+    </button>
+    <div class="swiper" 
+      :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDown}" 
+      ref="swiper"
+      @mousedown="handleMouseDown"
+      @mouseleave="handleMouseLeave"
+      @mouseup="handleMouseUp"
+      @mousemove="handleMouseMove">
+      <slot></slot>
+      <observer v-if="intersectionRoot" v-on="$listeners" :options="{root: intersectionRoot, rootMargin: intersectionMargin}"/>
+    </div>
+
   </div>
 </template>
 
 <script>
+import IconBase from '@/components/icons/IconBase';
+import IconArrowLeft from '@/components/icons/IconArrowLeft';
+import IconArrowRight from '@/components/icons/IconArrowRight';
+
+import Observer from '@/utils/observer'
+
 export default {
   name: 'SwiperWrapper',
+  components: {
+    IconBase,
+    IconArrowLeft,
+    IconArrowRight,
+    Observer
+  },
   props: {
     noScrollbar: {
       type: Boolean,
       default: true
+    },
+    intersectionMargin: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
     return {
       isDown: false,
       scrollLeft: 0,
-      startX: 0
+      startX: 0,
+      scrollDir: 'left',
+      buttonStates: {
+        back: true,
+        forward: false
+      },
+      intersectionRoot: null
     }
   },
   methods: {
@@ -47,71 +83,69 @@ export default {
       const Swiper = this.$refs.swiper;
       const x = e.pageX - Swiper.offsetLeft;
       const walk = (x - this.startX) //* 3;
-      Swiper.scrollLeft = this.scrollLeft - walk;
+      const newScrollPos = this.scrollLeft - walk;
+      Swiper.scrollLeft = newScrollPos;
+      this.scrollDir = newScrollPos > this.scrollLeft ? 'left' : 'right'
       // Swiper.scrollTo({top:0, left:this.scrollLeft - walk, behavior: 'smooth'});
-    }
+    },
+    back() {
+      const swiper = this.$refs.swiper;
+      const currScroll = swiper.scrollLeft;
+      const width = swiper.offsetWidth;
+      const scrollWidth = swiper.scrollWidth;
+      swiper.scrollTo({top:0, left:currScroll - width, behavior: 'smooth'});
+      //this.calculateButtonState(null, currScroll - width <= 0);
+      this.buttonStates.back = currScroll - width <= 0;
+      this.buttonStates.forward =  currScroll + width >= scrollWidth;
+    },
+    forward() {
+      const swiper = this.$refs.swiper;
+      const currScroll = swiper.scrollLeft;
+      const width = swiper.offsetWidth;
+      const scrollWidth = swiper.scrollWidth;
+      swiper.scrollTo({top:0, left:currScroll + width, behavior: 'smooth'});
+      //this.calculateButtonState();
+      this.buttonStates.back = currScroll + width <= 0;
+      this.buttonStates.forward =  currScroll + width >= scrollWidth;
+      console.log({currScroll, width, scrollWidth, back: currScroll - width, forward: currScroll + width >= scrollWidth})
+    },
+    // calculateButtonState(forward, back) {
+    //   const swiper = this.$refs.swiper;
+    //   const currScroll = swiper.scrollLeft;
+    //   const width = swiper.offsetWidth;
+    //   const scrollWidth = swiper.scrollWidth;
+
+    //   this.buttonStates.forward = typeof forward === 'boolean' ? forward : currScroll >= scrollWidth;
+    //   this.buttonStates.back = typeof back === 'boolean' ? back : currScroll <= 0;
+      
+    //   // if (currScroll >= scrollWidth) {
+    //   //   this.buttonStates.forward = false;
+    //   // } else {
+    //   //   this.buttonStates.forward = true;
+    //   // }
+
+    //   // if (currScroll <= 0) {
+    //   //   this.buttonStates.back = false;
+    //   // } else {
+    //   //   this.buttonStates.back = false;
+    //   // }
+    // }
+  },
+  mounted() {
+    this.intersectionRoot = this.$refs.swiper
   },
   watch: {
     isDown() {
       if (!this.isDown) {
-        // dumb fix
+        // this.calculateButtonState();
+        
+        // hack, as scroll-snap-points will not kick in when mousedown is released
         this.$nextTick(() => {
-          this.$refs.swiper.scrollBy({top: 0, left:1, behavior:'smooth'})
+          const horizontalScroll = this.scrollDir === 'left' ? 1 : -1;
+          this.$refs.swiper.scrollBy({top: 0, left: horizontalScroll, behavior:'smooth'})
         })
       }
     }
   }
 }
 </script>
-
-<style lang="scss">
-.swiper {
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: 200px;
-  background-color: lightgray;
-  cursor: grab;
-  scroll-snap-type: x mandatory;
-
-  &:not(.grabbing) {
-    // scroll-snap-type: x mandatory;
-  }
-
-  &.grabbing {
-    cursor: grabbing;
-    // scroll-snap-type: x;
-
-    .swiper__item {
-      scroll-snap-align: none;
-    }
-  }
-
-  &__item {
-    scroll-snap-align: start;
-    transform: translateZ(0); // prevent repainting entire component
-
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    background-color: #fff;
-    color: #6a6a6a;
-    border-radius: 2px;
-    min-width: 40%;
-    padding: 20px;
-
-    &:not(:last-child) {
-      margin-right: 16px;
-    }
-  }
-}
-
-.hide-scrollbars {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-</style>

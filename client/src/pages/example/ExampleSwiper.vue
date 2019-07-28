@@ -2,22 +2,31 @@
   <div>
     <div class="container--content">
       <h1>this is example swiper</h1>
-      <swiper>
+      <swiper @intersect="loadMore" intersectionMargin="100px">
         <swiper-item v-for="item in items" :key="item.id">
           <b>{{item.title}}</b>
           <p>{{item.id}}</p>
+        </swiper-item>
+        <swiper-item v-if="loading" class="no-card">
+          <h2>loading more</h2>
+        </swiper-item>
+        <swiper-item v-if="allDataLoaded" class="no-card">
+          <h2>All data has been loaded</h2>
         </swiper-item>
       </swiper>
 
       <p style="margin-top:200px">more height!</p>
       <button @click="addItem">add item</button>
       <button @click="removeItem">remove item</button>
-      <a href="https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9">https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9</a>
-      <a href="https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/">https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/</a>
+      <!-- <a href="https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9">https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9</a>
+      <a href="https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/">https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/</a> -->
       
-      <!-- <swiper>
+      <br>
+      <br>
+      <h2>This is custom swiper item</h2>
+      <swiper>
         <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
-      </swiper> -->
+      </swiper>
     </div>
   </div>
 </template>
@@ -36,6 +45,8 @@ export default {
   },
   data() {
     return {
+      loading: false,
+      allDataLoaded: false,
       items: [
         {
         "albumId": 1,
@@ -157,6 +168,23 @@ export default {
     },
     removeItem() {
       this.items.pop()
+    },
+    loadMore() {
+      console.log('swiper intersect')
+      if (this.allDataLoaded) return 
+
+      this.loading = true;
+
+      setTimeout(() => {
+        this.loading = false;
+        if (this.items.length < 25) {
+          this.addItem();
+          this.addItem();
+          this.addItem();
+        } else {
+          this.allDataLoaded = true;
+        }
+      },1200)
     }
   }
 }
