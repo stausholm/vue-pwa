@@ -53,3 +53,12 @@
 .overflow-hide {
   overflow: hidden;
 }
+
+.hide-scrollbars {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
