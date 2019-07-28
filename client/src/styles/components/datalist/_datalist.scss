@@ -37,7 +37,7 @@
       padding: 0 $default-spacing / 2;
       font-weight: 400;
       text-align: left;
-      border-bottom: 1px solid $light-grey;
+      border-bottom: 1px solid $gray-light;
       font-size: .8rem;
       color: $text-secondary-color;
       user-select: none;
@@ -84,7 +84,7 @@
 
   &--stripes {
     tr:nth-child(even) {
-      background: rgba($light-grey, .3);
+      background: rgba($gray-light, .3);
     }
   }
 
@@ -100,7 +100,7 @@
 .datalist-no-data {
   padding: $default-spacing;
   text-align: center;
-  background-color: rgba($light-grey, .3);
+  background-color: rgba($gray-light, .3);
 }
 
 .datalist-footer {
@@ -151,11 +151,11 @@
           -moz-appearance: none;
           -webkit-appearance: none;
           border: 0;
-          background-color: rgba($light-grey, .5);
+          background-color: rgba($gray-light, .5);
           border-radius: $default-border-radius;
   
           &:focus, &:hover {
-            background-color: rgba($light-grey, .8);
+            background-color: rgba($gray-light, .8);
           }
         }
   
@@ -192,7 +192,7 @@
 .datalist-controls {
   input {
     padding: $default-spacing / 2;
-    border: 1px solid $light-grey;
+    border: 1px solid $gray-light;
   }
 }
 
@@ -207,7 +207,7 @@
     .btn-icon {
 
       &:hover {
-        background-color: rgba($light-grey, .8);
+        background-color: rgba($gray-light, .8);
       }
 
       &:disabled {

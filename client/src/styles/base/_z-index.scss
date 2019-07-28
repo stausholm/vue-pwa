@@ -1,13 +1,14 @@
 $z-index: (
-  searchbar     : 500,
-  bottomnav     : 1000,
-  toolbar       : 2000,
-  contextmenu   : 3000,
-  dropdown      : 4000,
-  slideout      : 5000,
-  modal         : 6000,
-  a2hs          : 7000,
-  notification  : 8000
+  searchbar       : 500,
+  contextmenu     : 3000,
+  dropdown        : 4000,
+  under-nav       : 4999,
+  nav             : 5000,
+  under-nav-high  : 5001,
+  nav-high        : 5002,
+  modal           : 6000,
+  a2hs            : 7000,
+  notification    : 8000
 );
 
 @function z-index($key) {

@@ -17,10 +17,26 @@ import IconMenu from './IconMenu.vue'
 import IconPhotoCamera from './IconPhotoCamera.vue'
 import IconRestore from './IconRestore.vue'
 import IconSearch from './IconSearch.vue'
+import IconMoreVert from './IconMoreVert.vue'
+import IconDelete from './IconDelete.vue'
+import IconStar from './IconStar.vue'
+import IconStarBorder from './IconStarBorder.vue'
+import IconLibraryBooks from './IconLibraryBooks.vue'
+import IconViewList from './IconViewList.vue'
+import IconViewModule from './IconViewModule.vue'
+import IconEdit from './IconEdit.vue'
+import IconHome from './IconHome.vue'
+import IconFilterList from './IconFilterList.vue'
+import IconAttachment from './IconAttachment.vue';
+import IconFolder from './IconFolder.vue';
+import IconOpenInNew from './IconOpenInNew.vue';
+import IconImage from './IconImage.vue';
+import IconArrowForward from './IconArrowForward.vue';
 
 // outline folder
 import IconVisibility from './outline/IconVisibility.vue'
 import IconVisibilityOff from './outline/IconVisibilityOff.vue'
+import IconLibraryBooks2 from './outline/IconLibraryBooks.vue'
 
 export default {
   IconA2HS,
@@ -41,8 +57,24 @@ export default {
   IconPhotoCamera,
   IconRestore,
   IconSearch,
+  IconMoreVert,
+  IconDelete,
+  IconStar,
+  IconStarBorder,
+  IconLibraryBooks,
+  IconViewList,
+  IconViewModule,
+  IconEdit,
+  IconHome,
+  IconFilterList,
+  IconAttachment,
+  IconFolder,
+  IconOpenInNew,
+  IconImage,
+  IconArrowForward,
 
   // outline icons
   IconVisibility,
-  IconVisibilityOff
+  IconVisibilityOff,
+  IconLibraryBooks2
 }

@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>vuepwa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="google" value="notranslate">
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
     <!-- Prevent safari from converting numbers to phonelinks, unless specified in <a href="tel:"> -->
     <!-- https://developer.apple.com/library/archive/featuredarticles/iPhoneURLScheme_Reference/PhoneLinks/PhoneLinks.html -->
@@ -15,12 +16,12 @@
     <!--[if IE]><link rel="shortcut icon" href="/static/img/icons/favicon.ico"><![endif]-->
     <!-- Add to home screen for Android and modern mobile browsers -->
     <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
-    <meta name="theme-color" content="#4DBA87">
+    <meta name="theme-color" content="<%= htmlWebpackPlugin.options.theme_color %>">
 
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="vuepwa">
+    <meta name="apple-mobile-web-app-title" content="<%= htmlWebpackPlugin.options.title %>">
     <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/apple-touch-icon-152x152.png">
     <link rel="mask-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/safari-pinned-tab.svg" color="#4DBA87">
     <!-- Add to home screen for Windows -->
@@ -33,9 +34,140 @@
   </head>
   <body>
     <noscript>
-      This is your fallback content in case JavaScript fails to load.
+      <div class="app-no-js">
+        <img src="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/android-chrome-192x192.png" alt="logo">
+        <h1>Oops, that's awkward.</h1>
+  
+        <p>
+          <strong><%= htmlWebpackPlugin.options.title %></strong> is a
+          <a href="https://en.wikipedia.org/wiki/Web_application" target="_blank">web application</a>
+          and requires JavaScript to run. Please consider enabling it.
+        </p>
+        <p>More info: <a href="https://github.com/stausholm/vue-pwa" target="_blank"><%= htmlWebpackPlugin.options.title %> on GitHub</a></p>
+      </div>
     </noscript>
+    <div class="app-initial-load">
+      <style>
+        .app-initial-load, .app-no-js {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #333;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          color: #fff;
+          font-family: sans-serif;
+          text-align: center;
+          transition: opacity .175s ease-out, transform .2s ease-out;
+          z-index: 9999998;
+        }
+        .app-no-js {
+          z-index: 9999999;
+          overflow-y: auto;
+        }
+        .app-initial-load--finished {
+          opacity: 0;
+          transform: scale(3.5);
+        }
+
+        .error {
+          font-size: 100px;
+          margin: 100px auto;
+        }
+
+        .initial-load-spinner {
+          width: 40px;
+          height: 40px;
+          background-color: #fff;
+
+          margin: 100px auto;
+          -webkit-animation: initial-load-rotateplane 1.2s infinite ease-in-out;
+          animation: initial-load-rotateplane 1.2s infinite ease-in-out;
+        }
+
+        @-webkit-keyframes initial-load-rotateplane {
+          0% { -webkit-transform: perspective(120px) }
+          50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+          100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+        }
+
+        @keyframes initial-load-rotateplane {
+          0% { 
+            transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+          } 50% { 
+            transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+            -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+          } 100% { 
+            transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+            -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+          }
+        }
+      </style>
+      <div class="initial-load-spinner"></div>
+      <b class="loader-info-label">Loading <%= htmlWebpackPlugin.options.title %></b>
+      <span class="progress-notice"></span>
+    </div>
     <div id="app"></div>
+    <!-- <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script> -->
+    <script>
+      (function(){
+        var label = document.querySelector('.app-initial-load .loader-info-label');
+        var notice = document.querySelector('.app-initial-load .progress-notice');
+        var spinner = document.querySelector('.app-initial-load .initial-load-spinner');
+        
+        var timer = setTimeout(function() {
+          notice.textContent = "Loading is taking a while..";
+          console.log('App load is taking longer than 4000ms')
+        }, 4000)
+
+        console.log('Loading app...')
+
+        var finishFunc = function() {
+          var loader = document.querySelector('.app-initial-load');
+          clearTimeout(timer);
+          loader.classList.add('app-initial-load--finished');
+          
+          // if (document.querySelector('.no-animations')) {
+          //   loader.remove();
+          //   window.removeEventListener('load', finishFunc)
+          //   window.removeEventListener('error', loadErrorFunc)
+          // }
+          
+          if (document.querySelector('.darkmode')) {
+            var metaThemeColor = document.querySelector("meta[name=theme-color]");
+            metaThemeColor.setAttribute("content", '<%= htmlWebpackPlugin.options.theme_color_dark %>');
+          }
+
+          loader.addEventListener('transitionend', function() {
+            loader.remove();
+            window.removeEventListener('load', finishFunc)
+            window.removeEventListener('error', loadErrorFunc)
+          })
+        }
+
+        var loadErrorFunc = function(err) {
+          clearTimeout(timer);
+          spinner.className = "error";
+          spinner.textContent = "😢";
+          label.textContent = "Failed to load";
+          label.title = err.message;
+          notice.textContent = "";
+          window.removeEventListener('load', finishFunc)
+          window.removeEventListener('error', loadErrorFunc)
+        }
+        
+        window.addEventListener('load', finishFunc) // TODO: Use document instead of window to not wait for images to load? Also how does this work with manifest.json splashscreen?
+
+        window.addEventListener('error', loadErrorFunc)
+
+      })()
+
+    </script>
     <!-- Todo: only include in production -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
     <!-- built files will be auto injected -->

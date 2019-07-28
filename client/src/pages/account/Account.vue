@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="isLoggedIn">
+    <div>
       <div class="container--content">
         <account-card/>
         <button @click="logout" class="btn btn--responsive btn-logout">Sign out</button>
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="header-small">Settings</b>
-        <b class="list-header">List header</b>
+        <b class="list-header">Account</b>
         <ul class="options-list">
           <li class="options-list__item" @click="test = !test">
             <div class="description">
@@ -18,7 +18,7 @@
               <switch-input :disabled="false" v-model="test"/>
             </div>
           </li>
-          <li class="options-list__item">
+          <li class="options-list__item" @click="$router.push('/account/setting1')">
             <div class="description">
               <p class="description__title">Ring duration</p>
               <p class="description__subtitle">Alarm will ring for 5 minutes</p>
@@ -58,15 +58,7 @@
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="list-header">List header</b>
         <ul class="options-list">
-          <li class="options-list__item">
-            <div class="description">
-              <p class="description__title">Option headline</p>
-              <p class="description__subtitle">subheader content</p>
-            </div>
-            <div class="action">
-              action
-            </div>
-          </li>
+          <list-item subtitle="subtitle" type="check" v-model="test2"></list-item>
           <li class="options-list__item">
             <div class="description">
               <p class="description__title">Option headline</p>
@@ -118,15 +110,22 @@
           </li>
         </ul>
       </div>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-      <p style="margin-top:200px">more height!</p>
-    </div>
-    <div class="container--content" v-else>
-      <sign-in-sign-up/>
+      <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
+        <b class="list-header">Data</b>
+        <ul class="options-list">
+          <list-item title="Delete my data" subtitle="Remove all locally stored content" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+        </ul>
+      </div>
+      <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
+        <b class="list-header">Application</b>
+        <ul class="options-list">
+          <list-item title="Darkmode" type="switch" :value="localSettings.darkmode" @update="toggleDarkmode" @keyup.enter.native="toggleDarkmode" @click.native="toggleDarkmode"></list-item>
+          <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" :value="localSettings.preferReducedMotion" @update="toggleAnimations" @keyup.enter.native="toggleAnimations" @click.native="toggleAnimations"></list-item>
+          <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
+        </ul>
+      </div>
     </div>
     <modal-advanced 
       v-if="showModal" 
@@ -142,13 +141,14 @@
 
 <script>
 import AccountCard from '@/components/account/AccountCard';
-import SignInSignUp from '@/components/account/SignInSignUp';
 import SwitchInput from '@/components/inputs/SwitchInput';
 
 import IconBase from '@/components/icons/IconBase'
 import IconArrowRight from '@/components/icons/IconArrowRight'
 
 import ModalAdvanced from '@/components/modal/ModalAdvanced'
+
+import ListItem from '@/components/list/ListItem'
 
 export default {
   name: 'Account',
@@ -161,11 +161,14 @@ export default {
     }
   },
   components: {
-    AccountCard, SignInSignUp, SwitchInput, IconBase, IconArrowRight, ModalAdvanced
+    AccountCard, SwitchInput, IconBase, IconArrowRight, ModalAdvanced, ListItem
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn
+    localSettings() {
+      return this.$store.getters.localSettings
+    },
+    siteSettings() {
+      return this.$store.getters.sitesettings
     }
   },
   methods: {
@@ -175,6 +178,18 @@ export default {
           this.$router.push('/');
         })
     },
+    todo() {
+      console.log('todo')
+    },
+    toggleDarkmode() {
+      const metaThemeColor = document.querySelector("meta[name=theme-color]");
+      metaThemeColor.setAttribute("content", this.localSettings.darkmode ? this.siteSettings.THEME_COLOR : this.siteSettings.THEME_COLOR_DARK);
+      
+      this.$store.dispatch('updateLocalSetting', {key: 'darkmode', val: !this.localSettings.darkmode})
+    },
+    toggleAnimations() {
+      this.$store.dispatch('updateLocalSetting', {key: 'preferReducedMotion', val: !this.localSettings.preferReducedMotion})
+    }
   }
 }
 </script>

@@ -1,0 +1,27 @@
+.post-header {
+  background: $content-header-bg;
+  .container {
+    padding: $default-spacing;
+    color: red;
+    
+    @include breakpoint-max(sm) {
+      margin: 0;
+      padding: 0;
+      
+      .btn-icon {
+        width: 44px;
+        height: $nav-height;
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+.post {
+  h1, p {
+    margin-bottom: $default-spacing;
+  }
+}

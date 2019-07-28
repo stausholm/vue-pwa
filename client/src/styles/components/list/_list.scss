@@ -1,6 +1,5 @@
 .list-header {
-  // background-color: $light-bg-color;
-  background-color: lighten($light-grey, 5%);
+  background-color: $content-header-bg;
   display: block;
   text-transform: uppercase;
   letter-spacing: .015rem;
@@ -13,13 +12,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  outline: 0;
 
   &:not(:last-child) {
     border-bottom: 1px solid $divider-color;
   }
 
   &:active {
-    background-color: $light-grey;
+    background-color: $gray-light;
   }
 
   &.disabled {
@@ -47,8 +48,9 @@
 
 .sticky-header {
   .list-header {
+    position: -webkit-sticky;
     position: sticky;
-    top: $toolbar-height;
+    top: 0;
     z-index: 1;
   }
 }

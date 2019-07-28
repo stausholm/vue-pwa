@@ -1,3 +1,4 @@
+// returns a byte size as a human readable string
 export default function bytesToSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
   if (bytes === 0) return 'n/a'

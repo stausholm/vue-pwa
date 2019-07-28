@@ -1,0 +1,61 @@
+.block-link {
+  padding: $default-spacing 0;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.router-link-exact-active {
+    font-weight: bold;
+    pointer-events: none;
+
+    svg {
+      opacity: 1;
+    }
+  }
+  
+  .slot {
+    flex: 1;
+  }
+  
+  svg {
+    opacity: .65;
+    margin-left: 10px;
+    transform: scale(.8);
+  }
+  
+  @include breakpoint(ipad-landscape) {
+    // padding-left: 10px;
+    font-size: 1.1rem;
+
+    svg {
+      transition: transform .2s ease-out;
+      transform: translateX(-10px);
+    }
+    .slot {
+      transition: transform .2s ease-out;
+    }
+  
+    &:hover {
+      svg {
+        transform: translateX(0);
+      }
+
+      .slot {
+        transform: translateX(10px);
+      }
+    }
+  }
+}
+
+.block-link-wrapper {
+  margin: $default-spacing 0;
+
+  .block-link {
+    border-top: 1px solid $gray-light;
+    &:last-child {
+      border-bottom: 1px solid $gray-light;
+    }
+  }
+}

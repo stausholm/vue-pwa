@@ -1,0 +1,174 @@
+.darkmode {
+  .app-nav {
+    background-color: $bg-dark;
+    .primary-nav {
+      background-color: $bg-dark;
+      
+      @include breakpoint(md) {
+        box-shadow: 0 0.125rem 0.625rem rgba(0,0,0, 0.12);
+      }
+      
+      .nav-items {
+        background-color: $bg-dark;
+  
+        nav {
+          a {
+            color: $nav-color-dark;
+  
+            @include breakpoint(md) {
+              &:hover {
+                background-color: lighten($bg-dark, 3);
+              }
+            }
+
+            @include breakpoint-between(sm, md) {
+              &:hover {
+                background-color: lighten($bg-dark, 3);
+              }
+            }
+  
+            svg {
+              // color: #9a9a9a;
+              color: rgba($white, .3);
+              
+              g {
+                @include breakpoint-max(sm) {
+                  fill: rgba($white, .7);
+                  
+                }
+              }
+            }
+            
+            &.router-link-exact-active {
+              color: $nav-link-color;
+              font-weight: bold;
+  
+              svg {
+                g {
+                  fill: $nav-link-color;
+                }
+              }
+              @include breakpoint-between(sm, md) {
+                background-color: lighten($bg-dark, 3);
+              }
+            }
+          }
+        }
+      }
+
+      .nav-actions {
+        .a2hs-button, .search-btn {
+          color: $nav-color-dark;
+        }
+        
+        @include breakpoint-max(sm) {
+          background-color: $bg-dark;
+          color: $nav-color-dark;
+        }
+
+        .dropdown {
+          background-color: $bg-dark;
+          color: $text-darkmode;
+        }
+
+        .nav-search-overlay {
+          background-color: $bg-dark;
+        }
+      }
+    }
+    
+    .dropdown-nav {
+      background-color: $bg-dark;
+      
+      .dropdown-nav-header {
+        background-color: $bg-dark;
+        color: $white;
+      }
+  
+      @include breakpoint(md) {
+        box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
+  
+        .nav-group:not(:first-child) {
+          .nav-group__label {
+            border-top: 1px solid rgba($white,.1);
+          }
+        }
+      }
+      .nav-group {
+        &__label {
+          color: $white;
+          
+          @include breakpoint-max(sm) {
+            background-color: lighten($bg-dark, 3);
+          }
+        }
+  
+        &__list {
+          .nav-link {
+            a {
+              color: $nav-color-dark;
+  
+              &:hover {
+                background-color: lighten($bg-dark, 3);
+              }
+            }
+            
+            .nav-link__expander {
+              color: rgba($white, .6);
+            }
+  
+            ul {
+              background-color: $bg-dark;
+            }
+          }
+        }
+      }
+    }
+  
+    .nav-link__badge {
+      border: 2px solid $bg-dark;
+      background-color: darken($white, 30);
+    }
+  }
+  
+  .nav-hamburger {
+    color: $nav-color-dark;
+  }
+
+  #content {
+    background-color: $body-bg-dark;
+    color: $text-darkmode;
+  }
+}
+
+
+// breadcrumbs
+.darkmode {
+  .breadcrumbs {
+    color: $text-darkmode;
+
+    a {
+      color: $text-darkmode;
+  
+      &:hover {
+        color: $text-darkmode;
+      }
+  
+      &.router-link-exact-active {
+        color: $text-darkmode;
+      }
+    }
+  }
+}
+
+// block-link
+.darkmode {
+  .block-link {
+    color: $text-darkmode;
+    border-color: rgba($gray-light, .4);
+    
+    &:last-child {
+      border-color: rgba($gray-light, .4);
+    }
+  }
+}

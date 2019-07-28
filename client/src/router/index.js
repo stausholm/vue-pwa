@@ -1,262 +1,195 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import store from '@/store/store'
-import Hello from '@/components/Hello'
-import Home from '@/pages/home/Home'
-import Login from '@/pages/login/Login'
-import Register from '@/pages/register/Register'
-import Example from '@/pages/example/Example'
-import ExampleWithAuth from '@/pages/example/ExampleWithAuth'
-import ExampleWithAuthRole from '@/pages/example/ExampleWithAuthRole'
-import ExampleInputs from '@/pages/example/ExampleInputs'
-import ExampleDataList from '@/pages/example/ExampleDataList'
-import ExampleGraphs from '@/pages/example/ExampleGraphs'
-import ExampleIcons from '@/pages/example/ExampleIcons'
-import ExampleSwiper from '@/pages/example/ExampleSwiper'
-import Account from '@/pages/account/Account'
-import ErrorPage from '@/pages/error/ErrorPage'
-import Search from '@/pages/search/Search'
+import Vue from "vue";
+import Router from "vue-router";
+import store from "@/store/store";
+import Home from "@/pages/home/Home";
+import Login from "@/pages/login/Login";
+import Register from "@/pages/register/Register";
 
-Vue.use(Router)
+import ErrorPage from "@/pages/error/ErrorPage";
+import Search from "@/pages/search/Search";
+
+
+import example from './routes/example'
+import account from './routes/account'
+import onboarding from './routes/onboarding'
+import posts from './routes/posts'
+
+Vue.use(Router);
 
 /**
  * Route meta parameters
  * @param guest - This route should only be available to users not logged in
  * @param enableBack - Turn hamburger icon into a back button
  * @param requiresAuth - Requires the user to be logged in, to view this route
- * @param is_role - Could be used as is_admin or is_premium. Should be removed in favor of allowedRoles[]. Prevents anyone who is not this role, to view this route
  * @param allowedRoles - Represent which user roles are allowed to view this route
  * @param title - Value to be shown in browser tab. The title of the route, shown in the frontend
- * @param overwriteHide - Overwrites toolbar to prevent it from hiding on scroll, if hideOnScroll is enabled. This needs refactoring
+ * @param overwriteScroll - Overwrites navbar to prevent it from hiding on scroll on mobile
  * @param navigationLayout - Define a routebased navigation component to replace the default one
  * @param metaTags - Array of meta tags for the <head> of the document
  * @param showInNav - Define if this route should be rendered in the main navigation. Current implementation should probably rename it to hideFromNav
- * 
+ * @param hideActions - Hide actions from mobile layout. This is an alternative to using a different navigationLayout if no actions should be visible
+ * @param isPrimary - show this route in the primary nav, and use a special route transition
+ * @param icon - used together with isPrimary, to define an icon for the route
+ * @param usePrimaryTransition - use the same transition that isPrimary uses
+ *
  */
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
 
 let router = new Router({
   //mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    //console.log('inside scrollBehaviour')
-    //console.log('is back or forwards button? ', to.meta.fromHistory = savedPosition !== null)
+    return new Promise(resolve => {
+      // wait for the out transition to complete (if necessary)
+      router.app.$root.$once('triggerScroll', () => {
+        // if the resolved position is falsy or an empty object,
+        // will retain current scroll position.
 
-    // https://github.com/quasarframework/quasar/issues/1466
-    // https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
-    // return new Promise((resolve) => {
-    //   const position = savedPosition || {};
-    //   console.log(position)
-    //   if (!savedPosition) {
-    //     if (to.hash) {
-    //       position.selector = to.hash;
-    //     }
-    //   }
-    //   router.app.$root.$once('triggerScroll', () => {
-    //     router.app.$nextTick(() => resolve(position));
-    //   });
-    // })
-
-    // if (savedPosition) {
-    //   return savedPosition;
-    // }
-    // if (to.hash) {
-    //   return {selector: to.hash};
-    // }
-    // return {x: 0, y: 0}
-
-    // https://github.com/vuejs/vue-router/pull/1758
-    // https://router.vuejs.org/guide/advanced/scroll-behavior.html
-    return new Promise((resolve, reject) => {
-      //setTimeout(() => {
+        //https://github.com/vuejs/vue-router/blob/dev/examples/scroll-behavior/app.js
+        //https://github.com/quasarframework/quasar/issues/1466
         if (savedPosition) {
-          setTimeout(() => {
-            //console.log('savedPosition',savedPosition)
-            resolve(savedPosition);
-          }, 200)
-        } else if (to.hash) { // TODO: This works? 
-          //console.log('hash', to.hash)
-          resolve({selector: to.hash});
+          console.log('savedposition')
+          return router.app.$nextTick(() => resolve(savedPosition))
+        } else if (to.hash) {
+          console.log('to.hash')
+          return router.app.$nextTick(() => resolve({selector: to.hash}))
         } else {
-          //console.log('none')
-          resolve({ x: 0, y: 0 })
+          console.log('0,0')
+          return router.app.$nextTick(() => resolve({ x: 0, y: 0 }))
         }
-      //}, 200)
+      })
     })
   },
   routes: [
     {
-      path: '/',
-      name: 'Home',
+      path: "/",
+      name: "Home",
       component: Home,
       meta: {
-
+        isPrimary: true,
+        title: "Home",
+        icon: "IconCasino"
       }
     },
     {
-      path: '/login',
-      name: 'Login',
+      path: "/login",
+      name: "Login",
       component: Login,
-      meta: { 
+      meta: {
         guest: true,
         enableBack: true,
-        navigationLayout: 'stripped',
+        navigationLayout: "actions-other",
         showInNav: false
       }
     },
     {
-      path: '/register',
-      name: 'Register',
+      path: "/register",
+      name: "Register",
       component: Register,
-      meta: { 
+      meta: {
         guest: true,
         enableBack: true,
-        navigationLayout: 'transparent-simple', // requires fixed header and overwriteHide for best effect
-        overwriteHide: true,
+        navigationLayout: "transparent-simple", 
         showInNav: false,
-        title: 'Sign up'
+        title: "Sign up to the cool thing",
+        overwriteScroll: true,
+        transparentHeader: true,
+        hideActions: true
       }
     },
     {
-      path: '/example',
-      name: 'Example',
-      component: Example
-    },
-    {
-      path: '/examplewithauth',
-      name: 'ExampleWithAuth',
-      component: ExampleWithAuth,
-      meta: { 
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/examplewithauthrole',
-      name: 'ExampleWithAuthRole',
-      component: ExampleWithAuthRole,
-      meta: { 
-        requiresAuth: true,
-        is_role: true,
-        allowedRoles: ['admin', 'premium', 'basic']
-      }
-    },
-    {
-      path: '/exampleinputs',
-      name: 'ExampleInputs',
-      component: ExampleInputs
-    },
-    {
-      path: '/exampledatalist',
-      name: 'ExampleDataList',
-      component: ExampleDataList
-    },
-    {
-      path: '/examplegraphs',
-      name: 'ExampleGraphs',
-      component: ExampleGraphs
-    },
-    {
-      path: '/exampleicons',
-      name: 'ExampleIcons',
-      component: ExampleIcons
-    },
-    {
-      path: '/exampleswiper',
-      name: 'ExampleSwiper',
-      component: ExampleSwiper
-    },
-    {
-      path: '/account',
-      name: 'Account',
-      component: Account,
-      meta: {
-        title: 'My user',
-        enableBack: true, 
-        overwriteHide: true,
-        metaTags: [
-          {
-            name: 'description',
-            content: 'The account page of the app'
-          },
-          {
-            property: 'og:description',
-            content: 'the account page of the app yo'
-          }
-        ]
-      }
-    },
-    {
-      path: '/search',
-      name: 'Search',
+      path: "/search",
+      name: "Search",
       component: Search,
       meta: {
-        //navigationLayout: 'stripped',
-        title: 'Search',
+        title: "Search",
         enableBack: true
       }
     },
+
+    ...example,
+    ...account,
+    ...onboarding,
+    ...posts,
+    
     {
       // catch all route
-      path: '*',
-      name: 'ErrorPage',
+      path: "*",
+      name: "ErrorPage",
       component: ErrorPage,
       meta: {
-        showInNav: false
+        showInNav: false,
+        title: 'oh no'
       }
     }
   ]
 });
 
+import handlePageTitle from "./middleware/pageTitle";
+import handleMetaTags from "./middleware/metaTags";
 
-import handlePageTitle from './middleware/pageTitle';
-import handleMetaTags from './middleware/metaTags';
+router.afterEach((to, from) => {
+  handlePageTitle(to, "fallback title");
+  handleMetaTags(to);
+})
 
 router.beforeEach((to, from, next) => {
-  
-  //console.log('inside beforeEach', to)
-  handlePageTitle(to, 'fallback title');
-  handleMetaTags(to);
-  
-  // prevent navigating backwards if slideout menu is open, and close it instead
-  // if (store.getters.slideoutIsOpen) {
-  //   store.dispatch('changeSlideoutState', false);
-  //   next(false);
-  // } 
+  // prevent navigation if modal is open
+  if(document.body.classList.contains('modal-advanced-open')) {
+    console.log('modal open, back button should not go back', from)
+    // this makes the page jump unless history.scrollRestoration is set to 'manual', because a popstate event is fired
+    return next(false)
+  }
 
-  // if (to.matched.some(record => record.meta.is_role)) { // is only for certain role
-  //   if (store.getters.userRole)
-  // }
-  if (to.matched.some(record => record.meta && record.meta.allowedRoles)) { // allowed roles have been specified
-    if (store.getters.isLoggedIn && to.meta.allowedRoles.includes(store.getters.userRole)) { // user is logged in and, user's role is allowed on page
-      next();
-      return
-    } else if (store.getters.isLoggedIn) {
-      next(false);
-      return
-    }
-    next({
-      path:'/login',
-      query: {redirect: to.fullPath}
-    })
+  // show onboarding if user hasn't seen it
+  if (!localStorage.getItem('onBoardingComplete') && !to.path.match(/^\/onboarding/)) {
+    next('/onboarding')
     return
   }
-  if (to.matched.some(record => record.meta && record.meta.requiresAuth)) { // auth is required for page
-    if (store.getters.isLoggedIn) {
-      next()
-      return
+
+  if (to.matched.some(record => record.meta && record.meta.allowedRoles)) {
+    // allowed roles have been specified
+    if (
+      store.getters.isLoggedIn &&
+      to.meta.allowedRoles.includes(store.getters.userRole)
+    ) {
+      // user is logged in and, user's role is allowed on page
+      next();
+      return;
+    } else if (store.getters.isLoggedIn) {
+      store.dispatch('changeNotification', {content: 'Not Allowed', duration: 3000, label: 'Dismiss', theme: 'danger'})
+      next(false);
+      return;
     }
     next({
-      path:'/login',
-      query: {redirect: to.fullPath}
-    }) 
-  } else if (to.matched.some(record => record.meta && record.meta.guest)) { // page should only be shown to guests, such as /register or /login
+      path: "/login",
+      query: { redirect: to.fullPath }
+    });
+    return;
+  }
+
+  if (to.matched.some(record => record.meta && record.meta.requiresAuth)) {
+    // auth is required for page
     if (store.getters.isLoggedIn) {
-      next('/')
-      return
+      next();
+      return;
+    }
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    });
+  } else if (to.matched.some(record => record.meta && record.meta.guest)) {
+    // page should only be shown to guests, such as /register or /login
+    if (store.getters.isLoggedIn) {
+      next("/");
+      return;
     }
     next();
   } else {
     next();
   }
-})
+});
 
 export default router;

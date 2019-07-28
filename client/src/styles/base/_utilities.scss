@@ -1,0 +1,55 @@
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.divider-with-text {
+  background: $gray-light;
+  height: 1px;
+  margin: $default-spacing 0;
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: $text-secondary-color;
+  position: relative;
+
+  span {
+    //background: $white;
+    font-weight: 600;
+    font-size: .85rem;
+    user-select: none;
+    padding: 4px $default-spacing;
+    display: inline-block;
+    transform: translateY(-50%);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      height: 3px;
+      transform: translateY(-50%);
+      width: 100%;
+      background: $body-bg;
+      z-index: -1;
+    }
+  }
+}
+
+// hide content but remain accessible
+// https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+.visually-hidden {
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; width: 1px; 
+  margin: -1px; padding: 0; border: 0; 
+}
+
+.overflow-hide {
+  overflow: hidden;
+}

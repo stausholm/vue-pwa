@@ -1,0 +1,32 @@
+.darkmode {
+  .list-header {
+    background-color: $bg-dark;
+    color: $white;
+  }
+
+  .options-list__item {
+    color: $nav-color-dark;
+  
+    &:not(:last-child) {
+      border-bottom: 1px solid $nav-color-dark;
+    }
+  
+    &:active {
+      background-color: $bg-dark;
+    }
+  
+    &.disabled {
+      color: $nav-color-dark;
+    }
+  
+    .description {
+      &__subtitle {
+        color: darken($nav-color-dark, 30);
+      }
+    }
+  
+    .action {
+      color: $nav-color-dark;
+    }
+  }
+}

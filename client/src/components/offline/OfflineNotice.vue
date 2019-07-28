@@ -1,8 +1,21 @@
 <template>
-  <div>
-    <div v-if="showNotice && !isOnline">You offline</div>
-    <div v-else-if="showNotice && isOnline">You online again</div>
-  </div>
+  <transition name="offline-notice">
+    <div class="offline-notice" :class="{'success': isOnline}" v-if="showNotice">
+      <div v-if="!isOnline">
+        <span class="offline-label">No internet connection</span>
+        <div class="button-group">
+          <button class="btn btn--small btn--transparent" @click="showNotice = false">
+            dismiss
+          </button>
+          <button class="btn btn--small btn--outline-white" :class="{'btn--disabled': loading}" @click="retry">
+            <span v-if="loading">Retrying...</span>
+            <span v-else>Retry</span>
+          </button>
+        </div>
+      </div>
+      <div v-else>Reconnected 🎉</div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -17,7 +30,8 @@ export default {
       isOnline: true,
       attemptsDelay: 1,
       showNotice: false,
-      timeout: null
+      timeout: null,
+      loading: false
     }
   },
   methods: {
@@ -28,15 +42,24 @@ export default {
         return new Promise((resolve, reject) => resolve(this.isOnline = false));
       }
 
+      this.loading = true;
+
       // are we really online or in Lie-Fi?
-      return window.fetch('/static/img/icons/favicon-16x16.png')
+      return window.fetch('/static/img/icons/favicon-16x16.png?hash=' + new Date().getTime()) // TODO: does this cache buster work?
         .then((response) => {
           // we're online, even if it returns 400 or 500
           this.isOnline = true;
+          this.loading = false;
+
+          if (!response.ok) {
+            // 4xx or 5xx error
+            console.log('online, but checkStatus returned', response.status)
+          }
         })
         .catch((err) => {
           // actual network error, we're offline
           console.log('catch')
+          this.loading = false;
           return this.isOnline = false;
         });
     },
@@ -49,7 +72,7 @@ export default {
         }
 
         this.attemptsDelay *= 2; // offline, double each time
-        this.timeout = window.setTimeout(this.retry, 5*1000);
+        this.timeout = window.setTimeout(this.retry, this.attemptsDelay*1000); 
       });
 
     }
@@ -62,6 +85,7 @@ export default {
 
       // something changed, we went online
       window.addEventListener('online', () => {
+        this.attemptsDelay = 1;
         clearTimeout(this.timeout); // clear currently running timeout, set by being offline
         this.retry();
       })
@@ -71,13 +95,18 @@ export default {
         this.retry();
       })
     })
+
+    this.$root.$on('checkOffline', this.retry)
   },
   watch: {
-    isOnline() {
+    isOnline(newVal, oldVal) {
       this.showNotice = true;
-      setTimeout(() => {
-        this.showNotice = false;
-      }, 1000)
+
+      if (newVal === true) {
+        setTimeout(() => {
+          this.showNotice = false;
+        }, 1000)
+      }
     }
   }
 }

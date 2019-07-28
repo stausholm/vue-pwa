@@ -1,0 +1,72 @@
+.offline-notice {
+  position: fixed;
+  padding: $default-spacing;
+  @include z-index(nav);
+  background-color: $color-danger;
+  color: $white;
+  font-weight: bold;
+  
+  @include breakpoint(sm) {
+    bottom: $default-spacing;
+    right: $default-spacing;
+    border-radius: $default-border-radius;
+  }
+  
+  @include breakpoint-max(sm) {
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY($nav-height);
+    transition: transform .3s;
+    
+    .scrolled & {
+      transform: translateY(0);
+    }
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .offline-label {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .button-group {
+      margin-left: $default-spacing;
+      display: flex;
+      
+      button {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &.success {
+    background-color: $color-success;
+  }
+}
+
+.offline-notice-enter {
+  opacity: 0;
+  transform: translateY($nav-height - $default-spacing);
+
+  .scrolled & {
+    transform: translateY(-100%);
+  }
+}
+.offline-notice-enter-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+}
+.offline-notice-leave-active {
+  transition: opacity 0.15s ease-out, transform 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(0);
+
+  .scrolled & {
+    transform: translateY(-100%);
+  }
+}

@@ -1,0 +1,117 @@
+.floating-action-bar {
+  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  color: $text-primary-color;
+  @include z-index(dropdown);
+
+  .fab-list {
+    height: 100%;
+    min-width: 100px;
+    background-color: $white;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 100px;
+    pointer-events: initial;
+    box-shadow: $box-shadow;
+
+    &__item {
+      $item-width: 70px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8px;
+      width: $item-width;
+      user-select: none;
+      cursor: pointer;
+      outline: 0;
+
+      span {
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: pre;
+        text-align: center;
+        font-size: .8rem;
+      }
+
+      svg {
+        opacity: .8;
+      }
+
+      &--more {
+        position: relative;
+
+        ul {
+          position: absolute;
+          bottom: calc(100% + 16px);
+          right: -8px;
+          padding: 0 8px;
+          //max-width: calc(100vw - 16px - 16px);
+          border: 1px solid $gray-light;
+          border-radius: $default-border-radius;
+          background-color: $white;
+          box-shadow: $box-shadow;
+          color: $text-primary-color;
+          line-height: initial;
+          
+          &::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-top: 1px solid $gray-light;
+            border-left: 1px solid $gray-light;
+            background-color: inherit;
+            display: block;
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            transform: translateX(-$item-width/2) translateY(50%) rotate(225deg);
+            box-sizing: border-box;
+          }
+
+          li {
+            white-space: pre;
+            display: block;
+            padding: $default-spacing $default-spacing/2;
+            cursor: pointer;
+            font-size: .8rem;
+            outline: 0;
+
+            &:not(:last-child) {
+              border-bottom: 1px solid $gray-light;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // @include breakpoint(md) {
+  //   bottom: auto;
+  //   top: 0;
+  //   width: 70px;
+  //   left: auto;
+  //   right: 0;
+
+  //   .fab-list {
+  //     flex-direction: column;
+  //     min-width: 0;
+
+  //     &__item {
+  //       width: 100%;
+  //     }
+  //   }
+  // }
+}

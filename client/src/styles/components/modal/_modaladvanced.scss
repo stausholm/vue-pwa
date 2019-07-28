@@ -14,6 +14,10 @@ body.modal-advanced-open {
   display: flex;
   align-items: flex-end;
 
+  @include breakpoint(md) {
+    align-items: center;
+  }
+
   .overlay {
     position: absolute;
     top: 0;
@@ -37,6 +41,10 @@ body.modal-advanced-open {
     //box-sizing: content-box;
     width: 100%;
 
+    @include breakpoint(md) {
+      max-width: 500px;
+    }
+
     &__header {
       text-align: center;
       padding: $default-padding;
@@ -47,6 +55,7 @@ body.modal-advanced-open {
       padding: $default-padding;
       max-height: calc(100vh - (8 * #{$default-spacing}) - (2rem)); // (16 + 16) + (16 + 1rem + 16) + (16 + 16 + 1rem + 16 + 16) = outerpadding + header height + footer height
       overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
       //margin-bottom: calc(4 * 16px + 1rem);
       //position: absolute;
       //bottom: calc(4 * 16px + 1rem);
@@ -75,7 +84,7 @@ body.modal-advanced-open {
         color: $primary-color;
         outline: 0;
         border: 1px solid $divider-color;
-        background: $light-bg-color;
+        background: #F4F8FB;
         padding: $default-spacing;
         letter-spacing: .015rem;
         //font-weight: 500;

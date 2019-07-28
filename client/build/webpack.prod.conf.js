@@ -14,6 +14,8 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const loadMinified = require('./load-minified')
 
+const SiteSettings = require('../src/constants/SiteSettings')
+
 const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -56,6 +58,9 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
+      title: SiteSettings.APPNAME,
+      theme_color: SiteSettings.THEME_COLOR,
+      theme_color_dark: SiteSettings.THEME_COLOR_DARK,
       template: 'index.html',
       inject: true,
       minify: {

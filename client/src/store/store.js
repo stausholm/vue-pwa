@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './modules/auth';
 import A2HS from './modules/A2HS';
+import sitesettings from './modules/sitesettings';
+import applicationSettings from './modules/applicationSettings';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    deviceOrientation: 'portrait',
-    deviceLayoutSmall: true,
-    navSearchOpen: false,
+    //deviceOrientation: 'portrait',
     notification: {
       content: 'REPLACE ME',
       duration: 1000, // ms
@@ -20,28 +20,14 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    navSearchIsOpen(state) {
-      return state.navSearchOpen;
-    },
     notificationSettings(state) {
       return state.notification;
-    },
-    deviceLayoutIsSmall(state) {
-      return state.deviceLayoutSmall;
     }
   },
   mutations: {
-    orientationChanged(state, orientation) {
-      state.deviceOrientation = orientation;
-    },
-    navSearchOpenChanged(state, value) {
-      state.navSearchOpen = value;
-      if (value) {
-        document.body.classList.add('overlay-active');
-      } else {
-        document.body.classList.remove('overlay-active');
-      }
-    },
+    // orientationChanged(state, orientation) {
+    //   state.deviceOrientation = orientation;
+    // },
     notificationChanged(state, changes) {
       state.notification = {
         content: changes.content || 'REPLACE ME',
@@ -51,26 +37,17 @@ export default new Vuex.Store({
         label: changes.label || '',
         dismissable: changes.dismissable || true
       }
-    },
-    layoutSizeChanged(state, bool) {
-      state.deviceLayoutSmall = bool;
     }
   },
   actions: {
-    changeOrientation({commit}, orientation) {
-      commit('orientationChanged', orientation);
-    },
-    changeNavSearchOpenState({commit}, value) {
-      commit('navSearchOpenChanged', value);
-    },
+    // changeOrientation({commit}, orientation) {
+    //   commit('orientationChanged', orientation);
+    // },
     changeNotification({commit}, changes) {
       commit('notificationChanged', changes);
-    },
-    changeDeviceLayout({commit}, bool) {
-      commit('layoutSizeChanged', bool);
     }
   },
   modules: {
-    auth, A2HS
+    auth, A2HS, sitesettings, applicationSettings
   }
 });

@@ -1,0 +1,145 @@
+.nav-actions {
+  .nav-avatar {
+    display: flex;
+
+    .avatar-btn {
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+  
+        @include breakpoint-max(md) {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+    @include breakpoint-between(sm, md) {
+      height: $nav-height;
+    }
+  }
+
+  .avatar-btn {
+    @include breakpoint(md) {
+      height: 32px;
+      width: 32px;
+      margin-left: $default-spacing;
+    }
+    @include breakpoint-max(sm) {
+      margin-right: 8px;
+    }
+  }
+
+  .a2hs-button {
+    height: $nav-height;
+    width: $nav-height;
+
+    .A2HS-label {
+      display: none;
+    }
+  }
+
+  .search-btn, .avatar-btn, .a2hs-button {
+    @include breakpoint-max(md) {
+      height: $nav-height;
+      width: $nav-height;
+      //z-index: 1;
+      position: relative;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    @include breakpoint-max(sm) {
+      width: 44px;
+    }
+  }
+
+  .nav-search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $nav-bg-color;
+    padding: 0;
+    padding-top: $nav-height;
+    z-index: 1;
+
+    .search-btn {
+      z-index: 5003;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: $nav-height;
+      width: $nav-height;
+    }
+
+    .search-wrapper {
+      padding: 0 $default-spacing;
+    }
+  }
+}
+
+body.search-open {
+  @include breakpoint-max(md) {
+    overflow: hidden;
+
+    // .nav-hamburger {
+    //   visibility: hidden;
+    // }
+  }
+
+  @include breakpoint-max(sm) {
+    .app-nav .primary-nav .nav-actions {
+      @include z-index(modal);
+    }
+  }
+}
+
+.dropdown-wrapper {
+  position: relative;
+
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    border: 1px solid $gray-light;
+    right: 0;
+    min-width: 300px;
+    border-radius: $default-border-radius;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    color: $text-primary-color;
+    line-height: initial;
+    @include z-index(dropdown);
+
+    &::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border-top: 1px solid $gray-light;
+      border-left: 1px solid $gray-light;
+      background-color: inherit;
+      display: block;
+      position: absolute;
+      top: -1px;
+      right: 0;
+      transform: translateX(-9px) translateY(-50%) rotate(45deg);
+      box-sizing: border-box;
+    }
+    
+    a {
+      display: block;
+      padding: $default-padding;
+      border-top: 1px solid $gray-light;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $gray-light;
+      }
+    }
+  }
+}
