@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     todo() {
-      this.$store.dispatch('changeNotification', {content: 'trigger something', duration: 4000, label: 'Dismiss'})
+      this.$store.dispatch('changeNotification', {content: `trigger something: ${this.content.id}`, duration: 4000, label: 'Dismiss'})
     }
   }
 }
@@ -40,8 +40,15 @@ export default {
 
 <style lang="scss">
 @import "../../../styles/base/variables";
+@import "../../../styles/base/breakpoints";
 
 .custom-swiper-item-2 {
+  min-width: 33%;
+
+  @include breakpoint-max(sm) {
+    min-width: 70%;
+  }
+
   .swiper__item-inner {
     padding: 0;
 
@@ -57,6 +64,16 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: $default-spacing $default-spacing/2;
+
+      div {
+        overflow: hidden;
+
+        p {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }
