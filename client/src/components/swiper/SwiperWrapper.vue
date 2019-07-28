@@ -11,7 +11,7 @@
       </icon-base>
     </button>
     <div class="swiper" 
-      :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDown}" 
+      :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDownAndMoving}" 
       ref="swiper"
       @mousedown="handleMouseDown"
       @mouseleave="handleMouseLeave"
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       isDown: false,
+      isDownAndMoving: false,
       scrollLeft: 0,
       startX: 0,
       scrollDir: 'left',
@@ -72,14 +73,17 @@ export default {
     },
     handleMouseLeave(e) {
       this.isDown = false;
+      this.isDownAndMoving = false;
     },
     handleMouseUp(e) {
       this.isDown = false;
+      this.isDownAndMoving = false;
       this.startX = 0;
     },
     handleMouseMove(e) {
       if (!this.isDown) return
       e.preventDefault();
+      this.isDownAndMoving = true;
       const Swiper = this.$refs.swiper;
       const x = e.pageX - Swiper.offsetLeft;
       const walk = (x - this.startX) //* 3;
@@ -135,10 +139,10 @@ export default {
     this.intersectionRoot = this.$refs.swiper
   },
   watch: {
-    isDown() {
-      if (!this.isDown) {
+    isDownAndMoving() {
+      if (!this.isDownAndMoving) {
         // this.calculateButtonState();
-        
+
         // hack, as scroll-snap-points will not kick in when mousedown is released
         this.$nextTick(() => {
           const horizontalScroll = this.scrollDir === 'left' ? 1 : -1;

@@ -27,6 +27,13 @@
       <swiper>
         <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
       </swiper>
+
+      <br>
+      <br>
+      <h2>This is another custom swiper item</h2>
+      <swiper>
+        <custom-swiper-item-2 v-for="item in items" :key="item.id" :content="item" class="custom-swiper-item-2"/>
+      </swiper>
     </div>
   </div>
 </template>
@@ -35,13 +42,15 @@
 import Swiper from '../../components/swiper/SwiperWrapper'
 import SwiperItem from '../../components/swiper/SwiperItem'
 import CustomSwiperItem from '../../components/swiper/layouts/Custom1'
+import CustomSwiperItem2 from '../../components/swiper/layouts/Custom2'
 
 export default {
   name: 'ExampleSwiper',
   components: {
     Swiper,
     SwiperItem,
-    CustomSwiperItem
+    CustomSwiperItem,
+    CustomSwiperItem2
   },
   data() {
     return {

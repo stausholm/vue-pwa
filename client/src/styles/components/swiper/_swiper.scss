@@ -19,6 +19,7 @@
 
     .swiper__item {
       scroll-snap-align: none;
+      pointer-events: none;
     }
   }
 
