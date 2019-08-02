@@ -1,6 +1,7 @@
 const state = {
   launchedAsPWA: false,
-  showPWAOverlay: false
+  showPWAOverlay: false,
+  deferredPrompt: null
 };
 
 const getters = {
@@ -9,6 +10,9 @@ const getters = {
   },
   showPWAButton(state) {
     return !state.launchedAsPWA
+  },
+  deferredPrompt(state) {
+    return state.deferredPrompt
   }
 };
 
@@ -18,6 +22,9 @@ const mutations = {
   },
   hidePWAButton(state) {
     state.launchedAsPWA = true;
+  },
+  setDeferredPrompt(state, prompt) {
+    state.deferredPrompt = prompt;
   }
 };
 
@@ -27,6 +34,9 @@ const actions = {
   },
   hidePWAButton({commit}) {
     commit('hidePWAButton');
+  },
+  setDeferredPrompt({commit}, prompt) {
+    commit('setDeferredPrompt', prompt)
   }
 };
 

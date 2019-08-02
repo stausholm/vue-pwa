@@ -14,16 +14,16 @@
       <br>
       <br>
 
-      <cta-button-icon class="demo-a2hs-wrapper">
-        <template slot="text">
-          <a2hs-button class="demo-a2hs btn"/>
-        </template>
-        <template slot="icon">
-          <icon-base iconName="CTA" width="18" height="18">
-            <icon-a2-h-s />
-          </icon-base>
-        </template>
-      </cta-button-icon>
+      <a2hs-button class="a2hs-demo">
+        <cta-button-icon @click.native="test">
+          <template slot="text">amazing a2hs cta text</template>
+          <template slot="icon">
+            <icon-base iconName="CTA" width="18" height="18">
+              <icon-a2-h-s />
+            </icon-base>
+          </template>
+        </cta-button-icon>
+      </a2hs-button>
 
       <br>
       <br>
@@ -74,20 +74,9 @@ export default {
 </script>
 
 <style lang="scss">
-.demo-a2hs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: left;
-  background-color: transparent;
-
-  &-wrapper {
-    position: relative;
-  }
-  svg {
-    display: none;
-  }
+.a2hs-demo {
+  border: 0;
+  outline: 0;
+  background: transparent;
 }
 </style>
