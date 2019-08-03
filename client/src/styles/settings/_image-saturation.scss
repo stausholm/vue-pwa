@@ -1,0 +1,107 @@
+// modal content
+.image-saturation-demo {
+  display: flex;
+
+  .img-wrapper {
+    flex: 1;
+    padding: $default-spacing 0;
+
+    &:first-child {
+      margin-right: $default-spacing;
+    }
+
+    img {
+      border-radius: $default-border-radius;
+    }
+
+    span {
+      font-weight: 500;
+      opacity: .75;
+      text-align: center;
+      display: block;
+    }
+  }
+}
+
+// image filters
+.saturate-images {
+  &--10 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(10%)
+    }
+  }
+  &--20 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(20%)
+    }
+  }
+  &--30 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(30%)
+    }
+  }
+  &--40 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(40%)
+    }
+  }
+  &--50 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(50%)
+    }
+  }
+  &--60 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(60%)
+    }
+  }
+  &--70 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(70%)
+    }
+  }
+  &--80 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(80%)
+    }
+  }
+  &--90 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(90%)
+    }
+  }
+  &--100 {
+    img,
+    .hero-split-bg--image,
+    .hero-bg {
+      filter: grayscale(100%)
+    }
+  }
+  // &--20 img, &--20 .hero-split-bg--image, &--20 .hero-bg {filter: grayscale(20%)}
+  // &--30 img, &--30 .hero-split-bg--image, &--30 .hero-bg {filter: grayscale(30%)}
+  // &--40 img, &--40 .hero-split-bg--image, &--40 .hero-bg {filter: grayscale(40%)}
+  // &--50 img, &--50 .hero-split-bg--image, &--50 .hero-bg {filter: grayscale(50%)}
+  // &--60 img, &--60 .hero-split-bg--image, &--60 .hero-bg {filter: grayscale(60%)}
+  // &--70 img, &--70 .hero-split-bg--image, &--70 .hero-bg {filter: grayscale(70%)}
+  // &--80 img, &--80 .hero-split-bg--image, &--80 .hero-bg {filter: grayscale(80%)}
+  // &--90 img, &--90 .hero-split-bg--image, &--90 .hero-bg {filter: grayscale(90%)}
+  // &--100 img, &--100 .hero-split-bg--image, &--100 .hero-bg {filter: grayscale(100%)}
+}

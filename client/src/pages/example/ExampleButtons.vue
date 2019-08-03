@@ -16,7 +16,7 @@
 
       <a2hs-button class="a2hs-demo">
         <cta-button-icon @click.native="test">
-          <template slot="text">amazing a2hs cta text</template>
+          <template slot="text">add to home screen</template>
           <template slot="icon">
             <icon-base iconName="CTA" width="18" height="18">
               <icon-a2-h-s />
@@ -24,6 +24,28 @@
           </template>
         </cta-button-icon>
       </a2hs-button>
+
+      <br>
+      <br>
+      <a href="https://developers.google.com/web/fundamentals/app-install-banners/promoting-install-mobile">https://developers.google.com/web/fundamentals/app-install-banners/promoting-install-mobile</a>
+      <br>
+      <br>
+
+      <transition name="slide-up">
+        <a2hs-button tag="div" class="a2hs-demo2" v-if="showDemo">
+          <div class="text">
+            <img src="test.png" alt="">
+            <div>
+              <b>Learn about that thing sooner!</b>
+              <p>Our app is fast, small, and works offline.</p>
+            </div>
+          </div>
+          <div class="buttons">
+            <button class="btn btn--transparent-white" @click.stop="showDemo = false">Not now</button>
+            <button class="btn btn--inverted">Install</button>
+          </div>
+        </a2hs-button>
+      </transition>
 
       <br>
       <br>
@@ -65,6 +87,11 @@ export default {
     IconA2HS,
     'a2hs-button': A2HSButton,
   },
+  data() {
+    return {
+      showDemo: true
+    }
+  },
   methods: {
     test() {
       console.log('test .native', getUAObject())
@@ -78,5 +105,37 @@ export default {
   border: 0;
   outline: 0;
   background: transparent;
+}
+
+.a2hs-demo2 {
+  padding: 16px;
+  background: #007bff;
+  color: rgb(250,250,250);
+  cursor: pointer;
+  border-radius: 8px;
+  
+  .text {
+    display: flex;
+    font-size: 1.2rem;
+
+    img {
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 16px;
+      border: 3px solid #fff;
+    }
+    p {
+      opacity: .8;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 </style>

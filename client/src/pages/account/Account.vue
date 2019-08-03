@@ -120,6 +120,7 @@
         <b class="list-header">Application</b>
         <ul class="options-list">
           <list-item title="Darkmode" type="switch" :value="localSettings.darkmode" @update="toggleDarkmode" @keyup.enter.native="toggleDarkmode" @click.native="toggleDarkmode"></list-item>
+          <list-item title="Image saturation" subtitle="Adjust the vibrance of colors in images" type="arrow" :actionLabel="imageSaturationLabel" @keyup.enter.native="showSaturationModal = true" @click.native="showSaturationModal = true"></list-item>
           <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" :value="localSettings.preferReducedMotion" @update="toggleAnimations" @keyup.enter.native="toggleAnimations" @click.native="toggleAnimations"></list-item>
           <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
           <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
@@ -127,6 +128,25 @@
         </ul>
       </div>
     </div>
+    <modal-advanced 
+      v-if="showSaturationModal" 
+      @close="closeSaturationModal"
+      @accept="updateImageSaturationValue"
+      confirmLabel="Save" >
+      <p>Adjusting the saturation of images can make them easier on the eye. This can work great in combination with darkmode enabled</p>
+      <div class="image-saturation-demo">
+        <div class="img-wrapper">
+          <img src="/test.png" style="filter: grayscale(0)">
+          <span>No filters</span>
+        </div>
+        <div class="img-wrapper">
+          <img src="/test.png" :style="`filter: grayscale(${localSaturationValue}%)`">
+          <span>{{localSaturationValue}}% Gray</span>
+        </div>
+      </div>
+      <input type="range" min="0" max="100" step="10" v-model="localSaturationValue">
+    </modal-advanced>
+
     <modal-advanced 
       v-if="showModal" 
       @close="showModal = false" 
@@ -157,7 +177,9 @@ export default {
       test: true,
       test2: true,
       stickyHeaders: true,
-      showModal: false
+      showModal: false,
+      showSaturationModal: false,
+      localSaturationValue: this.$store.getters.localSettings.imageSaturation || 0
     }
   },
   components: {
@@ -169,6 +191,9 @@ export default {
     },
     siteSettings() {
       return this.$store.getters.sitesettings
+    },
+    imageSaturationLabel() {
+      return this.localSettings.imageSaturation === 0 ? 'Off' : this.localSettings.imageSaturation + '%';
     }
   },
   methods: {
@@ -181,7 +206,7 @@ export default {
     todo() {
       console.log('todo')
     },
-    toggleDarkmode() {
+    toggleDarkmode() { // https://web.dev/prefers-color-scheme/
       const metaThemeColor = document.querySelector("meta[name=theme-color]");
       metaThemeColor.setAttribute("content", this.localSettings.darkmode ? this.siteSettings.THEME_COLOR : this.siteSettings.THEME_COLOR_DARK);
       
@@ -189,6 +214,14 @@ export default {
     },
     toggleAnimations() {
       this.$store.dispatch('updateLocalSetting', {key: 'preferReducedMotion', val: !this.localSettings.preferReducedMotion})
+    },
+    updateImageSaturationValue() { // https://medium.com/dev-channel/re-colorization-for-dark-mode-19e2e17b584b
+      this.$store.dispatch('updateLocalSetting', {key: 'imageSaturation', val: parseInt(this.localSaturationValue)})
+      this.showSaturationModal = false;
+    },
+    closeSaturationModal() {
+      this.showSaturationModal = false;
+      this.localSaturationValue = this.localSettings.imageSaturation; // reset local value
     }
   }
 }

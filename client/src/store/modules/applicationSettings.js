@@ -2,7 +2,7 @@ const getLocalStorageValue = (key, defaultValue) => {
   if (localStorage.getItem(key)) {
     try {
       const val = JSON.parse(localStorage.getItem(key));
-      return val
+      return Object.assign(defaultValue, val) // update old users state when new setting properties are added
     } catch(e) {
       console.error('Failed to parse as JSON from localStorage: ', key)
       // localStorage.removeItem(key);
@@ -24,9 +24,10 @@ const setLocalStorageValue = (key, newVal) => {
 const SETTINGS_STORAGE_KEY = 'localSettings';
 
 const state = {
-  localSettings: getLocalStorageValue(SETTINGS_STORAGE_KEY, {
+  localSettings: getLocalStorageValue(SETTINGS_STORAGE_KEY, { // default values
     darkmode: false,
-    preferReducedMotion: false
+    preferReducedMotion: false,
+    imageSaturation: 0
   })
 };
 

@@ -56,7 +56,8 @@ export default {
 
       return {
         'darkmode': settings.darkmode,
-        'no-animations': settings.preferReducedMotion
+        'no-animations': settings.preferReducedMotion,
+        ['saturate-images--' + settings.imageSaturation]: true
       }
     }
   },
