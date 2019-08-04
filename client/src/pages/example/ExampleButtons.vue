@@ -64,6 +64,28 @@
       <button class="btn btn--large">btn btn--large</button>
       <button class="btn btn--small">btn btn--small</button>
       <button class="btn btn--responsive">btn btn--responsive</button>
+
+      <br>
+      <br>
+      <h2>ContextMenuButton</h2>
+      <p>opens out in a direction depending on which quarter of the viewport, the button was clicked on</p>
+      <br>
+      <p>The first card opens as a bottom sheet on mobile</p>
+      <br>
+      <div class="demo-context-menu">
+        <div class="demo-card">
+          <context-menu-button class="btn-icon" :actions="contextMenuActions" :mobileBottomSheet="true" @crap="handleCrap"/>
+        </div>
+        <div class="demo-card">
+          <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
+        </div>
+        <div class="demo-card">
+          <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
+        </div>
+        <div class="demo-card">
+          <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -78,6 +100,8 @@ import {getUAObject} from '@/utils/browserSpecs';
 
 import A2HSButton from '@/components/A2HS/A2HSbutton';
 
+import ContextMenuButton from '@/components/contextMenu/ContextMenuButton'
+
 export default {
   name: 'ExampleButtons',
   components: {
@@ -86,21 +110,39 @@ export default {
     IconBeachAccess,
     IconA2HS,
     'a2hs-button': A2HSButton,
+    ContextMenuButton
   },
   data() {
     return {
-      showDemo: true
+      showDemo: true,
+      contextMenuActions: [
+        {
+          label: 'test1',
+          emit: 'crap'
+        },
+        {
+          label: 'test2'
+        },
+        {
+          label: 'test3'
+        },
+      ]
     }
   },
   methods: {
     test() {
       console.log('test .native', getUAObject())
     },
+    handleCrap() {
+      console.log('crap handled')
+    }
   }
 }
 </script>
 
 <style lang="scss">
+@import "../../styles/base/variables";
+
 .a2hs-demo {
   border: 0;
   outline: 0;
@@ -136,6 +178,37 @@ export default {
   .buttons {
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+.demo-context-menu {
+  height: 80vh;
+  margin-bottom: 100vh;
+  position: relative;
+
+  .demo-card {
+    padding: $default-spacing;
+    box-shadow: $box-shadow;
+    background-color: $white;
+    color: $text-primary-color;
+    border-radius: $default-border-radius;
+    position: absolute;
+    &:nth-child(1) {
+      top: 0;
+      left: 0;
+    }
+    &:nth-child(2) {
+      top: 0;
+      right: 0;
+    }
+    &:nth-child(3) {
+      bottom: 0;
+      left: 0;
+    }
+    &:nth-child(4) {
+      bottom: 0;
+      right: 0;
+    }
   }
 }
 </style>

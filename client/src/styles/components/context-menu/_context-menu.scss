@@ -1,0 +1,140 @@
+.context-menu-content {
+  @include z-index(contextmenu);
+  min-width: 150px;
+  max-width: 300px;
+  background: $white;
+  border-radius: $default-border-radius;
+  box-shadow: $box-shadow;
+  position: absolute;
+
+  &.context-menu-content--, &--topright { // default location
+    right: 0;
+    top: 0;
+    transform-origin: top right;
+  }
+  &--topleft {
+    left: 0;
+    top: 0;
+    transform-origin: top left;
+  }
+  &--bottomright {
+    right: 0;
+    bottom: 0;
+    transform-origin: bottom right;
+  }
+  &--bottomleft {
+    left: 0;
+    bottom: 0;
+    transform-origin: bottom left;
+  }
+
+  ul li {
+    padding: 3/4 * $default-spacing;
+    text-align: left;
+    color: $text-primary-color;
+    font-family: $system-font;
+
+    &:hover {
+      cursor: pointer;
+      background: $gray-lighter;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $gray-light;
+    }
+  }
+}
+
+.contextMenuTransition-enter {
+  .context-menu-content {
+    transform: scale(0);
+    opacity: 0;
+  }
+  .context-menu-overlay {
+    opacity: 0;
+  }
+
+  &.as-bottom-sheet {
+    .context-menu-content {
+      @include breakpoint-max(sm) {
+        transform: translateY(100%);
+      }
+    }
+  }
+}
+.contextMenuTransition-enter-active {
+  transition-duration: .2s;
+  .context-menu-content {
+    transition: opacity .2s, transform .15s $nav-transition-bezier-mobile;
+  }
+  .context-menu-overlay {
+    transition: opacity .2s;
+  }
+}
+.contextMenuTransition-leave-active {
+  transition-duration: .2s;
+  .context-menu-content {
+    transition: opacity .2s, transform .15s $nav-transition-bezier-mobile;
+    transform: scale(0);
+    opacity: 0;
+  }
+  .context-menu-overlay {
+    transition: opacity .2s ease-out;
+    opacity: 0;
+  }
+
+  &.as-bottom-sheet {
+    .context-menu-content {
+      @include breakpoint-max(sm) {
+        transition: opacity .2s, transform .15s $nav-transition-bezier-mobile;
+        transform: translateY(100%);
+      }
+    }
+  }
+}
+
+.context-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.15);
+  z-index: 1;
+}
+
+.context-menu.as-bottom-sheet {
+  @include breakpoint-max(sm) {
+    .context-menu-content {
+      @include z-index(modal);
+      position: fixed;
+      top: auto;
+      right: 0;
+      left: 0;
+      max-width: none;
+      bottom: 0;
+      transform-origin: center;
+
+      padding: $default-spacing;
+      border-top-left-radius: $default-spacing;
+      border-top-right-radius: $default-spacing;
+
+      ul {
+        li {
+          padding: $default-spacing*1.2 3/4 * $default-spacing;
+        }
+      }
+    }
+    .context-menu-overlay {
+      @include z-index(modal-overlay);
+    }
+  }
+}
+
+
+
+.button-with-context-menu {
+  position: relative;
+  // outline: none;
+  cursor: pointer;
+}
