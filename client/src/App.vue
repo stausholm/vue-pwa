@@ -109,6 +109,26 @@ export default {
     if(this.isInstalled()) {
       console.log('app was launched as a pwa')
       this.$store.dispatch('hidePWAButton')
+
+      // prevent long press on mobile links, and right click on desktop
+      window.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+      })
+
+      // not touch device so asume desktop
+      if('ontouchstart' in window === false) {
+        // prevent middlemouseclick on desktop
+        window.addEventListener('auxclick', (e) => {
+          e.preventDefault();
+        })
+  
+        // prevent view source and browser devtools
+        window.addEventListener('keydown', (e) => {
+          if(e.ctrlKey && e.key.toLowerCase() === "u" || e.key === "F12") {
+            e.preventDefault()
+          }
+        })
+      }
     }
 
     // viewport orientation change listener

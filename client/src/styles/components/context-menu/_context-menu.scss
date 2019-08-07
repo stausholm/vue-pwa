@@ -127,6 +127,7 @@
     }
     .context-menu-overlay {
       @include z-index(modal-overlay);
+      background: rgba(0,0,0,.3);
     }
   }
 }

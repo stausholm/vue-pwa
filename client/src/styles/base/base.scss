@@ -67,3 +67,11 @@ img {
     transition: none !important;
   }
 }
+
+// input,
+// textarea,
+// select,
+button,
+a {
+  -webkit-tap-highlight-color:  transparent;
+}
