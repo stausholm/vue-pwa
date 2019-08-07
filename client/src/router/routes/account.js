@@ -55,6 +55,20 @@ export default [
         meta: {
           enableBack: true
         }
+      },
+      {
+        path: "feedback",
+        component: () => import('@/pages/account/settings/Feedback' /* webpackChunkName: "account" */),
+        meta: {
+          enableBack: true
+        }
+      },
+      {
+        path: "changelog",
+        component: () => import('@/pages/account/settings/Changelog' /* webpackChunkName: "account" */),
+        meta: {
+          enableBack: true
+        }
       }
     ]
   }

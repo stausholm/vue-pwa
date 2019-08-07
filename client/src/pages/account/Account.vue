@@ -122,8 +122,8 @@
           <list-item title="Darkmode" type="switch" :value="localSettings.darkmode" @update="toggleDarkmode" @keyup.enter.native="toggleDarkmode" @click.native="toggleDarkmode"></list-item>
           <list-item title="Image saturation" subtitle="Adjust the vibrance of colors in images" type="arrow" :actionLabel="imageSaturationLabel" @keyup.enter.native="showSaturationModal = true" @click.native="showSaturationModal = true"></list-item>
           <list-item title="Prefer reduced motion" subtitle="Disable/enable app animations" type="switch" :value="localSettings.preferReducedMotion" @update="toggleAnimations" @keyup.enter.native="toggleAnimations" @click.native="toggleAnimations"></list-item>
-          <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
-          <list-item title="Send Feedback" type="arrow" @keyup.enter.native="todo" @click.native="todo"></list-item>
+          <list-item title="Changelog" subtitle="See what's new" type="arrow" @keyup.enter.native="$router.push('/account/changelog')" @click.native="$router.push('/account/changelog')"></list-item>
+          <list-item title="Send Feedback" type="arrow" @keyup.enter.native="$router.push('/account/feedback')" @click.native="$router.push('/account/feedback')"></list-item>
           <list-item title="About" type="arrow" @keyup.enter.native="$router.push('/account/about')" @click.native="$router.push('/account/about')"></list-item>
         </ul>
       </div>
@@ -203,9 +203,9 @@ export default {
           this.$router.push('/');
         })
     },
-    todo() {
-      console.log('todo')
-    },
+    // todo() {
+    //   console.log('todo')
+    // },
     toggleDarkmode() { // https://web.dev/prefers-color-scheme/
       const metaThemeColor = document.querySelector("meta[name=theme-color]");
       metaThemeColor.setAttribute("content", this.localSettings.darkmode ? this.siteSettings.THEME_COLOR : this.siteSettings.THEME_COLOR_DARK);
