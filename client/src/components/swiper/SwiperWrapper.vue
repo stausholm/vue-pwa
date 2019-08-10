@@ -29,6 +29,8 @@ import IconBase from '@/components/icons/IconBase';
 import IconArrowLeft from '@/components/icons/IconArrowLeft';
 import IconArrowRight from '@/components/icons/IconArrowRight';
 
+import "../../polyfills/smoothScrollBehavior";
+
 import Observer from '@/utils/observer'
 
 export default {

@@ -30,6 +30,13 @@
 
       <br>
       <br>
+      <h2>This is custom swiper with scrollbar enabled</h2>
+      <swiper :noScrollbar="false">
+        <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
+      </swiper>
+
+      <br>
+      <br>
       <h2>This is another custom swiper item</h2>
       <swiper>
         <custom-swiper-item-2 v-for="item in items" :key="item.id" :content="item" class="custom-swiper-item-2"/>
