@@ -23,6 +23,11 @@
     }
   }
 
+  &.custom-scrolling {
+    pointer-events: none;
+    user-select: none;
+  }
+
   &__item {
     scroll-snap-align: start;
     transform: translateZ(0); // prevent repainting entire component
