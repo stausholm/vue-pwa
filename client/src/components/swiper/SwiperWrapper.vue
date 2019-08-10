@@ -32,7 +32,7 @@
     </div> -->
 
     <div class="swiper-wrap" v-if="customScrollBar">
-      <div class="edge-fix"></div>
+      <!-- <div class="edge-fix"></div> --> <!--  TODO: Maybe it is also needed here, so it's placed twice -->
       <div class="swiper scrollable perpective-ctr" 
         ref="swiper" 
         :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDownAndMoving || isDraggingScroll, 'custom-scrolling': isDraggingScroll, 'ios': isIOS}"
@@ -41,6 +41,7 @@
         @mouseup="handleMouseUp"
         @mousemove="handleMouseMove"
         @scroll="scrollEvent">
+        <div class="edge-fix"></div> <!--  TODO: Maybe have this here instead -->
         <div class="thumb" 
           ref="thumb" 
           :style="thumbStyles"
