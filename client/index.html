@@ -113,7 +113,7 @@
       <span class="progress-notice"></span>
     </div>
     <div id="app"></div>
-    <!-- <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script> -->
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"></script>
     <script>
       (function(){
         var label = document.querySelector('.app-initial-load .loader-info-label');
@@ -126,6 +126,7 @@
         }, 4000)
 
         console.log('Loading app...')
+        localStorage.setItem('onBoardingComplete', true)
 
         var finishFunc = function() {
           var loader = document.querySelector('.app-initial-load');

@@ -10,6 +10,12 @@
         <icon-arrow-right />
       </icon-base>
     </button>
+    <!-- <div class="debug">
+      <span>isDown: {{isDown}}</span>
+      <span>isDownAndMoving: {{isDownAndMoving}}</span>
+      <span>isDraggingScroll: {{isDraggingScroll}}</span>
+      <span>isIOS: {{isIOS}}</span>
+    </div> -->
     <!-- <div class="swiper" 
       :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDownAndMoving}" 
       ref="swiper"
@@ -32,7 +38,7 @@
     </div> -->
 
     <div class="swiper-wrap" v-if="customScrollBar">
-      <!-- <div class="edge-fix"></div> --> <!--  TODO: Maybe it is also needed here, so it's placed twice -->
+      <div class="ie-fix"></div> 
       <div class="swiper scrollable perpective-ctr" 
         ref="swiper" 
         :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDownAndMoving || isDraggingScroll, 'custom-scrolling': isDraggingScroll, 'ios': isIOS}"
@@ -41,7 +47,7 @@
         @mouseup="handleMouseUp"
         @mousemove="handleMouseMove"
         @scroll="scrollEvent">
-        <div class="edge-fix"></div> <!--  TODO: Maybe have this here instead -->
+        <div class="edge-fix"></div> 
         <div class="thumb" 
           ref="thumb" 
           :style="thumbStyles"
@@ -53,11 +59,11 @@
     <div class="swiper" v-else
       :class="{'hide-scrollbars': noScrollbar, 'grabbing': isDownAndMoving}" 
       ref="swiper"
-      @mousedown="handleMouseDown"
-      @mouseleave="handleMouseLeave"
-      @mouseup="handleMouseUp"
-      @mousemove="handleMouseMove"
-      @scroll="scrollEvent">
+      @mousedown.stop="handleMouseDown"
+      @mouseleave.stop="handleMouseLeave"
+      @mouseup.stop="handleMouseUp"
+      @mousemove.stop="handleMouseMove"
+      @scroll.stop="scrollEvent">
       <slot></slot>
       <observer v-if="intersectionRoot" v-on="$listeners" :options="{root: intersectionRoot, rootMargin: intersectionMargin}"/>
     </div>
@@ -133,7 +139,7 @@ export default {
   },
   methods: {
     handleMouseDown(e) {
-      //console.log('asdasdasdasd')
+      //console.log('CRAP handleMouseDown')
       e.preventDefault();
       const Swiper = this.$refs.swiper;
       this.isDown = true;
@@ -141,22 +147,28 @@ export default {
       this.scrollLeft = Swiper.scrollLeft;
     },
     handleMouseLeave(e) {
+      //console.log('CRAP handleMouseLeave')
       if (this.isDraggingScroll) return;
+      //console.log('CRAP handleMouseLeave 2')
       if (e) e.stopPropagation();
       this.isDown = false;
       this.isDownAndMoving = false;
     },
     handleMouseUp(e) {
+      //console.log('CRAP handleMouseUp')
       if (this.isDraggingScroll) return;
+      //console.log('CRAP handleMouseUp 2')
       e.stopPropagation();
       this.isDown = false;
       this.isDownAndMoving = false;
       this.startX = 0;
     },
     handleMouseMove(e) {
+      //console.log('CRAP handleMouseMove')
       if (this.isDraggingScroll) return;
-      //console.log('asdasd')
+      //console.log('CRAP handleMouseMove 2')
       if (!this.isDown) return
+      //console.log('CRAP handleMouseMove 3')
       e.preventDefault();
       e.stopPropagation();
       this.isDownAndMoving = true;
@@ -196,8 +208,10 @@ export default {
       if (this.isDownAndMoving) { // moved cursor into scrollbar while dragging inside the card area
         return this.handleMouseLeave()
       }
+      //console.log('handleMouseMoveBar 2')
       if (!this.isDraggingScroll) return;
 
+      //console.log('handleMouseMoveBar 3')
       e.preventDefault();
 
       const swiper = this.$refs.swiper;
@@ -280,6 +294,10 @@ export default {
       this.$nextTick(() => {
         const horizontalScroll = this.scrollDir === 'left' ? 1 : -1;
         this.$refs.swiper.scrollBy({top: 0, left: horizontalScroll, behavior:'smooth'})
+
+        // this.$refs.thumb.style.display = 'none'
+        // this.$refs.thumb.style.display = 'block'
+        //setTimeout(this.updateScrollbarSize, 100)
       })
     }
   },
@@ -296,9 +314,6 @@ export default {
       window.addEventListener('mouseup', this.handleMouseUpBar, {passive: true});
     }
   },
-  render() {
-    console.log('render')
-  },
   beforeDestroy() {
     if (this.customScrollBar) {
       window.removeEventListener('resize', this.updateScrollbarSize)
@@ -309,11 +324,13 @@ export default {
   watch: {
     isDownAndMoving() {
       if (!this.isDownAndMoving) {
+        //console.log('isdownAndMoving handlescrollsnap')
         this.handleScrollSnapWhenMouseUp()
       }
     },
     isDraggingScroll() {
       if (!this.isDraggingScroll) {
+        //console.log('isDraggingScroll handlescrollsnap')
         this.handleScrollSnapWhenMouseUp()
       }
     }
@@ -327,12 +344,20 @@ export default {
 
   //height: 500px;
 
-  .edge-fix {
+  .edge-fix, .ie-fix {
     position: fixed;
     top: 0px;
     width: 1px;
     height: 1px;
     z-index: 1;
+  }
+
+  .ie-fix { 
+    display: none;
+
+    // .browser-explorer & { // TODO: don't think this has any effect on IE
+    //   display: block;
+    // }
   }
 
   .perpective-ctr {
@@ -379,7 +404,7 @@ export default {
     // background-size: contain;
     z-index: 1;
 
-    height: 12px;
+    height: 32px;
     background: #333;
     border-radius: 6px;
   }
@@ -401,6 +426,15 @@ export default {
 //     .swiper__item {
 //       padding: 40px;
 //     }
+//   }
+// }
+
+// .debug {
+//   position: absolute;
+//   top: -20px;
+//   background: lightblue;
+//   span {
+//     padding: 10px;
 //   }
 // }
 </style>
