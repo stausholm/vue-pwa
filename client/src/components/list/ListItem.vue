@@ -1,5 +1,5 @@
 <template>
-  <li class="options-list__item" :class="{'disabled': disabled}" tabindex="0">
+  <li class="options-list__item no-tab-highlight" :class="{'disabled': disabled}" tabindex="0">
     <div class="description">
       <p class="description__title">{{title}}</p>
       <p class="description__subtitle">{{subtitle}}</p>

@@ -18,7 +18,6 @@
       <p style="margin-top:200px">more height!</p>
       <button @click="addItem">add item</button>
       <button @click="removeItem">remove item</button>
-      (resize screen to recalculate custom scrollbar, after editing items array)
       <!-- <a href="https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9">https://blog.usejournal.com/css-scroll-snap-how-it-really-works-94d99db80bc9</a>
       <a href="https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/">https://nolanlawson.com/2019/02/10/building-a-modern-carousel-with-css-scroll-snap-smooth-scrolling-and-pinch-zoom/</a> -->
       
@@ -38,21 +37,6 @@
         <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
       </swiper>
       
-      <br>
-      <br>
-      <br>
-      <h2>This is custom swiper with custom scrollbar enabled</h2>
-      <swiper customScrollBar="yes">
-        <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
-      </swiper>
-      
-      <br>
-      <br>
-      <br>
-      <h2>This is custom swiper with custom scrollbar enabled (and indented)</h2>
-      <swiper customScrollBar="indent">
-        <custom-swiper-item v-for="item in items" :key="item.id" :content="item"/>
-      </swiper>
 
       <br>
       <br>
