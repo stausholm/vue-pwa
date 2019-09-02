@@ -12,6 +12,7 @@ import ExampleButtons from "@/pages/example/ExampleButtons";
 import ExampleNotifications from "@/pages/example/ExampleNotifications";
 import ExampleSwiper from "@/pages/example/ExampleSwiper";
 import ExampleCanvas from "@/pages/example/ExampleCanvas";
+import ExampleCanvas2 from "@/pages/example/ExampleCanvas2";
 
 export default [
   {
@@ -96,6 +97,11 @@ export default [
         path: "examplecanvas",
         name: "ExampleCanvas",
         component: ExampleCanvas
+      },
+      {
+        path: "examplecanvas2",
+        name: "ExampleCanvas2",
+        component: ExampleCanvas2
       }
     ]
   },
