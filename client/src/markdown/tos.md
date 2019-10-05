@@ -1,0 +1,1 @@
+by using this software, you agree that it is nice and good

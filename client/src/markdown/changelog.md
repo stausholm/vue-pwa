@@ -1,7 +1,7 @@
-# 1.0.0-RC-1
+# *20/12/2019* 1.0.0-RC-1
 This is the first release candidate for v1!
 
-## New Features:
+### New Features:
 - wow
 - more wow
 - wowwow
@@ -9,7 +9,7 @@ This is the first release candidate for v1!
   - more indent!
 
 
-## Bugfixes:
+### Bugfixes:
 - all the `wow`
 - no more wow
 
