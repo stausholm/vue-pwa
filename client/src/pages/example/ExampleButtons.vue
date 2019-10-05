@@ -73,16 +73,16 @@
       <p>The first card opens as a bottom sheet on mobile</p>
       <br>
       <div class="demo-context-menu">
-        <div class="demo-card">
+        <div class="demo-card card">
           <context-menu-button class="btn-icon" :actions="contextMenuActions" :mobileBottomSheet="true" @crap="handleCrap"/>
         </div>
-        <div class="demo-card">
+        <div class="demo-card card">
           <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
         </div>
-        <div class="demo-card">
+        <div class="demo-card card">
           <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
         </div>
-        <div class="demo-card">
+        <div class="demo-card card">
           <context-menu-button class="btn-icon" :actions="contextMenuActions" @crap="handleCrap"/>
         </div>
       </div>
@@ -187,11 +187,6 @@ export default {
   position: relative;
 
   .demo-card {
-    padding: $default-spacing;
-    box-shadow: $box-shadow;
-    background-color: $white;
-    color: $text-primary-color;
-    border-radius: $default-border-radius;
     position: absolute;
     &:nth-child(1) {
       top: 0;

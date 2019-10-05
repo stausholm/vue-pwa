@@ -1,6 +1,6 @@
 <template>
   <div class="swiper__item">
-    <div class="swiper__item-inner">
+    <div class="swiper__item-inner card">
       <slot></slot>
     </div>
   </div>
