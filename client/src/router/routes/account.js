@@ -10,19 +10,7 @@ export default [
     component: () => import('@/pages/account/Index' /* webpackChunkName: "account" */),
     meta: {
       title: "My user",
-      enableBack: true,
-      overwriteScroll: true,
-      requiresAuth: true,
-      metaTags: [
-        {
-          name: "description",
-          content: "The account page of the app"
-        },
-        {
-          property: "og:description",
-          content: "the account page of the app yo"
-        }
-      ]
+      requiresAuth: true
     },
     children: [
       {
@@ -31,7 +19,18 @@ export default [
         component: () => import('@/pages/account/Account' /* webpackChunkName: "account" */),
         //component: {template:'<div class="ohno"></div>'},
         meta: {
-          enableBack: true
+          enableBack: true,
+          //overwriteScroll: true,
+          metaTags: [
+            {
+              name: "description",
+              content: "The account page of the app"
+            },
+            {
+              property: "og:description",
+              content: "the account page of the app yo"
+            }
+          ]
         }
       },
       {
@@ -65,7 +64,7 @@ export default [
       },
       {
         path: "changelog",
-        component: () => import('@/pages/account/settings/Changelog' /* webpackChunkName: "account" */),
+        component: () => import('@/pages/account/settings/Changelog' /* webpackChunkName: "changelog" */),
         meta: {
           enableBack: true
         }

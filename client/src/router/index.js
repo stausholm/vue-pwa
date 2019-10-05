@@ -13,6 +13,7 @@ import example from './routes/example'
 import account from './routes/account'
 import onboarding from './routes/onboarding'
 import posts from './routes/posts'
+import legal from './routes/legal'
 
 Vue.use(Router);
 
@@ -113,6 +114,7 @@ let router = new Router({
     ...account,
     ...onboarding,
     ...posts,
+    ...legal,
     
     {
       // catch all route
