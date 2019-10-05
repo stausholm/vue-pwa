@@ -38,13 +38,13 @@
       padding-right: 0;
     }
 
-    &-inner { // default swiper card styles
-      padding: $default-spacing;
-      box-shadow: $box-shadow;
-      background-color: $white;
-      color: $text-primary-color;
-      border-radius: $default-border-radius;
-    }
+    // &-inner { // default swiper card styles
+    //   padding: $default-spacing;
+    //   box-shadow: $box-shadow;
+    //   background-color: $white;
+    //   color: $text-primary-color;
+    //   border-radius: $default-border-radius;
+    // }
 
     &.no-card {
       .swiper__item-inner {
@@ -65,12 +65,24 @@
 
     &::-webkit-scrollbar-thumb {
         background: $foreground-color;
-        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 45%,rgba($foreground-color,1) 46%,rgba($foreground-color,1) 54%, rgba(0,0,0,0) 55%,rgba(0,0,0,0) 100%);
+        background: linear-gradient(to right, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                    linear-gradient(to left, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                    linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 45%,rgba($foreground-color,1) 46%,rgba($foreground-color,1) 54%, rgba(0,0,0,0) 55%,rgba(0,0,0,0) 100%); 
+
+        &:hover {
+          background: $foreground-color;
+          background: linear-gradient(to right, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                      linear-gradient(to left, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                      linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 40%,rgba($foreground-color,1) 41%,rgba($foreground-color,1) 59%, rgba(0,0,0,0) 60%,rgba(0,0,0,0) 100%); 
+        }
+                    
     }
 
     &::-webkit-scrollbar-track {
         background: $background-color;
-        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 45%,rgba($background-color,1) 46%,rgba($background-color,1) 54%, rgba(0,0,0,0) 55%,rgba(0,0,0,0) 100%);
+        background: linear-gradient(to right, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                    linear-gradient(to left, $body-bg 0%, $body-bg $default-spacing,rgba(0,0,0,0) $default-spacing,rgba(0,0,0,0) 100%),
+                    linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 45%,rgba($background-color,1) 46%,rgba($background-color,1) 54%, rgba(0,0,0,0) 55%,rgba(0,0,0,0) 100%);
     }
     // For Internet Explorer
     scrollbar-face-color: $foreground-color;
