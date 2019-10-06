@@ -1,146 +1,77 @@
 <template>
-  <div class="jump-menu" :class="{'menu-active': active}">
+  <div class="jump-menu" :class="{'menu-active': active}" :aria-hidden="!active">
     <div class="jm-overlay" ref="overlay" @click="active = false">
-      <i class="icon">Close</i>
+      <icon-base class="icon" iconName="close">
+        <icon-close />
+      </icon-base>
     </div>
-    <div class="jm-container">
-      <nav class="main-nav">
-        <a href="#" @click.prevent="setActive(1)" :class="{'active': isActive(1)}">
-          <icon-base class="icon">
-            <icon-casino />
-          </icon-base>
-        </a>
-        <a href="#" @click.prevent="setActive(2)" :class="{'active': isActive(2)}">
-          <icon-base class="icon">
-            <icon-casino />
-          </icon-base>
-        </a>
-        <a href="#" @click.prevent="setActive(3)" :class="{'active': isActive(3)}">
-          <icon-base class="icon">
-            <icon-casino />
-          </icon-base>
-        </a>
-      </nav>
-      <div class="menu-inner">
-        <article class="panel" :class="{'active': isActive(1)}">
-          <section class="section-flex">
-            <div class="block full">
-              <button>
-                <icon-base class="icon">
-                  <icon-casino />
-                </icon-base>
-                Home
-              </button>
-            </div>
-            <div class="block third">
-              <button class="hover-text">
-                <icon-base class="icon">
-                  <icon-casino />
-                </icon-base>
-                <span>dashboard</span>
-              </button>
-            </div>
-            <div class="block third">
-              <button class="hover-text">
-                <icon-base class="icon">
-                  <icon-casino />
-                </icon-base>
-                <span>dashboard</span>
-              </button>
-            </div>
-            <div class="block third">
-              <button class="hover-text">
-                <icon-base class="icon">
-                  <icon-casino />
-                </icon-base>
-                <span>dashboard</span>
-              </button>
-            </div>
-          </section>
-          <hr>
-          <section class="section-flex">
-            <div class="block full">
-              <h3>
-                My pinned stuff
-                <button>
-                  <icon-base class="icon">
-                    <icon-casino />
-                  </icon-base>
-                </button>
-              </h3>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo"/>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo" :icon="icon"/>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo"/>
-            </div>
-          </section>
-          <hr>
-          <section class="section-flex">
-            <div class="block full">
-              <h3>about me</h3>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo" smallText="small yoyo" iconText="32+"/>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo"/>
-            </div>
-          </section>
-        </article>
+    <div class="jm-container jm-container--level-1">
+      <transition name="fade">
+        <nav class="main-nav" role="tablist" v-if="active">
+          <a href="#" 
+             v-for="(tab, index) in tabs" :key="index + 1"
+             @click.prevent="setActive(index + 1)"
+             :class="{'active': isActive(index + 1)}"
+             role="tab"
+             :aria-selected="isActive(index + 1)"
+             :aria-setsize="tabs.length"
+             :aria-posinset="index + 1"
+             :aria-controls="'jm-tab-panel-' + (index + 1)"
+             :id="'jm-tab-label-' + (index + 1)"
+             :title="tab.label"
+          >
+            <icon-base class="icon" :iconName="tab.label">
+              <component :is="tab.icon"></component>
+            </icon-base>
+          </a>
+          <a href="#" @click.prevent="setActive(4)" :class="{'active': isActive(4)}">
+            <icon-base class="icon">
+              <icon-close />
+            </icon-base>
+          </a>
+        </nav>
+      </transition>
 
-        <article class="panel" :class="{'active': isActive(2)}">
-          <section class="section-flex">
-            <h2 class="panel-title">some people</h2>
-          </section>
-          <section class="section-flex">
-            <div class="block full">
-              <h3>people</h3>
-            </div>
-            <div class="block full">
-              <avatar-list />
-            </div>
-            <div class="block full">
-              <a href="#">et link</a>
-            </div>
-          </section>
-          <hr>
-          <section class="section-flex">
-            <div class="block full">
-              <h3>more people</h3>
-            </div>
-            <div class="block full">
-              <avatar-list />
-            </div>
-            <div class="block full">
-              <a href="#">endnu et link</a>
-            </div>
-          </section>
-          <hr>
-          <section class="section-flex">
-            <div class="block full">
-              <h3>about me</h3>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo" smallText="small yoyo" iconText="32+"/>
-            </div>
-            <div class="block full">
-              <rich-link text="yoyo"/>
-            </div>
-          </section>
-        </article>
+      <transition name="fade">
+        <div class="menu-inner" v-if="active">
+          <panel1 class="panel" :class="{'active': isActive(1)}" :aria-hidden="!isActive(1)" role="tabpanel" id="jm-tab-panel-1" aria-labelledby="jm-tab-label-1"/>
 
-        <article class="panel" :class="{'active': isActive(3)}">
-          <section class="section-flex">
-            <h2 class="panel-title">oh wow</h2>
-          </section>
-          <section class="section-flex"></section>
-          <section class="section-flex"></section>
-        </article>
+          <panel2 class="panel" :class="{'active': isActive(2)}" :aria-hidden="!isActive(2)" role="tabpanel" id="jm-tab-panel-2" aria-labelledby="jm-tab-label-2"/>
+
+          <panel3 class="panel" :class="{'active': isActive(3)}" :aria-hidden="!isActive(3)" role="tabpanel" id="jm-tab-panel-3" aria-labelledby="jm-tab-label-3"/>
+
+          <article class="panel" :class="{'active': isActive(4)}">
+            <section class="section-flex">
+              <h2 class="panel-title">dummy 2nd level list</h2>
+            </section>
+            <section class="section-flex">
+              <div class="block full">
+                <button @click="level2Open = !level2Open">open nav</button>
+              </div>
+            </section>
+          </article>
+        </div>
+      </transition>
+
+      <div class="jm-container jm-container--level-2" :class="{'open': level2Open}">
+        <div class="menu-inner">
+          <article class="panel active">
+            <section class="section-flex">
+              <h2 class="panel-title">navigation 2nd level!</h2>
+            </section>
+            <section class="section-flex">
+              <div class="block full">
+                <p>clicking on the part of level-1 visible should go back.</p>
+                <p>leftkey and esc should go back</p>
+                <p>rightkey should stopPropagation</p>
+                <p>focused el from before should be refocused when closing 2nd level</p>
+                <p>on mobile there should be a backbutton in upper corner, and touchevents for left and right should stopPropagation</p>
+
+                <button @click="level2Open = !level2Open">Click to close</button>
+              </div>
+            </section>
+          </article>
+        </div>
       </div>
     </div>
   </div>  
@@ -148,33 +79,52 @@
 
 <script>
 import IconBase from '@/components/icons/IconBase';
-import IconCasino from '@/components/icons/IconCasino';
-import AvatarList from './AvatarList'
-import RichLink from './RichLink'
+import IconClose from '@/components/icons/IconClose';
+import Panel1 from './panels/Panel1'
+import Panel2 from './panels/Panel2'
+import Panel3 from './panels/Panel3'
+
+// const tabLegend = {
+//   1: 'search',
+//   2: 'home',
+//   3: 'stuff'
+// }
+
+const tabs = [
+  {
+    label: 'a label',
+    icon: () => import('@/components/icons/IconSearch')
+  },
+  {
+    label: 'another label',
+    icon: () => import('@/components/icons/IconHome')
+  },
+  {
+    label: 'a third label',
+    icon: () => import('@/components/icons/IconStarBorder')
+  }
+]
 
 export default {
   name: 'JumpMenu',
   components: {
     IconBase,
-    IconCasino,
-    AvatarList,
-    RichLink
+    IconClose,
+    Panel1,
+    Panel2,
+    Panel3
   },
   props: {
 
   },
   data() {
     return {
-      icon: IconCasino,
       touchY: null,
       touchX: null,
       active: false,
       activeTab: 2,
-      tabLegend: {
-        1: 'search',
-        2: 'home',
-        3: 'stuff'
-      }
+      tabs: tabs,
+      level2Open: false
     }
   },
   methods: {
@@ -186,11 +136,11 @@ export default {
       this.activeTab = tab;
     },
     switchLeft() {
-      const previousTab = this.activeTab === 1 ? 3 : this.activeTab - 1;
+      const previousTab = this.activeTab === 1 ? tabs.length : this.activeTab - 1;
       this.setActive(previousTab)
     },
     switchRight() {
-      const nextTab = this.activeTab === 3 ? 1 : this.activeTab + 1;
+      const nextTab = this.activeTab === tabs.length ? 1 : this.activeTab + 1;
       this.setActive(nextTab)
     },
     closeMenu() {
@@ -298,7 +248,9 @@ export default {
           break;
 
         case "escape":
-          this.closeMenu()
+          if (this.active) {
+            this.closeMenu()
+          }
           break;
 
         case "q": // shortcut to open search tab
@@ -311,27 +263,35 @@ export default {
           break;
 
         case "arrowleft":
-          e.stopPropagation()
-          e.preventDefault()
-          this.switchLeft()
+          if (this.active) {
+            e.stopPropagation()
+            e.preventDefault()
+            this.switchLeft()
+          }
           break;
 
         case "arrowright":
-          e.stopPropagation()
-          e.preventDefault()
-          this.switchRight()
+          if (this.active) {
+            e.stopPropagation()
+            e.preventDefault()
+            this.switchRight()
+          }
           break;
 
         case "arrowup":
-          e.stopPropagation()
-          e.preventDefault()
-          switchFocus('up')
+          if (this.active) {
+            e.stopPropagation()
+            e.preventDefault()
+            switchFocus('up')
+          } 
           break;
 
         case "arrowdown":
-          e.stopPropagation()
-          e.preventDefault()
-          switchFocus('down')
+          if (this.active) {
+            e.stopPropagation()
+            e.preventDefault()
+            switchFocus('down')
+          }
           break;
 
         default:
@@ -368,6 +328,11 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
   flex-direction: column;
   justify-content: center;
   z-index: 10000;
+
+  &:not(.menu-active) * {
+    user-select: none;
+    pointer-events: none;
+  }
 }
 
 .jm-overlay {
@@ -469,6 +434,25 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
     }
   }
 
+  @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+    // For Google Chrome
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $foreground-color;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $background-color;
+    }
+    // For Internet Explorer
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+
   .menu-inner {
     //display: block;
     width: 100%;
@@ -478,7 +462,9 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
 
     > .panel {
       overflow-x: hidden;
-      overflow-y: auto; 
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
       width: 100%;
       height: 100%;
       position: absolute;
@@ -488,6 +474,10 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
       transform: translateX(-30px); // is moved a bit to the left by default
       transition: transform 0.5s $transition-ease;
 
+      @include breakpoint(md) {
+        @include scrollbars(12px, darken($menu-bg, 30%), darken($menu-bg, 20%));
+      }
+      
       &.active {
         transform: translateX(0); // visible one is not moved to the side
         z-index: 3;
@@ -591,27 +581,18 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
       //padding: 0 20px;
 
       &::after {
-        content: ">";
-        position: absolute; 
-        right: 30px; 
+        content: "";
+        position: absolute;
+        right: 30px;
         top: 50%;
         opacity: 0;
-        transform: translateY(-50%);
-        //text-rendering: optimizeLegibility;
-        //font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;
-        line-height: 1;
-        letter-spacing: normal;
-        text-transform: none;
-        display: inline-block;
-        white-space: nowrap;
-        word-wrap: normal;
-        direction: ltr;
-        //-webkit-font-feature-settings: 'liga';
-        //-webkit-font-smoothing: antialiased;
-        transition: opacity .15s linear, right .25s $transition-ease;
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid;
+        border-right: 2px solid;
+        transform: translateY(-50%) rotate(45deg);
+        //display: inline-block;
+        transition: opacity .15s linear, transform .25s $transition-ease;
       }
 
       &:active,
@@ -619,7 +600,7 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
       &:hover {
         &::after {
           opacity: 1;
-          right: 20px;
+          transform: translateY(-50%) translateX(10px) rotate(45deg);
         }
       }
     }
@@ -650,4 +631,41 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
     }
   }
 }
+
+
+
+
+// second level styles
+.jm-container {
+  &--level-1 {
+    position: relative;
+  }
+
+  &--level-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #eaeaea;
+    z-index: 3;
+    transform-origin: 0 0;
+    transition: opacity .3s, transform 0.5s $transition-ease;
+    opacity: 0;
+
+    &:not(.open) {
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .menu-active & {
+      transform: translateX(70px); // comes in from the right instead
+      &.open {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+  }
+}
+
 </style>
