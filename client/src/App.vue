@@ -9,6 +9,7 @@
     <offline />
     <a2hs-overlay v-if="showPWAOverlay"/>
     <notification-small />
+    <jump-menu />
   </div>
 </template>
 
@@ -16,6 +17,7 @@
 import A2HSOverlay from './components/A2HS/A2HSoverlay';
 import NotificationSmall from './components/notifications/NotificationSmall';
 import offline from '@/components/offline/OfflineNotice';
+import JumpMenu from '@/components/jumpMenu/JumpMenu';
 
 //import handleOrientationChange from './utils/orientationChange';
 import replaceBrokenImagesInit from './utils/handleBrokenImages';
@@ -29,7 +31,8 @@ export default {
     'a2hs-overlay': A2HSOverlay,
     NotificationSmall,
     'app-nav': Nav,
-    offline
+    offline,
+    JumpMenu
   },
   data() {
     return {
