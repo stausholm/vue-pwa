@@ -114,7 +114,10 @@
         <b class="list-header">Data</b>
         <ul class="options-list">
           <list-item title="Delete my data" subtitle="Remove all locally stored content" type="arrow" @click.native="$router.push('/account/delete')"></list-item>
+          <list-item title="Export my data" subtitle="Export data as JSON" type="" @click.native="exportData"></list-item>
+          <list-item title="Import data" subtitle="Requires valid JSON file" type="" @click.native="importData"></list-item>
         </ul>
+        <input accept=".json" ref="dataInput" style="display: none" type="file" @change="readData">
       </div>
       <div class="container options-container" :class="{'sticky-header': stickyHeaders}">
         <b class="list-header">Application</b>
@@ -222,6 +225,73 @@ export default {
     closeSaturationModal() {
       this.showSaturationModal = false;
       this.localSaturationValue = this.localSettings.imageSaturation; // reset local value
+    },
+    exportData() {
+      const localStorageDump = Object.keys(localStorage).reduce(function(obj, str) { 
+        obj[str] = localStorage.getItem(str); 
+        return obj
+      }, {});
+      console.log(localStorageDump)
+
+      try {
+        const data = JSON.stringify(localStorageDump, null, 2);
+        const dataUri = window.URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+        this.$nextTick(() => {
+          const el = document.createElement('a')
+          el.setAttribute('href', dataUri)
+          el.setAttribute('download', 'my-data-' + new Date().getTime() + '.json')
+          el.click();
+          el.remove();
+          window.URL.revokeObjectURL(dataUri);
+          this.$store.dispatch('changeNotification', {content: 'Data downloaded', duration: 4000, label: 'dismiss'})
+        });
+      } catch (err) {
+        console.log(err)
+        this.$store.dispatch('changeNotification', {
+          content: 'Failed to export data: data is not valid JSON', 
+          duration: 5000, 
+          theme: 'danger',
+          label: 'dismiss'
+        })
+      }
+    },
+    importData() {
+      this.$refs.dataInput.click();
+    },
+    readData(e) {
+      //this.$store.commit('setLoadingModal', 'Importing Data…');
+      const fileReader = new FileReader();
+      fileReader.readAsText(e.target.files[0]);
+      fileReader.addEventListener('loadend', (evt) => {
+        try {
+          const data = JSON.parse(evt.target.result);
+          console.log(data)
+          this.$store.dispatch('changeNotification', {content: 'TODO: handle valid JSON', duration: 4000, label: 'dismiss'})
+
+          Object.keys(data).forEach(key => {
+            localStorage.setItem(key, data[key])
+          })
+
+          // this.$store.dispatch('importData', data)
+          //   .then(() => {
+          //     this.$store.dispatch('initializeState');
+          //     this.$store.commit('setLoadingModal', '');
+          //     this.$router.push('/');
+          //   })
+          //   .catch((err) => {
+          //     this.$store.commit('setLoadingModal', '');
+          //     this.$store.commit('addToast', { color: 'negative', content: `Could not import data: ${err.message}`, timeout: 5000 });
+          //   });
+        } catch (err) {
+          //this.$store.commit('setLoadingModal', '');
+          this.$store.dispatch('changeNotification', {
+            content: 'Failed to import data: File is not valid JSON', 
+            duration: 5000, 
+            theme: 'warning',
+            label: 'dismiss'
+          })
+        }
+      });
     }
   }
 }

@@ -19,8 +19,8 @@
         <block-link to="/licenses">Licenses</block-link>
         <block-link to="/privacy-policy">Privacy Policy</block-link>
         <block-link to="/tos">Terms of Service</block-link>
+        <!-- <block-link to="data.folder" type="file">Export data</block-link> -->
       </nav>
-      <router-view></router-view>
       <p class="footnote">
         Version: {{appVersion}}
       </p>

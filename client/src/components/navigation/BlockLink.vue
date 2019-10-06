@@ -56,8 +56,8 @@ export default {
   },
   methods: {
     determineFileIcon() {
-      const isFolder = this.to.match(/\.(zip|7z|rar)$/i);
-      const isImage = this.to.match(/\.(png|jpg|jpeg|gif|)$/i);
+      const isFolder = this.to.match(/\.(zip|7z|rar|folder)$/i);
+      const isImage = this.to.match(/\.(png|jpg|jpeg|gif|image)$/i);
       if (isFolder) return IconFolder
       if (isImage) return IconImage
       return IconAttachment
