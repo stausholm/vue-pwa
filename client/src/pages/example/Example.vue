@@ -24,6 +24,7 @@
       <span class="tooltip">tooltip <span class="tooltip-text">a tooltip</span></span>
 
       <p style="margin-top:200px">more height!</p>
+      <button @click="$root.$emit('jumpmenu')">open jumpmenu</button>
       <p style="margin-top:200px">more height!</p>
       <search-bar />
       <p style="margin-top:200px">more height!</p>

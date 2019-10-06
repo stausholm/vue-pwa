@@ -250,6 +250,9 @@ export default {
     this.$el.addEventListener('touchmove', this.handleTouchMove, false)
   },
   created() {
+    this.$root.$on('jumpmenu', () => {
+      this.active = true;
+    })
     document.addEventListener('focusin', this.handleFocusIn) // prevent tab focus from escaping menu
     window.addEventListener('popstate', this.closeMenu) // close menu when navigating. TODO: also add same check as modalAdvanced in router.
 
