@@ -1,11 +1,19 @@
 <template>
-  <div class="jump-menu" :class="{'menu-active': active}" :aria-hidden="!active">
+  <div class="jump-menu" :class="{'menu-active': active, 'level-2-active': level2Open, 'level-3-active': level3Open}" :aria-hidden="!active">
     <div class="jm-overlay" ref="overlay" @click="active = false">
       <icon-base class="icon" iconName="close">
         <icon-close />
       </icon-base>
     </div>
     <div class="jm-container jm-container--level-1">
+      <transition name="fade">
+        <a v-if="level2Open && active" href="#" @click.prevent="goBackToLevel1" title="Go back" class="level-2-go-back">
+          <icon-base class="icon" width="40" iconName="Go back">
+              <icon-arrow-left />
+            </icon-base>
+        </a>
+      </transition>
+
       <transition name="fade">
         <nav class="main-nav" role="tablist" v-if="active">
           <a href="#" 
@@ -22,11 +30,6 @@
           >
             <icon-base class="icon" :iconName="tab.label">
               <component :is="tab.icon"></component>
-            </icon-base>
-          </a>
-          <a href="#" @click.prevent="setActive(4)" :class="{'active': isActive(4)}">
-            <icon-base class="icon">
-              <icon-close />
             </icon-base>
           </a>
         </nav>
@@ -46,7 +49,7 @@
             </section>
             <section class="section-flex">
               <div class="block full">
-                <button @click="level2Open = !level2Open">open nav</button>
+                <button @click="openLevel2">open nav</button>
               </div>
             </section>
           </article>
@@ -54,24 +57,28 @@
       </transition>
 
       <div class="jm-container jm-container--level-2" :class="{'open': level2Open}">
-        <div class="menu-inner">
-          <article class="panel active">
-            <section class="section-flex">
-              <h2 class="panel-title">navigation 2nd level!</h2>
-            </section>
-            <section class="section-flex">
-              <div class="block full">
-                <p>clicking on the part of level-1 visible should go back.</p>
-                <p>leftkey and esc should go back</p>
-                <p>rightkey should stopPropagation</p>
-                <p>focused el from before should be refocused when closing 2nd level</p>
-                <p>on mobile there should be a backbutton in upper corner, and touchevents for left and right should stopPropagation</p>
+        <transition name="fade">
+          <div class="menu-inner" v-if="level2Open && active">
+            <article class="panel active"> <!-- TODO: how to make this content dynamic -->
+              <span class="tab-go-back">Go back</span> <!-- TODO: should we have this as a way to tab to a back button, or don't we need a way to tab to a back button because we have esc and arrowleft?-->
+              <section class="section-flex">
+                <h2 class="panel-title">navigation 2nd level!</h2>
+              </section>
+              <section class="section-flex">
+                <div class="block full">
+                  <p>clicking on the part of level-1 visible should go back. ✔</p>
+                  <p>leftkey and esc should go back ✔</p>
+                  <p>rightkey should stopPropagation ✔</p>
+                  <p>focused el from before should be refocused when closing 2nd level ✔</p>
+                  <p>focus should be moved into 2nd level menu</p>
+                  <p>on mobile there should be a backbutton in upper corner, and touchevents for left and right should stopPropagation</p>
 
-                <button @click="level2Open = !level2Open">Click to close</button>
-              </div>
-            </section>
-          </article>
-        </div>
+                  <button @click="goBackToLevel1">Click to close</button>
+                </div>
+              </section>
+            </article>
+          </div>
+        </transition>
       </div>
     </div>
   </div>  
@@ -80,6 +87,7 @@
 <script>
 import IconBase from '@/components/icons/IconBase';
 import IconClose from '@/components/icons/IconClose';
+import IconArrowLeft from '@/components/icons/IconArrowLeft';
 import Panel1 from './panels/Panel1'
 import Panel2 from './panels/Panel2'
 import Panel3 from './panels/Panel3'
@@ -102,6 +110,10 @@ const tabs = [
   {
     label: 'a third label',
     icon: () => import('@/components/icons/IconStarBorder')
+  },
+  {
+    label: 'test second layer',
+    icon: () => import('@/components/icons/IconBeachAccess')
   }
 ]
 
@@ -110,6 +122,7 @@ export default {
   components: {
     IconBase,
     IconClose,
+    IconArrowLeft,
     Panel1,
     Panel2,
     Panel3
@@ -124,7 +137,9 @@ export default {
       active: false,
       activeTab: 2,
       tabs: tabs,
-      level2Open: false
+      level2Open: false,
+      level3Open: false,
+      storedHighlightedEl: null
     }
   },
   methods: {
@@ -145,9 +160,16 @@ export default {
     },
     closeMenu() {
       this.active = false;
+      // TODO: cleanup if level2 menu was open
     },
-    handleFocusIn(e) { // TODO: this is not looping through correctly
+    handleFocusIn(e) { // TODO: this is not looping through correctly.
       console.log(e.target)
+      if (this.active && this.level2Open && !e.target.matches('.jump-menu .jm-container--level-2 .panel.active *')) {
+        // move focus back inside level 2 menu
+        this.$el.querySelector('.jm-container--level-2 .panel.active a, .jm-container--level-2 .panel.active button').focus()
+        return
+      }
+
       if (this.active && !e.target.matches('.jump-menu .main-nav a, .jump-menu .panel.active *')) {
         // move focus back inside menu
         if (e.target.matches('.jump-menu .panel:not(.active) *')) {
@@ -193,6 +215,90 @@ export default {
 
       this.touchX = null;
       this.touchY = null;
+    },
+    storeCurrentEl() { // TODO: keep reference of el that opened a level2 menu. How will we also store a level2 el that opened a level3 menu? this.storedHighlightedEl2 ?
+      this.storedHighlightedEl = document.activeElement
+    },
+    clearCurrentEl() {
+      this.storedHighlightedEl = null
+    },
+    clearCurrentFocus() { // when navigating to other level 1 tabs, clear potential focus from previous tab
+      document.activeElement.blur()
+    },
+    handleKeydownLevel2(e, key) {
+      const upDownCssSelector = '.jm-container--level-2 .panel.active a, .jm-container--level-2 .panel.active button'
+      switch(key) {
+        case "escape": // close level 2 menu
+        case "arrowleft":
+          e.stopPropagation()
+          e.preventDefault()
+          this.goBackToLevel1()
+          break;
+
+        case "arrowright":
+          e.stopPropagation()
+          e.preventDefault()
+          break;
+
+        case "arrowup":
+          e.stopPropagation()
+          e.preventDefault()
+          this.switchFocus(upDownCssSelector, 'up')
+          break;
+
+        case "arrowdown":
+          e.stopPropagation()
+          e.preventDefault()
+          this.switchFocus(upDownCssSelector, 'down')
+          break;
+
+        default:
+          break;
+      }
+    },
+    goBackToLevel1() {
+      this.level2Open = false;
+      if (this.storedHighlightedEl) {
+        this.storedHighlightedEl.focus()
+        this.clearCurrentEl()
+      }
+    },
+    openLevel2() {
+      if (!this.storedHighlightedEl) { // TODO: maybe also handle if using mouseclick?
+        this.storeCurrentEl()
+        this.storedHighlightedEl.blur()
+      }
+      this.level2Open = true;
+    },
+    switchFocus(cssSelector, direction) { // both arguments = strings
+      const buttons = Array.from(this.$el.querySelectorAll(cssSelector))
+      const currentButton = document.activeElement
+      const index = buttons.indexOf(currentButton)
+      console.log(buttons, currentButton, index)
+
+      if (direction === 'up') {
+        if (index > -1) {
+          if (index === 0) {
+            buttons[buttons.length - 1].focus() // wrap down to last
+          } else {
+            buttons[index - 1].focus()
+          }
+        } else if (buttons.length > 0) {
+          buttons[buttons.length - 1].focus() // fallback to focus last in active tab.
+        }
+      }
+
+      if (direction === 'down') {
+        if (index > -1) {
+          if (index + 1 === buttons.length) {
+            buttons[0].focus() // wrap back up to the first
+          } else {
+            buttons[index + 1].focus()
+          }
+        } else if (buttons.length > 0){
+          buttons[0].focus() // fallback to focus first button in active tab.
+        }
+      }
     }
   },
   mounted() {
@@ -200,53 +306,31 @@ export default {
     this.$el.addEventListener('touchmove', this.handleTouchMove, false)
   },
   created() {
-    this.$root.$on('jumpmenu', () => {
+    this.$root.$on('jumpmenu', () => { // TODO: make better
       this.active = true;
     })
     document.addEventListener('focusin', this.handleFocusIn) // prevent tab focus from escaping menu
     window.addEventListener('popstate', this.closeMenu) // close menu when navigating. TODO: also add same check as modalAdvanced in router.
 
     document.addEventListener('keydown', e => {
-      const switchFocus = direction => {
-        const buttons = Array.from(this.$el.querySelectorAll('.panel.active a, .panel.active button'))
-        const currentButton = document.activeElement
-        const index = buttons.indexOf(currentButton)
-        console.log(buttons, currentButton, index)
-
-        if (direction === 'up') {
-          if (index > -1) {
-            if (index === 0) {
-              buttons[buttons.length - 1].focus() // wrap down to last
-            } else {
-              buttons[index - 1].focus()
-            }
-          } else if (buttons.length > 0) {
-            buttons[buttons.length - 1].focus() // fallback to focus last in active tab.
-          }
-        }
-
-        if (direction === 'down') {
-          if (index > -1) {
-            if (index + 1 === buttons.length) {
-              buttons[0].focus() // wrap back up to the first
-            } else {
-              buttons[index + 1].focus()
-            }
-          } else if (buttons.length > 0){
-            buttons[0].focus() // fallback to focus first button in active tab.
-          }
-        }
+      const key = e.key.toLowerCase()
+      const upDownCssSelector = '.panel.active a, .panel.active button'
+      // this is not in switch case for level 1 keydowns because it should always run, no matter if you have level2 or 3 open
+      if (key === "j" && e.ctrlKey) {
+        this.active = !this.active;
+        this.setActive(2) // always start on this tab // TODO: make a prop
+        // TODO: cleanup if level2 menu was open (we want to close it)
+        e.preventDefault();
+        return;
       }
 
-      switch(e.key.toLowerCase()) {
-        case "j":
-          if (e.ctrlKey) {
-            this.active = !this.active;
-            this.setActive(2) // always start on this tab
-            e.preventDefault();
-          }
-          break;
+      //handle level2 keydowns
+      if (this.level2Open) {
+        return this.handleKeydownLevel2(e, key) // ignore level 1 events, by returning here
+      }
 
+      // handle level 1 keydowns
+      switch(key) {
         case "escape":
           if (this.active) {
             this.closeMenu()
@@ -267,6 +351,7 @@ export default {
             e.stopPropagation()
             e.preventDefault()
             this.switchLeft()
+            this.clearCurrentFocus()
           }
           break;
 
@@ -275,6 +360,7 @@ export default {
             e.stopPropagation()
             e.preventDefault()
             this.switchRight()
+            this.clearCurrentFocus()
           }
           break;
 
@@ -282,7 +368,7 @@ export default {
           if (this.active) {
             e.stopPropagation()
             e.preventDefault()
-            switchFocus('up')
+            this.switchFocus(upDownCssSelector, 'up')
           } 
           break;
 
@@ -290,7 +376,7 @@ export default {
           if (this.active) {
             e.stopPropagation()
             e.preventDefault()
-            switchFocus('down')
+            this.switchFocus(upDownCssSelector, 'down')
           }
           break;
 
@@ -647,7 +733,7 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
     left: 0;
     height: 100%;
     background: #eaeaea;
-    z-index: 3;
+    z-index: 5;
     transform-origin: 0 0;
     transition: opacity .3s, transform 0.5s $transition-ease;
     opacity: 0;
@@ -665,6 +751,37 @@ $transition-ease: cubic-bezier(.17,.67,.16,.99);
       }
     }
 
+  }
+}
+
+.level-2-go-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.15);
+  cursor: pointer;
+  z-index: 4;
+
+  // center svg icon
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: $text-color;
+
+  svg {
+    transform: translateX(10px);
+    opacity: 0;
+    transition: opacity .3s, transform 0.5s $transition-ease;
+  }
+
+  &:hover,
+  &:focus {
+    svg {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 }
 
