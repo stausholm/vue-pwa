@@ -24,7 +24,8 @@
       <span class="tooltip">tooltip <span class="tooltip-text">a tooltip</span></span>
 
       <p style="margin-top:200px">more height!</p>
-      <button @click="$root.$emit('jumpmenu')">open jumpmenu</button>
+      <b>Jump menu can also be opened with ctrl+j. The menu can be navigated with arrow keys, cursor, and touch swipes. ctrl+q opens the search tab</b>
+      <button class="btn" @click="$root.$emit('jumpmenu')">open jumpmenu</button>
       <p style="margin-top:200px">more height!</p>
       <search-bar />
       <p style="margin-top:200px">more height!</p>

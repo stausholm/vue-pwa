@@ -9,7 +9,7 @@
     <offline />
     <a2hs-overlay v-if="showPWAOverlay"/>
     <notification-small />
-    <jump-menu />
+    <jump-menu :startingTab="2"/>
   </div>
 </template>
 

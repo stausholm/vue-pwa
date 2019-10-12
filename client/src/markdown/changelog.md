@@ -1,4 +1,4 @@
-# *20/12/2019* 1.0.0-RC-1
+# *20/12/1900* 1.0.0-RC-1
 This is the first release candidate for v1!
 
 ### New Features:

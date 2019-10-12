@@ -1,0 +1,85 @@
+.darkmode {
+  $jm-menu-bg: #2d2d2d;
+  $jm-menu-bg-alpha: rgba($jm-menu-bg, .95);
+  $jm-primary-color: orangered;
+  $jm-text-color: #fff;
+  $jm-btn-bg-color: rgba(240,240,240, .07);
+  
+  .jm-container {
+    background: $jm-menu-bg-alpha;
+
+    .main-nav {
+      a {
+  
+        &:hover {
+          color: $jm-text-color;
+        }
+  
+        &.active {
+          color: $jm-text-color;
+        }
+      }
+    }
+  
+    @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+      // For Google Chrome
+      &::-webkit-scrollbar {
+          width: $size;
+          height: $size;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+          background: $foreground-color;
+      }
+  
+      &::-webkit-scrollbar-track {
+          background: $background-color;
+      }
+      // For Internet Explorer
+      scrollbar-face-color: $foreground-color;
+      scrollbar-track-color: $background-color;
+    }
+  
+    .menu-inner {
+      > .panel {
+  
+        @include breakpoint(md) {
+          @include scrollbars(12px, lighten($jm-menu-bg-alpha, 25%), lighten($jm-menu-bg-alpha, 10%));
+        }
+      }
+    }
+  }
+  
+  // inner content
+  .jump-menu {
+    .panel {
+      color: $jm-text-color;
+
+      a, button {
+        color: $jm-text-color;
+  
+        &:focus,
+        &:active,
+        &:hover {
+          background-color: $jm-primary-color;
+          box-shadow: 0 0 3px 3px rgba(lighten($jm-primary-color, 20%), .1);
+        }
+      }
+  
+      button {
+        background-color: $jm-btn-bg-color;
+      }
+    }
+  }
+  
+  // second level styles
+  .jm-container {
+    &--level-2 {
+      background: $jm-menu-bg;
+    }
+  }
+  
+  .level-2-go-back {
+    color: $jm-text-color;
+  }
+}

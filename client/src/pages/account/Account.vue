@@ -266,7 +266,7 @@ export default {
         try {
           const data = JSON.parse(evt.target.result);
           console.log(data)
-          this.$store.dispatch('changeNotification', {content: 'TODO: handle valid JSON', duration: 4000, label: 'dismiss'})
+          this.$store.dispatch('changeNotification', {content: 'TODO: handle valid JSON and update vuex store', duration: 4000, label: 'dismiss'})
 
           Object.keys(data).forEach(key => {
             localStorage.setItem(key, data[key])

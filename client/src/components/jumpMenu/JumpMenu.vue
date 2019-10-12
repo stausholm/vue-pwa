@@ -7,10 +7,10 @@
     </div>
     <div class="jm-container jm-container--level-1">
       <transition name="fade">
-        <a v-if="level2Open && active" href="#" @click.prevent="goBackToLevel1" title="Go back" class="level-2-go-back">
+        <a v-if="level2Open && active" href="#" @click.prevent="goBackToLevel1" title="Go back" class="level-2-go-back" role="button">
           <icon-base class="icon" width="40" iconName="Go back">
-              <icon-arrow-left />
-            </icon-base>
+            <icon-arrow-left />
+          </icon-base>
         </a>
       </transition>
 
@@ -57,10 +57,14 @@
       </transition>
 
       <div class="jm-container jm-container--level-2" :class="{'open': level2Open}">
+        <a href="#" @click.prevent.stop="goBackToLevel1" class="mobile-back-button" title="Go back" role="button">
+          <icon-base class="icon" iconName="Go back">
+            <icon-arrow-left />
+          </icon-base>
+        </a>
         <transition name="fade">
           <div class="menu-inner" v-if="level2Open && active">
             <article class="panel active"> <!-- TODO: how to make this content dynamic -->
-              <span class="tab-go-back">Go back</span> <!-- TODO: should we have this as a way to tab to a back button, or don't we need a way to tab to a back button because we have esc and arrowleft?-->
               <section class="section-flex">
                 <h2 class="panel-title">navigation 2nd level!</h2>
               </section>
@@ -70,8 +74,9 @@
                   <p>leftkey and esc should go back ✔</p>
                   <p>rightkey should stopPropagation ✔</p>
                   <p>focused el from before should be refocused when closing 2nd level ✔</p>
-                  <p>focus should be moved into 2nd level menu</p>
-                  <p>on mobile there should be a backbutton in upper corner, and touchevents for left and right should stopPropagation</p>
+                  <p>on mobile there should be a backbutton in upper corner ✔</p>
+                  <p>touchevents for left and right should stopPropagation ✔</p>
+                  <p>focus should be moved into 2nd level menu ✔(but buggy)</p>
 
                   <button @click="goBackToLevel1">Click to close</button>
                 </div>
@@ -85,18 +90,15 @@
 </template>
 
 <script>
+// https://www.windowscentral.com/xbox-fall-creators-update
+// https://youtu.be/VeA2FmPT7xk?t=204
+
 import IconBase from '@/components/icons/IconBase';
 import IconClose from '@/components/icons/IconClose';
 import IconArrowLeft from '@/components/icons/IconArrowLeft';
 import Panel1 from './panels/Panel1'
 import Panel2 from './panels/Panel2'
 import Panel3 from './panels/Panel3'
-
-// const tabLegend = {
-//   1: 'search',
-//   2: 'home',
-//   3: 'stuff'
-// }
 
 const tabs = [
   {
@@ -128,7 +130,10 @@ export default {
     Panel3
   },
   props: {
-
+    startingTab: {
+      type: Number,
+      default: 1
+    }
   },
   data() {
     return {
@@ -138,7 +143,7 @@ export default {
       activeTab: 2,
       tabs: tabs,
       level2Open: false,
-      level3Open: false,
+      level3Open: false, // TODO: add support for level 3
       storedHighlightedEl: null
     }
   },
@@ -147,7 +152,7 @@ export default {
       return this.activeTab === tab;
     },
     setActive(tab) {
-      console.log(tab)
+      //console.log(tab)
       this.activeTab = tab;
     },
     switchLeft() {
@@ -160,10 +165,13 @@ export default {
     },
     closeMenu() {
       this.active = false;
-      // TODO: cleanup if level2 menu was open
+      // cleanup if level2 menu was open
+      if (this.level2Open) {
+        this.goBackToLevel1()
+      }
     },
     handleFocusIn(e) { // TODO: this is not looping through correctly.
-      console.log(e.target)
+      //console.log(e.target)
       if (this.active && this.level2Open && !e.target.matches('.jump-menu .jm-container--level-2 .panel.active *')) {
         // move focus back inside level 2 menu
         this.$el.querySelector('.jm-container--level-2 .panel.active a, .jm-container--level-2 .panel.active button').focus()
@@ -194,7 +202,7 @@ export default {
       const xDiff = this.touchX - moveX;
       const yDiff = this.touchY - moveY;
 
-      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      if (Math.abs(xDiff) > Math.abs(yDiff) && !this.level2Open) {
         if (xDiff > 0) {
           // left swipe
           this.switchRight()
@@ -216,7 +224,7 @@ export default {
       this.touchX = null;
       this.touchY = null;
     },
-    storeCurrentEl() { // TODO: keep reference of el that opened a level2 menu. How will we also store a level2 el that opened a level3 menu? this.storedHighlightedEl2 ?
+    storeCurrentEl() { // keep reference of el that opened a level2 menu. // TODO: How will we also store a level2 el that opened a level3 menu? this.storedHighlightedEl2 ?
       this.storedHighlightedEl = document.activeElement
     },
     clearCurrentEl() {
@@ -258,7 +266,7 @@ export default {
     },
     goBackToLevel1() {
       this.level2Open = false;
-      if (this.storedHighlightedEl) {
+      if (this.storedHighlightedEl && this.active) {
         this.storedHighlightedEl.focus()
         this.clearCurrentEl()
       }
@@ -270,11 +278,11 @@ export default {
       }
       this.level2Open = true;
     },
-    switchFocus(cssSelector, direction) { // both arguments = strings
+    switchFocus(cssSelector, direction) { // handle Arrowdown + up inside active tab, to focus next a/button tag. both arguments = strings
       const buttons = Array.from(this.$el.querySelectorAll(cssSelector))
       const currentButton = document.activeElement
       const index = buttons.indexOf(currentButton)
-      console.log(buttons, currentButton, index)
+      //console.log(buttons, currentButton, index)
 
       if (direction === 'up') {
         if (index > -1) {
@@ -315,12 +323,16 @@ export default {
     document.addEventListener('keydown', e => {
       const key = e.key.toLowerCase()
       const upDownCssSelector = '.panel.active a, .panel.active button'
+
       // this is not in switch case for level 1 keydowns because it should always run, no matter if you have level2 or 3 open
-      if (key === "j" && e.ctrlKey) {
+      if (key === "j" && e.ctrlKey && !e.repeat) { // don't do anything if the user is holding down the key (e.repeat === true)
         this.active = !this.active;
-        this.setActive(2) // always start on this tab // TODO: make a prop
-        // TODO: cleanup if level2 menu was open (we want to close it)
+        this.setActive(this.startingTab) // always start on this tab
         e.preventDefault();
+        // cleanup if level2 menu was open (we want to close it)
+        if (this.level2Open) {
+          this.goBackToLevel1()
+        }
         return;
       }
 
@@ -387,402 +399,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-@import "@/styles/base/variables.scss";
-@import "@/styles/base/_breakpoints.scss";
-
-$menu-bg: rgba(240, 240, 240, .95);
-$primary-color: #6190e8;
-$text-color: #212121;
-$btn-bg-color: rgba(0,0,0, .07);
-$transition-ease: cubic-bezier(.17,.67,.16,.99);
-
-// $menu-bg: rgba(45, 45, 45, .95);
-// $primary-color: orangered;
-// $text-color: #fff;
-// $btn-bg-color: rgba(240,240,240, .07);
-
-.jump-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  //overflow: visible;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 10000;
-
-  &:not(.menu-active) * {
-    user-select: none;
-    pointer-events: none;
-  }
-}
-
-.jm-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  //display: block;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: opacity .15s linear, width 0s linear, height 0s linear;
-  transition-delay: 0s, .15s, .15s;
-  z-index: 1;
-
-  .icon { // close icon on mobile
-    display: none;
-  }
-
-  .menu-active & {
-    opacity: 1;
-    width: 100%;
-    height: 100%;
-    transition-delay: 0s, 0s, 0s;
-
-    @include breakpoint-max(sm) {
-      width: 60px; 
-      height: 60px;
-      top: unset; 
-      bottom: 10px; 
-      left: 50vw;
-      margin-left: -30px;
-      background-color: #ccc;
-      z-index: 3;
-      overflow: hidden;
-      line-height: 70px;
-      text-align: center;
-      transition: transform .15s $transition-ease;
-      .icon {
-        display: initial;
-      }
-      &.folded {
-        transform: scale(0);
-      }
-    }
-  }
-
-  
-}
-
-.jm-container {
-  width: 480px;
-  height: 90%;
-  margin-left: 40px;
-  background: $menu-bg;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.05), 0 20px 25px rgba(0, 0, 0, 0.05), 0 3px 4px rgba(0, 0, 0, 0.05);
-  z-index: 2;
-  transform: translateX(calc(-100% - 40px));
-  transform-origin: 0 0;
-  transition: transform 0.5s $transition-ease;
-
-  .menu-active & {
-    transform: translateX(0);
-  }
-
-  @include breakpoint-max(sm) {
-    width: 100vw; 
-    height: 100%;
-    margin-left: 0;
-  }
-
-  .main-nav {
-    display: flex;
-    width: 100%;
-    height: 50px;
-    // flex-direction: row;
-    // justify-content: space-around;
-
-    a {
-      display: block;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      cursor: pointer;
-      color: #999;
-      line-height: 60px;
-      transform: scale(1);
-      transition: transform .05s linear, color .15s linear;
-
-      &:hover {
-        color: $text-color;
-      }
-
-      &.active {
-        color: $text-color;
-        text-shadow: 0 0 5px rgba(252, 255, 75, 0.2);
-        transform: scale(1.3);
-      }
-    }
-  }
-
-  @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
-    // For Google Chrome
-    &::-webkit-scrollbar {
-        width: $size;
-        height: $size;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: $foreground-color;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: $background-color;
-    }
-    // For Internet Explorer
-    scrollbar-face-color: $foreground-color;
-    scrollbar-track-color: $background-color;
-  }
-
-  .menu-inner {
-    //display: block;
-    width: 100%;
-    height: calc(100% - 50px);
-    position: relative;
-    overflow: hidden;
-
-    > .panel {
-      overflow-x: hidden;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transform: translateX(-30px); // is moved a bit to the left by default
-      transition: transform 0.5s $transition-ease;
-
-      @include breakpoint(md) {
-        @include scrollbars(12px, darken($menu-bg, 30%), darken($menu-bg, 20%));
-      }
-      
-      &.active {
-        transform: translateX(0); // visible one is not moved to the side
-        z-index: 3;
-        opacity: 1;
-
-        ~ .panel {
-          transform: translateX(30px); // panels to the right of active, is moved to the right a bit
-        }
-      }
-    }
-  }
-}
-
-
-// inner content
-.jump-menu {
-  .panel {
-    color: $text-color;
-
-    .section-flex {
-      display: flex;
-      //flex-direction: row;
-      flex-wrap: wrap;
-      // align-content: flex-start;
-      // align-items: flex-start;
-      justify-content: space-between;
-      // box-sizing: border-box;
-      padding: 20px;
-
-      .block {
-        width: 100%;
-        //flex-grow: 1;
-        margin-bottom: 2px;
-
-        &.full {
-          width: 100%;
-        }
-
-        &.third {
-          width: calc(33.33333% - 2px);
-          max-width: calc(33.33333% - 2px);
-        }
-      }
-    }
-
-    hr {
-      margin: 5px 20px;
-      color: #888;
-    }
-
-
-    a, button {
-      display: block;
-      width: 100%;
-      position: relative;
-      box-sizing: border-box;
-      border: none;
-      text-decoration: none;
-      color: $text-color;
-      //height: 100%;
-      font-size: 20px;
-      line-height: 60px;
-      transition: box-shadow .15s linear;
-      padding: 0 20px;
-
-      &:focus,
-      &:active,
-      &:hover {
-        cursor: pointer;
-        color: #fff;
-        background-color: $primary-color;
-        box-shadow: 0 0 3px 3px rgba(lighten($primary-color, 20%), .1);
-      }
-
-      &.hover-text {
-        padding: 20px 0;
-        
-        > span {
-          position: absolute;
-          bottom: 15px; left: 15px;
-          font-size: 14px;
-          line-height: 14px;
-          opacity: 0;
-        }
-
-        &:hover, &:focus {
-          > span {
-            opacity: 1;
-          }
-        } 
-      }
-    }
-
-    a {
-      position: relative;
-      text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding-right: 50px;
-      //padding: 0 20px;
-
-      &::after {
-        content: "";
-        position: absolute;
-        right: 30px;
-        top: 50%;
-        opacity: 0;
-        width: 10px;
-        height: 10px;
-        border-top: 2px solid;
-        border-right: 2px solid;
-        transform: translateY(-50%) rotate(45deg);
-        //display: inline-block;
-        transition: opacity .15s linear, transform .25s $transition-ease;
-      }
-
-      &:active,
-      &:focus,
-      &:hover {
-        &::after {
-          opacity: 1;
-          transform: translateY(-50%) translateX(10px) rotate(45deg);
-        }
-      }
-    }
-
-
-    button {
-      //padding-left: 20px; padding-right: 20px;
-      background-color: $btn-bg-color;
-      text-align: center;
-    }
-    h3 {
-      position: relative;
-      display: block;
-      width: 100%;
-      margin: 0 0 30px 0;
-      button {
-        //display: inline;
-        width: auto; 
-        height: auto;
-        padding: 0;
-        text-align: center;
-        line-height: initial;
-        position: absolute;
-        right: 20px; top: 50%;
-        transform: translateY(-50%);
-        background-color: transparent;
-      }
-    }
-  }
-}
-
-
-
-
-// second level styles
-.jm-container {
-  &--level-1 {
-    position: relative;
-  }
-
-  &--level-2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: #eaeaea;
-    z-index: 5;
-    transform-origin: 0 0;
-    transition: opacity .3s, transform 0.5s $transition-ease;
-    opacity: 0;
-
-    &:not(.open) {
-      pointer-events: none;
-      user-select: none;
-    }
-    
-    .menu-active & {
-      transform: translateX(70px); // comes in from the right instead
-      &.open {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-  }
-}
-
-.level-2-go-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,.15);
-  cursor: pointer;
-  z-index: 4;
-
-  // center svg icon
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  color: $text-color;
-
-  svg {
-    transform: translateX(10px);
-    opacity: 0;
-    transition: opacity .3s, transform 0.5s $transition-ease;
-  }
-
-  &:hover,
-  &:focus {
-    svg {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-}
-
-</style>
