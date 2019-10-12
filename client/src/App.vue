@@ -136,9 +136,21 @@ export default {
 
     // viewport orientation change listener
     //handleOrientationChange(this); // Currently not used for anything
-
+    
+    const imageCb = img => {
+      const debugObj = {
+        url: window.location.href,
+        imgPath: img.dataset.brokenImageSrc,
+        isContent: !!img.closest('#content') // img is not inside main content area
+        //isExternal: check if url is not same as window.location https://stackoverflow.com/a/28054735
+      }
+      console.log('BROKEN IMAGE:', debugObj)
+      // console.log({...img.dataset})
+      // console.log(Object.assign({}, img.dataset))
+    }
+    Object.from
     // add eventlistener to document, for 'error' on images
-    replaceBrokenImagesInit('/static/img/wizard.jpg');
+    replaceBrokenImagesInit('/static/img/wizard.jpg', imageCb);
 
     // set browser specific css classes on body
     setBrowserCompatibilityClasses();
