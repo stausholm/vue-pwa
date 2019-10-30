@@ -321,6 +321,8 @@ export default {
     window.addEventListener('popstate', this.closeMenu) // close menu when navigating. TODO: also add same check as modalAdvanced in router.
 
     document.addEventListener('keydown', e => {
+      if (!e.key) return 
+      
       const key = e.key.toLowerCase()
       const upDownCssSelector = '.panel.active a, .panel.active button'
 
