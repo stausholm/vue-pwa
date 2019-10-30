@@ -257,6 +257,13 @@ export default {
               }
             ]
           }
+        },
+        {
+          fieldType: 'HtmlContent',
+          html: `
+            <h3>Some html inserted into the form generator</h3>
+            <p>can be placed in between form elements</p>
+          `
         }
       ],
     }

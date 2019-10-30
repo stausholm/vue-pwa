@@ -39,6 +39,7 @@ import NumberInput from './NumberInput';
 import ImageInput from './ImageInput';
 import FileInput from './FileInput';
 import HiddenInput from './HiddenInput';
+import HtmlContent from './HtmlContent';
 
 export default {
   name: 'FormGenerator',
@@ -56,7 +57,8 @@ export default {
     NumberInput,
     ImageInput,
     FileInput,
-    HiddenInput
+    HiddenInput,
+    HtmlContent
   },
   props: {
     schema: {

@@ -148,7 +148,7 @@ export default {
       // console.log({...img.dataset})
       // console.log(Object.assign({}, img.dataset))
     }
-    Object.from
+    
     // add eventlistener to document, for 'error' on images
     replaceBrokenImagesInit('/static/img/wizard.jpg', imageCb);
 
