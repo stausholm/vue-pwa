@@ -7,6 +7,8 @@
 </template>
 
 <script>
+let rafID = null
+
 const resizeCanvas = $canvas => {
   const c = $canvas;
   c.width = c.parentNode.offsetWidth;
@@ -102,6 +104,7 @@ const createRandomCircle = $canvas => {
 }
 
 const initAnimationLoop = $canvas => {
+  cancelAnimationFrame(rafID)
   const c = $canvas;
   const ctx = c.getContext('2d')
 
@@ -113,7 +116,7 @@ const initAnimationLoop = $canvas => {
   //const circle = createRandomCircle(c)
 
   const animate = () => {
-    requestAnimationFrame(animate)
+    rafID = requestAnimationFrame(animate)
     ctx.clearRect(0, 0, c.width, c.height)
 
     //circle.update()
@@ -162,6 +165,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', resizeCanvas)
+    cancelAnimationFrame(rafID)
   }
 }
 </script>

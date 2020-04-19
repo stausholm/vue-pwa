@@ -8,6 +8,7 @@
 </template>
 
 <script>
+let rafID = null
 const resizeCanvas = $canvas => {
   const c = $canvas;
   c.width = c.parentNode.offsetWidth;
@@ -82,6 +83,7 @@ function Ball($canvas, x, y, dy, dx, r, color, gravityPull) {
 
 
 const initAnimationLoop = $canvas => {
+  cancelAnimationFrame(rafID)
   const c = $canvas;
   const ctx = c.getContext('2d')
 
@@ -92,12 +94,12 @@ const initAnimationLoop = $canvas => {
   c.addEventListener('click', ball2.click)
 
   const animate = () => {
-    requestAnimationFrame(animate)
+    rafID = requestAnimationFrame(animate)
     ctx.clearRect(0, 0, c.width, c.height)
 
     ball.update()
     ball2.update()
-    
+    console.log('animate called')
   }
 
   animate() 
@@ -123,6 +125,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', resizeCanvas)
+    cancelAnimationFrame(rafID)
   }
 }
 </script>
