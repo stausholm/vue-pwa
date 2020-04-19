@@ -14,6 +14,7 @@ import ExampleSwiper from "@/pages/example/ExampleSwiper";
 import ExampleCanvas from "@/pages/example/ExampleCanvas";
 import ExampleCanvas2 from "@/pages/example/ExampleCanvas2";
 import ExampleCard from "@/pages/example/ExampleCard";
+import ExampleImages from "@/pages/example/ExampleImages";
 
 export default [
   {
@@ -108,6 +109,11 @@ export default [
         path: "examplecard",
         name: "ExampleCard",
         component: ExampleCard
+      },
+      {
+        path: "exampleimages",
+        name: "ExampleImages",
+        component: ExampleImages
       }
     ]
   },
