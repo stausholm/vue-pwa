@@ -19,10 +19,7 @@
 </template>
 
 <script>
-// THIS DOES NOT TAKE INTO ACCOUNT IF YOU GO FROM ONLINE TO LIE-FI
-// would need a user to request new content, and if that fails, then start running an exponential retry on that request,
-// and update isOnline to false in here.
-// when that request succedes, we know that we're back online, so update isOnline in here
+// THIS DOES NOT TAKE INTO ACCOUNT IF YOU GO FROM ONLINE TO LIE-FI. You need to emit a 'checkOffline' event on $root, to make that check
 export default {
   name: 'OfflineNotice',
   data() {
@@ -87,7 +84,7 @@ export default {
       window.addEventListener('online', () => {
         this.attemptsDelay = 1;
         clearTimeout(this.timeout); // clear currently running timeout, set by being offline
-        this.retry();
+        this.retry(); // Retry, as we could be in lie-fi
       })
 
       window.addEventListener('offline', () => {
@@ -103,9 +100,12 @@ export default {
       this.showNotice = true;
 
       if (newVal === true) {
+        this.$emit('online')
         setTimeout(() => {
           this.showNotice = false;
         }, 1000)
+      } else {
+        this.$emit('offline')
       }
     }
   }
