@@ -1,14 +1,24 @@
 <template>
   <div class="depth-photo">
     <transition name="fade">
-      <div class="depth-photo__loader" v-if="loading" aria-label="Loading image...">
+      <div class="depth-photo__loader depth-photo__loader--loading" v-if="loading" aria-label="Loading image...">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="presentation">
           <path d="M0 0h24v24H0V0z" fill="none"/>
           <path d="M13.2 7.07L10.25 11l2.25 3c.33.44.24 1.07-.2 1.4-.44.33-1.07.25-1.4-.2-1.05-1.4-2.31-3.07-3.1-4.14-.4-.53-1.2-.53-1.6 0l-4 5.33c-.49.67-.02 1.61.8 1.61h18c.82 0 1.29-.94.8-1.6l-7-9.33c-.4-.54-1.2-.54-1.6 0z"/>
         </svg>
       </div>
+      <div class="depth-photo__loader depth-photo__loader--error" v-else-if="error">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M0 0h24v24H0V0z" fill="none"/>
+          <path d="M21 5v6.59l-2.29-2.3c-.39-.39-1.03-.39-1.42 0L14 12.59 10.71 9.3c-.39-.39-1.02-.39-1.41 0L6 12.59 3 9.58V5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2zm-3 6.42l3 3.01V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6.58l2.29 2.29c.39.39 1.02.39 1.41 0l3.3-3.3 3.29 3.29c.39.39 1.02.39 1.41 0l3.3-3.28z"/>
+        </svg>
+        <span>Failed to load image</span>
+      </div>
+      <div class="depth-photo__loader depth-photo__loader--fallback" v-else-if="partialError">
+        <img :src="imgSrc" alt="">
+      </div>
     </transition>
-    <canvas :class="{'fit-container': expandToFit}" @mousemove="initCTA()" ref="canvas"></canvas>
+    <canvas :class="{'fit-container': expandToFit}" @mouseenter="initCTA()" ref="canvas"></canvas>
     <transition name="fade">
       <div class="depth-photo__cta" v-if="!loading && cta.animationState === 'playing'">
         <p>Move your {{cta.pointer}} to view the photo in 3D</p>
@@ -25,11 +35,15 @@
  * TODO:
  * device detection
  * cta icon animation
- * smooth go to new position if cursor leaves the card
+ * //catch failed loading image or depthmap
+ * //smooth go to new position if cursor leaves the card
  * react to device orientation if it's enabled. 
  * handle touchmove maybe?
  * disable right click
- * resize canvas to parent fullwidth + maybe resize event listener
+ * //resize canvas to parent fullwidth
+ * maybe resize event listener
+ * //detect prefers-reduced-motion, and just display image
+ * don't flip the image
  */
 let rafID = null
 
@@ -65,7 +79,8 @@ export default {
   data() {
     return {
       loading: true,
-      canvas: null,
+      error: false,
+      partialError: false,
       cta: {
         pointer: 'mouse',
         animationState: 'hidden', // show on mouseover 
@@ -75,43 +90,52 @@ export default {
       pointer: {
         x: 0,
         y: 0,
-        //resetting: false
         trailX: 0,
-        trailY: 0,
-        test: false
+        trailY: 0
+      },
+      img: {
+        width: null,
+        height: null
       }
     }
   },
   methods: {
+    resizeCanvas() {
+      const canvas = this.$refs.canvas
+
+      if (this.expandToFit) {
+        const parent = this.$el
+        canvas.width = parent.offsetWidth
+        canvas.height = (this.img.height / this.img.width) * parent.offsetWidth //calculate new height from aspect ratio of original image and new width
+      } else {
+        canvas.width = this.img.width
+        canvas.height = this.img.height
+      }
+    },
     async init() {
       cancelAnimationFrame(rafID)
 
       const img = new Image()
       img.crossOrigin = 'Anonymous'
       img.src = this.imgSrc
-      await new Promise( r=> img.onload = r)
+      await new Promise((r, e)=> {img.onload = r, img.onerror = () => e('img')})
 
+      this.img.width = img.width
+      this.img.height = img.height
+      
       const depth = new Image()
       depth.crossOrigin = 'Anonymous'
       depth.src = this.depthmapSrc
-      await new Promise( r=> depth.onload = r)
+      await new Promise((r, e)=> {depth.onload = r, depth.onerror = () => e('depth')})
 
-      //await new Promise(r => setTimeout(r, 2000))
 
-      // const canvas = document.createElement('canvas')
+      //await new Promise(r => setTimeout(r, 2000)) // test this.loading
+
       const canvas = this.$refs.canvas
-      canvas.height = img.height
-      canvas.width = img.width
+      this.resizeCanvas()
+
 
       const gl = canvas.getContext('webgl')
-
-      // Object.assign(canvas.style, {
-      //   maxWidth: '100vw',
-      //   maxHeight: '100vh',
-      //   objectFit: 'contain',
-      // })
-
-      //document.body.appendChild(canvas)
 
       const buffer = gl.createBuffer()
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
@@ -180,73 +204,53 @@ export default {
         gl.clearColor(0.25, 0.65, 1, 1)
         gl.clear(gl.COLOR_BUFFER_BIT)
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+        
+        const p = this.pointer
 
         if (!startTime) // it's the first frame
           startTime = time || performance.now()
 
-        const p = this.pointer
         // deltaTime should be in the range [0 ~ 1]
         const deltaTime = (time - startTime) / duration
         // currentPos = previous position + (difference * deltaTime)
-        const currentX = p.trailX + ((p.x - p.trailX) * deltaTime)
-        const currentY = p.trailY + ((p.y - p.trailY) * deltaTime)
-        //console.log(currentX, currentY)
+        const currentX = p.trailX + ((p.x - p.trailX) * deltaTime) || 0
+        const currentY = p.trailY + ((p.y - p.trailY) * deltaTime) || 0
+
         if (deltaTime >= 1) { // this means we ended our animation
-        console.log('ended')
           p.trailX = p.x // reset x variable
           p.trailY = p.y // reset y variable
           //startTime = null // reset startTime
           gl.uniform2fv(mouseLoc, new Float32Array([p.x, p.y])) // draw the last frame, at required position
+          cancelAnimationFrame(rafID)
+          rafID = null
         } else {
-          console.log('NOT ended')
           gl.uniform2fv(mouseLoc, new Float32Array([currentX, currentY]))
-          //requestAnimationFrame(anim); // do it again
+          p.trailX = currentX
+          p.trailY = currentY
+          rafID = requestAnimationFrame(loop) // continue to animate while there is something to animate
         }
-
-        // const p = this.pointer
-        // if(p.x !== p.trailX || p.y !== p.trailY) {
-        //   //console.log('asaaa', p.trailX, p.x)
-        //   p.trailX = (p.x - p.trailX) / 2
-        //   // p.trailY = (p.y - p.trailY) / 2
-        //   p.trailX = p.x
-        //   p.trailY = p.y
-        //   gl.uniform2fv(mouseLoc, new Float32Array([p.trailX, p.trailY]))
-        // }
-        // console.log(time)
-        rafID = requestAnimationFrame(loop)
       }
       loop()
 
       const mouseLoc = gl.getUniformLocation(program, 'mouse')
       canvas.onmousemove = (d) => {
-        //if(this.pointer.resetting) return
-
         // 0.5 to use center of canvas, instead of top left corner
         const mousepos = [-0.5 + d.offsetX / canvas.width, 0.5 - d.offsetY / canvas.height]
-        console.log('dddd',mousepos)
 
-        //this.pointer.trailX = this.pointer.trailX - mousepos[0];
-        // this.pointer.trailY = ;
-
-        //const trailpos = [this.pointer.trailX, this.pointer.trailY]
-
-        // gl.uniform2fv(mouseLoc, new Float32Array(mousepos))
-        // // gl.uniform2fv(mouseLoc, new Float32Array(trailpos))
-        
         this.pointer.x = mousepos[0]
         this.pointer.y = mousepos[1]
+        
+        if(!rafID) {
+          rafID = requestAnimationFrame(loop)
+        }
       }
       canvas.onmouseenter = (d) => {
-        //this.pointer.resetting = true
-        this.pointer.test = true
         startTime = null
-        // cancelAnimationFrame(rafID)
-        // loop()
         const mpos = [-0.5 + d.offsetX / canvas.width, 0.5 - d.offsetY / canvas.height]
-        // duration = mpos[0] * 1000
-        //gl.uniform2fv(mouseLoc, new Float32Array(mpos))
-        //setTimeout(() => {this.pointer.resetting = false}, 500)
-        // calculate diff from stored pointer.x and pointer.y, and animate prevent default mousemove until we are where the cursor is
+
+        if (!rafID) {
+          rafID = requestAnimationFrame(loop)
+        }
       }
     },
     initCTA() {
@@ -261,13 +265,38 @@ export default {
     if (!this.depthmapSrc) console.error('Invalid depthmapSrc prop')
     if (parseInt(this.width)) this.$refs.canvas.width = parseInt(this.width)
     if (parseInt(this.height)) this.$refs.canvas.height = parseInt(this.height)
-    this.init().then(() => {
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      const img = new Image()
+      img.crossOrigin = 'Anonymous'
+      img.src = this.imgSrc
+      img.onload = () => {this.loading = false, this.partialError = true} 
+      img.onerror = () => {this.loading = false, this.error = true}
+      return
+    }
+
+    this.init()
+    .then(() => {
       this.loading = false
     })
+    .catch(src => {
+      this.loading = false
+      this.cta.animationState = 'finished'
+      
+      if(src === 'img') {
+        this.error = true
+      } else {
+        this.partialError = true
+      }
+      console.error(`failed to load ${src} src`)
+    })
+    //window.addEventListener('resize', this.resizeCanvas)
   },
   beforeDestroy() {
     cancelAnimationFrame(rafID)
     clearTimeout(this.cta.animationFunc)
+    //window.removeEventListener('resize', this.resizeCanvas)
   }
 }
 </script>
@@ -291,13 +320,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
 
     @keyframes loading {
       to {
         transform: translateX(100%)
       }
     }
-    &::after {
+    &--loading::after {
       content: '';
       position: absolute;
       height: 100%;
@@ -315,6 +346,12 @@ export default {
       width: 50%;
       max-width: 200px;
       height: auto;
+    }
+    &--error {
+      span {
+        color: rgba(0,0,0,.12);
+        font-weight: bold;
+      }
     }
   }
 
