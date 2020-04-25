@@ -15,7 +15,7 @@
         <span>Failed to load image</span>
       </div>
       <div class="depth-photo__loader depth-photo__loader--fallback" v-else-if="partialError">
-        <img :src="imgSrc" alt="">
+        <img :data-src="imgSrc" alt="" ref="staticImg">
       </div>
     </transition>
     <canvas :class="{'fit-container': expandToFit}" @mouseenter="initCTA()" ref="canvas"></canvas>
@@ -47,6 +47,13 @@
  * //detect prefers-reduced-motion, and just display image
  * //don't flip the image
  * reset gyro position
+ * make gyroscope work with multiple images
+ * fix expandToFit/canvas resize so it doesn't pixelate the image on mobile
+ * make the thresholds move to the edges of the image instead of narrowing the interactable box  
+ * implement intersectionobserver: 
+ *    load the image and init eventlisteners when hitting viewport for the first time, 
+ *    unload the eventlisteners and cancel animationframes when leaving the viewport,
+ *    
  */
 let rafID = null
 
@@ -89,6 +96,12 @@ export default {
     height: {
       type: [String, Number],
       default: 500
+    },
+    horizontalThreshold: {
+      type: Number // a number between 0 and 0.5
+    },
+    verticalThreshold: {
+      type: Number // a number between 0 and 0.5
     }
   },
   data() {
@@ -268,13 +281,16 @@ export default {
       canvas.onmousemove = (d) => {
         // 0.5 to use center of canvas, instead of top left corner
         const mousepos = [-0.5 + d.offsetX / canvas.width, 0.5 - d.offsetY / canvas.height]
+        const ht = this.horizontalThreshold
+        const vt = this.verticalThreshold
 
-        this.pointer.x = mousepos[0]
-        this.pointer.y = mousepos[1]
+        this.pointer.x = ht ? clamp(mousepos[0], -ht, ht) : mousepos[0]
+        this.pointer.y = vt ? clamp(mousepos[1], -vt, vt) : mousepos[1]
         
         if(!rafID) {
           rafID = requestAnimationFrame(loop)
         }
+        console.log(mousepos)
       }
       canvas.onmouseenter = (d) => {
         startTime = null
@@ -291,7 +307,7 @@ export default {
     },
     initGyro(e) {
       const g = this.gyro
-
+      //console.log('gyro', this.imgSrc)
       // setInterval(() => {
       //   this.calibrated = false;
       // },20000);
@@ -304,9 +320,11 @@ export default {
 
       const mouseTargetX = -clamp(g.startGamma - e.gamma,-g.maxTilt, g.maxTilt)/g.maxTilt
       const mouseTargetY = clamp(g.startBeta - e.beta,-g.maxTilt, g.maxTilt)/g.maxTilt
+      const ht = this.horizontalThreshold || 0.5
+      const vt = this.verticalThreshold || 0.5
 
-      this.pointer.x = clamp(mouseTargetX, -0.5, 0.5)
-      this.pointer.y = clamp(mouseTargetY, -0.5, 0.5)
+      this.pointer.x = clamp(mouseTargetX, -ht, ht)
+      this.pointer.y = clamp(mouseTargetY, -vt, vt)
       
       if(!rafID) {
         rafID = requestAnimationFrame(this.loopFunc)
@@ -324,7 +342,7 @@ export default {
       const img = new Image()
       img.crossOrigin = 'Anonymous'
       img.src = this.imgSrc
-      img.onload = () => {this.loading = false, this.partialError = true} 
+      img.onload = () => {this.loading = false, this.partialError = true, this.$nextTick(()=>this.$refs.staticImg.src = img.src)} 
       img.onerror = () => {this.loading = false, this.error = true}
       return
     }
