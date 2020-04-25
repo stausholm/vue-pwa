@@ -31,21 +31,36 @@
 /**
  * sources:
  * https://www.bram.us/2019/09/20/how-facebook-3d-photos-work-and-how-to-create-one-yourself/
+ * https://tympanus.net/codrops/2019/02/20/how-to-create-a-fake-3d-image-effect-with-webgl/
+ * https://stackoverflow.com/questions/43626268/html-canvas-move-circle-from-a-to-b-with-animation
  * 
  * TODO:
  * device detection
  * cta icon animation
  * //catch failed loading image or depthmap
  * //smooth go to new position if cursor leaves the card
- * react to device orientation if it's enabled. 
+ * //react to device orientation if it's enabled. 
  * handle touchmove maybe?
  * disable right click
  * //resize canvas to parent fullwidth
  * maybe resize event listener
  * //detect prefers-reduced-motion, and just display image
- * don't flip the image
+ * //don't flip the image
+ * reset gyro position
  */
 let rafID = null
+
+function clamp(number, lower, upper) {
+  if (number === number) {
+    if (upper !== undefined) {
+      number = number <= upper ? number : upper;
+    }
+    if (lower !== undefined) {
+      number = number >= lower ? number : lower;
+    }
+  }
+  return number;
+}
 
 export default {
   name: 'DepthPhoto',
@@ -81,6 +96,7 @@ export default {
       loading: true,
       error: false,
       partialError: false,
+      loopFunc: null,
       cta: {
         pointer: 'mouse',
         animationState: 'hidden', // show on mouseover 
@@ -96,6 +112,12 @@ export default {
       img: {
         width: null,
         height: null
+      },
+      gyro: {
+        calibrated: false,
+        startGamma: null,
+        startBeta: null,
+        maxTilt: 15
       }
     }
   },
@@ -132,6 +154,9 @@ export default {
       //await new Promise(r => setTimeout(r, 2000)) // test this.loading
 
       const canvas = this.$refs.canvas
+      Object.assign(canvas.style, {
+        transform: 'rotateY(180deg)' // revert the flipped texture
+      })
       this.resizeCanvas()
 
 
@@ -199,13 +224,19 @@ export default {
 
 
       let startTime = null
-      let duration = 1000 // in ms
+      let duration = 700 // in ms
       const loop = (time) => {
         gl.clearColor(0.25, 0.65, 1, 1)
         gl.clear(gl.COLOR_BUFFER_BIT)
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
         
         const p = this.pointer
+
+        // if (p.trailX < p.x - 0.09 || p.trailX > p.x + 0.09 || p.trailY < p.y - 0.09 || p.trailY > p.y + 0.09) {
+        //   if (startTime) {
+        //     console.log('BIG JUMP')
+        //   }
+        // }
 
         if (!startTime) // it's the first frame
           startTime = time || performance.now()
@@ -219,7 +250,7 @@ export default {
         if (deltaTime >= 1) { // this means we ended our animation
           p.trailX = p.x // reset x variable
           p.trailY = p.y // reset y variable
-          //startTime = null // reset startTime
+          startTime = null // reset startTime
           gl.uniform2fv(mouseLoc, new Float32Array([p.x, p.y])) // draw the last frame, at required position
           cancelAnimationFrame(rafID)
           rafID = null
@@ -231,6 +262,7 @@ export default {
         }
       }
       loop()
+      this.loopFunc = loop // store so we can reference it in this.initGyro
 
       const mouseLoc = gl.getUniformLocation(program, 'mouse')
       canvas.onmousemove = (d) => {
@@ -246,8 +278,6 @@ export default {
       }
       canvas.onmouseenter = (d) => {
         startTime = null
-        const mpos = [-0.5 + d.offsetX / canvas.width, 0.5 - d.offsetY / canvas.height]
-
         if (!rafID) {
           rafID = requestAnimationFrame(loop)
         }
@@ -257,6 +287,29 @@ export default {
       if(this.cta.animationState === 'hidden') {
         this.cta.animationState = 'playing'
         this.cta.animationFunc = setTimeout(() => {this.cta.animationState = 'finished'}, this.cta.animationDuration)
+      }
+    },
+    initGyro(e) {
+      const g = this.gyro
+
+      // setInterval(() => {
+      //   this.calibrated = false;
+      // },20000);
+
+      if(!g.calibrated) {
+        g.startGamma = e.gamma
+        g.startBeta = e.beta
+        g.calibrated = true
+      }
+
+      const mouseTargetX = -clamp(g.startGamma - e.gamma,-g.maxTilt, g.maxTilt)/g.maxTilt
+      const mouseTargetY = clamp(g.startBeta - e.beta,-g.maxTilt, g.maxTilt)/g.maxTilt
+
+      this.pointer.x = clamp(mouseTargetX, -0.5, 0.5)
+      this.pointer.y = clamp(mouseTargetY, -0.5, 0.5)
+      
+      if(!rafID) {
+        rafID = requestAnimationFrame(this.loopFunc)
       }
     }
   },
@@ -279,6 +332,7 @@ export default {
     this.init()
     .then(() => {
       this.loading = false
+      window.addEventListener('deviceorientation', this.initGyro, true)
     })
     .catch(src => {
       this.loading = false
@@ -296,6 +350,7 @@ export default {
   beforeDestroy() {
     cancelAnimationFrame(rafID)
     clearTimeout(this.cta.animationFunc)
+    window.removeEventListener('deviceorientation', this.initGyro, true)
     //window.removeEventListener('resize', this.resizeCanvas)
   }
 }
