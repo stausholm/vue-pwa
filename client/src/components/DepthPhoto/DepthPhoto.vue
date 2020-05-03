@@ -292,9 +292,20 @@ export default {
       this.loopFunc = loop // store so we can reference it in this.initGyro
 
       const mouseLoc = gl.getUniformLocation(program, 'mouse')
+
+      const canvasSize = {  // use the actual size of the canvas if it's been resized, when calculating the move thresholds in canvas.onmousemove
+        w: null,
+        h: null
+      }
+      if (this.expandToFit) {
+        const parent = this.$el
+        canvasSize.w = parent.offsetWidth
+        canvasSize.h = (this.img.height / this.img.width) * parent.offsetWidth //calculate new height from aspect ratio of original image and new width
+      }
+
       canvas.onmousemove = (d) => {
         // 0.5 to use center of canvas, instead of top left corner
-        const mousepos = [-0.5 + d.offsetX / canvas.width, 0.5 - d.offsetY / canvas.height]
+        const mousepos = [-0.5 + d.offsetX / (canvasSize.w || canvas.width), 0.5 - d.offsetY / (canvasSize.h || canvas.height)]
         const ht = this.horizontalThreshold
         const vt = this.verticalThreshold
 
