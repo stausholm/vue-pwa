@@ -18,7 +18,7 @@
         <img :data-src="imgSrc" alt="" ref="staticImg">
       </div>
     </transition>
-    <canvas :class="{'fit-container': expandToFit}" @mouseenter="initCTA()" ref="canvas"></canvas>
+    <canvas :class="{'fit-container': expandToFit}" @mouseenter="initCTA()" @touchstart="recalibrateGyro" ref="canvas"></canvas>
     <transition name="fade">
       <div class="depth-photo__cta" v-if="!loading && cta.animationState === 'playing'">
         <p>Move your {{cta.pointer}} to view the photo in 3D</p>
@@ -35,7 +35,7 @@
  * https://stackoverflow.com/questions/43626268/html-canvas-move-circle-from-a-to-b-with-animation
  * 
  * TODO:
- * device detection
+ * //device detection
  * cta icon animation
  * //catch failed loading image or depthmap
  * //smooth go to new position if cursor leaves the card
@@ -46,16 +46,13 @@
  * maybe resize event listener
  * //detect prefers-reduced-motion, and just display image
  * //don't flip the image
- * reset gyro position
- * make gyroscope work with multiple images
- * fix expandToFit/canvas resize so it doesn't pixelate the image on mobile
+ * //reset gyro position on click
+ * //make gyroscope work with multiple images
+ * // fix expandToFit/canvas resize so it doesn't pixelate the image on mobile
  * make the thresholds move to the edges of the image instead of narrowing the interactable box  
- * implement intersectionobserver: 
- *    load the image and init eventlisteners when hitting viewport for the first time, 
- *    unload the eventlisteners and cancel animationframes when leaving the viewport,
+ * //don't call animation loop if image is offscreen
  *    
  */
-let rafID = null
 
 function clamp(number, lower, upper) {
   if (number === number) {
@@ -102,6 +99,10 @@ export default {
     },
     verticalThreshold: {
       type: Number // a number between 0 and 0.5
+    },
+    disableIntersectionObserver: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -131,24 +132,31 @@ export default {
         startGamma: null,
         startBeta: null,
         maxTilt: 15
-      }
+      },
+      rafID: null,
+      observer: null,
+      isVisible: false
     }
   },
   methods: {
     resizeCanvas() {
       const canvas = this.$refs.canvas
 
-      if (this.expandToFit) {
-        const parent = this.$el
-        canvas.width = parent.offsetWidth
-        canvas.height = (this.img.height / this.img.width) * parent.offsetWidth //calculate new height from aspect ratio of original image and new width
-      } else {
-        canvas.width = this.img.width
-        canvas.height = this.img.height
-      }
+      // this creates an ugly pixelation effect when resized
+      // if (this.expandToFit) {
+      //   const parent = this.$el
+      //   canvas.width = parent.offsetWidth
+      //   canvas.height = (this.img.height / this.img.width) * parent.offsetWidth //calculate new height from aspect ratio of original image and new width
+      // } else {
+      //   canvas.width = this.img.width
+      //   canvas.height = this.img.height
+      // }
+
+      canvas.width = this.img.width
+      canvas.height = this.img.height
     },
     async init() {
-      cancelAnimationFrame(rafID)
+      cancelAnimationFrame(this.rafID)
 
       const img = new Image()
       img.crossOrigin = 'Anonymous'
@@ -239,6 +247,7 @@ export default {
       let startTime = null
       let duration = 700 // in ms
       const loop = (time) => {
+        //console.log('looping')
         gl.clearColor(0.25, 0.65, 1, 1)
         gl.clear(gl.COLOR_BUFFER_BIT)
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
@@ -265,13 +274,18 @@ export default {
           p.trailY = p.y // reset y variable
           startTime = null // reset startTime
           gl.uniform2fv(mouseLoc, new Float32Array([p.x, p.y])) // draw the last frame, at required position
-          cancelAnimationFrame(rafID)
-          rafID = null
+          cancelAnimationFrame(this.rafID)
+          this.rafID = null
         } else {
           gl.uniform2fv(mouseLoc, new Float32Array([currentX, currentY]))
           p.trailX = currentX
           p.trailY = currentY
-          rafID = requestAnimationFrame(loop) // continue to animate while there is something to animate
+          
+          if (!this.isVisible) {
+            this.rafID = null
+          } else {
+            this.rafID = requestAnimationFrame(loop) // continue to animate while there is something to animate
+          }
         }
       }
       loop()
@@ -287,15 +301,15 @@ export default {
         this.pointer.x = ht ? clamp(mousepos[0], -ht, ht) : mousepos[0]
         this.pointer.y = vt ? clamp(mousepos[1], -vt, vt) : mousepos[1]
         
-        if(!rafID) {
-          rafID = requestAnimationFrame(loop)
+        if(!this.rafID) {
+          this.rafID = requestAnimationFrame(loop)
         }
-        console.log(mousepos)
+        //console.log(mousepos)
       }
       canvas.onmouseenter = (d) => {
         startTime = null
-        if (!rafID) {
-          rafID = requestAnimationFrame(loop)
+        if (!this.rafID) {
+          this.rafID = requestAnimationFrame(loop)
         }
       }
     },
@@ -305,9 +319,23 @@ export default {
         this.cta.animationFunc = setTimeout(() => {this.cta.animationState = 'finished'}, this.cta.animationDuration)
       }
     },
+    recalibrateGyro() {
+      this.gyro.calibrated = false
+    },
     initGyro(e) {
       const g = this.gyro
-      //console.log('gyro', this.imgSrc)
+      
+      if(e.gamma && e.beta) {
+        this.cta.pointer = 'device'
+      }
+
+      if (!this.isVisible) {
+        this.rafID = null
+        g.calibrated = false
+        return
+      }
+
+      
       // setInterval(() => {
       //   this.calibrated = false;
       // },20000);
@@ -326,8 +354,8 @@ export default {
       this.pointer.x = clamp(mouseTargetX, -ht, ht)
       this.pointer.y = clamp(mouseTargetY, -vt, vt)
       
-      if(!rafID) {
-        rafID = requestAnimationFrame(this.loopFunc)
+      if(!this.rafID) {
+        this.rafID = requestAnimationFrame(this.loopFunc)
       }
     }
   },
@@ -351,6 +379,22 @@ export default {
     .then(() => {
       this.loading = false
       window.addEventListener('deviceorientation', this.initGyro, true)
+      if (!this.disableIntersectionObserver) {
+        this.observer = new IntersectionObserver(([entry]) => {
+          if (entry) {
+            this.isVisible = entry.isIntersecting
+            // if (entry.isIntersecting) {
+            //   console.log('intersect', this.imgSrc)
+            // } else {
+            //   console.log('not intersect', this.imgSrc)
+            // }
+          }
+        }, {})
+
+        this.observer.observe(this.$el)
+      } else {
+        this.isVisible = true // always asume it's visible if not checking for visibility
+      }
     })
     .catch(src => {
       this.loading = false
@@ -366,9 +410,12 @@ export default {
     //window.addEventListener('resize', this.resizeCanvas)
   },
   beforeDestroy() {
-    cancelAnimationFrame(rafID)
+    cancelAnimationFrame(this.rafID)
     clearTimeout(this.cta.animationFunc)
     window.removeEventListener('deviceorientation', this.initGyro, true)
+    if (this.observer) {
+      this.observer.disconnect()
+    }
     //window.removeEventListener('resize', this.resizeCanvas)
   }
 }
