@@ -18,7 +18,7 @@
         <img :data-src="imgSrc" alt="" ref="staticImg">
       </div>
     </transition>
-    <canvas :class="{'fit-container': expandToFit}" @mouseenter="initCTA()" @touchstart="recalibrateGyro" ref="canvas"></canvas>
+    <canvas :class="{'fit-container': expandToFit, 'loaded': !loading, 'depth-canvas': true}" @mouseenter="initCTA()" @touchstart="recalibrateGyro" ref="canvas"></canvas>
     <transition name="fade">
       <div class="depth-photo__cta" v-if="!loading && cta.animationState === 'playing'">
         <p>Move your {{cta.pointer}} to view the photo in 3D</p>
@@ -434,8 +434,16 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/base/variables.scss';
-.fit-container {
-  width: 100%;
+.depth-canvas {
+  transition: opacity .2s ease-out;
+  opacity: 0;
+  
+  &.fit-container {
+    width: 100%;
+  }
+  &.loaded {
+    opacity: 1;
+  }
 }
 .depth-photo {
   position: relative;

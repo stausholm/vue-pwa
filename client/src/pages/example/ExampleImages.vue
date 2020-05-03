@@ -22,7 +22,7 @@
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p>
       <p style="margin-top:200px">more height!</p> -->
-      <depth-photo imgSrc="/static/img/depthPhotos/ball.jpg" depthmapSrc="/static/img/depthPhotos/ball-map.jpg" :horizontalThreshold="0.2" :expandToFit="true" :hideCTA="false"/>
+      <depth-photo imgSrc="/static/img/depthPhotos/ball.jpg" depthmapSrc="/static/img/depthPhotos/ball-map.jpg" :horizontalThreshold="0.2" :expandToFit="true" :hideCTA="false" :width="1600" :height="1067"/>
       <depth-photo imgSrc="/static/img/depthPhotos/canyon.jpg" depthmapSrc="/static/img/depthPhotos/canyon-map.jpg" :horizontalThreshold="0.3" :verticalThreshold="0.2" :expandToFit="true" :hideCTA="false"/>
       <depth-photo imgSrc="/static/img/depthPhotos/lady.jpg" depthmapSrc="/static/img/depthPhotos/lady-map.jpg" :horizontalThreshold="0.1" :expandToFit="true" :hideCTA="false"/> 
       <depth-photo imgSrc="/static/img/depthPhotos/mount.jpg" depthmapSrc="/static/img/depthPhotos/mount-map.jpg" :expandToFit="true" :hideCTA="false"/>
