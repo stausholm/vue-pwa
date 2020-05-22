@@ -7,6 +7,32 @@
         <block-link v-for="link in childRoutes" :key="link.path" :to="'/example/' + link.path">{{link.name}}</block-link>
       </nav>
 
+      <note>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quas rem exercitationem eius vero! Distinctio, iure quo? Magnam minus earum illo tempora aliquam ea, ad tempore debitis repellendus, et suscipit!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iure expedita provident aut hic cum ad molestias cumque maxime. Adipisci dolore dolorum iusto facilis ab aliquid cumque amet quis velit?</p>
+      </note>
+      <note type="info" title="down the rabbit hole">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iure expedita provident aut hic cum ad molestias cumque maxime. Adipisci dolore dolorum iusto facilis ab aliquid cumque amet quis velit?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quas rem exercitationem eius vero! Distinctio, iure quo? <code>Magnam minus earum</code> illo tempora aliquam ea, ad tempore debitis repellendus, et suscipit!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ex deleniti <a href="#">asperiores beatae expedita</a> alias numquam quod doloremque corporis velit voluptatibus facilis obcaecati quo atque, quisquam maxime reiciendis cumque magni.Fugit dignissimos odit nemo rerum molestias fuga quae magni nam beatae. Iusto eius nemo dolor neque rem molestias. Libero, ex animi! Necessitatibus, architecto quisquam vel deleniti repudiandae dolorum consequatur dignissimos?</p>
+      </note>
+      <note type="warning" title="down the rabbit hole">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iure expedita provident aut hic cum ad molestias cumque maxime. Adipisci dolore dolorum iusto facilis ab aliquid cumque amet quis velit?</p>
+        <code>asdasdh asjdgh adgh </code>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quas rem exercitationem eius vero! Distinctio, iure quo? <code>Magnam minus earum</code> illo tempora aliquam ea, ad tempore debitis repellendus, et suscipit!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ex deleniti <a href="#">asperiores beatae expedita</a> alias numquam quod doloremque corporis velit voluptatibus facilis obcaecati quo atque, quisquam maxime reiciendis cumque magni.Fugit dignissimos odit nemo rerum molestias fuga quae magni nam beatae. Iusto eius nemo dolor neque rem molestias. Libero, ex animi! Necessitatibus, architecto quisquam vel deleniti repudiandae dolorum consequatur dignissimos?</p>
+      </note>
+      <note type="success" title="down the rabbit hole">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iure expedita provident aut hic cum ad molestias cumque maxime. Adipisci dolore dolorum iusto facilis ab aliquid cumque amet quis velit?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quas rem exercitationem eius vero! Distinctio, iure quo? <code>Magnam minus earum</code> illo tempora aliquam ea, ad tempore debitis repellendus, et suscipit!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ex deleniti <a href="#">asperiores beatae expedita</a> alias numquam quod doloremque corporis velit voluptatibus facilis obcaecati quo atque, quisquam maxime reiciendis cumque magni.Fugit dignissimos odit nemo rerum molestias fuga quae magni nam beatae. Iusto eius nemo dolor neque rem molestias. Libero, ex animi! Necessitatibus, architecto quisquam vel deleniti repudiandae dolorum consequatur dignissimos?</p>
+      </note>
+      <note type="error" title="down the rabbit hole">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iure expedita provident aut hic cum ad molestias cumque maxime. Adipisci dolore dolorum iusto facilis ab aliquid cumque amet quis velit?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quas rem exercitationem eius vero! Distinctio, iure quo? <code>Magnam minus earum</code> illo tempora aliquam ea, ad tempore debitis repellendus, et suscipit!</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ex deleniti <a href="#">asperiores beatae expedita</a> alias numquam quod doloremque corporis velit voluptatibus facilis obcaecati quo atque, quisquam maxime reiciendis cumque magni.Fugit dignissimos odit nemo rerum molestias fuga quae magni nam beatae. Iusto eius nemo dolor neque rem molestias. Libero, ex animi! Necessitatibus, architecto quisquam vel deleniti repudiandae dolorum consequatur dignissimos?</p>
+      </note>
+
       <h1>header 1</h1>
       <h2>header 2</h2>
       <h3>header 3</h3>
@@ -38,12 +64,14 @@
 
 import SearchBar from '@/components/search/SearchBar';
 import BlockLink from '@/components/navigation/BlockLink';
+import Note from '@/components/note/Note';
 
 export default {
   name: 'Example',
   components: {
     SearchBar,
-    BlockLink
+    BlockLink,
+    Note
   },
   data() {
     return {
