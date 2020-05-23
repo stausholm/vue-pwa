@@ -110,6 +110,7 @@ $color-primary: hsl(245deg, 100%, 60%);
     font-weight: 500;
     color: inherit;
     text-decoration: none;
+    transition: color 200ms ease;
 
     &:after {
       content: "";
