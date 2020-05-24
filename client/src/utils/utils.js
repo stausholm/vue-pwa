@@ -1,5 +1,6 @@
 /**
- * returns a number between the two provided numbers
+ * returns a number between the two provided numbers. This includes the lower bound, but excludes the upper bound. This is intentional, to match the behaviour of e.g. Math.random and Array.slice
+ * @summary returns a number between the two provided numbers
  * @function
  * @param {number} min - minimum number
  * @param {number} max - maximum number
