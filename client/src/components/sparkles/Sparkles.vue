@@ -14,27 +14,11 @@
 </template>
 
 <script>
+import { random, sample } from '@/utils/utils'
 /**
  * Sources:
  * https://joshwcomeau.com/react/animated-sparkles-in-react/#generation-and-cleanup
  */
-
-const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
-
-const sampleOne = arr => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
-
-const sample = (arr, len = 1) => {
-  let output = [];
-
-  for (let i = 0; i < len; i++) {
-    output.push(sampleOne(arr));
-  }
-
-  return output;
-};
-
 const QUERY = '(prefers-reduced-motion: no-preference)'
 
 // A wrapper component that adds sparkles on top of everything inside it. Sparkles are only rendered when visible on screen. This should probably be a directive instead
