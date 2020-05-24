@@ -10,7 +10,7 @@
       <sparkles>wow some text</sparkles>
       <br>
       <br>
-      <sparkles>
+      <sparkles :colors="['#fff']" :maxSize="30" sparkleType="random">
         <img src="a" alt="" width="100px">
       </sparkles>
 

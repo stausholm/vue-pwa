@@ -19,6 +19,10 @@ Update to Vue 2.6: and update slot syntax usage
 */
 </script>
 
+position sticky on table headers <th>
+https://csslayout.io/patterns/sticky-table-headers/
+https://csslayout.io/patterns/sticky-table-column/
+
 
 custom component formgenerator field type. It takes a function that returns the component
 
