@@ -1,0 +1,108 @@
+.darkmode {
+  .side-note {
+    //darkmode variables
+    $color-muted: hsl(210deg, 38%, 15%);
+    $color-info: hsl(230deg, 92%, 63%);
+    $color-alert-background: hsla(38deg, 100%, 50%, 0.1);
+    $color-alert: hsl(30deg, 100%, 50%);
+    $color-success-background: hsla(160deg, 100%, 40%, 0.1);
+    $color-success: hsl(160deg, 100%, 40%);
+    $color-error-background: hsla(340deg, 95%, 43%, 0.1);
+    $color-error: hsl(340deg, 95%, 60%);
+    $color-background: hsl(210deg, 30%, 8%);
+    $color-text: hsl(0deg, 0%, 100%);
+    $color-primary: hsl(333deg, 100%, 52%);
+
+    color: $color-text;
+
+    a {
+      &:after {
+        background-color: $color-primary;
+      }
+
+      &:hover, &:focus {
+        color: $color-primary;
+      }
+    }
+
+    &--info {
+      background: $color-muted;
+      border-color: $color-info;
+
+      .side-note__icon {
+        color: $color-info;
+      }
+
+      a {
+        &:after {
+          background-color: $color-info;
+        }
+
+        &:hover, &:focus {
+          color: $color-info;
+        }
+      }
+    }
+
+    &--warning {
+      background: $color-alert-background;
+      border-color: $color-alert;
+
+      .side-note__icon {
+        color: $color-alert;
+      }
+
+      a {
+        &:after {
+          background-color: $color-alert;
+        }
+
+        &:hover, &:focus {
+          color: $color-alert;
+        }
+      }
+    }
+
+    &--success {
+      background: $color-success-background;
+      border-color: $color-success;
+
+      .side-note__icon {
+        color: $color-success;
+      }
+
+      a {
+        &:after {
+          background-color: $color-success;
+        }
+
+        &:hover, &:focus {
+          color: $color-success;
+        }
+      }
+    }
+
+    &--error {
+      background: $color-error-background;
+      border-color: $color-error;
+
+      .side-note__icon {
+        color: $color-error;
+      }
+
+      a {
+        &:after {
+          background-color: $color-error;
+        }
+
+        &:hover, &:focus {
+          color: $color-error;
+        }
+      }
+    }
+
+    &__icon {
+      background: $color-background;
+    }
+  }
+}

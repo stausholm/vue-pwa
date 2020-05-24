@@ -1,0 +1,244 @@
+.side-note {
+  $color-muted: hsl(210deg, 55%, 92%);
+  $color-info: hsl(245deg, 100%, 60%);
+  $color-alert-background: hsla(52deg, 100%, 50%, 0.25);
+  $color-alert: hsl(37deg, 100%, 50%);
+  $color-success-background: hsla(160deg, 100%, 40%, 0.1);
+  $color-success: hsl(160deg, 100%, 40%);
+  $color-error-background: hsla(340deg, 95%, 43%, 0.1);
+  $color-error: hsl(340deg, 95%, 50%);
+  $color-background: hsl(0deg, 0%, 100%);
+  $color-text: hsl(222deg, 22%, 5%);
+  $color-primary: hsl(245deg, 100%, 60%);
+
+  position: relative;
+  padding-top: 24px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 24px;
+  font-size: 17px;
+  margin-top: 48px;
+  margin-bottom: 64px;
+  border-left: 3px solid;
+  border-radius: 3px 6px 6px 3px;
+  color: $color-text;
+
+  code {
+    position: relative;
+    display: inline-block;
+    font-size: 0.9em;
+    letter-spacing: -0.5px;
+    padding: 2px 6px;
+    padding: 1px 6px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: -1px;
+      right: -1px;
+      bottom: 0px;
+      opacity: 0.15;
+      border-radius: 3px;
+      background-color: #467790;
+    }
+  }
+
+  a {
+    position: relative;
+    font-weight: 500;
+    color: inherit;
+    text-decoration: none;
+    transition: color 200ms ease;
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      bottom: 0px;
+      height: 2px;
+      background-color: $color-primary;
+      border-radius: 2px;
+      transition: transform 200ms ease 150ms, opacity 350ms ease 150ms;
+    }
+
+    &:hover, &:focus {
+      color: $color-primary;
+      &:after {
+        transform: translateY(-0.25em);
+        opacity: 0;
+        transition: transform 200ms ease 0s, opacity 350ms ease 0s;
+      }
+    }
+
+    @media (min-width: 769px) {
+      display: inline-block;
+      text-decoration: none;
+    }
+  }
+
+  &--info {
+    background: $color-muted;
+    border-color: $color-info;
+
+    .side-note__icon {
+      color: $color-info;
+    }
+
+    a {
+      &:after {
+        background-color: $color-info;
+      }
+
+      &:hover, &:focus {
+        color: $color-info;
+      }
+    }
+  }
+
+  &--warning {
+    background: $color-alert-background;
+    border-color: $color-alert;
+
+    .side-note__icon {
+      color: $color-alert;
+      border-radius: 25% 25%;
+    }
+
+    a {
+      &:after {
+        background-color: $color-alert;
+      }
+
+      &:hover, &:focus {
+        color: $color-alert;
+      }
+    }
+  }
+
+  &--success {
+    background: $color-success-background;
+    border-color: $color-success;
+
+    .side-note__icon {
+      color: $color-success;
+    }
+
+    a {
+      &:after {
+        background-color: $color-success;
+      }
+
+      &:hover, &:focus {
+        color: $color-success;
+      }
+    }
+  }
+
+  &--error {
+    background: $color-error-background;
+    border-color: $color-error;
+
+    .side-note__icon {
+      color: $color-error;
+    }
+
+    a {
+      &:after {
+        background-color: $color-error;
+      }
+
+      &:hover, &:focus {
+        color: $color-error;
+      }
+    }
+  }
+
+  @media (min-width: 1150px) {
+    margin-left: -32px;
+    margin-right: -32px;
+  }
+
+  & > *:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  &__title {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+
+  &__body {
+    font-size: 17px;
+    line-height: 1.6;
+    > * {
+      margin-bottom: 16px;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    padding: 8px;
+    background: $color-background;
+    border-radius: 50%;
+
+    svg {
+      display: block;
+      //vertical-align: middle;
+    }
+  }
+
+  &--dismissable {
+    padding-top: 48px;
+  }
+
+  &__dismiss {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+
+    &-countdown {
+      font-size: .7em;
+      margin-right: 10px;
+    }
+
+    &-btn {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      // position: absolute;
+      // top: 10px;
+      // right: 10px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      color: currentColor;
+
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 2px;
+        height: 20px;
+        background-color: currentColor;
+        top: calc(50% - 10px);
+        left: calc(50% - 1px);
+        transform: rotate(45deg);
+      }
+      &::after {
+        transform: rotate(135deg);
+      }
+    }
+  }
+}
