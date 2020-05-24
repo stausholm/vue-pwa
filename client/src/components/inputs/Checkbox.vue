@@ -9,7 +9,10 @@
         @input="updateChecked($event.target.checked)"
         @focus="classObject.focused = true"
         @blur="blur">
-      <span>{{label}}</span>
+      <span>
+        {{label}}
+        <span v-if="description">{{description}}</span>
+      </span>
     </label>
     <p class="helper-text" >{{helperText}}</p>
   </div>

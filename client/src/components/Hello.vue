@@ -28,4 +28,9 @@ custom component formgenerator field type. It takes a function that returns the 
 
 forms:
 checkbox + checkboxgroup: boolean prop to decide if it should render as a switch or a checkbox
-checkbox + checkboxgroup + radiogroup: ability to also add a description below the label 
+
+
+
+organization chart:
+horizontal view: https://codepen.io/ricardo_fahham/pen/RRPMQR
+treeview for mobile: https://codepen.io/siiron/pen/aLkdE

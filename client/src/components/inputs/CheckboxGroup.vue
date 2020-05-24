@@ -11,7 +11,10 @@
           @change="updateValue"
           @focus="classObject.focused = true"
           @blur="blur"> <!-- disabled is applied to elements that are not checked, if max allowed checkboxes have been checked -->
-          <span>{{option.label}}</span>
+          <span>
+            {{option.label}}
+            <span v-if="option.description">{{option.description}}</span>
+          </span>
       </label>
 
     </div>

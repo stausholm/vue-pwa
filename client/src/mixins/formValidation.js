@@ -40,6 +40,10 @@ export const formValidation = {
       type: String,
       default: ''
     },
+    description: {
+      type: String,
+      default: ''
+    },
     name: {
       type: String,
       default: ''

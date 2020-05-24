@@ -85,6 +85,18 @@ export default {
           //disabled: true
         },
         {
+          fieldType: 'RadioGroup',
+          name: 'gender2',
+          label: 'Your gender 2',
+          options: [
+            {label:"Gender 1", value:"val1"}, 
+            {label:"Gender 2", value:"val2", description: 'a description'}, 
+            {label:"Gender 3", value:"val3"}, 
+            {label:"Gender 4", value:"val4", description: 'some other description'}, 
+            {label:"Gender 5", value:"val5", description: 'some description'}
+          ]
+        },
+        {
           fieldType: 'TextArea',
           name: 'bio',
           label: 'Bio',
@@ -119,7 +131,8 @@ export default {
           fieldType: 'Checkbox',
           name: 'newsletter',
           label: 'Sign up for newsletter?',
-          //disabled: true
+          //disabled: true,
+          description: 'a description'
         },
         {
           fieldType: 'CheckboxGroup',
@@ -128,10 +141,10 @@ export default {
           helper: 'Check the stores you\'ve visited in the past month',
           options: [
             {label:"Burger King", value:"val1"}, 
-            {label:"KFC", value:"val2"}, 
+            {label:"KFC", value:"val2", description: 'a description'}, 
             {label:"MC Donalds", value:"val3"}, 
-            {label:"Dunkin donuts", value:"val4"}, 
-            {label:"Sunset Boulevard", value:"val5"}
+            {label:"Dunkin donuts", value:"val4", description: 'some other description'}, 
+            {label:"Sunset Boulevard", value:"val5", description: 'some description'}
           ],
           validations: {
             minChecked: 2

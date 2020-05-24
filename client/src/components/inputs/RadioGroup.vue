@@ -11,7 +11,10 @@
           @input="$emit('input', $event.target.value)"
           @focus="classObject.focused = true"
           @blur="blur">
-        <span>{{option.label}}</span>
+        <span>
+          {{option.label}}
+          <span v-if="option.description">{{option.description}}</span>
+        </span>
       </label>
     </div>
     <p class="helper-text">{{helperText}}</p>
