@@ -27,8 +27,7 @@ https://csslayout.io/patterns/sticky-table-column/
 custom component formgenerator field type. It takes a function that returns the component
 
 forms:
-checkbox + checkboxgroup: boolean prop to decide if it should render as a switch or a checkbox
-
+make it clean and dry
 
 
 organization chart:

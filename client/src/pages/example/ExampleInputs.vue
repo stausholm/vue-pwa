@@ -275,8 +275,45 @@ export default {
           fieldType: 'HtmlContent',
           html: `
             <h3>Some html inserted into the form generator</h3>
+            <router-link to="/">routerlink test</router-link>
             <p>can be placed in between form elements</p>
           `
+        },
+        {
+          fieldType: 'ToggleSwitch',
+          name: 'aaa',
+          label: 'Toggle the aaaaaa?',
+          //disabled: true,
+          description: 'a description'
+        },
+        {
+          fieldType: 'ToggleSwitch',
+          name: 'bbb',
+          label: 'Toggle the bbbbbb lorem asdja sdaksjd hkj sdfkjsue fsjkdf skdjfn skdufhsdkf jsdkjfhskue fskjdfh ksuef skjdfh skdjfhseufh skjdfh skeufh ksjdfh skdjfhseuf?',
+          disabled: true,
+          description: 'a description'
+        },
+        {
+          fieldType: 'ToggleSwitchGroup',
+          name: 'recentStoresSwitches',
+          label: 'Recently visited stores',
+          helper: 'Check the stores you\'ve visited in the past month',
+          options: [
+            {label:"Burger King", value:"val1"}, 
+            {label:"KFC", value:"val2", description: 'a description'}, 
+            {label:"MC Donalds", value:"val3"}, 
+            {label:"Dunkin donuts", value:"val4", description: 'some other description'}, 
+            {label:"Sunset Boulevard", value:"val5", description: 'some description'}
+          ],
+          //disabled: true,
+          validations: {
+            minChecked: 2,
+            maxChecked: {
+              value: 4,
+              message: 'select up to 4 stores!'
+            }
+          },
+          sortDir: 'asc'
         }
       ],
     }

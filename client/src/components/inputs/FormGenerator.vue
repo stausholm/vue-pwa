@@ -40,6 +40,8 @@ import ImageInput from './ImageInput';
 import FileInput from './FileInput';
 import HiddenInput from './HiddenInput';
 import HtmlContent from './HtmlContent';
+import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitchGroup from './ToggleSwitchGroup';
 
 export default {
   name: 'FormGenerator',
@@ -58,7 +60,9 @@ export default {
     ImageInput,
     FileInput,
     HiddenInput,
-    HtmlContent
+    HtmlContent,
+    ToggleSwitch,
+    ToggleSwitchGroup
   },
   props: {
     schema: {
@@ -166,7 +170,7 @@ export default {
  * }
  * 
  * input specific
- * @param options - Array of string values (or objects {label:'text', value: 'val'}) to be used with radiogroups, checkboxgroups and select lists
+ * @param options - Array of string values (or objects {label:'text', value: 'val'}) to be used with radiogroups, checkboxgroups and select lists. Radiogroups and checkboxgroups also support a description property for each option
  * @param sortDir - either 'asc' or 'desc', for options. if not defined, use original array order, else sort alphabetically
  * @param min - Number, for range slider min value - default 0
  * @param max - Number, for range slider max value - default 100
@@ -174,6 +178,9 @@ export default {
  * @param type - String, for Confirminput. Defines what type of input it should be. Default 'text'
  * @param match - String, for ConfirmInput. Defines what other inputfield it should match
  * @param matchMessage - String, for ConfirmInput. Defines a message to show if it doesn't match
+ * @param description - String, for checkbox. an optional description below the label
+ * @param html - String, for htmlContent. is inserted with v-html 
+ * @param - all the ones relating to image and file inputs
  */
 
 </script>

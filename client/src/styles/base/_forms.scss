@@ -186,9 +186,9 @@
 
         span { // optional description
           display: block;
-          font-size: .8em;
+          color: $text-secondary-color;
+          font-size: .85rem;
           margin-bottom: $default-spacing/2;
-          opacity: .8;
         }
       }
     }
@@ -212,9 +212,9 @@ label.checkbox-label {
 
     span { // optional description
       display: block;
-      font-size: .8em;
+      color: $text-secondary-color;
+      font-size: .85rem;
       margin-bottom: $default-spacing/2;
-      opacity: .8;
     }
   }
 }
