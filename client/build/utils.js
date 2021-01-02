@@ -34,16 +34,21 @@ exports.cssLoaders = function (options) {
       })
     }
 
+
+    // Old webpack/vue-cli beginning to show it's age. 
+    //This hack is to prevent build errors on components with styles inside the .vue component files
+    return ['vue-style-loader'].concat(loaders)
+
     // Extract CSS when that option is specified
     // (which is the case during production build)
-    if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: 'vue-style-loader'
-      })
-    } else {
-      return ['vue-style-loader'].concat(loaders)
-    }
+    // if (options.extract) {
+    //   return ExtractTextPlugin.extract({
+    //     use: loaders,
+    //     fallback: 'vue-style-loader'
+    //   })
+    // } else {
+    //   return ['vue-style-loader'].concat(loaders)
+    // }
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
