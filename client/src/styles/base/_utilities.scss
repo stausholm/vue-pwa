@@ -4,38 +4,87 @@
   display: table;
 }
 
-.divider-with-text {
-  background: $gray-light;
-  height: 1px;
-  margin: $default-spacing 0;
-  width: 100%;
-  display: block;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: $text-secondary-color;
-  position: relative;
+.divider { // REMEMBER TO SET role="separator" on the html element for accessibility
+  // based on https://youzan.github.io/vant/#/en-US/divider
+  $divider-margin: $default-spacing 0;
+  $divider-border-color: $gray-light;
+  $divider-text-color: $text-secondary-color;
+  $divider-font-size: .85rem;
+  $divider-line-height: 1.1;
+  $divider-content-padding: $default-spacing;
+  $divider-content-left-width: 10%;
+  $divider-content-right-width: $divider-content-left-width;
 
-  span {
-    //background: $white;
-    font-weight: 600;
-    font-size: .85rem;
-    user-select: none;
-    padding: 4px $default-spacing;
-    display: inline-block;
-    transform: translateY(-50%);
-    position: relative;
 
+  margin: $divider-margin;
+  display: flex;
+  align-items: center;
+  border-style: solid;
+  border-width: 0;
+  border-color: $divider-border-color;
+  user-select: none;
+  
+  font-size: $divider-font-size;
+  line-height: $divider-line-height;
+  color: $divider-text-color;
+
+  &::before,
+  &::after {
+    display: block;
+    flex: 1;
+    box-sizing: border-box;
+    height: 1px;
+    border-color: inherit;
+    border-style: inherit;
+    border-width: 1px 0 0;
+  }
+
+  &::before {
+    content: '';
+  }
+
+
+  &--hairline {
+    &::before,
+    &::after {
+      transform: scaleY(0.5);
+    }
+  }
+
+  &--dashed {
+    border-style: dashed;
+  }
+
+  &--padded {
+    padding: 0 $default-spacing;
+  }
+
+  &--content-center,
+  &--content-left,
+  &--content-right {
     &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      height: 3px;
-      transform: translateY(-50%);
-      width: 100%;
-      background: $body-bg;
-      z-index: -1;
+      margin-right: $divider-content-padding;
+    }
+
+    &::after {
+      margin-left: $divider-content-padding;
+      content: '';
+    }
+  }
+
+  &--content-center {
+    text-align: center;
+  }
+
+  &--content-left {
+    &::before {
+      max-width: $divider-content-left-width;
+    }
+  }
+
+  &--content-right {
+    &::after {
+      max-width: $divider-content-right-width;
     }
   }
 }

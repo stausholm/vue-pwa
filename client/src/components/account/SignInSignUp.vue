@@ -5,7 +5,7 @@
       <img src="../../assets/logo.png" alt="">
       <p>Sign up</p>
     </router-link>
-    <span class="divider-with-text"><span>or</span></span>
+    <span class="divider divider--content-center" role="separator">or</span>
     <router-link to="/login" tag="div" class="btn-account">
       <p>Log in</p>
     </router-link>

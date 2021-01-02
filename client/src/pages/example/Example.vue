@@ -16,13 +16,37 @@
 
 
 
+      <h1>Header 1</h1>
+      <h2>Header 2</h2>
+      <h3>Header 3</h3>
+      <h4>Header 4</h4>
+      <h5>Header 5</h5>
+      <h6>Header 6</h6>
 
-      <h1>header 1</h1>
-      <h2>header 2</h2>
-      <h3>header 3</h3>
-      <h4>header 4</h4>
-      <h5>header 5</h5>
-      <h6>header 6</h6>
+
+      <h2>Dividers (.divider)</h2>
+      <h6>.divider</h6>
+      <div class="divider" role="separator"></div>
+      <h6>.divider--hairline</h6>
+      <div class="divider divider--hairline" role="separator"></div>
+      <h6>.divider--dashed</h6>
+      <div class="divider divider--dashed" role="separator"></div>
+      <h6>.divider--padded</h6>
+      <div class="divider divider--padded" role="separator"></div>
+      <h6>.divider--content-center</h6>
+      <div class="divider divider--content-center" role="separator">.divider .divider--content-center</div>
+      <h6>.divider--content-center</h6>
+      <div class="divider divider--content-center" role="separator">.divider .divider--content-center Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex tempore exercitationem quo nulla beatae perspiciatis accusantium. Facilis nemo eius iusto maxime iste voluptas, odio alias ipsam velit voluptatem minima reiciendis!</div>
+      <h6>.divider--content-right</h6>
+      <div class="divider divider--content-right" role="separator">.divider .divider--content-right</div>
+      <h6>.divider--content-right</h6>
+      <div class="divider divider--content-right" role="separator">.divider .divider--content-right Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas hic ullam deserunt, aliquam at beatae reprehenderit sunt ducimus cumque consequuntur voluptatibus necessitatibus rem dolor dicta delectus sit natus ratione facere.</div>
+      <h6>.divider--content-left</h6>
+      <div class="divider divider--content-left" role="separator">.divider .divider--content-left</div>
+      <h6>.divider--content-left</h6>
+      <div class="divider divider--content-left" role="separator">.divider .divider--content-left Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas hic ullam deserunt, aliquam at beatae reprehenderit sunt ducimus cumque consequuntur voluptatibus necessitatibus rem dolor dicta delectus sit natus ratione facere.</div>
+      <h6>.divider custom</h6>
+      <div class="divider divider--content-center" style="color: blue; border-color: blue;" role="separator">Custom styles</div>
 
       <br>
       <span class="tooltip">tooltip top<span class="tooltip-text tooltip-text--top">a tooltip</span></span>

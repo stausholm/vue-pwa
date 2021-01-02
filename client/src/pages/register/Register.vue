@@ -23,7 +23,7 @@
             Facebook
           </button>
         </div>
-        <span class="divider-with-text"><span>or</span></span>
+        <span class="divider divider--content-center" role="separator">or</span>
         <div class="input-group">
           <button class="btn-auth" @click="showEmailForm = !showEmailForm">
             <icon-base iconName="Email" iconColor="#000" width="24" height="24">
