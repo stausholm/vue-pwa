@@ -31,12 +31,29 @@
       <strong class="side-note__title" v-if="title">{{title}}</strong>
       <div class="side-note__body">
         <slot />
+        <div class="side-note__expanded" v-if="hasExpandedChildren">
+          <div v-if="!showExpandedChildren">
+            <button @click="showExpandedChildren = true" class="side-note__expanded-toggle">
+              <span>Show more</span>
+              <icon-base width="20" height="20" class="icon">
+                <icon-arrow-down />
+              </icon-base>
+            </button>
+          </div>
+          <transition name="slide-down">
+            <div class="side-note__expanded-content" v-if="showExpandedChildren">
+              <slot name="expanded"></slot>
+            </div>
+          </transition>
+        </div>
       </div>
     </aside>
   </transition>
 </template>
 
 <script>
+import IconArrowDown from '../icons/IconArrowDown.vue'
+import IconBase from '../icons/IconBase.vue'
 /**
  * Sources:
  * https://joshwcomeau.com/react/animated-sparkles-in-react/ (general design)
@@ -44,6 +61,7 @@
  * https://github.com/Stegosource/vuetensils/blob/master/src/components/VAlert/VAlert.vue
  */
 export default {
+  components: { IconBase, IconArrowDown },
   name: 'Note',
   model: {
     prop: 'visible',
@@ -81,7 +99,13 @@ export default {
   data() {
     return {
       dismissed: false,
-      timerId: null
+      timerId: null,
+      showExpandedChildren: false
+    }
+  },
+  computed: {
+    hasExpandedChildren() {
+      return this.$slots.expanded && this.$slots.expanded.length > 0
     }
   },
   methods: {

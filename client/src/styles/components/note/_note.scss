@@ -160,10 +160,6 @@
     margin-right: -32px;
   }
 
-  & > *:last-child {
-    margin-bottom: 0 !important;
-  }
-
   &__title {
     display: block;
     font-size: 17px;
@@ -173,8 +169,13 @@
   &__body {
     font-size: 17px;
     line-height: 1.6;
+
     > * {
       margin-bottom: 16px;
+    }
+
+    > *:last-child {
+      margin-bottom: 0 !important;
     }
   }
 
@@ -238,6 +239,31 @@
       }
       &::after {
         transform: rotate(135deg);
+      }
+    }
+  }
+
+  &__expanded {
+    &-toggle {
+      border: 0;
+      background-color: transparent;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      cursor: pointer;
+      outline: 0;
+
+      &:hover { // TODO: use some neat bouncy animation here instead
+        .icon {
+          transform: translateY(4px);
+        }
+      }
+
+      .icon {
+        margin-left: 5px;
+        transition: transform .2s ease-out;
+
       }
     }
   }
