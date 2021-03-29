@@ -14,6 +14,16 @@
       <br>
       <br>
 
+
+      <tldr-button imageSrc="/static/img/wizard.jpg"></tldr-button>
+      <br>
+      <br>
+      <tldr-button :includeText="false"></tldr-button>
+
+
+      <br>
+      <br>
+
       <a2hs-button class="a2hs-demo">
         <cta-button-icon @click.native="test">
           <template slot="text">add to home screen</template>
@@ -92,6 +102,7 @@
 
 <script>
 import CTAButtonWithIcon from '@/components/buttons/CTAButtonWithIcon';
+import TLDRButton from '@/components/buttons/TLDRButton';
 import IconBase from '@/components/icons/IconBase';
 import IconBeachAccess from '@/components/icons/IconBeachAccess';
 import IconA2HS from '@/components/icons/IconA2HS';
@@ -110,6 +121,7 @@ export default {
     IconBeachAccess,
     IconA2HS,
     'a2hs-button': A2HSButton,
+    'tldr-button': TLDRButton,
     ContextMenuButton
   },
   data() {

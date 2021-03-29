@@ -5,6 +5,8 @@
         placeholder="Find stuff..."
         autocomplete="off"
         ref="searchinput"
+        aria-label="Search the site"
+        title="Search the site"
         v-model="searchVal"
         @input="inputSearch"
         @keydown.enter="selectItem"
