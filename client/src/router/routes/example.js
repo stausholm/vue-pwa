@@ -16,6 +16,7 @@ import ExampleCanvas2 from "@/pages/example/ExampleCanvas2";
 import ExampleCard from "@/pages/example/ExampleCard";
 import ExampleImages from "@/pages/example/ExampleImages";
 import ExampleNotes from "@/pages/example/ExampleNotes";
+import ExamplePolls from "@/pages/example/ExamplePolls";
 
 export default [
   {
@@ -120,7 +121,12 @@ export default [
         path: "examplenotes",
         name: "ExampleNotes",
         component: ExampleNotes
-      }
+      },
+      {
+        path: "examplepolls",
+        name: "ExamplePolls",
+        component: ExamplePolls
+      },
     ]
   },
   {
