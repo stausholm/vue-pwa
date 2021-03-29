@@ -1,7 +1,16 @@
 <template>
   <div>
+    <hero-block-delight>
+      <div class="">
+        <h2>Wow some stuff</h2>
+        <p>Some more stuff</p>
+        <a href="" class="btn" style="display: inline-block; margin-top: 20px;">Wow a button</a>
+      </div>
+    </hero-block-delight>
+    
     <div class="container--content">
       <h1>this is example yo</h1>
+
 
       <nav class="block-link-wrapper">
         <block-link v-for="link in childRoutes" :key="link.path" :to="'/example/' + link.path">{{link.name}}</block-link>
@@ -73,13 +82,15 @@
 import SearchBar from '@/components/search/SearchBar';
 import BlockLink from '@/components/navigation/BlockLink';
 import Sparkles from '@/components/sparkles/Sparkles';
+import HeroBlockDelight from '@/components/hero/HeroDelightful';
 
 export default {
   name: 'Example',
   components: {
     SearchBar,
     BlockLink,
-    Sparkles
+    Sparkles,
+    HeroBlockDelight
   },
   data() {
     return {
