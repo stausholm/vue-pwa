@@ -100,7 +100,9 @@ export default {
           fieldType: 'TextArea',
           name: 'bio',
           label: 'Bio',
-          //disabled: true
+          //disabled: true,
+          autoGrow: true,
+          placeholder: 'an autogrowing text input'
         },
         {
           fieldType: 'SelectList',
