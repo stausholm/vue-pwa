@@ -4,7 +4,9 @@
     aria-label="Poll">
     <div class="poll">
       <div class="poll-main">
-        <p class="brand">Brand example 1 TODO</p>
+        <p class="brand">
+          <slot name="brand"></slot>
+        </p>
         <div class="question-content">
           <slot></slot>
         </div>
@@ -32,10 +34,10 @@
       <div class="poll-subtext">
         <div class="poll-stats">
           <span class="poll-total" v-if="showTotalVotes" :title="`Votes: ${info.votesTotal}`">{{votesTotalFormatted}}</span>
-          <span class="poll-remaining" v-if="showTimeLeft" :title="`Ends: ${expireDateTimeFormatted}`">{{timeLeftFormatted}}</span>
+          <span class="poll-remaining" v-if="showTimeLeft" :title="expireDateTimeFormatted">{{timeLeftFormatted}}</span>
         </div>
         <button v-if="showShowResultsButton" @click="getPollData(pollId, true)">Just show me the results</button>
-        <span>some smalltext disclaimer</span>
+        <slot name="subtext"></slot>
       </div>
     </div>
   </div>
@@ -43,6 +45,7 @@
 
 <script>
 import convertNumberToSI from '@/utils/convertNumberToSI'
+import getTimeRemaining from '@/utils/getTimeRemaining'
 
 export default {
   name: 'Poll',
@@ -122,15 +125,41 @@ export default {
       }
     },
     timeLeftFormatted() {
-      // TODO
-      if (!this.info.expires) {
-        
+      const dayLabel = "day"
+      const hourLabel = "hour"
+      const minuteLabel = "minute"
+      const pluralSuffix = 's'
+
+      const time = getTimeRemaining(this.info.expires)
+
+      if (!this.info.expires || this.info.hasExpired || time.total <= 0 ) { // TODO: move this to a watcher and call GetRemainingTime every second?
+        return 'Poll ended'
       }
-      return `22 hours left`
+
+      let label = ''
+      if(time.days > 0) {
+        label = `${time.days} ${dayLabel}${time.days !== 1 ? pluralSuffix : ''}`
+      } else if (time.hours > 0) {
+        label = `${time.hours} ${hourLabel}${time.hours !== 1 ? pluralSuffix : ''}`
+      } else {
+        label = `${time.minutes} ${minuteLabel}${time.minutes !== 1 ? pluralSuffix : ''}`
+      }
+
+      return label + ' left'
     },
     expireDateTimeFormatted() {
-      // TODO
-      return `January 18th, 13:30 UTC +1`
+      if(this.info.expires) {
+        return 'Ends ' + new Date(this.info.expires).toLocaleString(undefined, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          timeZoneName: 'short'
+        }) // output example: "Ends March 30, 2021, 11:58 AM GMT+2"
+      } else {
+        return 'No expiry date'
+      }
     }
   },
   methods: {
@@ -165,8 +194,8 @@ export default {
             ],
             info: {
               question: 'How are the fries?',
-              expires: '2021-02-21T14:58:19.036Z',
-              hasExpired: false, // TODO: do we need this, or should we just calculate it with js based in the expires property?
+              expires: '2021-03-30T09:58:19.036Z',
+              hasExpired: false, // TODO: do we need this, or should we just calculate it with js based in the expires property? No matter what, we still need a serverside check for the date, so we don't trust the user's device's time
               votesTotal: 11486
             }
           }
@@ -241,10 +270,10 @@ export default {
     const answerIdStoredLocally = this.retrieveAnswerIdLocally()
     const hasAnswered = typeof answerStoredLocally === 'number' && !isNaN(answerIdStoredLocally) // if the user has already answered, we want to retrieve the poll answers with results
     this.getPollData(this.pollId, hasAnswered).then((a) => {
-      // TODO: update this.answers to indicate the user's answer after this.getPollData, if hasAnswered 
       if(hasAnswered) {
         this.voted = true
 
+        // update this.answers to indicate the user's answer after this.getPollData, if hasAnswered 
         this.answers.find(x => x.id === answerIdStoredLocally).selected = true 
       }
     })
@@ -315,12 +344,11 @@ export default {
         padding: 0.125em 0.188em;
         top: calc((100% - 1em) / 2);
         border-radius: 0.188em;
-        z-index: 999;
+        z-index: 2;
       }
       
       .bar {
         transition: width 1.3s ease,background-color 1.3s ease;
-        z-index: 1;
       }
       
       .answer-text {
@@ -343,8 +371,10 @@ export default {
     &:not(.complete):hover {
       cursor: pointer;
 
-      .bar {
-        width: 100%;
+      @media (hover: hover) and (pointer: fine) { // prevent sticky hover on touchscreens
+        .bar {
+          width: 100%;
+        }
       }
     }
     
@@ -359,7 +389,7 @@ export default {
       min-height: 3.125em;
       align-items: center;
       position: relative;
-      z-index: 5999996;
+      z-index: 3;
       transition: all .3s ease-in-out;
       justify-content: left;
       padding: .3125em 2.813em .3125em .9375em;

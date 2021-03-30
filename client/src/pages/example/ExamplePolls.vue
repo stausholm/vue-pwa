@@ -8,6 +8,12 @@
 
       <poll :centerText="true" :multiColumn="true" pollId="1234jk-453hhf-345345-3456-dfdg-dfg345">
         Some content to give context to the question. e.g. an image
+        <template slot="subtext">
+          <span>some smalltext disclaimer</span>
+        </template>
+        <template slot="brand">
+          Brand example 1
+        </template>
       </poll>
       
       <br>
@@ -16,6 +22,12 @@
       <poll :multiColumn="true" :boxed="true" pollId="lkfgj-fdkjgh-456sd-664-dsgghj-08ddf">
         Some content to give context to the question. e.g. an image
         <img src="https://picsum.photos/600/400" alt="">
+        <template slot="subtext">
+          <span>some smalltext disclaimer</span>
+        </template>
+        <template slot="brand">
+          Brand example 2
+        </template>
       </poll>
       
       <br>
@@ -23,6 +35,12 @@
       
       <poll :centerText="true" pollId="idshdf-hght-jhgft-522d-yyye-sdfe">
         Some content to give context to the question. e.g. an image
+        <template slot="subtext">
+          <span>some smalltext disclaimer</span>
+        </template>
+        <template slot="brand">
+          Brand example 3
+        </template>
       </poll>
       
       <br>
@@ -30,6 +48,12 @@
       
       <poll pollId="wwwrt-erttt-342-qdfff-sdfhgv">
         Some content to give context to the question. e.g. an image
+        <template slot="subtext">
+          <span>some smalltext disclaimer</span>
+        </template>
+        <template slot="brand">
+          Brand example 4
+        </template>
       </poll>
 
     </div>
