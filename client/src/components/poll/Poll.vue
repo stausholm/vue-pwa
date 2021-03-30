@@ -23,20 +23,21 @@
           :class="{'complete': voted, 'selected': answer.selected}" 
           :aria-label="`Poll answer: ${answer.answer} ${getPercentageForLabel(answer)}`" 
           :data-answer="answer.answer"
-          :data-percent="getPercentage(answer)"
+          :data-percent="getPercentageIncremental(answer)"
           @click.prevent="submit(answer)"
         >
           <span class="bar" v-if="!voted"></span>
           <span class="bar" v-else aria-live="polite" :aria-label="`Poll answer: ${answer.answer} ${getPercentageForLabel(answer)}`" :style="{width: getPercentage(answer) + '%'}"></span>
-          <span class="answer-text">{{answer.answer}}</span>
+          <span class="answer-text">{{answer.answer}}<span v-if="voted && showVoteCountPerChoice">&nbsp;({{answer.votes}})</span></span>
         </a>
       </div>
+      <a href="#" v-if="isMultipleChoice" class="poll-submit-btn">Vote</a>
       <div class="poll-subtext">
         <div class="poll-stats">
-          <span class="poll-total" v-if="showTotalVotes" :title="`Votes: ${info.votesTotal}`">{{votesTotalFormatted}}</span>
+          <span class="poll-total" v-if="showTotalVotes" :title="`Total votes: ${info.votesTotal}`">{{votesTotalFormatted}}</span>
           <span class="poll-remaining" v-if="showTimeLeft" :title="expireDateTimeFormatted">{{timeLeftFormatted}}</span>
+          <button class="poll-show-results-btn" v-if="showShowResultsButton" @click="getPollData(pollId, true)">Jump to results</button>
         </div>
-        <button v-if="showShowResultsButton" @click="getPollData(pollId, true)">Just show me the results</button>
         <slot name="subtext"></slot>
       </div>
     </div>
@@ -46,7 +47,17 @@
 <script>
 import convertNumberToSI from '@/utils/convertNumberToSI'
 import getTimeRemaining from '@/utils/getTimeRemaining'
-
+/**
+ * Highlight the answer you selected ✔ (done with .selected)
+ * have button at the bottom of poll, to show answers. a good text could be "jump to results/see results/results" When clicked the results text should switch into "vote"
+ * Have somewhere to show total amount of poll entries ✔
+ * Store users choice in session storage. If user already has submitted, show results immediately.
+ * Allow multiple answers, and show a submit button if multiple can be selected. Make sure the button is disabled if nothing has been selected. Remember to use correct aria attributes. Support limiting the amount of options that can be selected
+ * Detect if poll is expired, and then only show the results. Support a "expired message" prop
+ * Highlight the users selection(s)
+ * Make the scss pretty and reusable
+ * Auto refresh results? make periodic calls to api to retrieve updated results. no sockets
+ */
 export default {
   name: 'Poll',
   props: {
@@ -81,6 +92,25 @@ export default {
     showResultsOnSubmit: { // when submitted, show the total results of all answers.
       type: Boolean,
       default: true // TODO: if this is false, when submitting, the entire bar you clicked should be styled width: 100% to get full orange bg.
+    },
+    showVoteCountPerChoice: { // shows the amount of votes each answer has gotten
+      type: Boolean, // TODO: make good design
+      default: false
+    },
+    showVotePercentagePerChoice: { // shows a percentage on each answer
+      type: Boolean, // TODO: implement
+      default: true
+    },
+    isMultipleChoice: { // allow to vote for multiple answers. If multiple are allowed, a fullwidth button below the answers will be shown 
+      type: [Boolean, Number], // if it's a number, you should be limited to pick maximum that many answers 
+      default: true // TODO: implement
+      // TODO: what about a minimum you should select?
+      // TODO: what if number === 1? We should also have a validation message "you need to pick X amount"
+      // TODO: what about info like "Total votes: 6 (by 3 voters)"
+    },
+    randomizeAnswerOrder: { // if true, the answers will be shown in a random order, each time the component is initially rendered
+      type: Boolean, // TODO: implement
+      default: false
     },
     pollId: {
       type: String,
@@ -149,14 +179,14 @@ export default {
     },
     expireDateTimeFormatted() {
       if(this.info.expires) {
-        return 'Ends ' + new Date(this.info.expires).toLocaleString(undefined, {
+        return 'Voting ends ' + new Date(this.info.expires).toLocaleString(undefined, {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
           hour: 'numeric',
           minute: 'numeric',
           timeZoneName: 'short'
-        }) // output example: "Ends March 30, 2021, 11:58 AM GMT+2"
+        }) // output example: "Voting ends March 30, 2021, 11:58 AM GMT+2"
       } else {
         return 'No expiry date'
       }
@@ -194,9 +224,10 @@ export default {
             ],
             info: {
               question: 'How are the fries?',
-              expires: '2021-03-30T09:58:19.036Z',
+              expires: '2021-03-31T09:58:19.036Z',
               hasExpired: false, // TODO: do we need this, or should we just calculate it with js based in the expires property? No matter what, we still need a serverside check for the date, so we don't trust the user's device's time
-              votesTotal: 11486
+              votesTotal: 11486,
+              votersTotal: 111 // TODO
             }
           }
 
@@ -239,6 +270,19 @@ export default {
        * 
        * call this.storeAnswerIdLocally()
        */
+    },
+    getPercentageIncremental(answer) {
+      // TODO
+
+      const percentage = this.getPercentage(answer)
+      if (!percentage) {
+        return ''
+      }
+        console.log(answer.id)  
+
+      // TODO: handle prefers-reduced-motion
+      // setInterval(() => {
+      // }, 100);
     },
     getPercentage(answer) {
       if (!answer || !answer.votes || !this.info.votesTotal) {
@@ -398,13 +442,21 @@ export default {
 }
 
 .poll-stats {
-  .poll-total + .poll-remaining {
+  .poll-total + .poll-remaining, .poll-remaining + .poll-show-results-btn {
     &::before {
       content: '·';
       padding-left: 4px;
       padding-right: 4px;
+      font-weight: bold;
     }
   }
+}
+
+.poll-show-results-btn {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .poll-subtext {
@@ -498,11 +550,37 @@ export default {
 
 .poll--boxed {
   padding: 20px;
-  background: #e4e4e4;
+  background: #e4e4e4; // TODO: remove this color. This should come from utility classes like .bg-primary
   
   .poll-answers {
     margin: .85em 0;
   }
 }
 
+
+.poll-submit-btn {
+  border: 0.125em solid #cdcdcd;
+  //border: 0.0625em dotted #000;
+  min-height: 3.125em;
+  width: 100%;
+  flex-grow: 1;
+  margin: 0.85em 0.25em;
+  position: relative;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+  background-color: #212121;
+
+  font-size: .938em;
+  line-height: 1.125em;
+  color: #fff;
+  height: 100%;
+  min-height: 3.125em;
+  transition: all .3s ease-in-out;
+  padding: .3125em .9375em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
