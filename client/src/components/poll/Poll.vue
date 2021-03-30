@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import convertNumberToSI from '@/utils/convertNumberToSI'
+
 export default {
   name: 'Poll',
   props: {
@@ -62,6 +64,10 @@ export default {
       default: true
     },
     showTotalVotes: { // shows the sum of all votes on this poll
+      type: Boolean,
+      default: true
+    },
+    formatTotalVotes: { // if true, should turn "1800" into "1.8k" insted of "1.800"
       type: Boolean,
       default: true
     },
@@ -97,11 +103,23 @@ export default {
       const labelSingular = 'vote'
       const labelPlural = 'votes'
 
-      if (this.info.votesTotal === 1) {
+      const votesRaw = this.info.votesTotal
+
+      if (votesRaw === 1) {
         return `1 ${labelSingular}`
       }
+      if (votesRaw === 0) {
+        return `0 ${labelPlural}`
+      }
 
-      return this.info.votesTotal ? `${this.info.votesTotal} ${labelPlural}` : `0 ${labelPlural}`
+      if(this.formatTotalVotes) {
+        // e.g. 1.1m or 1.8k
+        // Alt way, but doesn't support decimals and isn't supported in safari: votesRaw.toLocaleString(undefined, {notation: "compact",compactDisplay: "short"})
+        return `${convertNumberToSI(votesRaw, 1)} ${labelPlural}`
+      } else {
+        // e.g. 1.124.532 or 1.852
+        return `${votesRaw.toLocaleString()} ${labelPlural}`
+      }
     },
     timeLeftFormatted() {
       // TODO
