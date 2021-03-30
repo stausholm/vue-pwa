@@ -57,6 +57,7 @@ import getTimeRemaining from '@/utils/getTimeRemaining'
  * Highlight the users selection(s)
  * Make the scss pretty and reusable
  * Auto refresh results? make periodic calls to api to retrieve updated results. no sockets
+ * TODO: set up simple express api
  */
 export default {
   name: 'Poll',
