@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="container--content">
+    <div class="container--content" style="max-width: 600px;">
       <h1>Polls</h1>
 
       <br>
       <br>
 
-      <poll :centerText="true" :multiColumn="true" pollId="1234jk-453hhf-345345-3456-dfdg-dfg345">
+      <!-- <poll :centerText="true" :multiColumn="true" pollId="1234jk-453hhf-345345-3456-dfdg-dfg345">
         Some content to give context to the question. e.g. an image
         <template slot="subtext">
           <span>some smalltext disclaimer</span>
@@ -44,9 +44,9 @@
       </poll>
       
       <br>
-      <br>
+      <br> -->
       
-      <poll pollId="wwwrt-erttt-342-qdfff-sdfhgv">
+      <poll pollId="c7cbb406-69ce-494d-ba46-176ccb73af5d" >
         Some content to give context to the question. e.g. an image
         <template slot="subtext">
           <span>some smalltext disclaimer</span>
