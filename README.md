@@ -23,3 +23,4 @@ npm install
 # run server at localhost:3000
 npm start
 ```
+![image](https://user-images.githubusercontent.com/33398703/227372530-c9d54f0b-d0ac-48ca-82f9-13b2e7198f6c.png)
